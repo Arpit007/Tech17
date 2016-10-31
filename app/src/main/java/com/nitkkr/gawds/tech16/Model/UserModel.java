@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
-class UserModel
+public class UserModel
 {
 	private String Name;
 	private String UserName;
