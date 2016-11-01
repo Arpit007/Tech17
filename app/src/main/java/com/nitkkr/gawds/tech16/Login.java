@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nitkkr.gawds.tech16.API.Encryption;
 import com.nitkkr.gawds.tech16.Model.UserModel;
 
 public class Login extends AppCompatActivity
@@ -40,6 +41,15 @@ public class Login extends AppCompatActivity
 	public void SignIn(View view){
 		String UserName=((TextView)findViewById(R.id.login_UserName)).getText().toString();
 		String Password=(( EditText)findViewById(R.id.login_Password)).getText().toString();
+		try
+		{
+			Password = Encryption.Encrypt(Password);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			Toast.makeText(getBaseContext(),"Recheck Password",Toast.LENGTH_SHORT).show();
+		}
 		progressDialog=new ProgressDialog(getBaseContext());
 		progressDialog.show();
 		//TODO:Implement Sign In, Wrong Password, Load Home

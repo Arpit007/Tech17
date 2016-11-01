@@ -3,7 +3,6 @@ package com.nitkkr.gawds.tech16.API;
 import android.util.Base64;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
