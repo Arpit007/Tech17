@@ -2,4 +2,14 @@
     <string name="app_name">Tech16</string>
     <string name="Login">Login</string>
     <string name="Home">Home</string>
+    <string name="username">UserName</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="new_sign_up">New User?</string>
+    <string name="Skip">Skip Login</string>
+    <string name="recover">Recover</string>
+    <string name="recover_string">Password Emailed to your Registered EmailID</string>
+    <string name="enter_registered_email">Enter Registered Email:</string>
+    <string name="signup">SignUp!</string>
 </resources>

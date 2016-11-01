@@ -4,25 +4,36 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar" android:label="@string/app_name">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Login" android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar" android:label="@string/Login">
+        <activity
+            android:name=".Login"
+            android:label="@string/Login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Home" android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar" android:label="@string/Home"
-                  android:launchMode="singleTask">
+        <activity
+            android:name=".Home"
+            android:label="@string/Home"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".SignUp">
         </activity>
     </application>
 

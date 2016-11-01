@@ -3,6 +3,8 @@ package com.nitkkr.gawds.tech16.Model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.nitkkr.gawds.tech16.API.Encryption;
+
 import java.util.ArrayList;
 
 public class UserModel
@@ -14,12 +16,13 @@ public class UserModel
 	private String College;
 	private String Mobile;
 	private String Branch;
+	private String Password;
 	private ArrayList<String> Interest;
 
 	public final static UserModel USER_MODEL=new UserModel();
 
-	private String interestsToString()
-	{
+
+	private String interestsToString() {
 		StringBuilder stringBuilder=new StringBuilder("");
 		for(String interest:Interest)
 		{
@@ -33,12 +36,11 @@ public class UserModel
 		}
 		return stringBuilder.toString();
 	}
-	private ArrayList<String> stringToInterests(String Interests)
-	{
+	private ArrayList<String> stringToInterests(String Interests) {
 		String[] strings=Interests.split(",");
 		ArrayList<String> list = new ArrayList<>(strings.length);
-		for(int x=0;x<strings.length;x++)
-			list.set(x,strings[x]);
+		for(String x : strings)
+			list.add(x);
 		return list;
 	}
 
@@ -51,11 +53,22 @@ public class UserModel
 	public String getMobile(){return Mobile;}
 	public String getBranch(){return Branch;}
 	public ArrayList<String> getInterest(){return Interest;}
-	public boolean isUserLoaded(){return !UserName.equals("");}
+
+
+	public void setName(String name){Name = name;}
+	public void setUserName(String userName){UserName=userName;}
+	public void setEmail(String email){Email=email;}
+	public void setRoll(String roll){Roll = roll;}
+	public void setCollege(String college){College = college;}
+	public void  setMobile(String mobile){Mobile=mobile;}
+	public void setBranch(String branch){Branch=branch;}
+	public void setInterest(ArrayList<String> interest){Interest = interest;}
+	public void setInterest(String interest){Interest=stringToInterests(interest);}
+	public void setPassword(String password) throws Exception{Password= Encryption.Encrypt(password);}
+
 
 	@SuppressWarnings("unchecked")
-	public void setUser(UserModel User)
-	{
+	public void setUser(UserModel User) {
 		Name = User.Name;
 		UserName=User.UserName;
 		Email = User.Email;
@@ -63,11 +76,10 @@ public class UserModel
 		College = User.College;
 		Mobile = User.Mobile;
 		Branch = User.Branch;
+		Password=User.Password;
 		Interest=(ArrayList<String>)User.Interest.clone();
 	}
-
-	public boolean saveUser(Context context)
-	{
+	public boolean saveUser(Context context) {
 		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
 		editor.putString("Name",Name);
 		editor.putString("UserName",UserName);
@@ -77,10 +89,10 @@ public class UserModel
 		editor.putString("Mobile",Mobile);
 		editor.putString("Branch",Branch);
 		editor.putString("Interests",interestsToString());
+		editor.putString("Password",Password);
 		return editor.commit();
 	}
-	public void loadUser(Context context)
-	{
+	public void loadUser(Context context) {
 		SharedPreferences preferences=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE);
 		Name=preferences.getString("Name","");
 		UserName = preferences.getString("UserName","");
@@ -89,6 +101,21 @@ public class UserModel
 		College = preferences.getString("College","");
 		Mobile=preferences.getString("Mobile","");
 		Branch=preferences.getString("Branch","");
+		Password=preferences.getString("Password","");
 		Interest=stringToInterests(preferences.getString("Interests",""));
 	}
+	public boolean logoutUser(Context context) {
+		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
+		editor.putString("Name","");
+		editor.putString("UserName","");
+		editor.putString("Email","");
+		editor.putString("Roll","");
+		editor.putString("College","");
+		editor.putString("Mobile","");
+		editor.putString("Branch","");
+		editor.putString("Interests","");
+		editor.putString("Password","");
+		return editor.commit();
+	}
+	public boolean isUserLoaded(){return !UserName.equals("");}
 }
