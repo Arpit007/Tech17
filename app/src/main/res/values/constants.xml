@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="SplashDuration">2000</integer>
+    <integer name="WarningDuration">4000</integer>
+
+    <string-array name="Branches">
+        <item>CS</item>
+        <item>IT</item>
+        <item>Mechanical</item>
+    </string-array>
 </resources>
