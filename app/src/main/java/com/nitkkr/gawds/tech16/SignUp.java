@@ -11,6 +11,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
+
 public class SignUp extends AppCompatActivity
 {
 
@@ -53,6 +55,9 @@ public class SignUp extends AppCompatActivity
 		TextView textView=(TextView)findViewById(R.id.signup_EmailFinal);
 		textView.setText("Email Here");
 		textView.setVisibility(View.VISIBLE);
+
+		ActionBarSimple barSimple=new ActionBarSimple(this);
+		barSimple.setLabel(getString(R.string.FestName));
 	}
 
 	boolean Check()

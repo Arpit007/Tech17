@@ -12,8 +12,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nitkkr.gawds.tech16.SignUp">
 
+    <include
+        layout="@layout/actionbar_simple"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="match_parent" android:layout_marginTop="10dp"
         android:layout_height="wrap_content" android:layout_marginBottom="40dp"
         android:text="Sign Up" android:textSize="40sp"/>
 
@@ -48,10 +52,11 @@
                 android:text="College: " android:textSize="20sp"/>
 
             <RadioGroup
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:checkedButton="@id/signup_NitRadio" android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_width="match_parent" android:layout_height="wrap_content">
 
                 <RadioButton
+                    android:checked="true"
                     android:id="@+id/signup_NitRadio" android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:layout_marginLeft="15dp"
                     android:text="NIT Kurukshetra" android:textSize="15sp"/>

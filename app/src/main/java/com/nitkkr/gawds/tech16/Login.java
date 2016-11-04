@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.API.Encryption;
+import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Model.UserModel;
 
 public class Login extends AppCompatActivity
@@ -34,6 +35,9 @@ public class Login extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
+		ActionBarSimple barSimple=new ActionBarSimple(this);
+		barSimple.setLabel(getString(R.string.FestName));
 	}
 
 

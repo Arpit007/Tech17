@@ -12,4 +12,5 @@
     <string name="recover_string">Password Emailed to your Registered EmailID</string>
     <string name="enter_registered_email">Enter Registered Email:</string>
     <string name="signup">SignUp!</string>
+    <string name="FestName">Fest Name</string>
 </resources>
