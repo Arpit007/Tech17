@@ -1,7 +1,9 @@
-package com.nitkkr.gawds.tech16;
+package com.nitkkr.gawds.tech16.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.nitkkr.gawds.tech16.R;
 
 public class SearchPage extends AppCompatActivity
 {

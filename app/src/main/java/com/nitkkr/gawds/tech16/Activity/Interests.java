@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16;
+package com.nitkkr.gawds.tech16.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +10,7 @@ import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Adapter.InterestAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarDone;
-
-import java.util.List;
+import com.nitkkr.gawds.tech16.R;
 
 public class Interests extends AppCompatActivity
 {

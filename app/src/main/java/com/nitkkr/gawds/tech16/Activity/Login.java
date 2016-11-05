@@ -1,20 +1,14 @@
-package com.nitkkr.gawds.tech16;
+package com.nitkkr.gawds.tech16.Activity;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.API.Encryption;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Model.UserModel;
+import com.nitkkr.gawds.tech16.R;
 
 public class Login extends AppCompatActivity
 {
@@ -27,8 +21,6 @@ public class Login extends AppCompatActivity
 	}
 
 	boolean signingIn=false;
-	ProgressDialog progressDialog;
-	Dialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -73,6 +65,7 @@ public class Login extends AppCompatActivity
 	public void Skip(View view){
 		UserModel.USER_MODEL.logoutUser(getBaseContext());
 		startActivity(new Intent(Login.this,Home.class));
+		finish();
 	}
 
 	@Override

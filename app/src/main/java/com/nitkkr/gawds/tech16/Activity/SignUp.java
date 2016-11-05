@@ -1,5 +1,6 @@
-package com.nitkkr.gawds.tech16;
+package com.nitkkr.gawds.tech16.Activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
+import com.nitkkr.gawds.tech16.R;
 
 public class SignUp extends AppCompatActivity
 {
@@ -35,7 +37,7 @@ public class SignUp extends AppCompatActivity
 			}
 		});
 
-		//TODO: Fill Branches
+		//TODO: Add Branches Data
 		String Branches[]=getResources().getStringArray(R.array.Branches);
 		ArrayAdapter<String> adapter=new ArrayAdapter<>(getBaseContext(),android.R.layout.simple_spinner_item,Branches);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,6 +87,8 @@ public class SignUp extends AppCompatActivity
 		if(Check())
 		{
 			//TODO: Save User Data, Interests
+			startActivity(new Intent(SignUp.this,Interests.class));
+			finish();
 		}
 		else
 		{

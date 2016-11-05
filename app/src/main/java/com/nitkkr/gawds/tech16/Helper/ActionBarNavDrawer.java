@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.SearchPage;
+import com.nitkkr.gawds.tech16.Activity.SearchPage;
 
 /**
  * Created by Home Laptop on 03-Nov-16.

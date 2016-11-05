@@ -52,7 +52,7 @@ public class InterestAdapter extends BaseAdapter
 		if(view==null)
 		{
 			LayoutInflater inflater=LayoutInflater.from(context);
-			view=inflater.inflate(R.layout.layout_interest_list_item,viewGroup,false);
+			view=inflater.inflate(R.layout.layout_list_item_interest,viewGroup,false);
 		}
 
 		(( TextView)view.findViewById(R.id.interest_item_label)).setText(list[i]);
