@@ -15,6 +15,7 @@ public class UserModel
 	private String College;
 	private String Mobile;
 	private String Branch;
+	private boolean Coordinator;
 	private ArrayList<String> Interest;
 
 	public final static UserModel USER_MODEL=new UserModel();
@@ -51,6 +52,7 @@ public class UserModel
 	public String getBranch(){return Branch;}
 	public ArrayList<String> getInterest(){return Interest;}
 
+	public boolean isCoordinator(){return Coordinator;}
 
 	public void setName(String name){Name = name;}
 	public void setEmail(String email){Email=email;}
@@ -60,6 +62,7 @@ public class UserModel
 	public void setBranch(String branch){Branch=branch;}
 	public void setInterest(ArrayList<String> interest){Interest = interest;}
 	public void setInterest(String interest){Interest=stringToInterests(interest);}
+	public void setCoordinator(boolean coordinator){Coordinator = coordinator;}
 
 
 	@SuppressWarnings("unchecked")
@@ -70,6 +73,7 @@ public class UserModel
 		College = User.College;
 		Mobile = User.Mobile;
 		Branch = User.Branch;
+		Coordinator = User.Coordinator;
 		Interest=(ArrayList<String>)User.Interest.clone();
 	}
 	public boolean saveUser(Context context) {
@@ -80,6 +84,7 @@ public class UserModel
 		editor.putString("College",College);
 		editor.putString("Mobile",Mobile);
 		editor.putString("Branch",Branch);
+		editor.putBoolean("Coordinator",Coordinator);
 		editor.putString("Interests",interestsToString());
 		return editor.commit();
 	}
@@ -91,18 +96,18 @@ public class UserModel
 		College = preferences.getString("College","");
 		Mobile=preferences.getString("Mobile","");
 		Branch=preferences.getString("Branch","");
+		Coordinator=preferences.getBoolean("Coordinator",false);
 		Interest=stringToInterests(preferences.getString("Interests",""));
 	}
 	public boolean logoutUser(Context context) {
 		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
-		editor.putString("Name","");
-		editor.putString("Email","");
-		editor.putString("Roll","");
-		editor.putString("College","");
-		editor.putString("Mobile","");
-		editor.putString("Branch","");
-		editor.putString("Interests","");
-		return editor.commit();
+		editor.clear();
+		if(editor.commit())
+		{
+			loadUser(context);
+			return true;
+		}
+		return false;
 	}
 	public boolean isUserLoaded(){return !Email.equals("");}
 }
