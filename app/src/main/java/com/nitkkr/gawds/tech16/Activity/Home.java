@@ -17,7 +17,7 @@ import com.nitkkr.gawds.tech16.R;
 public class Home extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener
 {
-	private boolean Exit=false;
+	private boolean Exit = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -27,7 +27,7 @@ public class Home extends AppCompatActivity
 
 		final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-		ActionBarNavDrawer barNavDrawer=new ActionBarNavDrawer(this, new ActionBarNavDrawer.iActionBarNavDrawer()
+		ActionBarNavDrawer barNavDrawer = new ActionBarNavDrawer(this, new ActionBarNavDrawer.iActionBarNavDrawer()
 		{
 			@Override
 			public void NavButtonClicked()
@@ -57,10 +57,10 @@ public class Home extends AppCompatActivity
 		}
 		else
 		{
-			if(!Exit)
+			if (!Exit)
 			{
-				Exit=true;
-				Toast.makeText(this,"Press Back Again to Exit",Toast.LENGTH_SHORT).show();
+				Exit = true;
+				Toast.makeText(this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
 				new Handler().postDelayed(new Runnable()
 				{
 					@Override
@@ -68,7 +68,7 @@ public class Home extends AppCompatActivity
 					{
 						Exit = false;
 					}
-				},getResources().getInteger(R.integer.WarningDuration));
+				}, getResources().getInteger(R.integer.WarningDuration));
 			}
 			else
 			{

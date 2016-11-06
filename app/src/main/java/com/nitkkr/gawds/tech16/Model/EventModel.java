@@ -25,6 +25,9 @@ public class EventModel implements EventRoundModel.RoundModelListener
 		Delayed
 	}
 
+	private boolean Registered=false;
+	private int MinUsers;
+	private int MaxUsers;
 	private String EventName;
 	private Date EventDate;
 	private String Venue;
@@ -33,12 +36,13 @@ public class EventModel implements EventRoundModel.RoundModelListener
 	private ArrayList<RoundResultModel> Results=new ArrayList<>();
 	private EventStatus eventStatus=EventStatus.None;
 	private ArrayList<CoordinatorModel> Coordinators=new ArrayList<>();
-	private EventRoundModel roundModel;
+	private ArrayList<UserModel> Participants=new ArrayList<>();
+	private EventRoundModel roundModel=new EventRoundModel();
 	private EventStateListener listener;
 
-	public EventModel(EventRoundModel eventDetail, EventStateListener stateListener)
+	public EventModel(EventStateListener stateListener)
 	{
-		roundModel=eventDetail;
+		roundModel.setRoundModelListener(this);
 		listener=stateListener;
 	}
 
@@ -57,7 +61,19 @@ public class EventModel implements EventRoundModel.RoundModelListener
 	public EventStatus getEventStatus(){return  eventStatus;}
 	public final ArrayList<CoordinatorModel> getCoordinators(){return Coordinators;}
 	public final EventRoundModel getRounds(){return roundModel;}
+	public int getMinUsers(){return MinUsers;}
+	public int getMaxUsers(){return MaxUsers;}
+	public final ArrayList<UserModel> getParticipants(){return Participants;}
 
+	public boolean isRegistered(){return Registered;}
+	public boolean isParticipantCountOK(){return (Participants.size()>=MinUsers && Participants.size()<=MaxUsers);}
+	public boolean isSingleEvent(){return (MinUsers==MaxUsers && MinUsers==1);}
+	public boolean isGroupEvent(){return !isSingleEvent();}
+	public boolean isVariableGroupEvent(){return MinUsers!=MaxUsers;}
+
+	public void setRegistered(boolean registered){Registered=registered;}
+	public void setMaxUsers(int maxUsers){MaxUsers=maxUsers;}
+	public void setMinUsers(int minUsers){MinUsers=minUsers;}
 	public void setEventName(String name){EventName=name;}
 	public void setEventDate(Date date){EventDate=date;}
 	public void setVenue(String venue){Venue=venue;}

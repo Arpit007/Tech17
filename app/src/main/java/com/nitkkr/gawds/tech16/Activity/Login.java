@@ -20,7 +20,7 @@ public class Login extends AppCompatActivity
 		SIGNUP
 	}
 
-	boolean signingIn=false;
+	boolean signingIn = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -28,52 +28,62 @@ public class Login extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
-		ActionBarSimple barSimple=new ActionBarSimple(this);
+		ActionBarSimple barSimple = new ActionBarSimple(this);
 		barSimple.setLabel(getString(R.string.FestName));
 	}
 
 
-	public void SignIn(View view){
+	public void SignIn(View view)
+	{
 
-		signingIn=true;
-		SignInState state=SignInState.NONE;
+		signingIn = true;
+		SignInState state = SignInState.NONE;
 
 		//TODO:Gmail SignIn
 
 		switch (state)
 		{
 			case FAILED:
-				Toast.makeText(getBaseContext(),"Failed to LogIn",Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), "Failed to LogIn", Toast.LENGTH_LONG).show();
 				break;
 			case SUCCESS:
-				Toast.makeText(getBaseContext(),"SignIn Successful",Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
 				//TODO:Save User Data
-				startActivity(new Intent(Login.this,Home.class));
+				startActivity(new Intent(Login.this, Home.class));
 				finish();
 				break;
 			case SIGNUP:
-				startActivity(new Intent(Login.this,SignUp.class));
+				startActivity(new Intent(Login.this, SignUp.class));
 				break;
-			default:break;
+			default:
+				break;
 		}
 
 
 	}
-	public void SignUp(View view){
-		startActivity(new Intent(Login.this,SignUp.class));
+
+	public void SignUp(View view)
+	{
+		startActivity(new Intent(Login.this, SignUp.class));
 	}
-	public void Skip(View view){
+
+	public void Skip(View view)
+	{
 		UserModel.USER_MODEL.logoutUser(getBaseContext());
-		startActivity(new Intent(Login.this,Home.class));
+		startActivity(new Intent(Login.this, Home.class));
 		finish();
 	}
 
 	@Override
 	public void onBackPressed()
 	{
-		if(signingIn)
-			Toast.makeText(getBaseContext(),"Please Wait",Toast.LENGTH_SHORT).show();
+		if (signingIn)
+		{
+			Toast.makeText(getBaseContext(), "Please Wait", Toast.LENGTH_SHORT).show();
+		}
 		else
+		{
 			super.onBackPressed();
+		}
 	}
 }

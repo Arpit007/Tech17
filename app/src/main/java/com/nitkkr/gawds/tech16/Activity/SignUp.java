@@ -18,7 +18,7 @@ import com.nitkkr.gawds.tech16.R;
 public class SignUp extends AppCompatActivity
 {
 
-	boolean Processing, Verified=false;
+	boolean Processing, Verified = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -26,68 +26,83 @@ public class SignUp extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
 
-		(( RadioButton)findViewById(R.id.signup_NitRadio)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+		( (RadioButton) findViewById(R.id.signup_NitRadio) ).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 		{
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b)
 			{
-				if(b)
+				if (b)
+				{
 					findViewById(R.id.signup_OtherCollege).setVisibility(View.GONE);
-				else findViewById(R.id.signup_OtherCollege).setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					findViewById(R.id.signup_OtherCollege).setVisibility(View.VISIBLE);
+				}
 			}
 		});
 
 		//TODO: Add Branches Data
-		String Branches[]=getResources().getStringArray(R.array.Branches);
-		ArrayAdapter<String> adapter=new ArrayAdapter<>(getBaseContext(),android.R.layout.simple_spinner_item,Branches);
+		String Branches[] = getResources().getStringArray(R.array.Branches);
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_spinner_item, Branches);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		(( Spinner)findViewById(R.id.signup_Branch)).setAdapter(adapter);
+		( (Spinner) findViewById(R.id.signup_Branch) ).setAdapter(adapter);
 
 	}
 
 	public void Authenticate(View view)
 	{
-		Processing=true;
+		Processing = true;
 
 		//TODO: Authenticate and Get Email address
 
-		Processing=false;
-		Verified=true;
+		Processing = false;
+		Verified = true;
 		findViewById(R.id.signup_Email).setVisibility(View.GONE);
-		TextView textView=(TextView)findViewById(R.id.signup_EmailFinal);
+		TextView textView = (TextView) findViewById(R.id.signup_EmailFinal);
 		textView.setText("Email Here");
 		textView.setVisibility(View.VISIBLE);
 
-		ActionBarSimple barSimple=new ActionBarSimple(this);
+		ActionBarSimple barSimple = new ActionBarSimple(this);
 		barSimple.setLabel(getString(R.string.FestName));
 	}
 
 	boolean Check()
 	{
-		if(((TextView)findViewById(R.id.signup_Name)).getText().toString().trim().equals(""))
+		if (( (TextView) findViewById(R.id.signup_Name) ).getText().toString().trim().equals(""))
+		{
 			return false;
+		}
 
-		if(((RadioButton)findViewById(R.id.signup_OtherRadio)).isChecked() && ((TextView)(findViewById(R.id.signup_CollegeName))).getText().toString().trim().equals(""))
+		if (( (RadioButton) findViewById(R.id.signup_OtherRadio) ).isChecked() && ( (TextView) ( findViewById(R.id.signup_CollegeName) ) ).getText().toString().trim().equals(""))
+		{
 			return false;
+		}
 
-		if(((TextView)findViewById(R.id.signup_Number)).getText().toString().trim().equals("") || ((TextView)findViewById(R.id.signup_Number)).getText().length()<10)
+		if (( (TextView) findViewById(R.id.signup_Number) ).getText().toString().trim().equals("") || ( (TextView) findViewById(R.id.signup_Number) ).getText().length() < 10)
+		{
 			return false;
+		}
 
-		if(((String)((Spinner)findViewById(R.id.signup_Branch)).getSelectedItem()).trim().equals(""))
+		if (( (String) ( (Spinner) findViewById(R.id.signup_Branch) ).getSelectedItem() ).trim().equals(""))
+		{
 			return false;
+		}
 
-		if(!Verified)
+		if (!Verified)
+		{
 			return false;
+		}
 
 		return true;
 	}
 
 	public void SignUp(View view)
 	{
-		if(Check())
+		if (Check())
 		{
 			//TODO: Save User Data, Interests
-			startActivity(new Intent(SignUp.this,Interests.class));
+			startActivity(new Intent(SignUp.this, Interests.class));
 			finish();
 		}
 		else
@@ -100,16 +115,20 @@ public class SignUp extends AppCompatActivity
 				{
 					findViewById(R.id.signup_Warning).setVisibility(View.INVISIBLE);
 				}
-			},getResources().getInteger(R.integer.WarningDuration));
+			}, getResources().getInteger(R.integer.WarningDuration));
 		}
 	}
 
 	@Override
 	public void onBackPressed()
 	{
-		if(Processing)
-			Toast.makeText(getBaseContext(),"Please Wait",Toast.LENGTH_SHORT).show();
+		if (Processing)
+		{
+			Toast.makeText(getBaseContext(), "Please Wait", Toast.LENGTH_SHORT).show();
+		}
 		else
+		{
 			super.onBackPressed();
+		}
 	}
 }

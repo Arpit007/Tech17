@@ -11,24 +11,30 @@ import com.nitkkr.gawds.tech16.R;
 
 public class Splash extends AppCompatActivity
 {
-	private Handler handler=new Handler();
+	private Handler handler = new Handler();
 	private Runnable runnable = new Runnable()
 	{
 		public void run()
 		{
 			UserModel.USER_MODEL.loadUser(getApplicationContext());
 
-			if(UserModel.USER_MODEL.isUserLoaded())
+			/*if (UserModel.USER_MODEL.isUserLoaded())
 			{
-				if(UserModel.USER_MODEL.getInterest().size()==0)
+				if (UserModel.USER_MODEL.getInterest().size() == 0)
 				{
-					Toast.makeText(Splash.this,"Please Complete this",Toast.LENGTH_LONG).show();
-					startActivity(new Intent(Splash.this,Interests.class));
+					Toast.makeText(Splash.this, "Please Complete this", Toast.LENGTH_LONG).show();
+					startActivity(new Intent(Splash.this, Interests.class));
 				}
-				else startActivity(new Intent(Splash.this, Home.class));
+				else
+				{
+					startActivity(new Intent(Splash.this, Home.class));
+				}
 			}
 			else
-				startActivity(new Intent(Splash.this,Login.class));
+			{
+				startActivity(new Intent(Splash.this, Login.class));
+			}*/
+			startActivity(new Intent(Splash.this, Event.class));
 			finish();
 		}
 	};
@@ -51,7 +57,8 @@ public class Splash extends AppCompatActivity
 	}
 
 	@Override
-	public void onBackPressed(){
+	public void onBackPressed()
+	{
 		return;
 	}
 }

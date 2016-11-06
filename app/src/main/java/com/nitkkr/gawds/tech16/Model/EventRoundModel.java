@@ -23,26 +23,101 @@ public class EventRoundModel
 
 	private int Rounds;
 	private int currentRound;
-	private RoundStatus  currentRoundStatus=RoundStatus.None;
+	private RoundStatus currentRoundStatus = RoundStatus.None;
 	private RoundModelListener listener;
 
-	public EventRoundModel(RoundModelListener roundModelListener)
+	public void setRoundModelListener(RoundModelListener roundModelListener)
 	{
 		listener = roundModelListener;
 	}
 
-	public int getRounds(){return Rounds;}
-	public int getCurrentRound(){return currentRound;}
-	public RoundStatus getCurrentRoundStatus(){ return  currentRoundStatus;}
+	public int getRounds()
+	{
+		return Rounds;
+	}
 
-	public void setRounds(int rounds){Rounds=rounds; currentRound=0; currentRoundStatus=RoundStatus.None; listener.RoundStatusChanged(currentRoundStatus);}
-	void setCurrentRound(int currentRound){this.currentRound=currentRound; currentRoundStatus=RoundStatus.None; listener.RoundStatusChanged(currentRoundStatus);}
-	public void setCurrentRoundStatus(RoundStatus status){currentRoundStatus=status; listener.RoundStatusChanged(currentRoundStatus);}
+	public int getCurrentRound()
+	{
+		return currentRound;
+	}
 
-	public void setRoundLive(){if(currentRound==0)currentRound=1; if(currentRoundStatus==RoundStatus.Over)currentRound++; currentRoundStatus=RoundStatus.Live; listener.RoundStatusChanged(currentRoundStatus);}
-	public void setRoundOver(){currentRoundStatus=RoundStatus.Over; listener.RoundStatusChanged(currentRoundStatus);}
-	public void setNextRound(){if(currentRoundStatus==RoundStatus.Over & !isFinalRound()){currentRound++;currentRoundStatus=RoundStatus.Upcoming;} listener.RoundStatusChanged(currentRoundStatus);}
+	public RoundStatus getCurrentRoundStatus()
+	{
+		return currentRoundStatus;
+	}
 
-	public boolean isFinalRound(){return currentRound==Rounds;}
+	public void setRounds(int rounds)
+	{
+		Rounds = rounds;
+		currentRound = 0;
+		currentRoundStatus = RoundStatus.None;
+		if (listener != null)
+		{
+			listener.RoundStatusChanged(currentRoundStatus);
+		}
+	}
+
+	void setCurrentRound(int currentRound)
+	{
+		this.currentRound = currentRound;
+		currentRoundStatus = RoundStatus.None;
+		if (listener != null)
+		{
+			listener.RoundStatusChanged(currentRoundStatus);
+		}
+	}
+
+	public void setCurrentRoundStatus(RoundStatus status)
+	{
+		currentRoundStatus = status;
+		if (listener != null)
+		{
+			listener.RoundStatusChanged(currentRoundStatus);
+		}
+	}
+
+	public void setRoundLive()
+	{
+		if (currentRound == 0)
+		{
+			currentRound = 1;
+		}
+		if (currentRoundStatus == RoundStatus.Over)
+		{
+			currentRound++;
+		}
+		currentRoundStatus = RoundStatus.Live;
+		if (listener != null)
+		{
+			listener.RoundStatusChanged(currentRoundStatus);
+		}
+	}
+
+	public void setRoundOver()
+	{
+		currentRoundStatus = RoundStatus.Over;
+		if (listener != null)
+		{
+			listener.RoundStatusChanged(currentRoundStatus);
+		}
+	}
+
+	public void setNextRound()
+	{
+		if (currentRoundStatus == RoundStatus.Over & !isFinalRound())
+		{
+			currentRound++;
+			currentRoundStatus = RoundStatus.Upcoming;
+		}
+		if (listener != null)
+		{
+			listener.RoundStatusChanged(currentRoundStatus);
+		}
+	}
+
+	public boolean isFinalRound()
+	{
+		return currentRound == Rounds;
+	}
 
 }
