@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
+import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.Model.UserModel;
 import com.nitkkr.gawds.tech16.R;
 
 public class SignUp extends AppCompatActivity
@@ -48,23 +52,38 @@ public class SignUp extends AppCompatActivity
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		( (Spinner) findViewById(R.id.signup_Branch) ).setAdapter(adapter);
 
+		ActionBarSimple barSimple = new ActionBarSimple(this);
+		barSimple.setLabel(getString(R.string.FestName));
 	}
 
 	public void Authenticate(View view)
 	{
 		Processing = true;
 
+		SignInStatus status=SignInStatus.NONE;
+
 		//TODO: Authenticate and Get Email address
 
-		Processing = false;
-		Verified = true;
-		findViewById(R.id.signup_Email).setVisibility(View.GONE);
-		TextView textView = (TextView) findViewById(R.id.signup_EmailFinal);
-		textView.setText("Email Here");
-		textView.setVisibility(View.VISIBLE);
+		switch (status)
+		{
+			case FAILED:
+				Toast.makeText(SignUp.this,"Failed to Authenticate, Try Again",Toast.LENGTH_LONG).show();
+				break;
+			case SUCCESS:
+				Verified = true;
+				findViewById(R.id.signup_Email).setVisibility(View.GONE);
+				TextView textView = (TextView) findViewById(R.id.signup_EmailFinal);
+				textView.setText("-------------------------Email Here---------------------------");
+				textView.setVisibility(View.VISIBLE);
+				break;
+			case OTHER:
+				Toast.makeText(SignUp.this,"---------Message Here-----------",Toast.LENGTH_LONG).show();
+				break;
+			default:
+				break;
+		}
 
-		ActionBarSimple barSimple = new ActionBarSimple(this);
-		barSimple.setLabel(getString(R.string.FestName));
+		Processing = false;
 	}
 
 	boolean Check()
@@ -101,9 +120,34 @@ public class SignUp extends AppCompatActivity
 	{
 		if (Check())
 		{
-			//TODO: Save User Data, Interests
-			startActivity(new Intent(SignUp.this, Interests.class));
-			finish();
+			UserModel user=new UserModel();
+			user.setName((( EditText)findViewById(R.id.signup_Name)).getText().toString());
+			if(( (RadioButton) findViewById(R.id.signup_NitRadio) ).isChecked())
+				user.setCollege("NIT Kurukshetra");
+			else user.setCollege(((EditText)findViewById(R.id.signup_CollegeName)).getText().toString());
+			user.setRoll((( EditText)findViewById(R.id.signup_Roll)).getText().toString());
+			user.setMobile((( EditText)findViewById(R.id.signup_Number)).getText().toString());
+			user.setBranch(((Spinner)findViewById(R.id.signup_Branch)).getSelectedItem().toString());
+			user.setEmail((( TextView)findViewById(R.id.signup_EmailFinal)).getText().toString());
+
+			SignInStatus status=SignInStatus.NONE;
+
+			//TODO: Send Info
+
+			switch (status)
+			{
+				case FAILED:
+					Toast.makeText(this,"Failed to Sign Up, Please Try Again",Toast.LENGTH_LONG).show();
+					break;
+				case SUCCESS:
+					AppUserModel.MAIN_USER=(AppUserModel)user;
+					AppUserModel.MAIN_USER.saveUser(SignUp.this);
+					startActivity(new Intent(SignUp.this, Interests.class));
+					finish();
+					break;
+				default:
+					break;
+			}
 		}
 		else
 		{

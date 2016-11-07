@@ -1,113 +1,106 @@
 package com.nitkkr.gawds.tech16.Model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
- * Created by Home Laptop on 05-Nov-16.
+ * Created by Home Laptop on 07-Nov-16.
  */
 
-public class EventModel implements EventRoundModel.RoundModelListener
+public class EventModel extends BaseEventModel
 {
-
-	public interface EventStateListener
-	{
-		void EventStateChanged(EventStatus status);
-	}
-
-	public enum EventStatus
-	{
+	public enum EventStatus {
 		None,
 		Upcoming,
 		RoundOver,
 		Live,
 		Over,
-		Delayed
+		Delayed,
+		Pause
 	}
 
-	private boolean Registered=false;
+
+	public interface EventStatusListener {
+		void EventStatusChanged(com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status);
+	}
+
+
+	private String Rules;
 	private int MinUsers;
 	private int MaxUsers;
-	private String EventName;
-	private Date EventDate;
-	private String Venue;
-	private String Description;
-	private String Rules;
-	private ArrayList<RoundResultModel> Results=new ArrayList<>();
-	private EventStatus eventStatus=EventStatus.None;
-	private ArrayList<CoordinatorModel> Coordinators=new ArrayList<>();
-	private ArrayList<UserModel> Participants=new ArrayList<>();
-	private EventRoundModel roundModel=new EventRoundModel();
-	private EventStateListener listener;
+	private int TotalRounds = 0;
+	private int CurrentRound = 0;
+	private boolean Registered = false;
+	private com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status= com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.None;
+	private ArrayList<RoundResultModel> Result;
+	private ArrayList<CoordinatorModel> Coordinators;
+	private ArrayList<iUserModel> Participants;
+	private EventStatusListener listener;
 
-	public EventModel(EventStateListener stateListener)
-	{
-		roundModel.setRoundModelListener(this);
-		listener=stateListener;
-	}
 
-	public String getEventName(){return EventName;}
-	public Date getEventDate(){return EventDate;}
-	public String getVenue(){return Venue;}
-	public String getDescription(){return Description;}
 	public String getRules(){return Rules;}
-	public final ArrayList<RoundResultModel> getResults(){return Results;}
-	public RoundResultModel getRoundResult(int Round) {
-		for(RoundResultModel resultModel:Results)
-			if(resultModel.getRoundNumber()==Round)
-				return resultModel;
-		return null;
-	}
-	public EventStatus getEventStatus(){return  eventStatus;}
-	public final ArrayList<CoordinatorModel> getCoordinators(){return Coordinators;}
-	public final EventRoundModel getRounds(){return roundModel;}
 	public int getMinUsers(){return MinUsers;}
 	public int getMaxUsers(){return MaxUsers;}
-	public final ArrayList<UserModel> getParticipants(){return Participants;}
+	public int getTotalRounds(){return TotalRounds;}
+	public int getCurrentRound(){return CurrentRound;}
+	public com.nitkkr.gawds.tech16.Model.EventModel.EventStatus getEventStatus(){return  status;}
+	public ArrayList<RoundResultModel> getResult(){return Result;}
+	public ArrayList<CoordinatorModel> getCoordinators(){return Coordinators;}
+	public ArrayList<iUserModel> getParticipants(){return Participants;}
+	public EventStatusListener getListener(){return listener;}
+	public void callStatusListener() {
+		if(listener!=null)
+			listener.EventStatusChanged(status);
+	}
+	public void callStatusListener(com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status) {
+		this.status=status;
+		if(listener!=null)
+			listener.EventStatusChanged(status);
+	}
 
+
+	public void setRules(String rules){Rules=rules;}
+	public void setMaxUsers(int maxUsers){MaxUsers=maxUsers;}
+	public void setMinUsers(int minUsers){MinUsers=minUsers;}
+	public void setTotalRounds(int totalRounds){TotalRounds = totalRounds;}
+	public void setCurrentRound(int currentRound){CurrentRound = currentRound;}
+	public void setStatus(com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status){this.status=status;}
+	public void setResult(ArrayList<RoundResultModel> result){Result=result;}
+	public void setCoordinators(ArrayList<CoordinatorModel> coordinators){Coordinators=coordinators;}
+	public void setParticipants(ArrayList<iUserModel> participants){Participants=participants;}
+	public void setStatusListener(EventStatusListener listener){this.listener=listener;}
+	public void setRegistered(boolean registered){Registered=registered;}
+
+
+	public boolean isFinalRound()
+	{
+		return CurrentRound == TotalRounds;
+	}
 	public boolean isRegistered(){return Registered;}
 	public boolean isParticipantCountOK(){return (Participants.size()>=MinUsers && Participants.size()<=MaxUsers);}
 	public boolean isSingleEvent(){return (MinUsers==MaxUsers && MinUsers==1);}
 	public boolean isGroupEvent(){return !isSingleEvent();}
 	public boolean isVariableGroupEvent(){return MinUsers!=MaxUsers;}
 
-	public void setRegistered(boolean registered){Registered=registered;}
-	public void setMaxUsers(int maxUsers){MaxUsers=maxUsers;}
-	public void setMinUsers(int minUsers){MinUsers=minUsers;}
-	public void setEventName(String name){EventName=name;}
-	public void setEventDate(Date date){EventDate=date;}
-	public void setVenue(String venue){Venue=venue;}
-	public void setDescription(String description){Description=description;}
-	public void setRules(String rules){Rules=rules;}
-	public void setResults(ArrayList<RoundResultModel> results)
-	{
-		Results=results;
-	}
 
-	@Override
-	public void RoundStatusChanged(EventRoundModel.RoundStatus status)
-	{
-		switch (status)
+	public void setRoundLive() {
+		if (CurrentRound == 0)
 		{
-			case Live:
-				eventStatus=EventStatus.Live;
-				break;
-			case Over:
-				if(roundModel.isFinalRound())
-					eventStatus=EventStatus.Over;
-				else eventStatus=EventStatus.RoundOver;
-				break;
-			case Delayed:
-				eventStatus=EventStatus.Delayed;
-				break;
-			case Upcoming:
-				eventStatus=EventStatus.Upcoming;
-				break;
-			default:
-				eventStatus=EventStatus.None;
-				break;
+			CurrentRound = 1;
 		}
-		if(listener!=null)
-			listener.EventStateChanged(eventStatus);
+		if (status == com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Over)
+		{
+			CurrentRound++;
+		}
+		status = com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Live;
+	}
+	public void setRoundOver()	{
+		status = com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Over;
+	}
+	public void setNextRound() {
+		if (status == com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Over && !isFinalRound())
+		{
+			CurrentRound++;
+			status = com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Upcoming;
+		}
 	}
 }

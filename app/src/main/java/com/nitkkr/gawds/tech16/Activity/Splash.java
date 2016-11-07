@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.Model.UserModel;
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
 public class Splash extends AppCompatActivity
@@ -16,11 +16,11 @@ public class Splash extends AppCompatActivity
 	{
 		public void run()
 		{
-			UserModel.USER_MODEL.loadUser(getApplicationContext());
+			AppUserModel.MAIN_USER.loadUser(getApplicationContext());
 
-			/*if (UserModel.USER_MODEL.isUserLoaded())
+			/*if (AppUserModel.MAIN_USER.isUserLoaded())
 			{
-				if (UserModel.USER_MODEL.getInterest().size() == 0)
+				if (AppUserModel.MAIN_USER.getInterests().size() == 0)
 				{
 					Toast.makeText(Splash.this, "Please Complete this", Toast.LENGTH_LONG).show();
 					startActivity(new Intent(Splash.this, Interests.class));

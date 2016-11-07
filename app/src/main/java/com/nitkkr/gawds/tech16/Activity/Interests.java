@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Adapter.InterestAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarDone;
+import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
 public class Interests extends AppCompatActivity
@@ -44,9 +46,26 @@ public class Interests extends AppCompatActivity
 				if (adapter.isDone())
 				{
 					String string = adapter.getInterestsString();
-					//TODO:Send Info
-					startActivity(new Intent(Interests.this, Home.class));
-					finish();
+
+					SignInStatus status=SignInStatus.NONE;
+					//TODO: Send Info
+					switch (status)
+					{
+						case SUCCESS:
+							AppUserModel.MAIN_USER.setInterests(string);
+							AppUserModel.MAIN_USER.saveUser(Interests.this);
+							startActivity(new Intent(Interests.this, Home.class));
+							finish();
+							break;
+						case FAILED:
+							Toast.makeText(Interests.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
+							break;
+						case OTHER:
+							Toast.makeText(Interests.this,"----------------message-------------------",Toast.LENGTH_LONG).show();
+							break;
+						default:
+							break;
+					}
 				}
 				else
 				{

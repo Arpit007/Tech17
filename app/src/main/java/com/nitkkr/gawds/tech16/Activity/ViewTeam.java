@@ -1,0 +1,17 @@
+package com.nitkkr.gawds.tech16.Activity;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import com.nitkkr.gawds.tech16.R;
+
+public class ViewTeam extends AppCompatActivity
+{
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_view_team);
+	}
+}

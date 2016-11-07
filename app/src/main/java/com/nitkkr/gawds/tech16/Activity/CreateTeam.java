@@ -1,15 +1,17 @@
-package com.nitkkr.gawds.tech16;
+package com.nitkkr.gawds.tech16.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class RegisterGroupEvent extends AppCompatActivity
+import com.nitkkr.gawds.tech16.R;
+
+public class CreateTeam extends AppCompatActivity
 {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_register_group_event);
+		setContentView(R.layout.activity_create_team);
 	}
 }

@@ -7,19 +7,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
-import com.nitkkr.gawds.tech16.Model.UserModel;
+import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
 public class Login extends AppCompatActivity
 {
-	private enum SignInState
-	{
-		NONE,
-		FAILED,
-		SUCCESS,
-		SIGNUP
-	}
-
 	boolean signingIn = false;
 
 	@Override
@@ -37,11 +30,11 @@ public class Login extends AppCompatActivity
 	{
 
 		signingIn = true;
-		SignInState state = SignInState.NONE;
+		SignInStatus status = SignInStatus.NONE;
 
 		//TODO:Gmail SignIn
 
-		switch (state)
+		switch (status)
 		{
 			case FAILED:
 				Toast.makeText(getBaseContext(), "Failed to LogIn", Toast.LENGTH_LONG).show();
@@ -69,7 +62,7 @@ public class Login extends AppCompatActivity
 
 	public void Skip(View view)
 	{
-		UserModel.USER_MODEL.logoutUser(getBaseContext());
+		AppUserModel.MAIN_USER.logoutUser(getBaseContext());
 		startActivity(new Intent(Login.this, Home.class));
 		finish();
 	}

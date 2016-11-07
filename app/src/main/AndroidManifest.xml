@@ -54,11 +54,10 @@
             android:label="Event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".RegisterGroupEvent"
-            android:label="Register"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.CreateTeam">
+        </activity>
+        <activity android:name=".Activity.ViewTeam">
+        </activity>
     </application>
 
 </manifest>
