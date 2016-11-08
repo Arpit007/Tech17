@@ -54,10 +54,21 @@
             android:label="Event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.CreateTeam">
-        </activity>
-        <activity android:name=".Activity.ViewTeam">
-        </activity>
+        <activity
+            android:name=".Activity.CreateTeam"
+            android:label="Create Team"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.ViewTeam"
+            android:label="View Team"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.ViewUser"
+            android:label="User"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
