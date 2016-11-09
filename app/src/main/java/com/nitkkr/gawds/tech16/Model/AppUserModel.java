@@ -13,6 +13,7 @@ public class AppUserModel extends CoordinatorModel
 {
 	private boolean Coordinator;
 	private ArrayList<String> Interests;
+	public static final String TempUserFile="Temp_User";
 
 	private ArrayList<String> getInterests(){return Interests;}
 
@@ -44,7 +45,10 @@ public class AppUserModel extends CoordinatorModel
 	public void setInterests(String interests){Interests=stringToInterests(interests);}
 
 	public boolean saveUser(Context context) {
-		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
+		return saveUser(context, "User_Data");
+	}
+	public boolean saveUser(Context context, String File) {
+		SharedPreferences.Editor editor=context.getSharedPreferences(File,Context.MODE_PRIVATE).edit();
 		editor.putString("Name",getName());
 		editor.putString("Email",getEmail());
 		editor.putString("Roll",getRoll());
@@ -57,8 +61,12 @@ public class AppUserModel extends CoordinatorModel
 			editor.putString("Designation",getDesignation());
 		return editor.commit();
 	}
+
 	public void loadUser(Context context) {
-		SharedPreferences preferences=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE);
+		loadUser(context,"User_Data");
+	}
+	public void loadUser(Context context, String File) {
+		SharedPreferences preferences=context.getSharedPreferences(File,Context.MODE_PRIVATE);
 		setName(preferences.getString("Name",""));
 		setEmail(preferences.getString("Email",""));
 		setRoll(preferences.getString("Roll",""));
@@ -70,6 +78,7 @@ public class AppUserModel extends CoordinatorModel
 		if(isCoordinator())
 			setDesignation(preferences.getString("Designation",""));
 	}
+
 	public boolean logoutUser(Context context) {
 		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
 		editor.clear();
