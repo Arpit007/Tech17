@@ -84,9 +84,9 @@ public class RegisterTeamAdapter extends BaseAdapter
 				public void onClick(View view)
 				{
 					Intent intent=new Intent(activity, SearchPage.class);
+					//TODO:---------Work----------
 					intent.putExtra("Data_Type","User");
 					activity.startActivityForResult(intent,SEARCH_USER);
-					RegisterTeamAdapter.this.notifyDataSetInvalidated();
 				}
 			});
 		}

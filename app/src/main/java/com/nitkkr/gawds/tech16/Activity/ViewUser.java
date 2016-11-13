@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.UserModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -18,8 +19,8 @@ public class ViewUser extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_user);
 
-		//---------------------------------Get Model--------------------------
 		UserModel model=new UserModel();
+		(( AppUserModel)model).loadTempUser(ViewUser.this);
 
 		(( TextView)findViewById(R.id.user_Name)).setText(model.getName());
 		(( TextView)findViewById(R.id.user_Email)).setText(model.getEmail());

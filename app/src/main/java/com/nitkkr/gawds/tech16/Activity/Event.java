@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -59,56 +60,63 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				@Override
 				public void onClick(View view)
 				{
-					if (model.isSingleEvent())
+					if(AppUserModel.MAIN_USER.isUserLoaded())
 					{
-						AlertDialog.Builder builder = new AlertDialog.Builder(Event.this);
-						builder.setCancelable(true);
-						builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+						if (model.isSingleEvent())
 						{
-							@Override
-							public void onClick(DialogInterface dialogInterface, int i)
+							AlertDialog.Builder builder = new AlertDialog.Builder(Event.this);
+							builder.setCancelable(true);
+							builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
 							{
-								SignInStatus status=SignInStatus.NONE;
-								//TODO: Register Single Event
-								switch (status)
+								@Override
+								public void onClick(DialogInterface dialogInterface, int i)
 								{
-									case FAILED:
-										Toast.makeText(Event.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
-										break;
-									case SUCCESS:
-										Toast.makeText(Event.this,"Registered Successfully",Toast.LENGTH_LONG).show();
-										LoadEvent();
-										break;
-									case OTHER:
-										Toast.makeText(Event.this,"----------------------Message--------------------",Toast.LENGTH_LONG).show();
-										break;
-									default:
-										break;
+									SignInStatus status = SignInStatus.NONE;
+									//TODO: Register Single Event
+									switch (status)
+									{
+										case FAILED:
+											Toast.makeText(Event.this, "Failed, Please Try Again", Toast.LENGTH_LONG).show();
+											break;
+										case SUCCESS:
+											Toast.makeText(Event.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+											LoadEvent();
+											break;
+										case OTHER:
+											Toast.makeText(Event.this, "----------------------Message--------------------", Toast.LENGTH_LONG).show();
+											break;
+										default:
+											break;
+									}
 								}
-							}
-						});
-						builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialogInterface, int i)
+							});
+							builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
 							{
-								dialogInterface.dismiss();
-							}
-						});
-						builder.setMessage("Are you sure, you want to Register for " + model.getEventName() + "?");
-						builder.setTitle("Register Event");
-						alertDialog = builder.create();
-						alertDialog.show();
+								@Override
+								public void onClick(DialogInterface dialogInterface, int i)
+								{
+									dialogInterface.dismiss();
+								}
+							});
+							builder.setMessage("Are you sure, you want to Register for " + model.getEventName() + "?");
+							builder.setTitle("Register Event");
+							alertDialog = builder.create();
+							alertDialog.show();
+						}
+						else
+						{
+							Intent intent = new Intent(Event.this, CreateTeam.class);
+							intent.putExtra("Event_Name", "------------Event Name-------------------");
+							intent.putExtra("Fixed_Team", !model.isVariableGroupEvent());
+							intent.putExtra("Min_Members", model.getMinUsers());
+							if (model.isVariableGroupEvent())
+								intent.putExtra("Max_Users", model.getMaxUsers());
+							startActivityForResult(new Intent(Event.this, CreateTeam.class), REGISTER);
+						}
 					}
 					else
 					{
-						Intent intent=new Intent(Event.this,CreateTeam.class);
-						intent.putExtra("Event_Name","------------Event Name-------------------");
-						intent.putExtra("Fixed_Team",!model.isVariableGroupEvent());
-						intent.putExtra("Min_Members",model.getMinUsers());
-						if(model.isVariableGroupEvent())
-							intent.putExtra("Max_Users",model.getMaxUsers());
-						startActivityForResult(new Intent(Event.this, CreateTeam.class),REGISTER);
+						AppUserModel.MAIN_USER.LoginUser(Event.this,true);
 					}
 				}
 			});
@@ -181,6 +189,14 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				}
 			}
 		}
+		else if(requestCode==AppUserModel.LOGIN_REQUEST_CODE)
+			{
+				if(requestCode==RESULT_OK)
+				{
+					AppUserModel.MAIN_USER.loadAppUser(Event.this);
+					findViewById(R.id.event_Register).performClick();
+				}
+			}
 		else
 			super.onActivityResult(requestCode, resultCode, data);
 	}

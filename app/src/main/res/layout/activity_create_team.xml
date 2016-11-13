@@ -27,7 +27,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/team_register_button"
+        android:id="@+id/team_register_button" android:onClick="Register"
         android:layout_alignParentBottom="true" android:text="Register"
         android:layout_width="match_parent" android:layout_height="wrap_content"/>
 

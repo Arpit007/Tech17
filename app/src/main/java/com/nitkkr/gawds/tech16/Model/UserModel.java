@@ -1,10 +1,12 @@
 package com.nitkkr.gawds.tech16.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by Home Laptop on 07-Nov-16.
  */
 
-public class UserModel implements iUserModel
+public class UserModel implements iUserModel, Serializable
 {
 	private String Name;
 	private String Email;
