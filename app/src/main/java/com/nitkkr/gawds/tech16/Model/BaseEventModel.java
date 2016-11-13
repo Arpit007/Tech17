@@ -1,12 +1,13 @@
 package com.nitkkr.gawds.tech16.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Home Laptop on 07-Nov-16.
  */
 
-public class BaseEventModel
+public class BaseEventModel implements Serializable
 {
 	private Date EventDate;
 	private String Venue;

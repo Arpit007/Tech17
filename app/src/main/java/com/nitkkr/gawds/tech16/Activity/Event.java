@@ -149,7 +149,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 	private void LoadEvent()
 	{
-		model = new EventModel();
+		model=(EventModel) getIntent().getSerializableExtra("Event");
 		model.setStatusListener(this);
 		//TODO: Implement
 		StringBuilder text = new StringBuilder("");
