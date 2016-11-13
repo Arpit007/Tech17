@@ -12,6 +12,7 @@ import com.nitkkr.gawds.tech16.Adapter.InterestAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarDone;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.Model.UserModel;
 import com.nitkkr.gawds.tech16.R;
 
 public class Interests extends AppCompatActivity
@@ -45,16 +46,25 @@ public class Interests extends AppCompatActivity
 			{
 				if (adapter.isDone())
 				{
-					String string = adapter.getInterestsString();
-
 					SignInStatus status=SignInStatus.NONE;
+					AppUserModel appUserModel=new AppUserModel();
+					appUserModel.loadTempUser(Interests.this);
+					appUserModel.setInterests(adapter.getInterestsString());
+
 					//TODO: Send Info
 					switch (status)
 					{
 						case SUCCESS:
-							AppUserModel.MAIN_USER.setInterests(string);
-							AppUserModel.MAIN_USER.saveUser(Interests.this);
-							startActivity(new Intent(Interests.this, Home.class));
+							AppUserModel.MAIN_USER=appUserModel;
+							AppUserModel.MAIN_USER.saveAppUser(Interests.this);
+							if(getIntent().getBooleanExtra("Start_Home",false))
+								startActivity(new Intent(Interests.this, Home.class));
+							else
+							{
+								Intent intent=new Intent();
+								intent.putExtra("Logged_In",true);
+								setResult(RESULT_OK,intent);
+							}
 							finish();
 							break;
 						case FAILED:
@@ -80,6 +90,6 @@ public class Interests extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		return;
+		super.onBackPressed();
 	}
 }

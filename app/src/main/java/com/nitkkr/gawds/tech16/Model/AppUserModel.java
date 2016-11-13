@@ -1,7 +1,11 @@
 package com.nitkkr.gawds.tech16.Model;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.nitkkr.gawds.tech16.Activity.Login;
 
 import java.util.ArrayList;
 
@@ -13,9 +17,10 @@ public class AppUserModel extends CoordinatorModel
 {
 	private boolean Coordinator;
 	private ArrayList<String> Interests;
-	public static final String TempUserFile="Temp_User";
 
-	private ArrayList<String> getInterests(){return Interests;}
+	public static final int LOGIN_REQUEST_CODE=99;
+
+	public ArrayList<String> getInterests(){return Interests;}
 
 	public static AppUserModel MAIN_USER=new AppUserModel();
 
@@ -44,10 +49,13 @@ public class AppUserModel extends CoordinatorModel
 	}
 	public void setInterests(String interests){Interests=stringToInterests(interests);}
 
-	public boolean saveUser(Context context) {
-		return saveUser(context, "User_Data");
+	public boolean saveAppUser(Context context) {
+		return saveAppUser(context, "User_Data");
 	}
-	public boolean saveUser(Context context, String File) {
+	public boolean saveTempUser(Context context) {
+		return saveAppUser(context, "Temp_User");
+	}
+	private boolean saveAppUser(Context context, String File) {
 		SharedPreferences.Editor editor=context.getSharedPreferences(File,Context.MODE_PRIVATE).edit();
 		editor.putString("Name",getName());
 		editor.putString("Email",getEmail());
@@ -62,10 +70,13 @@ public class AppUserModel extends CoordinatorModel
 		return editor.commit();
 	}
 
-	public void loadUser(Context context) {
+	public void loadAppUser(Context context) {
 		loadUser(context,"User_Data");
 	}
-	public void loadUser(Context context, String File) {
+	public void loadTempUser(Context context) {
+		loadUser(context,"Temp_Data");
+	}
+	private void loadUser(Context context, String File) {
 		SharedPreferences preferences=context.getSharedPreferences(File,Context.MODE_PRIVATE);
 		setName(preferences.getString("Name",""));
 		setEmail(preferences.getString("Email",""));
@@ -84,10 +95,19 @@ public class AppUserModel extends CoordinatorModel
 		editor.clear();
 		if(editor.commit())
 		{
-			loadUser(context);
+			loadAppUser(context);
 			return true;
 		}
 		return false;
 	}
-	public boolean isUserLoaded(){return !getEmail().equals("");}
+	public boolean isUserLoaded(){
+		return !getEmail().equals("");
+	}
+
+	public void LoginUser(Activity activity, boolean Result)
+	{
+		if(Result)
+			activity.startActivityForResult(new Intent(activity, Login.class),LOGIN_REQUEST_CODE);
+		else activity.startActivity(new Intent(activity,Login.class));
+	}
 }

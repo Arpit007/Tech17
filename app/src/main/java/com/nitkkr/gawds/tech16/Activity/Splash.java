@@ -16,25 +16,15 @@ public class Splash extends AppCompatActivity
 	{
 		public void run()
 		{
-			AppUserModel.MAIN_USER.loadUser(getApplicationContext());
+			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
-			/*if (AppUserModel.MAIN_USER.isUserLoaded())
+			if (AppUserModel.MAIN_USER.isUserLoaded())
 			{
-				if (AppUserModel.MAIN_USER.getInterests().size() == 0)
-				{
-					Toast.makeText(Splash.this, "Please Complete this", Toast.LENGTH_LONG).show();
-					startActivity(new Intent(Splash.this, Interests.class));
-				}
-				else
-				{
-					startActivity(new Intent(Splash.this, Home.class));
-				}
+				startActivity(new Intent(Splash.this, Home.class));
 			}
 			else
-			{
-				startActivity(new Intent(Splash.this, Login.class));
-			}*/
-			startActivity(new Intent(Splash.this, Event.class));
+				AppUserModel.MAIN_USER.LoginUser(Splash.this,false);
+			//startActivity(new Intent(Splash.this, Event.class));
 			finish();
 		}
 	};

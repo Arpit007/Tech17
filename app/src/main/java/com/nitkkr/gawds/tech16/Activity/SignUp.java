@@ -130,6 +130,7 @@ public class SignUp extends AppCompatActivity
 			user.setBranch(((Spinner)findViewById(R.id.signup_Branch)).getSelectedItem().toString());
 			user.setEmail((( TextView)findViewById(R.id.signup_EmailFinal)).getText().toString());
 
+
 			SignInStatus status=SignInStatus.NONE;
 
 			//TODO: Send Info
@@ -140,10 +141,10 @@ public class SignUp extends AppCompatActivity
 					Toast.makeText(this,"Failed to Sign Up, Please Try Again",Toast.LENGTH_LONG).show();
 					break;
 				case SUCCESS:
-					AppUserModel.MAIN_USER=(AppUserModel)user;
-					AppUserModel.MAIN_USER.saveUser(SignUp.this);
-					startActivity(new Intent(SignUp.this, Interests.class));
-					finish();
+					((AppUserModel)user).saveTempUser(SignUp.this);
+					Intent intent=new Intent(SignUp.this, Interests.class);
+					intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",false));
+					startActivity(intent);
 					break;
 				default:
 					break;
