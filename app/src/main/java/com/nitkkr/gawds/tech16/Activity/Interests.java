@@ -57,7 +57,7 @@ public class Interests extends AppCompatActivity
 						case SUCCESS:
 							AppUserModel.MAIN_USER=appUserModel;
 							AppUserModel.MAIN_USER.saveAppUser(Interests.this);
-							if(getIntent().getBooleanExtra("Start_Home",false))
+							if(getIntent().getBooleanExtra("Start_Home",true))
 								startActivity(new Intent(Interests.this, Home.class));
 							else
 							{

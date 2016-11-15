@@ -21,5 +21,8 @@ public class MusicalNight extends AppCompatActivity
 		ActionBarBack barBack=new ActionBarBack(MusicalNight.this);
 		barBack.setLabel("Musical Night");
 
+		model.setEventID(getIntent().getStringExtra("Event_ID"));
+		//TODO:Load Event
+
 	}
 }

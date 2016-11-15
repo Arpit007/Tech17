@@ -1,5 +1,9 @@
 package com.nitkkr.gawds.tech16.Model;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+
 import java.io.Serializable;
 
 /**
@@ -12,4 +16,10 @@ public class CoordinatorModel extends UserModel implements Serializable
 
 	public String getDesignation(){return Designation;}
 	public void setDesignation(String designation){Designation=designation;}
+
+	public void CallCoordinator(Activity activity){
+		Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getMobile()));
+		activity.startActivity(intent);
+	}
+
 }

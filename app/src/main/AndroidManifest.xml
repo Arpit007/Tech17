@@ -72,7 +72,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".SocialIntake"
+            android:name=".Activity.SocialIntake"
             android:label="Social"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>

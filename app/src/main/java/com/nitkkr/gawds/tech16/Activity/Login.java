@@ -44,9 +44,14 @@ public class Login extends AppCompatActivity
 			case SUCCESS:
 				Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
 
-				//TODO:Save User Data
+				AppUserModel appUserModel=new AppUserModel();
 
-				if(getIntent().getBooleanExtra("Start_Home",false))
+				//TODO: Load User Data
+
+				AppUserModel.MAIN_USER=appUserModel;
+				AppUserModel.MAIN_USER.saveAppUser(Login.this);
+
+				if(getIntent().getBooleanExtra("Start_Home",true))
 					startActivity(new Intent(Login.this, Home.class));
 				else
 				{
@@ -58,7 +63,7 @@ public class Login extends AppCompatActivity
 				break;
 			case SIGNUP:
 				Intent intent=new Intent(Login.this, SignUp.class);
-				intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",false));
+				intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
 				startActivity(intent);
 				break;
 			default:
@@ -69,14 +74,14 @@ public class Login extends AppCompatActivity
 	public void SignUp(View view)
 	{
 		Intent intent=new Intent(Login.this, SignUp.class);
-		intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",false));
+		intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
 		startActivity(intent);
 	}
 
 	public void Skip(View view)
 	{
 		AppUserModel.MAIN_USER.logoutUser(getBaseContext());
-		if(getIntent().getBooleanExtra("Start_Home",false) || isTaskRoot())
+		if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
 			startActivity(new Intent(Login.this, Home.class));
 		finish();
 	}

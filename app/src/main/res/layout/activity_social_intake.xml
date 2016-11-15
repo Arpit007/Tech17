@@ -5,7 +5,7 @@
     android:id="@+id/activity_social_intake"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.SocialIntake">
+    tools:context="com.nitkkr.gawds.tech16.Activity.SocialIntake">
     <include
         layout="@layout/actionbar_back" android:id="@+id/temp_bar"
         android:layout_width="match_parent" android:layout_height="?actionBarSize"/>

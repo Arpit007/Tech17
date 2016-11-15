@@ -143,7 +143,7 @@ public class SignUp extends AppCompatActivity
 				case SUCCESS:
 					((AppUserModel)user).saveTempUser(SignUp.this);
 					Intent intent=new Intent(SignUp.this, Interests.class);
-					intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",false));
+					intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
 					startActivity(intent);
 					break;
 				default:
