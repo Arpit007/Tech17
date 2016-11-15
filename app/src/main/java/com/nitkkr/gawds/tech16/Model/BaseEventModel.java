@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class BaseEventModel implements Serializable
 {
+	private String EventID;
 	private Date EventDate;
 	private String Venue;
 	private String Description;
@@ -21,9 +22,11 @@ public class BaseEventModel implements Serializable
 	public String getDescription(){return Description;}
 	public String getEventName(){return EventName;}
 	public String getImage_URL(){return Image_URL;}
+	public String getEventID(){return EventID;}
 
 	public boolean isNotify(){return Notify;}
 
+	public void  setEventID(String eventID){EventID=eventID;}
 	public void setEventName(String name){EventName=name;}
 	public void setEventDate(Date date){EventDate=date;}
 	public void setVenue(String venue){Venue=venue;}

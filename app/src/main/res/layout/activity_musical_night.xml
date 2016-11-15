@@ -2,15 +2,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_about"
+    android:id="@+id/activity_musical_night"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.Activity.About">
+    tools:context="com.nitkkr.gawds.tech16.Activity.MusicalNight">
+
     <include
         layout="@layout/actionbar_back" android:id="@+id/temp_bar"
         android:layout_height="?actionBarSize" android:layout_width="match_parent"/>
-    <TextView
-        android:layout_below="@id/temp_bar" android:text="Random About Text Here"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
 </RelativeLayout>
