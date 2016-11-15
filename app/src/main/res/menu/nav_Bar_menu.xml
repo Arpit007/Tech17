@@ -3,34 +3,45 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import"/>
+            android:title="home"/>
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery"/>
+            android:id="@+id/nav_events"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Event"/>
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow"/>
+            android:id="@+id/nav_gusto_talks"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Gusto Talks"/>
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools"/>
+            android:id="@+id/nav_informals"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Informals"/>
+        <item
+            android:id="@+id/nav_exhibitions"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Exhibitions"/>
+        <item
+            android:id="@+id/nav_musical_night"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Musical Night"/>
+        <item
+            android:id="@+id/nav_social_something"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Social ____*"/>
+        <item
+            android:id="@+id/nav_something"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="A Bull UD*"/>
+        <item
+            android:id="@+id/nav_techspardha_live"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="TechSpardha Live"/>
+        <item
+            android:id="@+id/nav_admin"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Admin"/>
+
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send"/>
-        </menu>
-    </item>
-
 </menu>
