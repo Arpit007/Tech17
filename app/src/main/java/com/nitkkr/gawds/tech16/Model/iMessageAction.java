@@ -6,6 +6,6 @@ package com.nitkkr.gawds.tech16.Model;
 
 public interface iMessageAction
 {
-	void performAction();
-	void setMessage(String message);
+	void performAction(MessageModel model);
+	MessageModel formatMessage(String message);
 }
