@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.Src.CheckUpdate;
 
 public class Home extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener
@@ -45,6 +46,9 @@ public class Home extends AppCompatActivity
 
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
+
+		if(CheckUpdate.CHECK_UPDATE.isUpdateAvailable())
+			CheckUpdate.CHECK_UPDATE.displayUpdate(Home.this);
 	}
 
 	@Override

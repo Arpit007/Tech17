@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.Src.CheckUpdate;
 
 public class Splash extends AppCompatActivity
 {
@@ -18,6 +19,8 @@ public class Splash extends AppCompatActivity
 		public void run()
 		{
 			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
+
+			CheckUpdate.CHECK_UPDATE.checkForUpdate();
 
 			SharedPreferences preferences=getSharedPreferences("App_Prefs", Context.MODE_PRIVATE);
 			boolean Skip=preferences.getBoolean("Skip",false);

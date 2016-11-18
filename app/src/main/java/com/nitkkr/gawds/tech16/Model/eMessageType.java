@@ -4,7 +4,7 @@ package com.nitkkr.gawds.tech16.Model;
  * Created by Home Laptop on 16-Nov-16.
  */
 
-public enum MessageType
+public enum eMessageType
 {
 	SIMPLE_MESSAGE("Text"),
 	EVENT_RESULT("Result"),
@@ -13,7 +13,7 @@ public enum MessageType
 
 	private String value;
 
-	MessageType(String t)
+	eMessageType(String t)
 	{
 		value=t;
 	}
