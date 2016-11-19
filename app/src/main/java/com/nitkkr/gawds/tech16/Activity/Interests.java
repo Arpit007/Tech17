@@ -1,6 +1,8 @@
 package com.nitkkr.gawds.tech16.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -57,6 +59,11 @@ public class Interests extends AppCompatActivity
 						case SUCCESS:
 							AppUserModel.MAIN_USER=appUserModel;
 							AppUserModel.MAIN_USER.saveAppUser(Interests.this);
+
+							SharedPreferences.Editor editor = getSharedPreferences("App_Prefs", Context.MODE_PRIVATE).edit();
+							editor.putBoolean("Skip",false);
+							editor.apply();
+
 							if(getIntent().getBooleanExtra("Start_Home",true))
 								startActivity(new Intent(Interests.this, Home.class));
 							else

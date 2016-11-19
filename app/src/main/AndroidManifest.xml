@@ -76,6 +76,8 @@
             android:label="Social"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.EventList">
+        </activity>
     </application>
 
 </manifest>

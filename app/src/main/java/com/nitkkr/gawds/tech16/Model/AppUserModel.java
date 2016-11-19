@@ -96,6 +96,7 @@ public class AppUserModel extends CoordinatorModel
 		if(editor.commit())
 		{
 			loadAppUser(context);
+			saveAppUser(context);
 			return true;
 		}
 		return false;

@@ -1,6 +1,8 @@
 package com.nitkkr.gawds.tech16.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -80,6 +82,10 @@ public class Login extends AppCompatActivity
 
 	public void Skip(View view)
 	{
+		SharedPreferences.Editor editor = getSharedPreferences("App_Prefs", Context.MODE_PRIVATE).edit();
+		editor.putBoolean("Skip",true);
+		editor.apply();
+
 		AppUserModel.MAIN_USER.logoutUser(getBaseContext());
 		if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
 			startActivity(new Intent(Login.this, Home.class));
