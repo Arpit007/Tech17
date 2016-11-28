@@ -39,7 +39,7 @@ public class ActionBarNavDrawer
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem item)
 			{
-				return NavDrawerHelper.onNavigationItemSelected(activity,item);
+				return ApplicationHelper.onNavigationItemSelected(activity,item);
 			}
 		});
 

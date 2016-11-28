@@ -8,7 +8,15 @@ import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.nitkkr.gawds.tech16.R;
+
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,40 +31,22 @@ public class CheckUpdate
 
 	public static final CheckUpdate CHECK_UPDATE=new CheckUpdate();
 
+	//No new Instance of Class
 	private CheckUpdate(){}
 
-	public boolean isUpdateAvailable()
-	{
-		return  UpdateAvailable;
-	}
+	public boolean isUpdateAvailable(){return UpdateAvailable;}
 
-	public void displayUpdate(final Context context)
+	public boolean displayUpdate(final Context context)
 	{
-		final SharedPreferences preferences=context.getSharedPreferences("Update",Context.MODE_PRIVATE);
-		final SharedPreferences.Editor editor=context.getSharedPreferences("Update",Context.MODE_PRIVATE).edit();
-
-		try
-		{
-			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			int version=preferences.getInt("Version",0);
-			if(version < packageInfo.versionCode)
-			{
-				editor.putInt("Version",packageInfo.versionCode);
-				editor.putLong("Date",new Date().getTime());
-				editor.apply();
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		final SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE);
+		final SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
 
 		if (UpdateAvailable)
 		{
-			final Date date=new Date(preferences.getLong("Date",new Date().getTime()));
+			final Date date=new Date(preferences.getLong("Update_Date",new Date().getTime()));
 
 			if(date.after(new Date()))
-				return;
+				return false;
 
 			AlertDialog.Builder builder=new AlertDialog.Builder(context);
 			builder.setCancelable(false);
@@ -69,7 +59,7 @@ public class CheckUpdate
 					calendar.setTime(date);
 					calendar.add(Calendar.HOUR,context.getResources().getInteger(R.integer.AfterUpdateHours));
 
-					editor.putLong("Date",calendar.getTime().getTime());
+					editor.putLong("Update_Date",calendar.getTime().getTime());
 					editor.apply();
 
 					Intent intent=new Intent(Intent.ACTION_VIEW);
@@ -85,7 +75,7 @@ public class CheckUpdate
 					Calendar calendar=Calendar.getInstance();
 					calendar.setTime(date);
 					calendar.add(Calendar.HOUR,context.getResources().getInteger(R.integer.LaterUpdateHours));
-					editor.putLong("Date",calendar.getTime().getTime());
+					editor.putLong("Update_Date",calendar.getTime().getTime());
 					editor.apply();
 					dialogInterface.dismiss();
 				}
@@ -93,13 +83,56 @@ public class CheckUpdate
 			builder.setTitle("Update");
 			builder.setMessage(R.string.Update);
 			builder.create().show();
+			UpdateAvailable=false;
 		}
+		return true;
 	}
 
-	public boolean checkForUpdate()
+	public void checkForUpdate(final Context context)
 	{
-		//TODO: Check for Updates
-		UpdateAvailable=true;
-		return UpdateAvailable;
+		String url = "http://carreto.pt/tools/android-store-version/?package=";
+		try
+		{
+			url += context.getPackageManager().getPackageInfo(context.getPackageName(), 0).packageName;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			url+="null";
+		}
+
+		JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>()
+		{
+			@Override
+			public void onResponse(JSONObject response)
+			{
+				try{
+					if(response != null && response.has("status") && response.getBoolean("status") && response.has("version"))
+					{
+						String version=response.getString("version");
+						if(context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName.compareTo(version)<0)
+							UpdateAvailable=true;
+					}
+					else
+					{
+						UpdateAvailable=false;
+					}
+				}
+				catch (Exception e)
+				{
+					UpdateAvailable=false;
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener()
+		{
+			@Override
+			public void onErrorResponse(VolleyError error)
+			{
+				UpdateAvailable=false;
+			}
+		});
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(request);
 	}
 }

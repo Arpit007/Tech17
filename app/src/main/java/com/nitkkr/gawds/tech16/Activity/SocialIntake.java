@@ -3,6 +3,7 @@ package com.nitkkr.gawds.tech16.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
 import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -15,5 +16,13 @@ public class SocialIntake extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social_intake);
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if(ApplicationHelper.revertToHomeIfLast(SocialIntake.this))
+			return;
+		super.onBackPressed();
 	}
 }

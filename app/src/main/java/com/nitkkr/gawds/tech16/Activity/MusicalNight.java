@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
+import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
 import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -24,5 +25,13 @@ public class MusicalNight extends AppCompatActivity
 		model.setEventID(getIntent().getStringExtra("Event_ID"));
 		//TODO:Load Event
 
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if(ApplicationHelper.revertToHomeIfLast(MusicalNight.this))
+			return;
+		super.onBackPressed();
 	}
 }

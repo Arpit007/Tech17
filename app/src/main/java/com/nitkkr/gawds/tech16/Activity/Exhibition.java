@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.Activity.Event;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
+import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
 import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
@@ -68,5 +69,13 @@ public class Exhibition extends AppCompatActivity
 		//----------------Date------------------------
 
 		actionBarBack.setLabel(model.getEventName());
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if(ApplicationHelper.revertToHomeIfLast(Exhibition.this))
+			return;
+		super.onBackPressed();
 	}
 }

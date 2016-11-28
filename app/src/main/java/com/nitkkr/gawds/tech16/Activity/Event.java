@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
+import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.EventModel;
@@ -143,6 +144,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else
 		{
+			if(ApplicationHelper.revertToHomeIfLast(Event.this))
+				return;
 			super.onBackPressed();
 		}
 	}

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
+import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.UserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -34,5 +35,13 @@ public class ViewUser extends AppCompatActivity
 
 		ActionBarBack barBack=new ActionBarBack(ViewUser.this);
 		barBack.setLabel(model.getName());
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if(ApplicationHelper.revertToHomeIfLast(ViewUser.this))
+			return;
+		super.onBackPressed();
 	}
 }

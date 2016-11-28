@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.nitkkr.gawds.tech16.Adapter.EventListPagerAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarNavDrawer;
+import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
 import com.nitkkr.gawds.tech16.R;
 
 public class EventList extends AppCompatActivity
@@ -71,14 +72,10 @@ public class EventList extends AppCompatActivity
 	{
 		if(!barNavDrawer.onBackPressed())
 		{
-			if(isTaskRoot())
-			{
-				Intent intent=new Intent(EventList.this,Home.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				startActivity(intent);
-				finish();
-			}
-			else super.onBackPressed();
+			if(ApplicationHelper.revertToHomeIfLast(EventList.this))
+				return;
+
+			super.onBackPressed();
 		}
 	}
 }

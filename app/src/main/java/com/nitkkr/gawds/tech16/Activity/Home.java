@@ -8,9 +8,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarNavDrawer;
-import com.nitkkr.gawds.tech16.Helper.NavDrawerHelper;
+import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.Src.CheckUpdate;
+import com.nitkkr.gawds.tech16.Src.RateApp;
 
 public class Home extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener
@@ -41,7 +42,11 @@ public class Home extends AppCompatActivity
 		barNavDrawer.setLabel(getString(R.string.FestName));
 
 		if(CheckUpdate.CHECK_UPDATE.isUpdateAvailable())
-			CheckUpdate.CHECK_UPDATE.displayUpdate(Home.this);
+			if(!CheckUpdate.CHECK_UPDATE.displayUpdate(Home.this))
+			{
+				if(RateApp.rateApp.isReadyForRating(Home.this))
+					RateApp.rateApp.displayRating(Home.this);
+			}
 	}
 
 	@Override
@@ -73,6 +78,6 @@ public class Home extends AppCompatActivity
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item)
 	{
-		return NavDrawerHelper.onNavigationItemSelected(Home.this,item);
+		return ApplicationHelper.onNavigationItemSelected(Home.this,item);
 	}
 }

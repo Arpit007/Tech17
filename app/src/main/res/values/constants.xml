@@ -4,6 +4,11 @@
     <integer name="WarningDuration">4000</integer>
     <integer name="AfterUpdateHours">8</integer>
     <integer name="LaterUpdateHours">6</integer>
+    <integer name="LaterRateDays">2</integer>
+    <integer name="AppStartCount">8</integer>
+
+
+    <string name="Misc_Prefs">Misc_Prefs</string>
 
     <string-array name="Branches">
         <item>CS</item>

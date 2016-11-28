@@ -8,13 +8,15 @@ import android.view.MenuItem;
 
 import com.nitkkr.gawds.tech16.Activity.EventList;
 import com.nitkkr.gawds.tech16.Activity.Home;
+import com.nitkkr.gawds.tech16.Activity.Login;
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
 /**
  * Created by Home Laptop on 20-Nov-16.
  */
 
-public class NavDrawerHelper
+public class ApplicationHelper
 {
 	public static boolean onNavigationItemSelected(Activity activity, MenuItem item)
 	{
@@ -74,9 +76,28 @@ public class NavDrawerHelper
 		else if (id == R.id.nav_musical_night)
 		{
 
+		}else if (id == R.id.nav_logout)
+		{
+			AppUserModel.MAIN_USER.logoutUser(activity);
+			intent=new Intent(activity,Login.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			activity.startActivity(intent);
 		}
 		DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
+	}
+
+	public static boolean revertToHomeIfLast(Activity activity)
+	{
+		if(activity.isTaskRoot())
+		{
+			Intent intent=new Intent(activity,Home.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			activity.startActivity(intent);
+			activity.finish();
+			return true;
+		}
+		return false;
 	}
 }
