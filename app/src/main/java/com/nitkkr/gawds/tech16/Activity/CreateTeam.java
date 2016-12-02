@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Adapter.RegisterTeamAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
-import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.TeamModel;
@@ -107,7 +107,7 @@ public class CreateTeam extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(ApplicationHelper.revertToHomeIfLast(CreateTeam.this))
+		if(ActivityHelper.revertToHomeIfLast(CreateTeam.this))
 			return;
 		super.onBackPressed();
 	}

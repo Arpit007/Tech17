@@ -82,7 +82,7 @@ public class Login extends AppCompatActivity
 
 	public void Skip(View view)
 	{
-		SharedPreferences.Editor editor = getSharedPreferences("App_Prefs", Context.MODE_PRIVATE).edit();
+		SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
 		editor.putBoolean("Skip",true);
 		editor.apply();
 
@@ -109,13 +109,13 @@ public class Login extends AppCompatActivity
 				if(!exit)
 				{
 					exit = true;
+					Toast.makeText(Login.this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
 					new Handler().postDelayed(new Runnable()
 					{
 						@Override
 						public void run()
 						{
 							exit = false;
-							Toast.makeText(Login.this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
 						}
 					}, getResources().getInteger(R.integer.WarningDuration));
 				}

@@ -5,7 +5,7 @@
               android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/event_list_head_label"
+        android:id="@+id/event_list_head_label" android:text="Sample"
         android:textSize="15sp" android:paddingLeft="?android:expandableListPreferredItemPaddingLeft"
         android:layout_width="match_parent" android:layout_height="wrap_content"/>
 

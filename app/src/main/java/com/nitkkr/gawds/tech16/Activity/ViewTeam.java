@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.nitkkr.gawds.tech16.Adapter.RegisterTeamAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
-import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.TeamModel;
 import com.nitkkr.gawds.tech16.Model.UserModel;
@@ -57,7 +57,7 @@ public class ViewTeam extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(ApplicationHelper.revertToHomeIfLast(ViewTeam.this))
+		if(ActivityHelper.revertToHomeIfLast(ViewTeam.this))
 			return;
 		super.onBackPressed();
 	}

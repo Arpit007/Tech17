@@ -3,74 +3,88 @@
           package="com.nitkkr.gawds.tech16">
 
     <application
-
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Activity.Splash"
-                  android:label="@string/app_name"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".Activity.Splash"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Login"
-                  android:label="@string/Login"
+        <activity
+            android:name=".Activity.Login"
+            android:label="@string/Login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.Home"
+            android:label="@string/Home"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.SignUp"
+            android:label="Sign Up"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.Interests"
+            android:label="Interests"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.SearchPage"
+            android:label="Search"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.Event"
+            android:label="Event"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.CreateTeam"
+            android:label="Create Team"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.ViewTeam"
+            android:label="View Team"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.ViewUser"
+            android:label="User"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.MusicalNight"
+            android:label="Musical Night"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.SocialIntake"
+            android:label="Social"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.EventList"
+            android:label="Event List"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.ListPage"
+                  android:label="List Page"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.Home"
-                  android:label="@string/Home"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.SignUp"
-                  android:label="Sign Up"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.Interests"
-                  android:label="Interests"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.SearchPage"
-                  android:label="Search"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.Event"
-                  android:label="Event"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.CreateTeam"
-                  android:label="Create Team"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.ViewTeam"
-                  android:label="View Team"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.ViewUser"
-                  android:label="User"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.MusicalNight"
-                  android:label="Musical Night"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.SocialIntake"
-                  android:label="Social"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.EventList"
-                  android:label="Event List"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        
     </application>
 
 </manifest>

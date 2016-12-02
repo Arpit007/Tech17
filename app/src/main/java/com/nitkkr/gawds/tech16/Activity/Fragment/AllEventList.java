@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.Activity.Fragment;
 
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,12 +18,14 @@ import java.util.HashMap;
 
 public class AllEventList extends Fragment
 {
-	AllEventListAdapter listAdapter;
 	ExpandableListView expListView;
 	ArrayList<String> listDataHeader;
 	HashMap<String, ArrayList<String>> listDataChild;
 
-	public  AllEventList(){}
+	public  AllEventList()
+	{
+
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -34,13 +37,27 @@ public class AllEventList extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState)
 	{
-		View view= inflater.inflate(R.layout.fragment_all_event_list, container, false);
+		final View view= inflater.inflate(R.layout.fragment_all_event_list, container, false);
 
 		expListView = (ExpandableListView) view.findViewById(R.id.all_event_list);
 
 		prepareListData();
 
-		listAdapter = new AllEventListAdapter(view.getContext(), listDataHeader, listDataChild);
+		final AllEventListAdapter listAdapter = new AllEventListAdapter(view.getContext(), listDataHeader, listDataChild);
+
+		listAdapter.registerDataSetObserver(new DataSetObserver()
+		{
+			@Override
+			public void onChanged()
+			{
+				if(listAdapter.getGroupCount()==0)
+				{
+					view.findViewById(R.id.None).setVisibility(View.VISIBLE);
+				}
+				else view.findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				super.onChanged();
+			}
+		});
 
 		expListView.setAdapter(listAdapter);
 
@@ -49,7 +66,9 @@ public class AllEventList extends Fragment
 			@Override
 			public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l)
 			{
-				//============================Implemet================================
+
+				String Data=(String)((AllEventListAdapter)expListView.getAdapter()).getChild(i,i1);
+				//TODO:Implemet================================
 
 				view.getContext().startActivity(new Intent(view.getContext(), Event.class));
 				return false;

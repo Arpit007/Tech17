@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
-import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.R;
 
 public class About extends AppCompatActivity
@@ -24,7 +24,7 @@ public class About extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(ApplicationHelper.revertToHomeIfLast(About.this))
+		if(ActivityHelper.revertToHomeIfLast(About.this))
 			return;
 		super.onBackPressed();
 	}

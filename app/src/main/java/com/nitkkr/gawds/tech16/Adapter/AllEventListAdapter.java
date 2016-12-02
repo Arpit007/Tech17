@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.Activity.Event;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -21,19 +22,23 @@ public class AllEventListAdapter extends BaseExpandableListAdapter
 {
 	private Context context;
 	private ArrayList<String> Categories;
-	private HashMap<String, ArrayList<String>> Events;
+	private HashMap<String, EventListAdapter> Events;
 
-	public AllEventListAdapter(Context context, ArrayList<String> categories,
-	                           HashMap<String, ArrayList<String>> events) {
+	public AllEventListAdapter(Context context, ArrayList<String> categories, HashMap<String,ArrayList<String>> events)
+	{
 		this.context = context;
 		this.Categories = categories;
-		this.Events = events;
+		Events=new HashMap<>(events.size());
+		for(int x=0;x<categories.size();x++)
+		{
+			Events.put(Categories.get(x),new EventListAdapter(context,events.get(categories.get(x))));
+		}
 	}
 
 	@Override
 	public Object getChild(int i, int i1)
 	{
-		return this.Events.get(this.Categories.get(i)).get(i1);
+		return this.Events.get(this.Categories.get(i)).getItem(i1);
 	}
 
 	@Override
@@ -45,7 +50,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter
 	@Override
 	public int getChildrenCount(int i)
 	{
-		return this.Events.get(this.Categories.get(i)).size();
+		return this.Events.get(this.Categories.get(i)).getCount();
 	}
 
 	@Override
@@ -92,17 +97,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter
 	@Override
 	public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup)
 	{
-		final String childText = (String) getChild(i, i1);
-
-		if (view == null) {
-			LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = infalInflater.inflate(R.layout.layout_event_list_item, null);
-		}
-
-		TextView txtListChild = (TextView) view.findViewById(R.id.event_list_item_label);
-
-		txtListChild.setText(childText);
-		return view;
+		return this.Events.get(this.Categories.get(i)).getView(i1,view,viewGroup);
 	}
 
 	@Override

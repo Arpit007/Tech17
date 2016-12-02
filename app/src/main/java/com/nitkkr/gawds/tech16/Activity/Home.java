@@ -8,7 +8,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarNavDrawer;
-import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.Helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.Src.CheckUpdate;
 import com.nitkkr.gawds.tech16.Src.RateApp;
@@ -25,7 +26,7 @@ public class Home extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		barNavDrawer = new ActionBarNavDrawer(this, new ActionBarNavDrawer.iActionBarNavDrawer()
+		barNavDrawer = new ActionBarNavDrawer(this, new iActionBar()
 		{
 			@Override
 			public void NavButtonClicked()
@@ -78,6 +79,6 @@ public class Home extends AppCompatActivity
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item)
 	{
-		return ApplicationHelper.onNavigationItemSelected(Home.this,item);
+		return ActivityHelper.onNavigationItemSelected(Home.this,item);
 	}
 }

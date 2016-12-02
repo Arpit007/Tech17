@@ -26,4 +26,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Informals">Informals</string>
+    <string name="Guest_Talks">Guest Talks</string>
+    <string name="Exhibition">Exhibitions</string>
+    <string name="No_Data">None Found</string>
+    <string name="App_Preference">App_Prefs</string>
 </resources>

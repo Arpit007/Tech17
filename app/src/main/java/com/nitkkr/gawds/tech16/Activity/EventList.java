@@ -1,6 +1,6 @@
 package com.nitkkr.gawds.tech16.Activity;
 
-import android.content.Intent;
+
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,8 @@ import android.os.Bundle;
 
 import com.nitkkr.gawds.tech16.Adapter.EventListPagerAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarNavDrawer;
-import com.nitkkr.gawds.tech16.Helper.ApplicationHelper;
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.Helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
 
 public class EventList extends AppCompatActivity
@@ -21,7 +22,7 @@ public class EventList extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_list);
 
-		barNavDrawer=new ActionBarNavDrawer(EventList.this, new ActionBarNavDrawer.iActionBarNavDrawer()
+		barNavDrawer=new ActionBarNavDrawer(EventList.this, new iActionBar()
 		{
 			@Override
 			public void NavButtonClicked()
@@ -72,7 +73,7 @@ public class EventList extends AppCompatActivity
 	{
 		if(!barNavDrawer.onBackPressed())
 		{
-			if(ApplicationHelper.revertToHomeIfLast(EventList.this))
+			if(ActivityHelper.revertToHomeIfLast(EventList.this))
 				return;
 
 			super.onBackPressed();

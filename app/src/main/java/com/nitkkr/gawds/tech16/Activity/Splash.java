@@ -25,7 +25,7 @@ public class Splash extends AppCompatActivity
 
 			RateApp.rateApp.incrementAppStartCount(getApplicationContext());
 
-			SharedPreferences preferences=getSharedPreferences("App_Prefs", Context.MODE_PRIVATE);
+			SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
 			boolean Skip=preferences.getBoolean("Skip",false);
 
 			if (AppUserModel.MAIN_USER.isUserLoaded() || Skip)

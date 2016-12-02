@@ -49,8 +49,7 @@ public class Interests extends AppCompatActivity
 				if (adapter.isDone())
 				{
 					SignInStatus status=SignInStatus.NONE;
-					AppUserModel appUserModel=new AppUserModel();
-					appUserModel.loadTempUser(Interests.this);
+					AppUserModel appUserModel=(AppUserModel)getIntent().getSerializableExtra("User");
 					appUserModel.setInterests(adapter.getInterestsString());
 
 					//TODO: Send Info
@@ -60,7 +59,7 @@ public class Interests extends AppCompatActivity
 							AppUserModel.MAIN_USER=appUserModel;
 							AppUserModel.MAIN_USER.saveAppUser(Interests.this);
 
-							SharedPreferences.Editor editor = getSharedPreferences("App_Prefs", Context.MODE_PRIVATE).edit();
+							SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
 							editor.putBoolean("Skip",false);
 							editor.apply();
 

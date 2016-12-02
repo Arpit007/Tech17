@@ -1,6 +1,5 @@
 package com.nitkkr.gawds.tech16.Helper;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,8 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.Activity.SearchPage;
 
 /**
  * Created by Home Laptop on 03-Nov-16.
@@ -19,16 +18,11 @@ import com.nitkkr.gawds.tech16.Activity.SearchPage;
 
 public class ActionBarNavDrawer
 {
-	public interface iActionBarNavDrawer
-	{
-		void NavButtonClicked();
-		void SearchButtonClicked();
-	}
 
-	private iActionBarNavDrawer barNavDrawer;
+	private iActionBar barNavDrawer;
 	private AppCompatActivity activity;
 
-	public ActionBarNavDrawer(final AppCompatActivity activity, iActionBarNavDrawer drawer)
+	public ActionBarNavDrawer(final AppCompatActivity activity, iActionBar drawer)
 	{
 		this.activity = activity;
 		barNavDrawer=drawer;
@@ -39,7 +33,7 @@ public class ActionBarNavDrawer
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem item)
 			{
-				return ApplicationHelper.onNavigationItemSelected(activity,item);
+				return ActivityHelper.onNavigationItemSelected(activity,item);
 			}
 		});
 
@@ -49,6 +43,19 @@ public class ActionBarNavDrawer
 			public void onClick(View view)
 			{
 				DrawerLayout drawerx = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+
+				if(AppUserModel.MAIN_USER.isUserLoaded())
+				{
+					NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
+					navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+					navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
+				}
+				else
+				{
+					NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
+					navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+					navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+				}
 				drawerx.openDrawer(GravityCompat.START);
 
 				barNavDrawer.NavButtonClicked();
@@ -59,8 +66,9 @@ public class ActionBarNavDrawer
 			@Override
 			public void onClick(View view)
 			{
+				//------------------Handle-------------------------
 				barNavDrawer.SearchButtonClicked();
-				activity.startActivity(new Intent(activity, SearchPage.class));
+				//activity.startActivity(new Intent(activity, SearchPage.class));
 			}
 		});
 	}

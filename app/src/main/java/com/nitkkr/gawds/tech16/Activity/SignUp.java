@@ -141,8 +141,8 @@ public class SignUp extends AppCompatActivity
 					Toast.makeText(this,"Failed to Sign Up, Please Try Again",Toast.LENGTH_LONG).show();
 					break;
 				case SUCCESS:
-					((AppUserModel)user).saveTempUser(SignUp.this);
 					Intent intent=new Intent(SignUp.this, Interests.class);
+					intent.putExtra("User",user);
 					intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
 					startActivity(intent);
 					break;
