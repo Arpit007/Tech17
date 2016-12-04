@@ -44,11 +44,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 					{
 						//TODO: Pass Team Model
 						Intent intent=new Intent(Event.this,ViewTeam.class);
-						intent.putExtra("Event_Name","------------Event Name-------------------");
-						intent.putExtra("Fixed_Team",!model.isVariableGroupEvent());
-						intent.putExtra("Min_Members",model.getMinUsers());
-						if(model.isVariableGroupEvent())
-							intent.putExtra("Max_Users",model.getMaxUsers());
+						Bundle bundle=new Bundle();
+						bundle.putSerializable("Event",model);
+						intent.putExtras(bundle);
 						startActivity(intent);
 					}
 				});
@@ -107,11 +105,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 						else
 						{
 							Intent intent = new Intent(Event.this, CreateTeam.class);
-							intent.putExtra("Event_Name", "------------Event Name-------------------");
-							intent.putExtra("Fixed_Team", !model.isVariableGroupEvent());
-							intent.putExtra("Min_Members", model.getMinUsers());
-							if (model.isVariableGroupEvent())
-								intent.putExtra("Max_Users", model.getMaxUsers());
+							Bundle bundle=new Bundle();
+							bundle.putSerializable("Event",model);
+							intent.putExtras(bundle);
 							startActivityForResult(new Intent(Event.this, CreateTeam.class), REGISTER);
 						}
 					}

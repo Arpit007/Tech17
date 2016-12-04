@@ -17,6 +17,11 @@ public class BaseEventModel implements Serializable
 	private String Image_URL;
 	private boolean Notify;
 
+	public BaseEventModel(String eventName){
+		EventName=eventName;
+	}
+	public BaseEventModel(){}
+
 	public Date getEventDate(){return EventDate;}
 	public String getVenue(){return Venue;}
 	public String getDescription(){return Description;}

@@ -12,7 +12,7 @@ import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
 
-public class EventList extends AppCompatActivity
+public class EventListPage extends AppCompatActivity
 {
 	private ActionBarNavDrawer barNavDrawer;
 
@@ -22,7 +22,7 @@ public class EventList extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_list);
 
-		barNavDrawer=new ActionBarNavDrawer(EventList.this, new iActionBar()
+		barNavDrawer=new ActionBarNavDrawer(EventListPage.this, new iActionBar()
 		{
 			@Override
 			public void NavButtonClicked()
@@ -45,7 +45,7 @@ public class EventList extends AppCompatActivity
 		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 		final ViewPager viewPager = (ViewPager) findViewById(R.id.event_list_page_view);
-		final EventListPagerAdapter adapter = new EventListPagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount(),EventList.this);
+		final EventListPagerAdapter adapter = new EventListPagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount(),EventListPage.this);
 		viewPager.setAdapter(adapter);
 		viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 		viewPager.setCurrentItem(0);
@@ -73,7 +73,7 @@ public class EventList extends AppCompatActivity
 	{
 		if(!barNavDrawer.onBackPressed())
 		{
-			if(ActivityHelper.revertToHomeIfLast(EventList.this))
+			if(ActivityHelper.revertToHomeIfLast(EventListPage.this))
 				return;
 
 			super.onBackPressed();

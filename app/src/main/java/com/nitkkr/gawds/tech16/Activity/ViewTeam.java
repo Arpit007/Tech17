@@ -11,6 +11,7 @@ import com.nitkkr.gawds.tech16.Adapter.RegisterTeamAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.Model.TeamModel;
 import com.nitkkr.gawds.tech16.Model.UserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -34,20 +35,20 @@ public class ViewTeam extends AppCompatActivity
 		ActionBarBack barBack=new ActionBarBack(ViewTeam.this);
 		barBack.setLabel("Team: "+model.getTeamName());
 
-		Intent intent=getIntent();
-		int MinMembers=intent.getIntExtra("Min_Members",1);
-		int MaxMembers=intent.getIntExtra("Max_Members",MinMembers);
+		EventModel eventModel=(EventModel)getIntent().getExtras().getSerializable("Event");
 
 		ListView listView=(ListView)findViewById(R.id.view_team_list);
-		RegisterTeamAdapter adapter=new RegisterTeamAdapter(ViewTeam.this,model,MinMembers,MaxMembers,false);
+		RegisterTeamAdapter adapter=new RegisterTeamAdapter(ViewTeam.this,model,eventModel.getMinUsers(),eventModel.getMaxUsers(),false);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				(( AppUserModel)model.getMembers().get(i)).saveTempUser(ViewTeam.this);
 				Intent intent=new Intent(ViewTeam.this,ViewUser.class);
+				Bundle bundle=new Bundle();
+				bundle.putSerializable("User",model.getMembers().get(i));
+				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 		});

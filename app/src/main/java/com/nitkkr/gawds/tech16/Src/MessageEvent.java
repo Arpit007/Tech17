@@ -4,8 +4,6 @@ package com.nitkkr.gawds.tech16.Src;
 import com.nitkkr.gawds.tech16.Model.MessageModel;
 import com.nitkkr.gawds.tech16.Model.iMessageAction;
 
-import org.json.JSONArray;
-
 /**
  * Created by Home Laptop on 18-Nov-16.
  */
@@ -19,7 +17,7 @@ public class MessageEvent implements iMessageAction
 	}
 
 	@Override
-	public MessageModel formatMessage(JSONArray Data)
+	public MessageModel formatMessage(String Data)
 	{
 		//====================Implement============================
 		return null;

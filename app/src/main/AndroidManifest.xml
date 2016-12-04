@@ -67,17 +67,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".Activity.MusicalNight"
-            android:label="Musical Night"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".Activity.SocialIntake"
-            android:label="Social"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".Activity.EventList"
+            android:name=".Activity.EventListPage"
             android:label="Event List"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>

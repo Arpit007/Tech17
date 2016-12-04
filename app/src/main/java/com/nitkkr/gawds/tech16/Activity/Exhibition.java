@@ -23,7 +23,7 @@ public class Exhibition extends AppCompatActivity
 
 		actionBarBack=new ActionBarBack(Exhibition.this);
 
-		model=(ExhibitionModel)getIntent().getSerializableExtra("Exhibition");
+		model=(ExhibitionModel)getIntent().getExtras().getSerializable("Exhibition");
 
 		LoadExhibition();
 

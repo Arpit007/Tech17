@@ -43,7 +43,7 @@ public class ActionBarSearch
 			public void onClick(View view)
 			{
 				barNavDrawer.SearchButtonClicked();
-				//-------------Implement----------------
+				//TODO:Handle
 			}
 		});
 	}

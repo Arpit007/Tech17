@@ -49,8 +49,16 @@ public class Interests extends AppCompatActivity
 				if (adapter.isDone())
 				{
 					SignInStatus status=SignInStatus.NONE;
-					AppUserModel appUserModel=(AppUserModel)getIntent().getSerializableExtra("User");
-					appUserModel.setInterests(adapter.getInterestsString());
+					AppUserModel appUserModel=(AppUserModel)getIntent().getExtras().getSerializable("User");
+					try
+					{
+						appUserModel.setInterests(adapter.getInterestsString());
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+						appUserModel=new AppUserModel();
+					}
 
 					//TODO: Send Info
 					switch (status)
@@ -63,7 +71,8 @@ public class Interests extends AppCompatActivity
 							editor.putBoolean("Skip",false);
 							editor.apply();
 
-							if(getIntent().getBooleanExtra("Start_Home",true))
+							//Check if it works as not part of bundle=================
+							if(getIntent().getExtras().getBoolean("Start_Home",true))
 								startActivity(new Intent(Interests.this, Home.class));
 							else
 							{

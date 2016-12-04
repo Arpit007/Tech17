@@ -64,6 +64,7 @@ public class AppUserModel extends CoordinatorModel
 		editor.putString("Mobile",getMobile());
 		editor.putString("Branch",getBranch());
 		editor.putBoolean("Coordinator",isCoordinator());
+		editor.putInt("ImageId",getImageResource());
 		editor.putString("Interests",interestsToString());
 		if(isCoordinator())
 			editor.putString("Designation",getDesignation());
@@ -84,6 +85,7 @@ public class AppUserModel extends CoordinatorModel
 		setCollege(preferences.getString("College",""));
 		setMobile(preferences.getString("Mobile",""));
 		setBranch(preferences.getString("Branch",""));
+		setImageResource(preferences.getInt("ImageId",-1));
 		setisCoordinator(preferences.getBoolean("Coordinator",false));
 		Interests=stringToInterests(preferences.getString("Interests",""));
 		if(isCoordinator())

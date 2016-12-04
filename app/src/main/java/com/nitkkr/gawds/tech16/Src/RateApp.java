@@ -52,7 +52,6 @@ public class RateApp
 
 	public void displayRating(final Context context)
 	{
-		final SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE);
 		final SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
 
 		AlertDialog.Builder builder=new AlertDialog.Builder(context);

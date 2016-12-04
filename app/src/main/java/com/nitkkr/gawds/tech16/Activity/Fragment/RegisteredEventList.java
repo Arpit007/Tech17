@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.nitkkr.gawds.tech16.Activity.Event;
 import com.nitkkr.gawds.tech16.Adapter.EventListAdapter;
+import com.nitkkr.gawds.tech16.Model.BaseEventModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class RegisteredEventList extends Fragment
 {
 	private ListView listView;
-	private ArrayList<String> listDataChild;
+	private ArrayList<BaseEventModel> listDataChild;
 	public RegisteredEventList()
 	{
 
@@ -64,10 +65,11 @@ public class RegisteredEventList extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				String Data=(String)(listView.getAdapter()).getItem(i);
-				//TODO:Implemet================================
-
-				view.getContext().startActivity(new Intent(view.getContext(), Event.class));
+				Bundle bundle=new Bundle();
+				bundle.putSerializable("Event",(BaseEventModel)listView.getAdapter().getItem(i));
+				Intent intent=new Intent(view.getContext(), Event.class);
+				intent.putExtras(bundle);
+				view.getContext().startActivity(intent);
 			}
 		});
 
@@ -77,7 +79,7 @@ public class RegisteredEventList extends Fragment
 	void prepareListData()
 	{
 		listDataChild=new ArrayList<>();
-		listDataChild.add("Hello");
-		listDataChild.add("World");
+		listDataChild.add(new BaseEventModel("Hello"));
+		listDataChild.add(new BaseEventModel("World"));
 	}
 }

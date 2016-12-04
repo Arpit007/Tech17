@@ -9,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.Activity.Event;
+import com.nitkkr.gawds.tech16.Model.BaseEventModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter
 	private ArrayList<String> Categories;
 	private HashMap<String, EventListAdapter> Events;
 
-	public AllEventListAdapter(Context context, ArrayList<String> categories, HashMap<String,ArrayList<String>> events)
+	public AllEventListAdapter(Context context, ArrayList<String> categories, HashMap<String,ArrayList<BaseEventModel>> events)
 	{
 		this.context = context;
 		this.Categories = categories;

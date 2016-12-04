@@ -142,8 +142,10 @@ public class SignUp extends AppCompatActivity
 					break;
 				case SUCCESS:
 					Intent intent=new Intent(SignUp.this, Interests.class);
-					intent.putExtra("User",user);
-					intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
+					Bundle bundle=new Bundle();
+					bundle.putSerializable("User",user);
+					bundle.putBoolean("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
+					intent.putExtras(bundle);
 					startActivity(intent);
 					break;
 				default:

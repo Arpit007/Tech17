@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="home"/>
+            android:title="Home"/>
         <item
             android:id="@+id/nav_events"
             android:icon="@drawable/ic_menu_camera"
@@ -23,22 +23,6 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Exhibitions"/>
         <item
-            android:id="@+id/nav_musical_night"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Musical Night"/>
-        <item
-            android:id="@+id/nav_social_something"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Social ____*"/>
-        <item
-            android:id="@+id/nav_something"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="A Bull UD*"/>
-        <item
-            android:id="@+id/nav_techspardha_live"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="TechSpardha Live"/>
-        <item
             android:id="@+id/nav_admin"
             android:icon="@drawable/ic_menu_camera"
             android:title="Admin"/>
@@ -46,6 +30,15 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_camera"
             android:title="Logout"/>
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Login"
+            android:visible="false"/>
+        <item
+            android:id="@+id/nav_About"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="About"/>
 
     </group>
 </menu>

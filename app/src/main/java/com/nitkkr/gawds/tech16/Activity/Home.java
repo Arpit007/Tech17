@@ -15,7 +15,6 @@ import com.nitkkr.gawds.tech16.Src.CheckUpdate;
 import com.nitkkr.gawds.tech16.Src.RateApp;
 
 public class Home extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener
 {
 	private ActionBarNavDrawer barNavDrawer;
 	private boolean Exit = false;
@@ -73,12 +72,5 @@ public class Home extends AppCompatActivity
 				super.onBackPressed();
 			}
 		}
-	}
-
-	@SuppressWarnings("StatementWithEmptyBody")
-	@Override
-	public boolean onNavigationItemSelected(MenuItem item)
-	{
-		return ActivityHelper.onNavigationItemSelected(Home.this,item);
 	}
 }

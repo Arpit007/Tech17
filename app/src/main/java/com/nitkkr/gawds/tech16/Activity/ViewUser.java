@@ -20,8 +20,7 @@ public class ViewUser extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_user);
 
-		UserModel model=new UserModel();
-		(( AppUserModel)model).loadTempUser(ViewUser.this);
+		UserModel model=(UserModel)getIntent().getExtras().getSerializable("User");
 
 		(( TextView)findViewById(R.id.user_Name)).setText(model.getName());
 		(( TextView)findViewById(R.id.user_Email)).setText(model.getEmail());

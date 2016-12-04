@@ -14,7 +14,7 @@ public class UserModel implements iUserModel, Serializable
 	private String College;
 	private String Mobile;
 	private String Branch;
-	private String Image_URL;
+	private int imageResource =-1;
 
 	public String getName() {return Name;}
 	public String getEmail(){return Email;}
@@ -22,7 +22,7 @@ public class UserModel implements iUserModel, Serializable
 	public String getCollege(){return College;}
 	public String getMobile(){return Mobile;}
 	public String getBranch(){return Branch;}
-	public String getImage_URL(){return Image_URL;}
+	public int getImageResource(){return imageResource;}
 
 	public void setName(String name){Name = name;}
 	public void setEmail(String email){Email=email;}
@@ -30,5 +30,5 @@ public class UserModel implements iUserModel, Serializable
 	public void setCollege(String college){College = college;}
 	public void setMobile(String mobile){Mobile=mobile;}
 	public void setBranch(String branch){Branch=branch;}
-	public void setImage_URL(String image_URL){Image_URL=image_URL;}
+	public void setImageResource(int imageResource){this.imageResource=imageResource;}
 }

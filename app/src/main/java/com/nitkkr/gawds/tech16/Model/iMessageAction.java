@@ -9,5 +9,5 @@ import org.json.JSONArray;
 public interface iMessageAction
 {
 	void performAction(MessageModel model);
-	MessageModel formatMessage(JSONArray Data);
+	MessageModel formatMessage(String Data);
 }

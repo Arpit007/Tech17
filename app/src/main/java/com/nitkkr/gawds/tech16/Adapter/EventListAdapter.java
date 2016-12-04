@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.Model.BaseEventModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -17,10 +18,10 @@ import java.util.ArrayList;
 
 public class EventListAdapter extends BaseAdapter
 {
-	ArrayList<String> Event;
+	ArrayList<BaseEventModel> Event;
 	Context context;
 
-	public EventListAdapter(Context context, ArrayList<String> event)
+	public EventListAdapter(Context context, ArrayList<BaseEventModel> event)
 	{
 		this.context=context;
 		this.Event = event;
@@ -47,7 +48,7 @@ public class EventListAdapter extends BaseAdapter
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup)
 	{
-		final String childText = Event.get(i);
+		final String childText = Event.get(i).getEventName();
 
 		if (view == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

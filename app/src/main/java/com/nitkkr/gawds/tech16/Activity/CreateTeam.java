@@ -13,6 +13,7 @@ import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.Model.TeamModel;
 import com.nitkkr.gawds.tech16.Model.UserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -29,12 +30,7 @@ public class CreateTeam extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_team);
 
-		Intent intent=getIntent();
-
-		String EventName=intent.getStringExtra("Event_Name");
-		boolean fixedTeam=intent.getBooleanExtra("Fixed_Team",true);
-		int MinMembers=intent.getIntExtra("Min_Members",1);
-		int MaxMembers=intent.getIntExtra("Max_Members",MinMembers);
+		EventModel eventModel=( EventModel)getIntent().getExtras().getSerializable("Event");
 
 		ActionBarBack actionBarBack=new ActionBarBack(CreateTeam.this);
 		actionBarBack.setLabel("Create Team");
@@ -44,7 +40,7 @@ public class CreateTeam extends AppCompatActivity
 		userModels.add(AppUserModel.MAIN_USER);
 		model.setMembers(userModels);
 
-		adapter=new RegisterTeamAdapter(CreateTeam.this,model,MinMembers,MaxMembers,true);
+		adapter=new RegisterTeamAdapter(CreateTeam.this,model,eventModel.getMinUsers(),eventModel.getMaxUsers(),true);
 
 		ListView listView=(ListView)findViewById(R.id.team_register_list);
 		listView.setAdapter(adapter);
@@ -56,8 +52,10 @@ public class CreateTeam extends AppCompatActivity
 			{
 				if(i!=adapter.getTeamModel().getMembers().size())
 				{
-					(( AppUserModel)adapter.getTeamModel().getMembers().get(i)).saveTempUser(CreateTeam.this);
 					Intent intent=new Intent(CreateTeam.this,ViewUser.class);
+					Bundle bundle=new Bundle();
+					bundle.putSerializable("User",adapter.getTeamModel().getMembers().get(i));
+					intent.putExtras(bundle);
 					startActivity(intent);
 				}
 			}
