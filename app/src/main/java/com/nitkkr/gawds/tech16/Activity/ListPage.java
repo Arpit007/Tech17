@@ -46,8 +46,7 @@ public class ListPage extends AppCompatActivity
 			}
 		});
 
-		//Check as not part of bundle
-		String Label=getIntent().getStringExtra("Label");
+		String Label=getIntent().getExtras().getString("Label");
 		this.query=(Query) getIntent().getExtras().getSerializable("Query");
 
 		actionBarSearch.setLabel(Label);

@@ -156,20 +156,20 @@ public class ActionBarNavDrawer
 		{
 			if(AppUserModel.MAIN_USER.getImageResource()!=-1)
 			{
-				CircleImageView view=(CircleImageView)activity.findViewById(R.id.nav_User_Image);
+				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
 				view.setVisibility(View.VISIBLE);
 
 				TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
 				view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageResource(),0));
 				array.recycle();
 
-				CircularTextView circularTextView=(CircularTextView)activity.findViewById(R.id.nav_User_Image_Letter);
+				CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
 				circularTextView.setText("");
 				circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
 			}
 			else
 			{
-				CircularTextView view=(CircularTextView)activity.findViewById(R.id.nav_User_Image_Letter);
+				CircularTextView view=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
 				view.setText(AppUserModel.MAIN_USER.getName().charAt(0));
 
 				TypedArray array=activity.getResources().obtainTypedArray(R.array.Flat_Colors);
@@ -182,30 +182,30 @@ public class ActionBarNavDrawer
 
 				array.recycle();
 
-				activity.findViewById(R.id.nav_User_Image).setVisibility(View.GONE);
+				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setVisibility(View.GONE);
 			}
 
-			TextView textView=(TextView)activity.findViewById(R.id.nav_User_Name);
+			TextView textView=(TextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name);
 			textView.setVisibility(View.VISIBLE);
 			textView.setText(AppUserModel.MAIN_USER.getName());
 		}
 		else
 		{
-			CircleImageView view=(CircleImageView)activity.findViewById(R.id.nav_User_Image);
+			CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
 			view.setImageResource(array.getResourceId(0,0));
 			array.recycle();
 
-			CircularTextView circularTextView=(CircularTextView)activity.findViewById(R.id.nav_User_Image_Letter);
+			CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
 			circularTextView.setText("");
 			circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
 
-			activity.findViewById(R.id.nav_User_Name).setVisibility(View.INVISIBLE);
+			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.INVISIBLE);
 		}
 
-		activity.findViewById(R.id.nav_User_Image).setOnClickListener(new View.OnClickListener()
+		navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)

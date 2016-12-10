@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -53,6 +55,11 @@ public class Login extends AppCompatActivity
 				AppUserModel.MAIN_USER=appUserModel;
 				AppUserModel.MAIN_USER.saveAppUser(Login.this);
 
+				if(!ActivityHelper.isDebugMode(getApplicationContext()))
+				{
+					Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
+					Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
+				}
 				if(getIntent().getBooleanExtra("Start_Home",true))
 					startActivity(new Intent(Login.this, Home.class));
 				else

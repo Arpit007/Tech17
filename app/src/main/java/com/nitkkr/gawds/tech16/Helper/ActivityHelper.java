@@ -1,7 +1,10 @@
 package com.nitkkr.gawds.tech16.Helper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.os.Bundle;
 
 import com.nitkkr.gawds.tech16.API.Query;
 import com.nitkkr.gawds.tech16.Activity.Home;
@@ -34,9 +37,16 @@ public class ActivityHelper
 	public static void startListActivity(Activity activity, String Label, Query query)
 	{
 		Intent intent=new Intent(activity, ListPage.class);
-		intent.putExtra("Label",Label);
-		intent.putExtra("Query", query);
+		Bundle bundle=new Bundle();
+		bundle.putSerializable("Query",query);
+		bundle.putString("Label",Label);
+		intent.putExtras(bundle);
 		activity.startActivity(intent);
 	}
 
+	public static boolean isDebugMode(Context context)
+	{
+		int appFlags=context.getApplicationInfo().flags;
+		return (appFlags & ApplicationInfo.FLAG_DEBUGGABLE)!=0;
+	}
 }

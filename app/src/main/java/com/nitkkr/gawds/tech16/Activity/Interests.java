@@ -10,11 +10,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.Adapter.InterestAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarDone;
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
-import com.nitkkr.gawds.tech16.Model.UserModel;
 import com.nitkkr.gawds.tech16.R;
 
 public class Interests extends AppCompatActivity
@@ -71,6 +72,11 @@ public class Interests extends AppCompatActivity
 							editor.putBoolean("Skip",false);
 							editor.apply();
 
+							if(!ActivityHelper.isDebugMode(getApplicationContext()))
+							{
+								Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
+								Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
+							}
 							//Check if it works as not part of bundle=================
 							if(getIntent().getExtras().getBoolean("Start_Home",true))
 								startActivity(new Intent(Interests.this, Home.class));

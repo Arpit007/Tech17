@@ -16,7 +16,7 @@ import com.nitkkr.gawds.tech16.R;
 /**
  * Created by Home Laptop on 08-Nov-16.
  */
-
+//TODO:Fix
 public class RegisterTeamAdapter extends BaseAdapter
 {
 	private Activity activity;

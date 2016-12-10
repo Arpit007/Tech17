@@ -1,5 +1,7 @@
 package com.nitkkr.gawds.tech16.Helper;
 
+import android.content.Context;
+
 import com.nitkkr.gawds.tech16.Model.MessageModel;
 import com.nitkkr.gawds.tech16.Model.MessageType;
 import com.nitkkr.gawds.tech16.Src.MessageEvent;
@@ -13,7 +15,7 @@ import com.nitkkr.gawds.tech16.Src.MessageSimple;
 
 public class MessageHanlder
 {
-	public void DispatchMessage(String message)
+	public void DispatchMessage(String message, Context context)
 	{
 		MessageModel formattedMessage=getFormattedMessage(message);
 		//TODO:Set Model Fields here=======================
@@ -21,16 +23,16 @@ public class MessageHanlder
 		switch(formattedMessage.getType())
 		{
 			case EVENT:
-				new MessageEvent().performAction(formattedMessage);
+				new MessageEvent().performAction(formattedMessage, context);
 				break;
 			case TEAM_INVITE:
-				new MessageInvite().performAction(formattedMessage);
+				new MessageInvite().performAction(formattedMessage, context);
 				break;
 			case EVENT_RESULT:
-				new MessageResult().performAction(formattedMessage);
+				new MessageResult().performAction(formattedMessage, context);
 				break;
 			case SIMPLE_MESSAGE:
-				new MessageSimple().performAction(formattedMessage);
+				new MessageSimple().performAction(formattedMessage, context);
 				break;
 		}
 	}

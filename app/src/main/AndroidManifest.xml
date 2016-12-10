@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.nitkkr.gawds.tech16">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -75,6 +76,9 @@
                   android:label="List Page"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
-    </application>
 
+       <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="fdeefa2727df0c4191430c1ec466304d71e88d96" />
+    </application>
 </manifest>
