@@ -22,6 +22,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
@@ -37,7 +38,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 	private GoogleApiClient mGoogleApiClient;
 	private ProgressDialog mProgressDialog;
 	private SignInButton btnSignIn;
-
+	private boolean issignout;
 	String personName,personPhotoUrl,email;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -63,6 +64,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 		btnSignIn.setSize(SignInButton.SIZE_STANDARD);
 		btnSignIn.setScopes(gso.getScopeArray());
 
+		issignout=getIntent().getBooleanExtra("isLogout",false);
 
 	}
 	private void signIn() {
@@ -162,31 +164,45 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 				break;
 		}
 	}
+	private void signOut() {
+		if(mGoogleApiClient.isConnected()) {
+			Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+					new ResultCallback<Status>() {
+						@Override
+						public void onResult(Status status) {
+
+						}
+					});
+		}
+	}
 	@Override
 	public void onStart() {
 		super.onStart();
 
-		OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-		if (opr.isDone()) {
-			// If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-			// and the GoogleSignInResult will be available instantly.
-			Log.d(TAG, "Got cached sign-in");
-			GoogleSignInResult result = opr.get();
-			handleSignInResult(result);
+		if(!issignout) {
+			OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+			if (opr.isDone()) {
+				// If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+				// and the GoogleSignInResult will be available instantly.
+				Log.d(TAG, "Got cached sign-in");
+				GoogleSignInResult result = opr.get();
+				handleSignInResult(result);
 
-
-		} else {
-			// If the user has not previously signed in on this device or the sign-in has expired,
-			// this asynchronous branch will attempt to sign in the user silently.  Cross-device
-			// single sign-on will occur in this branch.
-			showProgressDialog();
-			opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-				@Override
-				public void onResult(GoogleSignInResult googleSignInResult) {
-					hideProgressDialog();
-					handleSignInResult(googleSignInResult);
-				}
-			});
+			} else {
+				// If the user has not previously signed in on this device or the sign-in has expired,
+				// this asynchronous branch will attempt to sign in the user silently.  Cross-device
+				// single sign-on will occur in this branch.
+				showProgressDialog();
+				opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+					@Override
+					public void onResult(GoogleSignInResult googleSignInResult) {
+						hideProgressDialog();
+						handleSignInResult(googleSignInResult);
+					}
+				});
+			}
+		}else{
+			signOut();
 		}
 	}
 	private void showProgressDialog() {

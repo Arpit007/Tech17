@@ -88,7 +88,9 @@ public class ActionBarNavDrawer
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
 			intent=new Intent(activity,Login.class);
+
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("isLogout",true);
 			activity.startActivity(intent);
 		}
 		else if(id==R.id.nav_login)
