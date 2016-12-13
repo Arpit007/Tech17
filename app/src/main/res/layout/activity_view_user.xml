@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nitkkr.gawds.tech16.Activity.ViewUser">
+
+    <include
+        layout="@layout/actionbar_back" android:id="@+id/temp_bar"
+        android:layout_height="?actionBarSize" android:layout_width="match_parent"/>
+
+    <ImageView
+        android:layout_centerHorizontal="true" android:layout_marginTop="20dp"
+        android:id="@+id/user_Image" android:layout_below="@id/temp_bar"
+        android:layout_width="150dp" android:layout_height="150dp"/>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/user_Image" android:orientation="vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin" android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Name: " android:textSize="25sp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textSize="25sp"
+                    android:id="@+id/user_Name" android:text="Sample Name"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Email: " android:textSize="25sp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textSize="25sp"
+                    android:id="@+id/user_Email" android:text="Sample@mail.com"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="College: " android:textSize="25sp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textSize="25sp"
+                    android:id="@+id/user_College" android:text="Sample College"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Roll Number: " android:textSize="25sp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textSize="25sp"
+                    android:id="@+id/user_Roll" android:text="12345"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Branch: " android:textSize="25sp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textSize="25sp"
+                android:id="@+id/user_Branch" android:text="IT"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Contact: " android:textSize="25sp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textSize="25sp"
+                android:id="@+id/user_Number" android:text="9876543210"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

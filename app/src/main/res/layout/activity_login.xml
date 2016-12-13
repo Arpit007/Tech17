@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    tools:context="com.nitkkr.gawds.tech16.Activity.Login">
+
+    <include
+        layout="@layout/actionbar_simple"
+        android:layout_width="wrap_content" android:layout_height="?attr/actionBarSize"/>
+
+    <TextView
+        android:textSize="25sp" android:id="@+id/label"
+        android:layout_marginTop="150dp" android:layout_centerHorizontal="true"
+        android:text="Login" android:textAlignment="center"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/login_Gmail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:layout_below="@+id/label"
+         />
+
+
+
+    <LinearLayout
+        android:padding="10dp" android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true" android:layout_below="@id/login_Gmail"
+        android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+        <TextView
+            android:padding="5dp"
+            android:text="@string/new_sign_up" android:textSize="15sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+        <TextView
+            android:onClick="SignUp"
+            android:padding="5dp" android:text="@string/signup"
+            android:textSize="15sp" android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_alignParentRight="true" android:onClick="Skip"
+        android:text="@string/Skip" android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+</RelativeLayout>

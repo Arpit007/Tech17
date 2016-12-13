@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_list_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nitkkr.gawds.tech16.Activity.ListPage">
+
+    <include
+        layout="@layout/actionbar_search" android:id="@+id/temp_bar"
+        android:layout_width="match_parent" android:layout_height="?actionBarSize"/>
+
+    <TextView
+        android:text="@string/No_Data" android:id="@+id/None"
+        android:layout_centerInParent="true" android:visibility="invisible"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+    <ListView
+        android:layout_below="@id/temp_bar" android:id="@+id/event_list"
+        android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+</RelativeLayout>

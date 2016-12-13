@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_create_team"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nitkkr.gawds.tech16.Activity.CreateTeam">
+    <include
+        layout="@layout/actionbar_back" android:id="@+id/temp_bar"
+        android:layout_width="match_parent" android:layout_height="?actionBarSize"/>
+
+    <RelativeLayout
+        android:layout_below="@id/temp_bar" android:id="@+id/temp_Layout"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/temp_Label"
+            android:text="Team Name:" android:textSize="20sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/team_register_Name"
+            android:layout_toRightOf="@id/temp_Label"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/team_register_button" android:onClick="Register"
+        android:layout_alignParentBottom="true" android:text="Register"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <ListView
+        android:id="@+id/team_register_list"
+        android:paddingRight="@dimen/activity_horizontal_margin" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/temp_Layout" android:layout_above="@id/team_register_button"
+        android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+</RelativeLayout>

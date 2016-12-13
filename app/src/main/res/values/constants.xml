@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="SplashDuration">2000</integer>
+    <integer name="WarningDuration">4000</integer>
+    <integer name="AfterUpdateHours">8</integer>
+    <integer name="LaterUpdateHours">6</integer>
+    <integer name="LaterRateDays">2</integer>
+    <integer name="AppStartCount">8</integer>
+
+
+    <string name="Misc_Prefs">Misc_Prefs</string>
+
+    <string-array name="Branches">
+        <item>CS</item>
+        <item>IT</item>
+        <item>Mechanical</item>
+    </string-array>
+
+    <string-array name="Interests">
+        <item>Interest 1</item>
+        <item>Interest 2</item>
+    </string-array>
+
+
+    <dimen name="User_Image_Border_Width">1.5dp</dimen>
+
+
+    <array name="Flat_Colors">
+        <item>@color/c1</item>
+        <item>@color/c2</item>
+        <item>@color/c3</item>
+        <item>@color/c4</item>
+        <item>@color/c5</item>
+        <item>@color/c6</item>
+        <item>@color/c7</item>
+        <item>@color/c8</item>
+        <item>@color/c9</item>
+        <item>@color/c10</item>
+        <item>@color/c11</item>
+        <item>@color/c12</item>
+        <item>@color/c1</item>
+        <item>@color/c14</item>
+        <item>@color/c15</item>
+        <item>@color/c16</item>
+    </array>
+
+    <array name="Avatar">
+        <item>@drawable/avatar_1</item>
+        <item>@drawable/avatar_2</item>
+        <item>@drawable/avatar_3</item>
+        <item>@drawable/avatar_4</item>
+        <item>@drawable/avatar_5</item>
+        <item>@drawable/avatar_6</item>
+        <item>@drawable/avatar_7</item>
+        <item>@drawable/avatar_8</item>
+        <item>@drawable/avatar_9</item>
+        <item>@drawable/avatar_10</item>
+        <item>@drawable/avatar_11</item>
+        <item>@drawable/avatar_12</item>
+    </array>
+
+</resources>
