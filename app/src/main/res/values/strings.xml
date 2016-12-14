@@ -12,7 +12,7 @@
     <string name="recover_string">Password Emailed to your Registered EmailID</string>
     <string name="enter_registered_email">Enter Registered Email:</string>
     <string name="signup">SignUp!</string>
-    <string name="FestName">Fest Name</string>
+    <string name="FestName">Techspardha</string>
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -31,4 +31,11 @@
     <string name="Exhibition">Exhibitions</string>
     <string name="No_Data">None Found</string>
     <string name="App_Preference">App_Prefs</string>
+
+    <string name="server_url">anshulmalik.me</string>
+    <string name="login_post_url">/api/user/login</string>
+    <string name="get_user_details_url">/api/user/me</string>
+    <string name="get_interests_url">/api/user/interests</string>
+
+
 </resources>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.nitkkr.gawds.techspardha17">
+          package="com.nitkkr.gawds.tech16">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -11,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.Splash"
+            android:name=".Activity.Splash"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -22,62 +24,58 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.Login"
+            android:name=".Activity.Login"
             android:label="@string/Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.Home"
+            android:name=".Activity.Home"
             android:label="@string/Home"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.SignUp"
+            android:name=".Activity.SignUp"
             android:label="Sign Up"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.Interests"
+            android:name=".Activity.Interests"
             android:label="Interests"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.SearchPage"
+            android:name=".Activity.SearchPage"
             android:label="Search"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.Event"
+            android:name=".Activity.Event"
             android:label="Event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.CreateTeam"
+            android:name=".Activity.CreateTeam"
             android:label="Create Team"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.ViewTeam"
+            android:name=".Activity.ViewTeam"
             android:label="View Team"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.ViewUser"
+            android:name=".Activity.ViewUser"
             android:label="User"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.nitkkr.gawds.techspardha17.Activity.EventListPage"
+            android:name=".Activity.EventListPage"
             android:label="Event List"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.nitkkr.gawds.techspardha17.Activity.ListPage"
+        <activity android:name=".Activity.ListPage"
                   android:label="List Page"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.About"
-                  android:label="About Us"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 

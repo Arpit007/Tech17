@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "359694175175",
+    "project_id": "techspardha-17"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359694175175:android:86fbbe147cdb2c65",
+        "android_client_info": {
+          "package_name": "com.nitkkr.gawds.tech16"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359694175175-ss33j3qcn84o6qvh9djmennea6mo3tco.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nitkkr.gawds.tech16",
+            "certificate_hash": "49869656D914E09782FA03904ECC80DCDBCECD3C"
+          }
+        },
+        {
+          "client_id": "359694175175-ut7mhdf9l8ctp3ckjfu6bo9cqflu06ke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpHZe2YFdfYxA4tz_iLWgHF3D5NF75o7w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
