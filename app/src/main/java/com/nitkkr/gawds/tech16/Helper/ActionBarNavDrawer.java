@@ -80,10 +80,6 @@ public class ActionBarNavDrawer
 			intent=new Intent(activity, About.class);
 			activity.startActivity(intent);
 		}
-		else if (id == R.id.nav_admin)
-		{
-			//------------------------------DEPRECIATE--------------------------------------
-		}
 		else if (id == R.id.nav_logout)
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
