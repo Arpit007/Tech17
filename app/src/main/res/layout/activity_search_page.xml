@@ -9,6 +9,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.nitkkr.gawds.tech16.Activity.SearchPage">
+    tools:context="com.nitkkr.gawds.techspardha17.Activity.SearchPage">
 
 </RelativeLayout>
