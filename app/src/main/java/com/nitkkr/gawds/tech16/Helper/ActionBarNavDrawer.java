@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nitkkr.gawds.tech16.API.Query;
 import com.nitkkr.gawds.tech16.Activity.About;
 import com.nitkkr.gawds.tech16.Activity.EventListPage;
@@ -45,22 +46,16 @@ public class ActionBarNavDrawer
 		if (id == R.id.nav_home)
 		{
 			if(activity instanceof Home)
-			{
-				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-				drawer.closeDrawer(GravityCompat.START);
 				return true;
-			}
+
 
 			ActivityHelper.revertToHome(activity);
 		}
 		else if (id == R.id.nav_events)
 		{
 			if(activity instanceof EventListPage)
-			{
-				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-				drawer.closeDrawer(GravityCompat.START);
 				return true;
-			}
+
 			intent=new Intent(activity,EventListPage.class);
 			activity.startActivity(intent);
 		}
@@ -85,11 +80,17 @@ public class ActionBarNavDrawer
 			intent=new Intent(activity, About.class);
 			activity.startActivity(intent);
 		}
+		else if (id == R.id.nav_admin)
+		{
+			//------------------------------DEPRECIATE--------------------------------------
+		}
 		else if (id == R.id.nav_logout)
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
 			intent=new Intent(activity,Login.class);
+
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("isLogout",true);
 			activity.startActivity(intent);
 		}
 		else if(id==R.id.nav_login)
@@ -156,13 +157,15 @@ public class ActionBarNavDrawer
 
 		if(AppUserModel.MAIN_USER.isUserLoaded())
 		{
-			if(AppUserModel.MAIN_USER.getImageResource()!=-1)
+			if(AppUserModel.MAIN_USER.getImageResource()!=null)
 			{
 				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
 				view.setVisibility(View.VISIBLE);
 
 				TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
-				view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageResource(),0));
+				//glide here
+                Glide.with(activity).load(AppUserModel.MAIN_USER.getImageResource()).thumbnail(0.5f).centerCrop().into(view);
+				//view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageResource(),0));
 				array.recycle();
 
 				CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
@@ -204,7 +207,7 @@ public class ActionBarNavDrawer
 			circularTextView.setText("");
 			circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
 
-			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.GONE);
+			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.INVISIBLE);
 		}
 
 		navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setOnClickListener(new View.OnClickListener()
