@@ -40,6 +40,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 	private SignInButton btnSignIn;
 	private boolean issignout;
 	String personName,personPhotoUrl,email;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -49,6 +50,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 		ActionBarSimple barSimple = new ActionBarSimple(this);
 		barSimple.setLabel(getString(R.string.FestName));
 
+		Typewriter login_type=(Typewriter)findViewById(R.id.label);
+		login_type.animateText("      Login");
+		login_type.setCharacterDelay(80);
 		btnSignIn = (SignInButton) findViewById(R.id.login_Gmail);
 		btnSignIn.setOnClickListener(this);
 
