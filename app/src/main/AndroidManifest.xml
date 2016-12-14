@@ -76,6 +76,10 @@
                   android:label="List Page"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.About"
+                  android:label="About Us"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"/>
 
        <meta-data
             android:name="io.fabric.ApiKey"
