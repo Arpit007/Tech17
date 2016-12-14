@@ -35,9 +35,11 @@ import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +53,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 	private ProgressDialog mProgressDialog;
 	private SignInButton btnSignIn;
 	private boolean issignout;
-	String personName,personPhotoUrl,email,token;
+	String personName,personPhotoUrl,email,token_user,token_recieved;
 	SignInStatus success=SignInStatus.SUCCESS;
 	SignInStatus failed=SignInStatus.FAILED;
 
@@ -114,9 +116,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 			 personName = acct.getDisplayName();
 			 personPhotoUrl = acct.getPhotoUrl().toString();
 			 email = acct.getEmail();
-			token=acct.getIdToken().toString();
+			token_user=acct.getIdToken().toString();
 			Log.e(TAG, "Name: " + personName + ", email: " + email
-					+ ", Image: " + personPhotoUrl+" token :"+token);
+					+ ", Image: " + personPhotoUrl+" token :"+token_user);
 
 			sendToken();
 			showProgressDialog("Verifying");
@@ -137,7 +139,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
 						//check response if good send to handler
 						JSONObject response= null,status=null,data=null;
-						String message,token;
+						String message;
 						int code;
 						boolean isNew;
 						try {
@@ -149,7 +151,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 							message=status.getString("message");
 
 							isNew=data.getBoolean("isNew");
-							token=data.getString("token");
+							token_recieved=data.getString("token");
+
+							//save this token for further use
 
 							if(code==200){
 								Log.v(TAG,message);
@@ -159,7 +163,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 									SignIn(sign_up);
 								}else{
 									//get things first
-									SignIn(success);
+									fetch_user_details();
 								}
 							}else{
 								//failure
@@ -171,7 +175,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 						}
 
 
-						//SignIn(success);
 						Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
 						hideProgressDialog();
 					}
@@ -186,7 +189,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 			@Override
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<String, String>();
-				params.put("gmailToken",token);
+//				params.put("gmailToken",token_user);
+				params.put("gmailToken","d5bb3540281a8993c1963aaacd85ab57109f13288b0142b7f936c9ad8476d37f0483e1c2ac0166");
+
 				return params;
 			}
 
@@ -196,6 +201,154 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 		requestQueue.add(stringRequest);
 	}
 
+	public void fetch_user_details(){
+
+		showProgressDialog("Locating you in our beacon..");
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.server_url)+
+				getResources().getString(R.string.get_user_details_url),
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String res) {
+
+						//check response if good send to handler
+						JSONObject response= null,status=null,data=null;
+						String message,RollNo,PhoneNumber,Branch,Year,College,Gender;
+						int code;
+						try {
+							response = new JSONObject(res);
+							status=response.getJSONObject("status");
+							data=response.getJSONObject("data");
+
+							code=status.getInt("code");
+							message=status.getString("message");
+
+							if(code==200){
+								Log.v(TAG,message);
+
+								RollNo= String.valueOf(data.getInt("RollNo"));
+								PhoneNumber=data.getString("PhoneNumber");
+								College=data.getString("College");
+								Branch=data.getString("Branch");
+								Gender=data.getString("Gender");
+
+								//saving user data
+								AppUserModel.MAIN_USER.setName(personName);
+								AppUserModel.MAIN_USER.setEmail(email);
+								AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
+								AppUserModel.MAIN_USER.setisCoordinator(false);
+								AppUserModel.MAIN_USER.setToken(token_recieved);
+								AppUserModel.MAIN_USER.setRoll(RollNo);
+								AppUserModel.MAIN_USER.setCollege(College);
+								AppUserModel.MAIN_USER.setMobile(PhoneNumber);
+								AppUserModel.MAIN_USER.setBranch(Branch);
+								AppUserModel.MAIN_USER.setGender(Gender);
+
+								AppUserModel.MAIN_USER.saveAppUser(Login.this);
+
+								//now fetch interests
+								fetch_interests();
+
+							}else{
+								//failure
+								SignIn(failed);
+							}
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+
+						Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
+						hideProgressDialog();
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
+						hideProgressDialog();
+					}
+				}){
+			@Override
+			protected Map<String,String> getParams(){
+				Map<String,String> params = new HashMap<String, String>();
+				params.put("token",token_recieved);
+				return params;
+			}
+
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(this);
+		requestQueue.add(stringRequest);
+
+	}
+
+	public void fetch_interests(){
+		showProgressDialog("Optimising your feed...");
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.server_url)+
+				getResources().getString(R.string.get_interests_url),
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String res) {
+
+						//check response if good send to handler
+						JSONObject response= null,status=null;
+						JSONArray data;
+						String message,RollNo,PhoneNumber,Branch,Year,College,Gender;
+						ArrayList<String> interests=new ArrayList<String>();
+						int code;
+						try {
+							response = new JSONObject(res);
+							status=response.getJSONObject("status");
+							data=response.getJSONArray("data");
+
+							code=status.getInt("code");
+							message=status.getString("message");
+
+							if(code==200){
+								Log.v(TAG,message);
+								for(int i=0;i<data.length();i++){
+									interests.add(data.getString(i));
+								}
+								AppUserModel.MAIN_USER.setInterests_arraylist(interests);
+
+								//everything is fetched and saved now
+								//so intent to home
+								SignIn(success);
+							}else{
+								//failure
+								SignIn(failed);
+							}
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+
+						Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
+						hideProgressDialog();
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
+						hideProgressDialog();
+					}
+				}){
+			@Override
+			protected Map<String,String> getParams(){
+				Map<String,String> params = new HashMap<String, String>();
+				params.put("token",token_recieved);
+				return params;
+			}
+
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(this);
+		requestQueue.add(stringRequest);
+
+	}
 	public void SignIn(SignInStatus status)
 	{
 
@@ -209,25 +362,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 			case SUCCESS:
 				Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
 
-				AppUserModel appUserModel=new AppUserModel();
-
-				AppUserModel.MAIN_USER=appUserModel;
-
-				//saving user data
-				AppUserModel.MAIN_USER.setName(personName);
-				AppUserModel.MAIN_USER.setEmail(email);
-				AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
-				AppUserModel.MAIN_USER.setisCoordinator(false);
-
-				//else sign up intent
-//				AppUserModel.MAIN_USER.setRoll("");
-//				AppUserModel.MAIN_USER.setCollege("");
-//				AppUserModel.MAIN_USER.setMobile("");
-//				AppUserModel.MAIN_USER.setBranch("");
-//				AppUserModel.MAIN_USER.setInterests("");
-
-
-				AppUserModel.MAIN_USER.saveAppUser(Login.this);
 
 				if(!ActivityHelper.isDebugMode(getApplicationContext()))
 				{

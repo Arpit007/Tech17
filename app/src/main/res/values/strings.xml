@@ -32,7 +32,7 @@
     <string name="No_Data">None Found</string>
     <string name="App_Preference">App_Prefs</string>
 
-    <string name="server_url">anshulmalik.me</string>
+    <string name="server_url">http://anshulmalik.me</string>
     <string name="login_post_url">/api/user/login</string>
     <string name="get_user_details_url">/api/user/me</string>
     <string name="get_interests_url">/api/user/interests</string>
