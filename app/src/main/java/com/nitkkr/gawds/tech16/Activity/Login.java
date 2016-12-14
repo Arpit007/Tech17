@@ -12,6 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -29,6 +35,12 @@ import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Login extends AppCompatActivity  implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener
 {
 	boolean signingIn = false;
@@ -39,7 +51,10 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 	private ProgressDialog mProgressDialog;
 	private SignInButton btnSignIn;
 	private boolean issignout;
-	String personName,personPhotoUrl,email;
+	String personName,personPhotoUrl,email,token;
+	SignInStatus success=SignInStatus.SUCCESS;
+	SignInStatus failed=SignInStatus.FAILED;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -58,6 +73,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
 		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 				.requestEmail()
+				.requestIdToken("726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com")
 				.build();
 
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -69,6 +85,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 		btnSignIn.setScopes(gso.getScopeArray());
 
 		issignout=getIntent().getBooleanExtra("isLogout",false);
+
 
 	}
 	private void signIn() {
@@ -86,8 +103,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 		}
 	}
 	private void handleSignInResult(GoogleSignInResult result) {
-		SignInStatus success=SignInStatus.SUCCESS;
-		SignInStatus failed=SignInStatus.FAILED;
 
 		Log.d(TAG, "handleSignInResult:" + result.isSuccess());
 		if (result.isSuccess()) {
@@ -99,12 +114,12 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 			 personName = acct.getDisplayName();
 			 personPhotoUrl = acct.getPhotoUrl().toString();
 			 email = acct.getEmail();
-
+			token=acct.getIdToken().toString();
 			Log.e(TAG, "Name: " + personName + ", email: " + email
-					+ ", Image: " + personPhotoUrl);
+					+ ", Image: " + personPhotoUrl+" token :"+token);
 
-
-			SignIn(success);
+			sendToken();
+			showProgressDialog("Verifying");
 		} else {
 			// Signed out, show unauthenticated UI.
 			SignIn(failed);
@@ -112,6 +127,74 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 	}
 
 
+	public void sendToken(){
+
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
+				getResources().getString(R.string.login_post_url),
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String res) {
+
+						//check response if good send to handler
+						JSONObject response= null,status=null,data=null;
+						String message,token;
+						int code;
+						boolean isNew;
+						try {
+							response = new JSONObject(res);
+							status=response.getJSONObject("status");
+							data=response.getJSONObject("data");
+
+							code=status.getInt("code");
+							message=status.getString("message");
+
+							isNew=data.getBoolean("isNew");
+							token=data.getString("token");
+
+							if(code==200){
+								Log.v(TAG,message);
+								//success
+								if(isNew){
+									SignInStatus sign_up=SignInStatus.SIGNUP;
+									SignIn(sign_up);
+								}else{
+									//get things first
+									SignIn(success);
+								}
+							}else{
+								//failure
+								SignIn(failed);
+							}
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+
+						//SignIn(success);
+						Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
+						hideProgressDialog();
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
+						hideProgressDialog();
+					}
+				}){
+			@Override
+			protected Map<String,String> getParams(){
+				Map<String,String> params = new HashMap<String, String>();
+				params.put("gmailToken",token);
+				return params;
+			}
+
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(this);
+		requestQueue.add(stringRequest);
+	}
 
 	public void SignIn(SignInStatus status)
 	{
@@ -133,13 +216,15 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 				//saving user data
 				AppUserModel.MAIN_USER.setName(personName);
 				AppUserModel.MAIN_USER.setEmail(email);
-				AppUserModel.MAIN_USER.setRoll("");
-				AppUserModel.MAIN_USER.setCollege("");
-				AppUserModel.MAIN_USER.setMobile("");
-				AppUserModel.MAIN_USER.setBranch("");
 				AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
-				AppUserModel.MAIN_USER.setInterests("");
 				AppUserModel.MAIN_USER.setisCoordinator(false);
+
+				//else sign up intent
+//				AppUserModel.MAIN_USER.setRoll("");
+//				AppUserModel.MAIN_USER.setCollege("");
+//				AppUserModel.MAIN_USER.setMobile("");
+//				AppUserModel.MAIN_USER.setBranch("");
+//				AppUserModel.MAIN_USER.setInterests("");
 
 
 				AppUserModel.MAIN_USER.saveAppUser(Login.this);
@@ -196,7 +281,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 				// If the user has not previously signed in on this device or the sign-in has expired,
 				// this asynchronous branch will attempt to sign in the user silently.  Cross-device
 				// single sign-on will occur in this branch.
-				showProgressDialog();
+				showProgressDialog("Loading");
 				opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
 					@Override
 					public void onResult(GoogleSignInResult googleSignInResult) {
@@ -209,10 +294,10 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 			signOut();
 		}
 	}
-	private void showProgressDialog() {
+	private void showProgressDialog(String msg) {
 		if (mProgressDialog == null) {
 			mProgressDialog = new ProgressDialog(this);
-			mProgressDialog.setMessage("Loading..");
+			mProgressDialog.setMessage(msg);
 			mProgressDialog.setIndeterminate(true);
 		}
 
