@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
     <integer name="SplashDuration">2000</integer>
     <integer name="WarningDuration">4000</integer>
     <integer name="AfterUpdateHours">8</integer>
@@ -11,9 +11,13 @@
     <string name="Misc_Prefs">Misc_Prefs</string>
 
     <string-array name="Branches">
-        <item>CS</item>
-        <item>IT</item>
-        <item>Mechanical</item>
+        <item >Computer Sc</item>
+        <item >Information Tech.</item>
+        <item >Mechanical</item>
+        <item >Electrical</item>
+        <item >Electronics</item>
+        <item >PIE</item>
+
     </string-array>
 
     <string-array name="Interests">

@@ -48,12 +48,15 @@ public class SignUp extends AppCompatActivity
 
 		//TODO: Add Branches Data
 		String Branches[] = getResources().getStringArray(R.array.Branches);
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_spinner_item, Branches);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Branches);
 		( (Spinner) findViewById(R.id.signup_Branch) ).setAdapter(adapter);
 
 		ActionBarSimple barSimple = new ActionBarSimple(this);
 		barSimple.setLabel(getString(R.string.FestName));
+		Typewriter signup_label=(Typewriter)findViewById(R.id.signup_label);
+		signup_label.animateText("      Sign up");
+		signup_label.setCharacterDelay(60);
+
 	}
 
 	public void Authenticate(View view)
