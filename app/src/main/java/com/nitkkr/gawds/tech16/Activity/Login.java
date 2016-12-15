@@ -122,7 +122,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 					+ ", Image: " + personPhotoUrl+" token :"+token_user);
 
 			sendToken();
-			showProgressDialog("Verifying");
 		} else {
 			// Signed out, show unauthenticated UI.
 			SignIn(failed);
@@ -131,6 +130,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
 
 	public void sendToken(){
+		showProgressDialog("Verifying");
 
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
 				getResources().getString(R.string.login_post_url),
@@ -231,7 +231,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 								College=data.getString("College");
 								Branch=data.getString("Branch");
 								Gender=data.getString("Gender");
-
+								Year=data.getString("Year");
 								//saving user data
 								AppUserModel.MAIN_USER.setName(personName);
 								AppUserModel.MAIN_USER.setEmail(email);
@@ -243,6 +243,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 								AppUserModel.MAIN_USER.setMobile(PhoneNumber);
 								AppUserModel.MAIN_USER.setBranch(Branch);
 								AppUserModel.MAIN_USER.setGender(Gender);
+								AppUserModel.MAIN_USER.setYear(Year);
 
 								AppUserModel.MAIN_USER.saveAppUser(Login.this);
 

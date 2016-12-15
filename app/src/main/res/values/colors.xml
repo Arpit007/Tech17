@@ -22,5 +22,6 @@
     <color name="app_background">#222</color>
     <color name="text_color_primary">#fff</color>
     <color name="User_Image_Border_Color">#000000</color>
+    <color name="action_bar_color">#000000</color>
     <color name="User_Image_Fill_Color">#ffffff</color>
 </resources>

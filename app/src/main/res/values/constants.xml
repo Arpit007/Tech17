@@ -20,6 +20,11 @@
 
     </string-array>
 
+    <string-array name="Gender">
+        <item >Male</item>
+        <item >Female</item>
+    </string-array>
+
     <string-array name="Interests">
         <item>Interest 1</item>
         <item>Interest 2</item>

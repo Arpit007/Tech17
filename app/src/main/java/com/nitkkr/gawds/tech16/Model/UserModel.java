@@ -17,6 +17,7 @@ public class UserModel implements iUserModel, Serializable
 	private String imageResourceURL=null;
 	private String token;
 	private String Gender;
+	private String year;
 
 	public String getName() {return Name;}
 	public String getEmail(){return Email;}
@@ -48,5 +49,13 @@ public class UserModel implements iUserModel, Serializable
 
 	public void setGender(String gender) {
 		Gender = gender;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
 	}
 }

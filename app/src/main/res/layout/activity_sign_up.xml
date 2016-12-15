@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:id="@+id/activity_sign_up" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/app_background" android:fontFamily="sans-serif-light" android:orientation="vertical" android:paddingBottom="@dimen/activity_vertical_margin" android:paddingLeft="@dimen/activity_horizontal_margin" android:paddingRight="@dimen/activity_horizontal_margin" tools:context="com.nitkkr.gawds.tech16.Activity.SignUp">
-    <include layout="@layout/actionbar_simple" android:layout_width="wrap_content" android:layout_height="?attr/actionBarSize"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:id="@+id/activity_sign_up"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@color/app_background"
+                  android:orientation="vertical"
+                  android:paddingBottom="@dimen/activity_vertical_margin"
+                   tools:context="com.nitkkr.gawds.tech16.Activity.SignUp">
+
+    <include layout="@layout/actionbar_simple"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_height="match_parent">
 
     <com.nitkkr.gawds.tech16.Activity.Typewriter
         android:layout_width="match_parent"
@@ -12,6 +35,7 @@
         android:id="@+id/signup_label"
         android:textSize="25sp"
         android:textAllCaps="true"/>
+
     <View android:id="@+id/view2"
           android:layout_width="fill_parent"
           android:layout_height="2dp"
@@ -22,10 +46,10 @@
                   android:layout_marginBottom="5dp"
                   android:layout_marginTop="25dp"
                   android:orientation="horizontal">
-        <TextView android:layout_width="wrap_content"
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="@color/text_color_primary"
-                  android:text="Name: "
+                  android:text="*Name: "
                   android:textSize="20sp"/>
         <EditText android:id="@+id/signup_Name"
                   android:layout_width="match_parent"
@@ -44,12 +68,15 @@
                       android:layout_marginBottom="5dp"
                       android:layout_marginTop="5dp"
                       android:orientation="horizontal">
-            <TextView android:layout_width="wrap_content"
+
+            <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_gravity="center"
                       android:textColor="@color/text_color_primary"
-                      android:text="College: "
-                      android:textSize="20sp"/>
+                      android:text="*College: "
+                      android:textSize="20sp"
+                      android:id="@+id/textView2"/>
+
             <RadioGroup android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -89,6 +116,7 @@
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="15dp"
                       android:textColor="@color/text_color_primary"
+                      android:textColorHint="@color/text_color_primary"
                       android:hint="Your College Name"
                       android:inputType="textPersonName"
                       android:textSize="20sp"/>
@@ -99,7 +127,7 @@
                   android:layout_marginBottom="5dp"
                   android:layout_marginTop="5dp"
                   android:orientation="horizontal">
-        <TextView android:layout_width="wrap_content"
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="@color/text_color_primary"
                   android:text="Roll Number: "
@@ -119,10 +147,10 @@
                   android:layout_marginTop="5dp"
                   android:orientation="horizontal">
 
-        <TextView android:layout_width="wrap_content"
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="@color/text_color_primary"
-                  android:text="Mobile Number: "
+                  android:text="*Mobile Number: "
                   android:textSize="20sp"
                   android:id="@+id/textView"/>
 
@@ -142,7 +170,53 @@
                   android:layout_marginBottom="5dp"
                   android:layout_marginTop="5dp"
                   android:orientation="horizontal">
-        <TextView android:layout_width="wrap_content"
+
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/text_color_primary"
+                                                android:text="Gender: "
+                                                android:textSize="20sp"
+                                                android:id="@+id/gender_textview"/>
+
+        <Spinner android:id="@+id/signup_gender"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="15dp"
+                 android:textColor="@color/app_background"
+                 android:backgroundTint="@color/border_color"
+                 android:popupBackground="@color/app_background"
+                 android:layout_marginRight="15dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"
+                  android:orientation="horizontal">
+
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/text_color_primary"
+                                                android:text="Year: "
+                                                android:textSize="20sp"
+                                                android:id="@+id/year_textview"/>
+
+        <EditText android:id="@+id/signup_year"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:inputType="phone"
+                  android:maxLength="10"
+                  android:background="@drawable/edittext_style"
+                  android:padding="5dp"
+
+                  android:textSize="18sp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"
+                  android:orientation="horizontal">
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="@color/text_color_primary"
                   android:text="Branch: "
@@ -161,10 +235,10 @@
                   android:layout_marginBottom="5dp"
                   android:layout_marginTop="5dp"
                   android:orientation="horizontal">
-        <TextView android:layout_width="wrap_content"
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="@color/text_color_primary"
-                  android:text="Email: "
+                  android:text="*Email: "
                   android:textSize="20sp"/>
         <Button android:id="@+id/signup_Email"
                 android:layout_width="match_parent"
@@ -177,32 +251,29 @@
                 android:text="Gmail"
                 android:textAllCaps="false"
                 android:textSize="18sp"/>
-        <TextView android:id="@+id/signup_EmailFinal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="15dp"
-                  android:layout_marginRight="15dp"
-                  android:drawableRight="@drawable/icon_tick"
-                  android:textSize="18sp" android:visibility="gone"/>
-    </LinearLayout>
+      </LinearLayout>
     <TextView android:id="@+id/signup_Warning"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginBottom="5dp"
               android:layout_marginTop="5dp"
-              android:text="All Fields are Mandatory"
+              android:text="Please fill out the Mandatory fields"
               android:textAlignment="center"
               android:textColor="@color/text_color_primary"
               android:visibility="invisible"/>
 
-    <Button android:id="@+id/signup_Done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_button"
-            android:textColor="@color/text_color_primary"
-            android:layout_gravity="right"
-            android:layout_marginTop="60dp"
-            android:onClick="SignUp"
-            android:text="Done"
-            android:textAllCaps="false"/>
+        <Button android:id="@+id/signup_Done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_button"
+                android:textColor="@color/text_color_primary"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:onClick="SignUp"
+                android:text="Done"
+                android:textAllCaps="false"/>
+            </LinearLayout>
+
+    </ScrollView>
+
 </LinearLayout>
