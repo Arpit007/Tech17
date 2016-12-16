@@ -39,7 +39,7 @@ public class Splash extends AppCompatActivity
 					@Override
 					public void uncaughtException(Thread thread, Throwable throwable)
 					{
-						throwable.printStackTrace();
+						//throwable.printStackTrace();
 					}
 				});
 			}

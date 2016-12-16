@@ -35,7 +35,7 @@ public class EventListPage extends AppCompatActivity
 			{
 
 			}
-		});
+		},R.id.nav_events);
 
 		barNavDrawer.setLabel("Events");
 
