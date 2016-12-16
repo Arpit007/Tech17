@@ -15,6 +15,9 @@ public class UserModel implements iUserModel, Serializable
 	private String Mobile;
 	private String Branch;
 	private String imageResourceURL=null;
+	private String token;
+	private String Gender;
+	private String year;
 
 	public String getName() {return Name;}
 	public String getEmail(){return Email;}
@@ -31,4 +34,28 @@ public class UserModel implements iUserModel, Serializable
 	public void setMobile(String mobile){Mobile=mobile;}
 	public void setBranch(String branch){Branch=branch;}
 	public void setImageResource(String imageResource){this.imageResourceURL=imageResource;}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getGender() {
+		return Gender;
+	}
+
+	public void setGender(String gender) {
+		Gender = gender;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
 }

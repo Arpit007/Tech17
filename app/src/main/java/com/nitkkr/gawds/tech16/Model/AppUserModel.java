@@ -49,6 +49,10 @@ public class AppUserModel extends CoordinatorModel
 	}
 	public void setInterests(String interests){Interests=stringToInterests(interests);}
 
+	public void setInterests_arraylist(ArrayList<String> s){
+		this.Interests=s;
+	}
+
 	public boolean saveAppUser(Context context) {
 		return saveAppUser(context, "User_Data");
 	}
@@ -58,6 +62,7 @@ public class AppUserModel extends CoordinatorModel
 	private boolean saveAppUser(Context context, String File) {
 		SharedPreferences.Editor editor=context.getSharedPreferences(File,Context.MODE_PRIVATE).edit();
 		editor.putString("Name",getName());
+		editor.putString("Token",getToken());
 		editor.putString("Email",getEmail());
 		editor.putString("Roll",getRoll());
 		editor.putString("College",getCollege());
@@ -65,6 +70,7 @@ public class AppUserModel extends CoordinatorModel
 		editor.putString("Branch",getBranch());
 		editor.putBoolean("Coordinator",isCoordinator());
 		editor.putString("ImageId",getImageResource());
+		editor.putString("Gender",getGender());
 		editor.putString("Interests",interestsToString());
 		if(isCoordinator())
 			editor.putString("Designation",getDesignation());
@@ -87,6 +93,8 @@ public class AppUserModel extends CoordinatorModel
 		setBranch(preferences.getString("Branch",""));
 		setImageResource(preferences.getString("ImageId",null));
 		setisCoordinator(preferences.getBoolean("Coordinator",false));
+		setToken(preferences.getString("Token",""));
+		setGender(preferences.getString("Gender",""));
 		Interests=stringToInterests(preferences.getString("Interests",""));
 		if(isCoordinator())
 			setDesignation(preferences.getString("Designation",""));
