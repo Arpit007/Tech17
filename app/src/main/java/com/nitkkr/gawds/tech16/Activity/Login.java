@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +52,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 	boolean exit=false;
 	private static final int RC_SIGN_IN = 007;
 	private  String TAG="DEBUG";
-	private GoogleApiClient mGoogleApiClient;
+	static public GoogleApiClient mGoogleApiClient;
+	static public GoogleSignInOptions gso;
 	private ProgressDialog mProgressDialog;
 	private SignInButton btnSignIn;
 	private boolean issignout;
@@ -75,27 +77,24 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 		btnSignIn = (SignInButton) findViewById(R.id.login_Gmail);
 		btnSignIn.setOnClickListener(this);
 
-//		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//				.requestEmail()
-//				.requestIdToken(client_server_id)
-//				.build();
+		 gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+				.requestEmail()
+				.requestIdToken(client_server_id)
+				.build();
 
-//		mGoogleApiClient = new GoogleApiClient.Builder(this)
-//				.enableAutoManage(this, this)
-//				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//				.build();
+		mGoogleApiClient = new GoogleApiClient.Builder(this)
+				.enableAutoManage(this, this)
+				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+				.build();
 
-		mGoogleApiClient= App.getGoogleApiHelper().getGoogleApiClient();
-		mGoogleApiClient.connect();
 
 		// Customizing G+ button
 		btnSignIn.setSize(SignInButton.SIZE_STANDARD);
-
 		issignout=getIntent().getBooleanExtra("isLogout",false);
 
 
 	}
-	private void signIn() {
+	 private void signIn() {
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
@@ -150,26 +149,35 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 						try {
 							response = new JSONObject(res);
 							status=response.getJSONObject("status");
-							data=response.getJSONObject("data");
-
+							//for time being ,uncomment this after backend is fixed
+							//data=response.getJSONObject("data");
+							token_recieved=response.getString("data");
 							code=status.getInt("code");
 							message=status.getString("message");
 
-							isNew=data.getBoolean("isNew");
-							token_recieved=data.getString("token");
+							//isNew=data.getBoolean("isNew");
+							//token_recieved=data.getString("token");
 
 							//save this token for further use
 
 							if(code==200){
 								Log.v(TAG,message);
 								//success
-								if(isNew){
+								//if(isNew){
+
+									AppUserModel.MAIN_USER.setName(personName);
+									AppUserModel.MAIN_USER.setEmail(email);
+									AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
+									AppUserModel.MAIN_USER.setisCoordinator(false);
+									AppUserModel.MAIN_USER.setToken(token_recieved);
+									AppUserModel.MAIN_USER.saveAppUser(Login.this);
 									SignInStatus sign_up=SignInStatus.SIGNUP;
 									SignIn(sign_up);
-								}else{
+
+								//}else{
 									//get things first
-									fetch_user_details();
-								}
+								//	fetch_user_details();
+								//}
 							}else{
 								//failure
 								SignIn(failed);
@@ -194,8 +202,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 			@Override
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<String, String>();
-				params.put("gmailToken",token_user);
-//				params.put("gmailToken","d5bb3540281a8993c1963aaacd85ab57109f13288b0142b7f936c9ad8476d37f0483e1c2ac0166");
+				params.put("idToken",token_user);
 				return params;
 			}
 
@@ -392,13 +399,13 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 				break;
 		}
 	}
-	private void signOut() {
+	static private void signOut() {
 		if(mGoogleApiClient.isConnected()) {
 			Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
 					new ResultCallback<Status>() {
 						@Override
 						public void onResult(Status status) {
-
+							Log.v("Debug","Logged out");
 						}
 					});
 		}

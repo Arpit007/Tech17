@@ -30,6 +30,7 @@ public class AppUserModel extends CoordinatorModel
 	public String interestsToString() {
 		//TODO: Add Tokens Accordingly
 		StringBuilder stringBuilder=new StringBuilder("");
+		if(Interests!=null){
 		for(String interest:Interests)
 		{
 			if(stringBuilder.toString().equals(""))
@@ -39,7 +40,11 @@ public class AppUserModel extends CoordinatorModel
 				stringBuilder.append(",").append(interest);
 			}
 		}
-		return stringBuilder.toString();
+
+		return stringBuilder.toString();}
+		else{
+			return "";
+		}
 	}
 	private ArrayList<String> stringToInterests(String Interests) {
 		String[] strings=Interests.split(",");
@@ -107,7 +112,10 @@ public class AppUserModel extends CoordinatorModel
 		saveAppUser(context);
 	}
 	public boolean isUserLoaded(){
+		if(getEmail()!=null)
 		return !getEmail().equals("");
+		else
+			return false;
 	}
 	public void LoginUser(Activity activity, boolean Result)
 	{
