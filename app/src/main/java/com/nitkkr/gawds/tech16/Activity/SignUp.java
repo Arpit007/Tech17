@@ -118,10 +118,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				.requestIdToken("726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com")
 				.build();
 
-		mGoogleApiClient = new GoogleApiClient.Builder(this)
-				.enableAutoManage(this, this)
-				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-				.build();
 
 		Button google_signIn_btn=(Button)findViewById(R.id.signup_Email);
 		google_signIn_btn.setOnClickListener(
@@ -280,17 +276,17 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 	boolean Check()
 	{
-		if (( (TextView) findViewById(R.id.signup_Name) ).getText().toString().trim().equals(""))
+		if (( (EditText) findViewById(R.id.signup_Name) ).getText().toString().trim().equals(""))
 		{
 			return false;
 		}
 
-		if (( (RadioButton) findViewById(R.id.signup_OtherRadio) ).isChecked() && ( (TextView) ( findViewById(R.id.signup_CollegeName) ) ).getText().toString().trim().equals(""))
+		if (( (RadioButton) findViewById(R.id.signup_OtherRadio) ).isChecked() && ( (EditText) ( findViewById(R.id.signup_CollegeName) ) ).getText().toString().trim().equals(""))
 		{
 			return false;
 		}
 
-		if (( (TextView) findViewById(R.id.signup_Number) ).getText().toString().trim().equals("") || ( (TextView) findViewById(R.id.signup_Number) ).getText().length() < 10)
+		if (( (EditText) findViewById(R.id.signup_Number) ).getText().toString().trim().equals("") || ( (TextView) findViewById(R.id.signup_Number) ).getText().length() < 10)
 		{
 			return false;
 		}
@@ -494,5 +490,12 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		if (mProgressDialog != null && mProgressDialog.isShowing()) {
 			mProgressDialog.hide();
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mGoogleApiClient.stopAutoManage(SignUp.this);
+		mGoogleApiClient.disconnect();
 	}
 }

@@ -31,6 +31,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.Helper.App;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -57,7 +58,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 	String personName,personPhotoUrl,email,token_user,token_recieved;
 	SignInStatus success=SignInStatus.SUCCESS;
 	SignInStatus failed=SignInStatus.FAILED;
-
+	private String client_server_id="726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -74,18 +75,21 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 		btnSignIn = (SignInButton) findViewById(R.id.login_Gmail);
 		btnSignIn.setOnClickListener(this);
 
-		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-				.requestEmail()
-				.requestIdToken("726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com")
-				.build();
+//		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//				.requestEmail()
+//				.requestIdToken(client_server_id)
+//				.build();
 
-		mGoogleApiClient = new GoogleApiClient.Builder(this)
-				.enableAutoManage(this, this)
-				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-				.build();
+//		mGoogleApiClient = new GoogleApiClient.Builder(this)
+//				.enableAutoManage(this, this)
+//				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//				.build();
+
+		mGoogleApiClient= App.getGoogleApiHelper().getGoogleApiClient();
+		mGoogleApiClient.connect();
+
 		// Customizing G+ button
 		btnSignIn.setSize(SignInButton.SIZE_STANDARD);
-		btnSignIn.setScopes(gso.getScopeArray());
 
 		issignout=getIntent().getBooleanExtra("isLogout",false);
 
@@ -190,9 +194,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 			@Override
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<String, String>();
-//				params.put("gmailToken",token_user);
-				params.put("gmailToken","d5bb3540281a8993c1963aaacd85ab57109f13288b0142b7f936c9ad8476d37f0483e1c2ac0166");
-
+				params.put("gmailToken",token_user);
+//				params.put("gmailToken","d5bb3540281a8993c1963aaacd85ab57109f13288b0142b7f936c9ad8476d37f0483e1c2ac0166");
 				return params;
 			}
 
@@ -514,4 +517,5 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 				break;
 		}
 	}
+
 }
