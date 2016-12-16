@@ -18,6 +18,8 @@ public class UserModel implements iUserModel, Serializable
 	private String token;
 	private String Gender;
 	private String year;
+	private int ImageId=-1;
+	private boolean useGoogleImage=true;
 
 	public String getName() {return Name;}
 	public String getEmail(){return Email;}
@@ -26,6 +28,8 @@ public class UserModel implements iUserModel, Serializable
 	public String getMobile(){return Mobile;}
 	public String getBranch(){return Branch;}
 	public String getImageResource(){return imageResourceURL;}
+	public int getImageId(){return ImageId;}
+	public boolean isUseGoogleImage(){return useGoogleImage;}
 
 	public void setName(String name){Name = name;}
 	public void setEmail(String email){Email=email;}
@@ -34,6 +38,8 @@ public class UserModel implements iUserModel, Serializable
 	public void setMobile(String mobile){Mobile=mobile;}
 	public void setBranch(String branch){Branch=branch;}
 	public void setImageResource(String imageResource){this.imageResourceURL=imageResource;}
+	public void setImageId(int imageId){ImageId=imageId;}
+	public void  setUseGoogleImage(boolean useGoogleImage){this.useGoogleImage=useGoogleImage;}
 
 	public String getToken() {
 		return token;

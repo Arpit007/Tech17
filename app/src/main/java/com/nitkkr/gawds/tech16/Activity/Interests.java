@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.Adapter.InterestAdapter;
-import com.nitkkr.gawds.tech16.Helper.ActionBarDone;
+import com.nitkkr.gawds.tech16.Helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
@@ -42,7 +42,7 @@ public class Interests extends AppCompatActivity
 
 		listView.setAdapter(adapter);
 
-		ActionBarDone barDone = new ActionBarDone(this, new View.OnClickListener()
+		ActionBarDoneButton barDone = new ActionBarDoneButton(this, new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
@@ -59,6 +59,16 @@ public class Interests extends AppCompatActivity
 					{
 						e.printStackTrace();
 						appUserModel=new AppUserModel();
+					}
+
+					//Used for Edit User
+					if(getIntent().getBooleanExtra("Return_Interest",false))
+					{
+						Intent data=new Intent();
+						data.putExtra("Interests",appUserModel.interestsToString());
+						setResult(RESULT_OK,data);
+						finish();
+						return;
 					}
 
 					//TODO: Send Info

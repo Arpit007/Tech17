@@ -27,7 +27,8 @@ public class AppUserModel extends CoordinatorModel
 	public boolean isCoordinator(){return Coordinator;}
 	public void setisCoordinator(boolean coordinator){Coordinator=coordinator;}
 
-	private String interestsToString() {
+	public String interestsToString() {
+		//TODO: Add Tokens Accordingly
 		StringBuilder stringBuilder=new StringBuilder("");
 		for(String interest:Interests)
 		{
@@ -56,9 +57,6 @@ public class AppUserModel extends CoordinatorModel
 	public boolean saveAppUser(Context context) {
 		return saveAppUser(context, "User_Data");
 	}
-	public boolean saveTempUser(Context context) {
-		return saveAppUser(context, "Temp_User");
-	}
 	private boolean saveAppUser(Context context, String File) {
 		SharedPreferences.Editor editor=context.getSharedPreferences(File,Context.MODE_PRIVATE).edit();
 		editor.putString("Name",getName());
@@ -72,6 +70,8 @@ public class AppUserModel extends CoordinatorModel
 		editor.putString("ImageId",getImageResource());
 		editor.putString("Gender",getGender());
 		editor.putString("Interests",interestsToString());
+		editor.putBoolean("GoogleImage",isUseGoogleImage());
+		editor.putInt("ImageDrawableID",getImageId());
 		if(isCoordinator())
 			editor.putString("Designation",getDesignation());
 		return editor.commit();
@@ -79,9 +79,6 @@ public class AppUserModel extends CoordinatorModel
 
 	public void loadAppUser(Context context) {
 		loadUser(context,"User_Data");
-	}
-	public void loadTempUser(Context context) {
-		loadUser(context,"Temp_Data");
 	}
 	private void loadUser(Context context, String File) {
 		SharedPreferences preferences=context.getSharedPreferences(File,Context.MODE_PRIVATE);
@@ -96,25 +93,22 @@ public class AppUserModel extends CoordinatorModel
 		setToken(preferences.getString("Token",""));
 		setGender(preferences.getString("Gender",""));
 		Interests=stringToInterests(preferences.getString("Interests",""));
+		setUseGoogleImage(preferences.getBoolean("GoogleImage",true));
+		setImageId(preferences.getInt("ImageDrawableID",-1));
 		if(isCoordinator())
 			setDesignation(preferences.getString("Designation",""));
 	}
 
-	public boolean logoutUser(Context context) {
+	public void logoutUser(Context context) {
 		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
 		editor.clear();
-		if(editor.commit())
-		{
-			loadAppUser(context);
-			saveAppUser(context);
-			return true;
-		}
-		return false;
+		editor.apply();
+		loadAppUser(context);
+		saveAppUser(context);
 	}
 	public boolean isUserLoaded(){
 		return !getEmail().equals("");
 	}
-
 	public void LoginUser(Activity activity, boolean Result)
 	{
 		if(Result)
