@@ -37,6 +37,7 @@ public class ActionBarNavDrawer
 
 	private iActionBar barNavDrawer;
 	private AppCompatActivity activity;
+	private int pageNavID;
 
 	private boolean NavigationItemSelected(MenuItem item)
 	{
@@ -47,15 +48,22 @@ public class ActionBarNavDrawer
 		if (id == R.id.nav_home)
 		{
 			if(activity instanceof Home)
+			{
+				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+				drawer.closeDrawer(GravityCompat.START);
 				return true;
-
+			}
 
 			ActivityHelper.revertToHome(activity);
 		}
 		else if (id == R.id.nav_events)
 		{
 			if(activity instanceof EventListPage)
+			{
+				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+				drawer.closeDrawer(GravityCompat.START);
 				return true;
+			}
 
 			intent=new Intent(activity,EventListPage.class);
 			activity.startActivity(intent);
@@ -96,16 +104,18 @@ public class ActionBarNavDrawer
 			intent1.putExtra("Start_Home",false);
 			activity.startActivity(intent1);
 		}
+
 		DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 
 		return true;
 	}
 
-	public ActionBarNavDrawer(final AppCompatActivity activity, iActionBar drawer)
+	public ActionBarNavDrawer(final AppCompatActivity activity, iActionBar drawer, int pageNavID)
 	{
 		this.activity = activity;
 		barNavDrawer=drawer;
+		this.pageNavID=pageNavID;
 
 		NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
@@ -117,6 +127,8 @@ public class ActionBarNavDrawer
 			}
 		});
 
+		navigationView.setCheckedItem(pageNavID);
+
 		activity.findViewById(R.id.actionbar_navButton).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -124,15 +136,17 @@ public class ActionBarNavDrawer
 			{
 				DrawerLayout drawerx = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 
+				NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
+				navigationView.setCheckedItem(ActionBarNavDrawer.this.pageNavID);
+				//navigationView.getMenu().findItem(pageNavID).setChecked(true);
+
 				if(AppUserModel.MAIN_USER.isUserLoaded())
 				{
-					NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
 					navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
 					navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
 				}
 				else
 				{
-					NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
 					navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
 					navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
 				}
@@ -214,7 +228,7 @@ public class ActionBarNavDrawer
 			circularTextView.setVisibility(View.VISIBLE);
 			circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
 
-			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.INVISIBLE);
+			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.GONE);
 		}
 
 		navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setOnClickListener(new View.OnClickListener()

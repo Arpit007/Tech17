@@ -38,7 +38,7 @@ public class Home extends AppCompatActivity
 			{
 
 			}
-		});
+		},R.id.nav_home);
 		barNavDrawer.setLabel(getString(R.string.FestName));
 
 		if(CheckUpdate.CHECK_UPDATE.isUpdateAvailable() && CheckUpdate.CHECK_UPDATE.displayUpdate(Home.this));
