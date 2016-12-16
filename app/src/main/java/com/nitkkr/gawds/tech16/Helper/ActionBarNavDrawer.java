@@ -2,6 +2,7 @@ package com.nitkkr.gawds.tech16.Helper;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -153,30 +154,39 @@ public class ActionBarNavDrawer
 
 		if(AppUserModel.MAIN_USER.isUserLoaded())
 		{
-			if(AppUserModel.MAIN_USER.getImageResource()!=null)
+			if(AppUserModel.MAIN_USER.getImageResource()!=null && AppUserModel.MAIN_USER.isUseGoogleImage())
+			{
+				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
+				view.setVisibility(View.VISIBLE);
+
+                Glide.with(activity).load(AppUserModel.MAIN_USER.getImageResource()).thumbnail(0.5f).centerCrop().into(view);
+
+				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter).setVisibility(View.INVISIBLE);
+			}
+			else if(AppUserModel.MAIN_USER.getImageId()!=-1)
 			{
 				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
 				view.setVisibility(View.VISIBLE);
 
 				TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
-				//glide here
-                Glide.with(activity).load(AppUserModel.MAIN_USER.getImageResource()).thumbnail(0.5f).centerCrop().into(view);
-				//view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageResource(),0));
+				view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageId(),0));
 				array.recycle();
 
 				CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
+				circularTextView.setVisibility(View.VISIBLE);
 				circularTextView.setText("");
 				circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
 			}
 			else
 			{
 				CircularTextView view=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
-				view.setText(AppUserModel.MAIN_USER.getName().charAt(0));
+
+				view.setText(AppUserModel.MAIN_USER.getName().toUpperCase().charAt(0));
+				view.setVisibility(View.VISIBLE);
 
 				TypedArray array=activity.getResources().obtainTypedArray(R.array.Flat_Colors);
 
-				String temp=AppUserModel.MAIN_USER.getName().toLowerCase();
-				int colorPos=(temp.charAt(0)-'a')%array.length();
+				int colorPos=(AppUserModel.MAIN_USER.getName().toLowerCase().charAt(0)-'a')%array.length();
 
 				view.setFillColor(array.getColor(colorPos,0));
 				view.setBorderColor(ContextCompat.getColor(activity,R.color.User_Image_Border_Color));
@@ -201,6 +211,7 @@ public class ActionBarNavDrawer
 
 			CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
 			circularTextView.setText("");
+			circularTextView.setVisibility(View.VISIBLE);
 			circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
 
 			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.INVISIBLE);
@@ -214,7 +225,9 @@ public class ActionBarNavDrawer
 				if(AppUserModel.MAIN_USER.isUserLoaded())
 				{
 					Intent intent=new Intent(activity, ViewUser.class);
-					intent.putExtra("User",AppUserModel.MAIN_USER);
+					Bundle bundle=new Bundle();
+					bundle.putSerializable("User",AppUserModel.MAIN_USER);
+					intent.putExtras(bundle);
 					activity.startActivity(intent);
 				}
 				else

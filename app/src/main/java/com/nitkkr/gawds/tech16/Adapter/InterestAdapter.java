@@ -8,7 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Home Laptop on 03-Nov-16.
@@ -16,14 +20,25 @@ import com.nitkkr.gawds.tech16.R;
 
 public class InterestAdapter extends BaseAdapter
 {
-	private String list[];
+	private ArrayList<String> list;
 	private boolean Selected[];
 	private Context context;
 
 	public InterestAdapter(Context context)
 	{
-		list=context.getResources().getStringArray(R.array.Interests);
-		Selected=new boolean[list.length];
+		list=new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.Interests)));
+		Selected=new boolean[list.size()];
+
+		if(AppUserModel.MAIN_USER.isUserLoaded())
+		{
+			ArrayList<String> array=AppUserModel.MAIN_USER.getInterests();
+			for( String string: array)
+			{
+				int ID=list.indexOf(string);
+				if(ID!=-1)
+					Selected[ID]=true;
+			}
+		}
 
 		this.context=context;
 	}
@@ -31,7 +46,7 @@ public class InterestAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		return list.length;
+		return list.size();
 	}
 
 	@Override
@@ -55,7 +70,7 @@ public class InterestAdapter extends BaseAdapter
 			view=inflater.inflate(R.layout.layout_list_item_interest,viewGroup,false);
 		}
 
-		(( TextView)view.findViewById(R.id.interest_item_label)).setText(list[i]);
+		(( TextView)view.findViewById(R.id.interest_item_label)).setText(list.get(i));
 
 		if(Selected[i])
 			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
@@ -82,13 +97,13 @@ public class InterestAdapter extends BaseAdapter
 	public String getInterestsString()
 	{
 		StringBuilder stringBuilder=new StringBuilder("");
-
-		for(int x=0;x<list.length;x++)
+		int length=list.size();
+		for(int x=0;x<length;x++)
 			if(Selected[x])
 			{
 				if(stringBuilder.toString().equals(""))
-					stringBuilder.append(list[x]);
-				else (stringBuilder.append(",")).append(list[x]);
+					stringBuilder.append(list.get(x));
+				else (stringBuilder.append(",")).append(list.get(x));
 			}
 		return stringBuilder.toString();
 	}
