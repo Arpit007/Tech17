@@ -102,6 +102,7 @@ public class ActionBarNavDrawer
 			Intent intent1=new Intent(activity,Login.class);
 			intent1.putExtra("Start_Home",false);
 			activity.startActivity(intent1);
+			activity.finish();
 
 		}
 		else if(id==R.id.nav_login)
