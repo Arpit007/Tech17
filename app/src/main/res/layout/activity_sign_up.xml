@@ -49,7 +49,7 @@
         <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="@color/text_color_primary"
-                  android:text="*Name: "
+                  android:text="Name: "
                   android:textSize="20sp"/>
         <EditText android:id="@+id/signup_Name"
                   android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="center"
                       android:textColor="@color/text_color_primary"
-                      android:text="*College: "
+                      android:text="College: "
                       android:textSize="20sp"
                       android:id="@+id/textView2"/>
 
@@ -150,7 +150,7 @@
         <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="@color/text_color_primary"
-                  android:text="*Mobile Number: "
+                  android:text="Mobile Number: "
                   android:textSize="20sp"
                   android:id="@+id/textView"/>
 
@@ -238,7 +238,7 @@
         <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="@color/text_color_primary"
-                  android:text="*Email: "
+                  android:text="Email: "
                   android:textSize="20sp"/>
         <Button android:id="@+id/signup_Email"
                 android:layout_width="match_parent"
@@ -257,7 +257,7 @@
               android:layout_height="wrap_content"
               android:layout_marginBottom="5dp"
               android:layout_marginTop="5dp"
-              android:text="Please fill out the Mandatory fields"
+              android:text="Please fill out all the fields"
               android:textAlignment="center"
               android:textColor="@color/text_color_primary"
               android:visibility="invisible"/>

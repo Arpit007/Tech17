@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -38,7 +37,7 @@ public class Interests extends AppCompatActivity
 {
 	private InterestAdapter adapter;
 	private ProgressDialog mProgressDialog;
-	String token;
+	String token,interests_post_data;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -67,9 +66,6 @@ public class Interests extends AppCompatActivity
 			{
 				if (adapter.isDone())
 				{
-					SignInStatus status=SignInStatus.NONE;
-
-					//AppUserModel appUserModel=(AppUserModel)getIntent().getExtras().getSerializable("User");
 
 					AppUserModel appUserModel=AppUserModel.MAIN_USER;
 
@@ -92,8 +88,13 @@ public class Interests extends AppCompatActivity
 						finish();
 						return;
 					}
-
+					interests_post_data="[";
 					//TODO: Send Info
+					ArrayList<String> s=AppUserModel.MAIN_USER.getInterests();
+					for(int i=0;i<s.size()-1;i++){
+						interests_post_data+='"'+s.get(i)+'"'+",";
+					}
+					interests_post_data+='"'+s.get(s.size()-1)+'"'+"]";
 					send_interests();
 
 				}
@@ -103,14 +104,17 @@ public class Interests extends AppCompatActivity
 				}
 			}
 		});
+
 		barDone.setLabel("Interests");
 		token=AppUserModel.MAIN_USER.getToken();
+
+
 	}
 
 	public void send_interests(){
 		showProgressDialog("Optimising your feed...");
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
-				getResources().getString(R.string.get_interests_url),
+				getResources().getString(R.string.get_user_interests_url),
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String res) {
@@ -124,10 +128,8 @@ public class Interests extends AppCompatActivity
 						try {
 							response = new JSONObject(res);
 							status=response.getJSONObject("status");
-							data=response.getJSONArray("data");
 
 							code=status.getInt("code");
-							message=status.getString("message");
 
 							if(code==200){
 								interests_status(SignInStatus.SUCCESS);
@@ -155,6 +157,7 @@ public class Interests extends AppCompatActivity
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<String, String>();
 				params.put("token",token);
+				params.put("interests",interests_post_data);
 				return params;
 			}
 

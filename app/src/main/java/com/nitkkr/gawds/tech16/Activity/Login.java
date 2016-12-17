@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +31,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.App;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -115,14 +113,14 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
 
-            Log.v(TAG, "display name: " + acct.getDisplayName());
+            //Log.v(TAG, "display name: " + acct.getDisplayName());
 
             personName = acct.getDisplayName();
             personPhotoUrl = acct.getPhotoUrl().toString();
             email = acct.getEmail();
             token_user=acct.getIdToken().toString();
-            Log.e(TAG, "Name: " + personName + ", email: " + email
-                    + ", Image: " + personPhotoUrl+" token :"+token_user);
+            //Log.e(TAG, "Name: " + personName + ", email: " + email
+              //      + ", Image: " + personPhotoUrl+" token :"+token_user);
 
             sendToken();
         } else {
@@ -187,8 +185,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                             e.printStackTrace();
                         }
 
-
-                        Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
                         hideProgressDialog();
                     }
                 },
@@ -298,7 +294,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     public void fetch_interests(){
         showProgressDialog("Optimising your feed...");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.server_url)+
-                getResources().getString(R.string.get_interests_url),
+                getResources().getString(R.string.get_user_interests_url),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String res) {
@@ -394,6 +390,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 Intent intent=new Intent(Login.this, SignUp.class);
                 intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
                 startActivity(intent);
+                finish();
                 break;
             default:
                 break;
