@@ -4,12 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,6 +37,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.Helper.App;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -53,7 +60,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     static public GoogleApiClient mGoogleApiClient;
     static public GoogleSignInOptions gso;
     private ProgressDialog mProgressDialog;
-    private SignInButton btnSignIn;
+    private Button btnSignIn;
     String personName,personPhotoUrl,email,token_user,token_recieved;
     SignInStatus success=SignInStatus.SUCCESS;
     SignInStatus failed=SignInStatus.FAILED;
@@ -65,13 +72,10 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ActionBarSimple barSimple = new ActionBarSimple(this);
-        barSimple.setLabel(getString(R.string.FestName));
-
         Typewriter login_type=(Typewriter)findViewById(R.id.label);
-        login_type.animateText("      Login");
+        login_type.animateText("    Login");
         login_type.setCharacterDelay(80);
-        btnSignIn = (SignInButton) findViewById(R.id.login_Gmail);
+        btnSignIn = (Button) findViewById(R.id.login_Gmail);
         btnSignIn.setOnClickListener(this);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -83,10 +87,14 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-
-        // Customizing G+ button
-        btnSignIn.setSize(SignInButton.SIZE_STANDARD);
+        RelativeLayout rl=(RelativeLayout) findViewById(R.id.activity_login);
+//        Bitmap bk=App.decodeSampledBitmapFromResource(getResources(),R.drawable.login_bk3,300,300);
+//        Drawable bd=new BitmapDrawable(getResources(),bk);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//            rl.setBackground(bd);
+//        }else{
+//            rl.setBackgroundDrawable(bd);
+//        }
 
 
     }
