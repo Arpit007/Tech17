@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,6 @@ public class InterestAdapter extends BaseAdapter
 					Selected[ID]=true;
 			}
 		}
-
 		this.context=context;
 	}
 
@@ -81,9 +81,16 @@ public class InterestAdapter extends BaseAdapter
 
 	public void onItemClick(View view, int Position)
 	{
-		if(Selected[Position])
+		boolean x=Selected[Position];
+		if(x)
+		{
+			Selected[Position]=false;
+			((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
+		}else{
+
+			Selected[Position]=true;
 			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
-		else ((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
+		}
 	}
 
 	public boolean isDone()

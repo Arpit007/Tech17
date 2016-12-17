@@ -53,6 +53,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	private static final int RC_SIGN_IN = 007;
 	private GoogleApiClient mGoogleApiClient;
 	private ProgressDialog mProgressDialog;
+	private GoogleSignInOptions gso;
 	String personName,personPhotoUrl,email,token_user,token_recieved,College,Gender,Branch,RollNo,PhoneNumber,Year;
 
 	SignInStatus success=SignInStatus.SUCCESS;
@@ -93,7 +94,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		ActionBarSimple barSimple = new ActionBarSimple(this);
 		barSimple.setLabel(getString(R.string.FestName));
 
-
 		Typewriter signup_label=(Typewriter)findViewById(R.id.signup_label);
 		signup_label.animateText("      Sign up");
 		signup_label.setCharacterDelay(60);
@@ -101,46 +101,39 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		//if user logged in first then if found new
 
-		String name=AppUserModel.MAIN_USER.getName();
-		String email=AppUserModel.MAIN_USER.getEmail();
+		 personName=AppUserModel.MAIN_USER.getName();
+		 email=AppUserModel.MAIN_USER.getEmail();
+		personPhotoUrl=AppUserModel.MAIN_USER.getImageResource();
+
 		EditText name_editText; Button email_button;
-		if(!name.equals("")){
+		if(!personName.equals("")){
 			name_editText=( EditText)findViewById(R.id.signup_Name);
-			name_editText.setText(name);
+			name_editText.setText(personName);
 		}
 		if(!email.equals("")){
 			email_button=(Button) findViewById(R.id.signup_Email);
 			email_button.setText(email);
 		}
 
-		final GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+		 gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 				.requestEmail()
 				.requestIdToken("726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com")
 				.build();
 
-		mGoogleApiClient = new GoogleApiClient.Builder(this)
-				.enableAutoManage(this, this)
-				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-				.build();
 
 		Button google_signIn_btn=(Button)findViewById(R.id.signup_Email);
 		google_signIn_btn.setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						if(mGoogleApiClient!=null){
-							mGoogleApiClient.disconnect();
-						}
-
-						mGoogleApiClient = new GoogleApiClient.Builder(SignUp.this)
-								.enableAutoManage(SignUp.this,SignUp.this)
-								.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-								.build();
-						mGoogleApiClient.connect();
+						mGoogleApiClient = Login.mGoogleApiClient;
+						signIn();
 					}
 				}
 		);
 
+		token_recieved=AppUserModel.MAIN_USER.getToken();
+		Log.v("debug",token_recieved);
 	}
 	private void signIn() {
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -270,8 +263,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			@Override
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<String, String>();
-//				params.put("gmailToken",token_user);
-				params.put("gmailToken","d5bb3540281a8993c1963aaacd85ab57109f13288b0142b7f936c9ad8476d37f0483e1c2ac0166");
+				params.put("idToken",token_user);
 				return params;
 			}
 
@@ -284,18 +276,25 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 	boolean Check()
 	{
-		if (( (TextView) findViewById(R.id.signup_Name) ).getText().toString().trim().equals(""))
+		EditText signup_name=(EditText) findViewById(R.id.signup_Name);
+		if (( signup_name ).getText().toString().trim().equals(""))
 		{
+			signup_name.setError("required");
 			return false;
 		}
 
-		if (( (RadioButton) findViewById(R.id.signup_OtherRadio) ).isChecked() && ( (TextView) ( findViewById(R.id.signup_CollegeName) ) ).getText().toString().trim().equals(""))
+		if (( (RadioButton) findViewById(R.id.signup_OtherRadio) ).isChecked() && ( (EditText) ( findViewById(R.id.signup_CollegeName) ) ).getText().toString().trim().equals(""))
 		{
 			return false;
 		}
-
-		if (( (TextView) findViewById(R.id.signup_Number) ).getText().toString().trim().equals("") || ( (TextView) findViewById(R.id.signup_Number) ).getText().length() < 10)
+		EditText signup_number=( (EditText) findViewById(R.id.signup_Number) );
+		if ( signup_number.getText().toString().trim().equals("") )
 		{
+			signup_number.setError("required");
+			return false;
+		}
+		if(( (TextView) findViewById(R.id.signup_Number) ).getText().length() < 10){
+			signup_number.setError("Not valid");
 			return false;
 		}
 
@@ -323,12 +322,12 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
 		AppUserModel.MAIN_USER.setisCoordinator(false);
 		AppUserModel.MAIN_USER.setToken(token_recieved);
-		AppUserModel.MAIN_USER.setRoll(RollNo);
+		AppUserModel.MAIN_USER.setRoll(RollNo+"");
 		AppUserModel.MAIN_USER.setCollege(College);
 		AppUserModel.MAIN_USER.setMobile(PhoneNumber);
-		AppUserModel.MAIN_USER.setBranch(Branch);
-		AppUserModel.MAIN_USER.setGender(Gender);
-		AppUserModel.MAIN_USER.setYear(Year);
+		AppUserModel.MAIN_USER.setBranch(Branch+"");
+		AppUserModel.MAIN_USER.setGender(Gender+"");
+		AppUserModel.MAIN_USER.setYear(Year+"");
 
 		AppUserModel.MAIN_USER.saveAppUser(SignUp.this);
 
@@ -391,13 +390,20 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<String, String>();
 				params.put("token",token_recieved);
-				params.put("Name",personName);
-				params.put("RollNo",RollNo);
-				params.put("PhoneNumber",PhoneNumber);
-				params.put("Branch",Branch);
-				params.put("Year",Year);
-				params.put("College",College);
-				params.put("Gender",Gender);
+				if(personName!=null)
+				params.put("Name",personName+"");
+				if(RollNo!=null)
+				params.put("RollNo",RollNo+"");
+				if(PhoneNumber!=null)
+				params.put("PhoneNumber",PhoneNumber+"");
+				if(Branch!=null)
+				params.put("Branch",Branch+"");
+				if(Year!=null)
+				params.put("Year",Year+"");
+				if(College!=null)
+				params.put("College",College+"");
+				if(Gender!=null)
+				params.put("Gender",Gender+"");
 				return params;
 			}
 
@@ -431,7 +437,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				case SUCCESS:
 					Intent intent=new Intent(SignUp.this, Interests.class);
 					Bundle bundle=new Bundle();
-				//	bundle.putSerializable("User",user);
+					bundle.putSerializable("User",user);
 					bundle.putBoolean("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
 					intent.putExtras(bundle);
 					startActivity(intent);
@@ -445,7 +451,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	public void SignUp(View view)
 	{
 
-		if (Check() && ( (String) ( (Spinner) findViewById(R.id.signup_Branch) ).getSelectedItem() ).trim().equals(""))
+		if (Check() && !( (String) ( (Button) findViewById(R.id.signup_Email) ).getText() ).trim().equals(""))
 		{
 			save_and_send_user_details();
 		}
@@ -499,4 +505,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			mProgressDialog.hide();
 		}
 	}
+
+
 }
