@@ -9,11 +9,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.API.Query;
 import com.nitkkr.gawds.tech16.Activity.About;
 import com.nitkkr.gawds.tech16.Activity.EventListPage;
@@ -38,6 +43,7 @@ public class ActionBarNavDrawer
 	private iActionBar barNavDrawer;
 	private AppCompatActivity activity;
 	private int pageNavID;
+	private GoogleApiClient mGoogleApiClient;
 
 	private boolean NavigationItemSelected(MenuItem item)
 	{
@@ -92,11 +98,10 @@ public class ActionBarNavDrawer
 		else if (id == R.id.nav_logout)
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
-			intent=new Intent(activity,Login.class);
+			Intent intent1=new Intent(activity,Login.class);
+			intent1.putExtra("Start_Home",false);
+			activity.startActivity(intent1);
 
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("isLogout",true);
-			activity.startActivity(intent);
 		}
 		else if(id==R.id.nav_login)
 		{

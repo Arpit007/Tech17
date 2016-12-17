@@ -17,7 +17,6 @@ public class AppUserModel extends CoordinatorModel
 {
 	private boolean Coordinator;
 	private ArrayList<String> Interests;
-
 	public static final int LOGIN_REQUEST_CODE=99;
 
 	public ArrayList<String> getInterests(){return Interests;}
@@ -107,7 +106,7 @@ public class AppUserModel extends CoordinatorModel
 	public void logoutUser(Context context) {
 		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
 		editor.clear();
-		editor.apply();
+		editor.commit();
 		loadAppUser(context);
 		saveAppUser(context);
 	}
@@ -122,5 +121,12 @@ public class AppUserModel extends CoordinatorModel
 		if(Result)
 			activity.startActivityForResult(new Intent(activity, Login.class),LOGIN_REQUEST_CODE);
 		else activity.startActivity(new Intent(activity,Login.class));
+	}
+
+	public boolean isUserSignedUp(){
+		if(getMobile()!=null)
+			return true;
+		else
+			return false;
 	}
 }

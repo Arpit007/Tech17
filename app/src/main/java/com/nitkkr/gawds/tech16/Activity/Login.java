@@ -119,8 +119,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
             personPhotoUrl = acct.getPhotoUrl().toString();
             email = acct.getEmail();
             token_user=acct.getIdToken().toString();
-            //Log.e(TAG, "Name: " + personName + ", email: " + email
-              //      + ", Image: " + personPhotoUrl+" token :"+token_user);
+            Log.e(TAG, "Name: " + personName + ", email: " + email
+                    + ", Image: " + personPhotoUrl+" token :"+token_user);
 
             sendToken();
         } else {
@@ -147,35 +147,38 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                         try {
                             response = new JSONObject(res);
                             status=response.getJSONObject("status");
-                            //for time being ,uncomment this after backend is fixed
-                            //data=response.getJSONObject("data");
-                            token_recieved=response.getString("data");
+
+                            data=response.getJSONObject("data");
+                            token_recieved=data.getString("token");
+
                             code=status.getInt("code");
                             message=status.getString("message");
 
-                            //isNew=data.getBoolean("isNew");
-                            //token_recieved=data.getString("token");
+                            isNew=data.getBoolean("IsNew");
 
                             //save this token for further use
-
                             if(code==200){
-                                Log.v(TAG,message);
-                                //success
-                                //if(isNew){
+                                Log.v(TAG,response.toString());
 
+                                //success
                                 AppUserModel.MAIN_USER.setName(personName);
                                 AppUserModel.MAIN_USER.setEmail(email);
                                 AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
                                 AppUserModel.MAIN_USER.setisCoordinator(false);
                                 AppUserModel.MAIN_USER.setToken(token_recieved);
                                 AppUserModel.MAIN_USER.saveAppUser(Login.this);
-                                SignInStatus sign_up=SignInStatus.SIGNUP;
-                                SignIn(sign_up);
 
-                                //}else{
+
+                                if(isNew){
+
+                                    SignInStatus sign_up=SignInStatus.SIGNUP;
+                                    SignIn(sign_up);
+
+                                }else{
                                 //get things first
-                                //	fetch_user_details();
-                                //}
+                                    SignIn(success);
+                                    //fetch_user_details();
+                                }
                             }else{
                                 //failure
                                 SignIn(failed);
@@ -239,11 +242,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                                 Gender=data.getString("Gender");
                                 Year=data.getString("Year");
                                 //saving user data
-                                AppUserModel.MAIN_USER.setName(personName);
-                                AppUserModel.MAIN_USER.setEmail(email);
-                                AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
-                                AppUserModel.MAIN_USER.setisCoordinator(false);
-                                AppUserModel.MAIN_USER.setToken(token_recieved);
                                 AppUserModel.MAIN_USER.setRoll(RollNo);
                                 AppUserModel.MAIN_USER.setCollege(College);
                                 AppUserModel.MAIN_USER.setMobile(PhoneNumber);
@@ -322,6 +320,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
                                 //everything is fetched and saved now
                                 //so intent to home
+
+
                                 SignIn(success);
                             }else{
                                 //failure
@@ -396,7 +396,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 break;
         }
     }
-    static private void signOut() {
+     private void signOut() {
+        Log.v("Debug","Logged out");
+
         if(mGoogleApiClient.isConnected()) {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     new ResultCallback<Status>() {
@@ -412,13 +414,19 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         super.onStart();
 
         if(!issignout) {
+
             OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
             if (opr.isDone()) {
                 // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
                 // and the GoogleSignInResult will be available instantly.
                 Log.d(TAG, "Got cached sign-in");
-                GoogleSignInResult result = opr.get();
-                handleSignInResult(result);
+                if(AppUserModel.MAIN_USER.isUserSignedUp()){
+                    GoogleSignInResult result = opr.get();
+                    handleSignInResult(result);
+                }else{
+                    Log.v("DEBUG","NOT signed up");
+                    SignIn(SignInStatus.SIGNUP);
+                }
 
             } else {
                 // If the user has not previously signed in on this device or the sign-in has expired,
@@ -433,6 +441,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                     }
                 });
             }
+
         }else{
             signOut();
         }

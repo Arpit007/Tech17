@@ -376,7 +376,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 								signup_result(success);
 
 							}else{
-										//failure
+
+								//failure
 								signup_result(failed);
 							}
 
