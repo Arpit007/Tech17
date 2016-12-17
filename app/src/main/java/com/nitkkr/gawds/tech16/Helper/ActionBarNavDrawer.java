@@ -98,6 +98,7 @@ public class ActionBarNavDrawer
 		else if (id == R.id.nav_logout)
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
+			AppUserModel.MAIN_USER.setLoggedIn(false);
 			Intent intent1=new Intent(activity,Login.class);
 			intent1.putExtra("Start_Home",false);
 			activity.startActivity(intent1);

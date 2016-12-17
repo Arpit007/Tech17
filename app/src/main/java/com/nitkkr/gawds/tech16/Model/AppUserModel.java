@@ -18,7 +18,7 @@ public class AppUserModel extends CoordinatorModel
 	private boolean Coordinator;
 	private ArrayList<String> Interests;
 	public static final int LOGIN_REQUEST_CODE=99;
-
+	private static boolean loggedIn,signedup;
 	public ArrayList<String> getInterests(){return Interests;}
 
 	public static AppUserModel MAIN_USER=new AppUserModel();
@@ -123,10 +123,24 @@ public class AppUserModel extends CoordinatorModel
 		else activity.startActivity(new Intent(activity,Login.class));
 	}
 
-	public boolean isUserSignedUp(){
-		if(getMobile()!=null)
+	public boolean isUserLoggedIn(){
+		if(loggedIn)
 			return true;
 		else
 			return false;
+	}
+
+	public void setLoggedIn(boolean val){
+		loggedIn=val;
+	}
+
+	public boolean isUserSignedUp(){
+		if(signedup)
+			return true;
+		else
+			return false;
+	}
+	public void setSignedup(boolean val){
+		signedup=val;
 	}
 }

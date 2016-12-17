@@ -230,7 +230,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 										email_button.setText(email);
 									}
 
-
 								}else{
 									//already logged in user
 									Toast.makeText(SignUp.this,"Already signed up!!, please login",Toast.LENGTH_LONG).show();
@@ -424,9 +423,14 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		switch (status)
 			{
 				case FAILED:
+					AppUserModel.MAIN_USER.setSignedup(false);
 					Toast.makeText(this,"Failed to Sign Up, Please Try Again",Toast.LENGTH_LONG).show();
 					break;
 				case SUCCESS:
+
+					AppUserModel.MAIN_USER.setSignedup(true);
+					AppUserModel.MAIN_USER.setLoggedIn(true);
+
 					Intent intent=new Intent(SignUp.this, Interests.class);
 					Bundle bundle=new Bundle();
 					bundle.putBoolean("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
