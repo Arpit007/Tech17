@@ -122,8 +122,23 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mGoogleApiClient = Login.mGoogleApiClient;
-						signIn();
+						if(Check()){
+							mGoogleApiClient = Login.mGoogleApiClient;
+							signIn();
+
+						}else{
+
+							findViewById(R.id.signup_Warning).setVisibility(View.VISIBLE);
+							new Handler().postDelayed(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									findViewById(R.id.signup_Warning).setVisibility(View.INVISIBLE);
+								}
+							}, getResources().getInteger(R.integer.WarningDuration));
+						}
+
 					}
 				}
 		);
@@ -171,27 +186,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			signup_result(failed);
 		}
 	}
-
-	public void Authenticate(View view)
-	{
-		if(Check()){
-			//this is google sign in
-			signIn();
-
-		}else{
-
-			findViewById(R.id.signup_Warning).setVisibility(View.VISIBLE);
-			new Handler().postDelayed(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					findViewById(R.id.signup_Warning).setVisibility(View.INVISIBLE);
-				}
-			}, getResources().getInteger(R.integer.WarningDuration));
-		}
-
-	}
+	
 	public void sendToken(){
 		showProgressDialog("Verifying");
 
@@ -214,7 +209,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 							code=status.getInt("code");
 							message=status.getString("message");
 
-							isNew=data.getBoolean("isNew");
+							isNew=data.getBoolean("IsNew");
 							token_recieved=data.getString("token");
 
 							//save this token for further use
@@ -231,8 +226,10 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 									}
 
 								}else{
+
 									//already logged in user
 									Toast.makeText(SignUp.this,"Already signed up!!, please login",Toast.LENGTH_LONG).show();
+
 								}
 							}else{
 								//failure
@@ -244,7 +241,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 						}
 
 
-						Toast.makeText(SignUp.this,res,Toast.LENGTH_LONG).show();
 						hideProgressDialog();
 					}
 				},
