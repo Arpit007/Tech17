@@ -18,7 +18,7 @@ public class AppUserModel extends CoordinatorModel
 	private boolean Coordinator;
 	private ArrayList<String> Interests;
 	public static final int LOGIN_REQUEST_CODE=99;
-	private static boolean loggedIn,signedup;
+	private boolean loggedIn,signedup;
 	public ArrayList<String> getInterests(){return Interests;}
 
 	public static AppUserModel MAIN_USER=new AppUserModel();
@@ -111,6 +111,7 @@ public class AppUserModel extends CoordinatorModel
 		saveAppUser(context);
 	}
 	public boolean isUserLoaded(){
+
 		if(getEmail()!=null)
 		return !getEmail().equals("");
 		else
@@ -123,26 +124,36 @@ public class AppUserModel extends CoordinatorModel
 		else activity.startActivity(new Intent(activity,Login.class));
 	}
 
-	public boolean isUserLoggedIn(){
+	public boolean isUserLoggedIn(Context context){
+		SharedPreferences sp=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE);
+		loggedIn=sp.getBoolean("loggedIn",false);
+
 		if(loggedIn)
 			return true;
 		else
 			return false;
 	}
 
-	public void setLoggedIn(boolean val){
-		loggedIn=val;
+	public void setLoggedIn(boolean val,Context context){
+		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
+		editor.putBoolean("loggedIn",val);
+		editor.commit();
 	}
 
-	public boolean isUserSignedUp(){
+	public boolean isUserSignedUp(Context context){
+		SharedPreferences sp=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE);
+		signedup=sp.getBoolean("signedup",false);
 		if(signedup)
 			return true;
 		else
 			return false;
 	}
-	public void setSignedup(boolean val){
-		signedup=val;
+	public void setSignedup(boolean val,Context context){
+		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
+		editor.putBoolean("signedup",val);
+		editor.commit();
 	}
+
 	public void LoginUserNoHome(Activity activity, boolean Result)
 	{
 		Intent intent=new Intent(activity,Login.class);

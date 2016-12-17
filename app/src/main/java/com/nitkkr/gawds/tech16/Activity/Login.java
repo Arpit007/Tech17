@@ -174,7 +174,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
                                 }else{
                                 //get things first
-                                    AppUserModel.MAIN_USER.setSignedup(true);
+                                    AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
+
                                     SignIn(success);
                                     fetch_user_details();
                                 }
@@ -347,12 +348,12 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         switch (status)
         {
             case FAILED:
-                AppUserModel.MAIN_USER.setLoggedIn(false);
+                AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
                 Toast.makeText(getBaseContext(), "Failed to LogIn", Toast.LENGTH_LONG).show();
                 break;
             case SUCCESS:
 
-                AppUserModel.MAIN_USER.setLoggedIn(true);
+                AppUserModel.MAIN_USER.setLoggedIn(true,getBaseContext());
                 Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
 
 
@@ -372,7 +373,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 finish();
                 break;
             case SIGNUP:
-                AppUserModel.MAIN_USER.setSignedup(false);
+                AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
                 Intent intent=new Intent(Login.this, SignUp.class);
                 intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
                 startActivity(intent);
@@ -399,9 +400,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     public void onStart() {
         super.onStart();
 
-        if(AppUserModel.MAIN_USER.isUserLoggedIn()){
+        if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
 
-            if(!AppUserModel.MAIN_USER.isUserSignedUp()){
+            if(!AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
                 SignIn(SignInStatus.SIGNUP);
             }else{
                 startActivity(new Intent(Login.this,Home.class));
@@ -441,8 +442,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
         editor.putBoolean("Skip",true);
         editor.commit();
-        AppUserModel.MAIN_USER.setSignedup(false);
-        AppUserModel.MAIN_USER.setLoggedIn(false);
+        AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
+        AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
         AppUserModel.MAIN_USER.logoutUser(getBaseContext());
         if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
             startActivity(new Intent(Login.this, Home.class));

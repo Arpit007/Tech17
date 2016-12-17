@@ -64,17 +64,17 @@
                 android:background="@drawable/user_profile_textview"
                 android:layout_margin="5dp"
                 android:padding="10dp"
-                android:layout_height="50dp">
+                android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/name"
                 android:padding="5dp"
                 android:id="@+id/name_view"/>
 
             <TextView
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/user_Name" android:text="Sample Name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -106,10 +106,10 @@
             android:background="@drawable/user_profile_textview"
             android:layout_margin="5dp"
             android:padding="10dp"
-            android:layout_height="50dp">
+            android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/email"
                 android:padding="5dp"
@@ -126,7 +126,7 @@
                 android:layout_marginStart="11dp"
                 />
             <TextView
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/user_Email" android:text="Sample@mail.com"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -146,10 +146,10 @@
             android:background="@drawable/user_profile_textview"
             android:layout_margin="5dp"
             android:padding="10dp"
-            android:layout_height="50dp">
+            android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/college"
                 android:padding="5dp"
@@ -166,7 +166,7 @@
                 android:layout_marginStart="11dp"
                 />
             <TextView
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/user_College" android:text="Sample College"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -186,10 +186,10 @@
             android:background="@drawable/user_profile_textview"
             android:layout_margin="5dp"
             android:padding="10dp"
-            android:layout_height="50dp">
+            android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/roll_no"
                 android:padding="5dp"
@@ -206,7 +206,7 @@
                 android:layout_marginStart="11dp"
                 />
             <TextView
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/user_Roll" android:text="12345"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -226,10 +226,10 @@
             android:background="@drawable/user_profile_textview"
             android:layout_margin="5dp"
             android:padding="10dp"
-            android:layout_height="50dp">
+            android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/branch"
                 android:padding="5dp"
@@ -246,7 +246,7 @@
                 android:layout_marginStart="11dp"
                 />
             <TextView
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/user_Branch" android:text="IT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -266,10 +266,10 @@
             android:background="@drawable/user_profile_textview"
             android:layout_margin="5dp"
             android:padding="10dp"
-            android:layout_height="50dp">
+            android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/contact"
                 android:padding="5dp"
@@ -287,7 +287,7 @@
                 />
 
             <TextView
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/user_Number" android:text="9876543210"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
