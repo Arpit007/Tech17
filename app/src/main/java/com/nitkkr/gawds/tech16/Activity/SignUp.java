@@ -186,7 +186,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			signup_result(failed);
 		}
 	}
-	
+
 	public void sendToken(){
 		showProgressDialog("Verifying");
 
