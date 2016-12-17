@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.Model.BaseEventModel;
+import com.nitkkr.gawds.tech16.Model.EventKey;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -16,15 +18,17 @@ import java.util.ArrayList;
  * Created by Home Laptop on 20-Nov-16.
  */
 
-public class EventListAdapter extends BaseAdapter
+public class EventListAdapter extends BaseAdapter implements Filterable
 {
-	ArrayList<BaseEventModel> Event;
-	Context context;
+	private ArrayList<EventKey> Event;
+	private Context context;
+	private EventSearch eventSearch;
 
-	public EventListAdapter(Context context, ArrayList<BaseEventModel> event)
+	public EventListAdapter(Context context, ArrayList<EventKey> event)
 	{
 		this.context=context;
 		this.Event = event;
+		eventSearch=new EventSearch(this);
 	}
 
 	@Override
@@ -48,7 +52,7 @@ public class EventListAdapter extends BaseAdapter
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup)
 	{
-		final String childText = Event.get(i).getEventName();
+		final String childText = Event.get(i).getName();
 
 		if (view == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,4 +64,10 @@ public class EventListAdapter extends BaseAdapter
 		txtListChild.setText(childText);
 		return view;
 	}
+
+	public ArrayList<EventKey> getEvents(){return Event;}
+
+	public void setEvents(ArrayList<EventKey> models){Event = models;}
+
+	public EventSearch getFilter(){return eventSearch;}
 }

@@ -16,19 +16,19 @@
     <RelativeLayout android:layout_marginTop="10dp"
         android:orientation="horizontal" android:id="@+id/temp_Layout"
         android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content" android:layout_height="wrap_content">
+        android:layout_width="100dp" android:layout_height="100dp">
 
         <com.nitkkr.gawds.tech16.Src.CircularTextView
             android:id="@+id/nav_User_Image_Letter" android:visibility="visible"
             android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"
-            android:layout_width="90dp" android:layout_height="90dp"/>
+            android:layout_width="match_parent" android:layout_height="match_parent"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             app:border_color="@color/User_Image_Border_Color" app:border_width="@dimen/User_Image_Border_Width"
             android:id="@+id/nav_User_Image" android:src="@drawable/avatar_1"
             android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-            android:layout_width="90dp" android:layout_height="90dp"/>
+            android:layout_width="match_parent" android:layout_height="match_parent"/>
 
 
     </RelativeLayout>

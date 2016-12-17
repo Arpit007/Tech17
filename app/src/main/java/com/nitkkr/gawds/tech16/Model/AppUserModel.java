@@ -109,10 +109,18 @@ public class AppUserModel extends CoordinatorModel
 	public boolean isUserLoaded(){
 		return !getEmail().equals("");
 	}
-	public void LoginUser(Activity activity, boolean Result)
+	public void LoginUserHome(Activity activity, boolean Result)
 	{
 		if(Result)
 			activity.startActivityForResult(new Intent(activity, Login.class),LOGIN_REQUEST_CODE);
 		else activity.startActivity(new Intent(activity,Login.class));
+	}
+	public void LoginUserNoHome(Activity activity, boolean Result)
+	{
+		Intent intent=new Intent(activity,Login.class);
+		intent.putExtra("Start_Home",false);
+		if(Result)
+			activity.startActivityForResult(intent,LOGIN_REQUEST_CODE);
+		else activity.startActivity(intent);
 	}
 }

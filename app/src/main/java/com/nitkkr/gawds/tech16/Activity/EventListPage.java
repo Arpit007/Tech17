@@ -15,7 +15,7 @@ import com.nitkkr.gawds.tech16.R;
 public class EventListPage extends AppCompatActivity
 {
 	private ActionBarNavDrawer barNavDrawer;
-
+	private EventListPagerAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -31,13 +31,14 @@ public class EventListPage extends AppCompatActivity
 			}
 
 			@Override
-			public void SearchButtonClicked()
+			public void SearchQuery(String Query)
 			{
-
+				adapter.Filter(Query);
 			}
 		},R.id.nav_events);
 
 		barNavDrawer.setLabel("Events");
+		barNavDrawer.setSearchHint("Events");
 
 		TabLayout tabLayout = (TabLayout) findViewById(R.id.event_list_tab);
 		tabLayout.addTab(tabLayout.newTab().setText(R.string.Event_list_Tab_1));
@@ -45,7 +46,7 @@ public class EventListPage extends AppCompatActivity
 		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 		final ViewPager viewPager = (ViewPager) findViewById(R.id.event_list_page_view);
-		final EventListPagerAdapter adapter = new EventListPagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount(),EventListPage.this);
+		adapter = new EventListPagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
 		viewPager.setAdapter(adapter);
 		viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 		viewPager.setCurrentItem(0);

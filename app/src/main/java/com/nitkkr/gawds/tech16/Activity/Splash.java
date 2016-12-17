@@ -56,7 +56,7 @@ public class Splash extends AppCompatActivity
 				startActivity(new Intent(Splash.this, Home.class));
 			}
 			else
-				AppUserModel.MAIN_USER.LoginUser(Splash.this,false);
+				AppUserModel.MAIN_USER.LoginUserHome(Splash.this,false);
 			finish();
 		}
 	};
