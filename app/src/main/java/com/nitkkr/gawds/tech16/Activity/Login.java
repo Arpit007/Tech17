@@ -4,13 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -55,8 +60,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     static public GoogleApiClient mGoogleApiClient;
     static public GoogleSignInOptions gso;
     private ProgressDialog mProgressDialog;
-    private SignInButton btnSignIn;
-    private boolean issignout;
+    private Button btnSignIn;
     String personName,personPhotoUrl,email,token_user,token_recieved;
     SignInStatus success=SignInStatus.SUCCESS;
     SignInStatus failed=SignInStatus.FAILED;
@@ -68,13 +72,10 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ActionBarSimple barSimple = new ActionBarSimple(this);
-        barSimple.setLabel(getString(R.string.FestName));
-
         Typewriter login_type=(Typewriter)findViewById(R.id.label);
-        login_type.animateText("      Login");
+        login_type.animateText("    Login");
         login_type.setCharacterDelay(80);
-        btnSignIn = (SignInButton) findViewById(R.id.login_Gmail);
+        btnSignIn = (Button) findViewById(R.id.login_Gmail);
         btnSignIn.setOnClickListener(this);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -86,11 +87,14 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-
-        // Customizing G+ button
-        btnSignIn.setSize(SignInButton.SIZE_STANDARD);
-        issignout=getIntent().getBooleanExtra("isLogout",false);
+        RelativeLayout rl=(RelativeLayout) findViewById(R.id.activity_login);
+//        Bitmap bk=App.decodeSampledBitmapFromResource(getResources(),R.drawable.login_bk3,300,300);
+//        Drawable bd=new BitmapDrawable(getResources(),bk);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//            rl.setBackground(bd);
+//        }else{
+//            rl.setBackgroundDrawable(bd);
+//        }
 
 
     }
@@ -115,7 +119,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
 
-            Log.v(TAG, "display name: " + acct.getDisplayName());
+            //Log.v(TAG, "display name: " + acct.getDisplayName());
 
             personName = acct.getDisplayName();
             personPhotoUrl = acct.getPhotoUrl().toString();
@@ -149,35 +153,40 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                         try {
                             response = new JSONObject(res);
                             status=response.getJSONObject("status");
-                            //for time being ,uncomment this after backend is fixed
-                            //data=response.getJSONObject("data");
-                            token_recieved=response.getString("data");
+
+                            data=response.getJSONObject("data");
+                            token_recieved=data.getString("token");
+
                             code=status.getInt("code");
                             message=status.getString("message");
 
-                            //isNew=data.getBoolean("isNew");
-                            //token_recieved=data.getString("token");
+                            isNew=data.getBoolean("IsNew");
 
                             //save this token for further use
-
                             if(code==200){
-                                Log.v(TAG,message);
-                                //success
-                                //if(isNew){
+                                Log.v(TAG,response.toString());
 
+                                //success
                                 AppUserModel.MAIN_USER.setName(personName);
                                 AppUserModel.MAIN_USER.setEmail(email);
                                 AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
                                 AppUserModel.MAIN_USER.setisCoordinator(false);
                                 AppUserModel.MAIN_USER.setToken(token_recieved);
                                 AppUserModel.MAIN_USER.saveAppUser(Login.this);
-                                SignInStatus sign_up=SignInStatus.SIGNUP;
-                                SignIn(sign_up);
 
-                                //}else{
+
+                                if(isNew){
+
+                                    SignInStatus sign_up=SignInStatus.SIGNUP;
+                                    SignIn(sign_up);
+
+                                }else{
                                 //get things first
-                                //	fetch_user_details();
-                                //}
+                                    AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
+
+                                    SignIn(success);
+                                    fetch_user_details();
+                                }
                             }else{
                                 //failure
                                 SignIn(failed);
@@ -187,8 +196,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                             e.printStackTrace();
                         }
 
-
-                        Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
                         hideProgressDialog();
                     }
                 },
@@ -216,7 +223,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
         showProgressDialog("Locating you in our beacon..");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.server_url)+
-                getResources().getString(R.string.get_user_details_url),
+                getResources().getString(R.string.get_user_details_url)+"?token="+token_recieved,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String res) {
@@ -243,11 +250,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                                 Gender=data.getString("Gender");
                                 Year=data.getString("Year");
                                 //saving user data
-                                AppUserModel.MAIN_USER.setName(personName);
-                                AppUserModel.MAIN_USER.setEmail(email);
-                                AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
-                                AppUserModel.MAIN_USER.setisCoordinator(false);
-                                AppUserModel.MAIN_USER.setToken(token_recieved);
                                 AppUserModel.MAIN_USER.setRoll(RollNo);
                                 AppUserModel.MAIN_USER.setCollege(College);
                                 AppUserModel.MAIN_USER.setMobile(PhoneNumber);
@@ -280,15 +282,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                         Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
                         hideProgressDialog();
                     }
-                }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("token",token_recieved);
-                return params;
-            }
-
-        };
+                });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
@@ -298,7 +292,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     public void fetch_interests(){
         showProgressDialog("Optimising your feed...");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.server_url)+
-                getResources().getString(R.string.get_interests_url),
+                getResources().getString(R.string.get_user_interests_url)+"?token="+token_recieved,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String res) {
@@ -326,6 +320,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
                                 //everything is fetched and saved now
                                 //so intent to home
+
                                 SignIn(success);
                             }else{
                                 //failure
@@ -347,15 +342,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                         Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
                         hideProgressDialog();
                     }
-                }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("token",token_recieved);
-                return params;
-            }
-
-        };
+                });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
@@ -369,9 +356,12 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         switch (status)
         {
             case FAILED:
+                AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
                 Toast.makeText(getBaseContext(), "Failed to LogIn", Toast.LENGTH_LONG).show();
                 break;
             case SUCCESS:
+
+                AppUserModel.MAIN_USER.setLoggedIn(true,getBaseContext());
                 Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
 
 
@@ -391,15 +381,19 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 finish();
                 break;
             case SIGNUP:
+                AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
                 Intent intent=new Intent(Login.this, SignUp.class);
                 intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
                 startActivity(intent);
+                finish();
                 break;
             default:
                 break;
         }
     }
-    static private void signOut() {
+     private void signOut() {
+        Log.v("Debug","Logged out");
+
         if(mGoogleApiClient.isConnected()) {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     new ResultCallback<Status>() {
@@ -414,31 +408,19 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     public void onStart() {
         super.onStart();
 
-        if(!issignout) {
-            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-            if (opr.isDone()) {
-                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-                // and the GoogleSignInResult will be available instantly.
-                Log.d(TAG, "Got cached sign-in");
-                GoogleSignInResult result = opr.get();
-                handleSignInResult(result);
+        if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
 
-            } else {
-                // If the user has not previously signed in on this device or the sign-in has expired,
-                // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-                // single sign-on will occur in this branch.
-                showProgressDialog("Loading");
-                opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                    @Override
-                    public void onResult(GoogleSignInResult googleSignInResult) {
-                        hideProgressDialog();
-                        handleSignInResult(googleSignInResult);
-                    }
-                });
+            if(!AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
+                SignIn(SignInStatus.SIGNUP);
+            }else{
+                startActivity(new Intent(Login.this,Home.class));
             }
-        }else{
-            signOut();
+
         }
+        else{
+            //show login screen
+        }
+
     }
     private void showProgressDialog(String msg) {
         if (mProgressDialog == null) {
@@ -467,8 +449,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     {
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
         editor.putBoolean("Skip",true);
-        editor.apply();
-
+        editor.commit();
+        AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
+        AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
         AppUserModel.MAIN_USER.logoutUser(getBaseContext());
         if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
             startActivity(new Intent(Login.this, Home.class));

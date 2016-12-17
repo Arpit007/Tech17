@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/activity_sign_up"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/app_background"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              tools:context="com.nitkkr.gawds.tech16.Activity.SignUp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:id="@+id/activity_sign_up"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@color/app_background"
+                  android:orientation="vertical"
+                  android:paddingBottom="@dimen/activity_vertical_margin"
+                   tools:context="com.nitkkr.gawds.tech16.Activity.SignUp">
 
-    <include
-        layout="@layout/actionbar_simple"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+    <include layout="@layout/actionbar_simple"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,316 +19,260 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
             android:orientation="vertical"
+
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_height="match_parent">
 
-            <com.nitkkr.gawds.tech16.Activity.Typewriter
-                android:id="@+id/signup_label"
+    <com.nitkkr.gawds.tech16.Activity.Typewriter
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color_primary"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="10dp"
+        android:text=" Sign Up"
+        android:id="@+id/signup_label"
+        android:textSize="25sp"
+        android:textAllCaps="true"/>
+
+    <View android:id="@+id/view2"
+          android:layout_width="fill_parent"
+          android:layout_height="2dp"
+          android:background="#c0c0c0"
+          android:layout_marginTop="0dp"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="25dp"
+                  android:orientation="horizontal">
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:text="Name: "
+                  android:textSize="20sp"/>
+        <EditText android:id="@+id/signup_Name"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:inputType="textPersonName"
+                  android:padding="5dp"
+                  android:background="@drawable/edittext_style"
+                  android:textSize="18sp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginBottom="5dp"
+                      android:layout_marginTop="5dp"
+                      android:orientation="horizontal">
+
+            <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:textColor="@color/text_color_primary"
+                      android:text="College: "
+                      android:textSize="20sp"
+                      android:id="@+id/textView2"/>
+
+            <RadioGroup android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:buttonTint="#20c20e">
+                <RadioButton android:id="@+id/signup_NitRadio"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginLeft="15dp"
+                             android:checked="true"
+                             android:buttonTint="@color/border_color"
+                             android:textColor="@color/text_color_primary"
+                             android:text="NIT Kurukshetra"
+                             android:textSize="15sp"/>
+                <RadioButton android:id="@+id/signup_OtherRadio"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:buttonTint="@color/border_color"
+                             android:textColor="@color/text_color_primary"
+                             android:layout_marginLeft="15dp"
+                             android:text="Other"
+                             android:textSize="15sp"/>
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/signup_OtherCollege"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:visibility="gone">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:textColor="@color/text_color_primary"
+                      android:text="College: "
+                      android:textSize="20sp"
+                      android:visibility="invisible"/>
+            <EditText android:id="@+id/signup_CollegeName"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="15dp"
+                      android:textColor="@color/text_color_primary"
+                      android:textColorHint="@color/text_color_primary"
+                      android:hint="Your College Name"
+                      android:inputType="textPersonName"
+                      android:textSize="20sp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"
+                  android:orientation="horizontal">
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:text="Roll Number: "
+                  android:textSize="20sp"/>
+        <EditText android:id="@+id/signup_Roll"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="phone"
+                  android:background="@drawable/edittext_style"
+                  android:padding="5dp"
+                  android:textColor="@color/text_color_primary"
+                  android:textSize="18sp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"
+                  android:orientation="horizontal">
+
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:text="Mobile Number: "
+                  android:textSize="20sp"
+                  android:id="@+id/textView"/>
+
+        <EditText android:id="@+id/signup_Number"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:inputType="phone"
+                  android:maxLength="10"
+                  android:background="@drawable/edittext_style"
+                  android:padding="5dp"
+
+                  android:textSize="18sp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"
+                  android:orientation="horizontal">
+
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/text_color_primary"
+                                                android:text="Gender: "
+                                                android:textSize="20sp"
+                                                android:id="@+id/gender_textview"/>
+
+        <Spinner android:id="@+id/signup_gender"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="15dp"
+                 android:textColor="@color/app_background"
+                 android:backgroundTint="@color/border_color"
+                 android:popupBackground="@color/app_background"
+                 android:layout_marginRight="15dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"
+                  android:orientation="horizontal">
+
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/text_color_primary"
+                                                android:text="Year: "
+                                                android:textSize="20sp"
+                                                android:id="@+id/year_textview"/>
+
+        <EditText android:id="@+id/signup_year"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:inputType="phone"
+                  android:maxLength="10"
+                  android:background="@drawable/edittext_style"
+                  android:padding="5dp"
+
+                  android:textSize="18sp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"
+                  android:orientation="horizontal">
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:text="Branch: "
+                  android:textSize="20sp"/>
+        <Spinner android:id="@+id/signup_Branch"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="15dp"
+                 android:textColor="@color/app_background"
+                 android:backgroundTint="@color/border_color"
+                 android:popupBackground="@color/app_background"
+                 android:layout_marginRight="15dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"
+                  android:orientation="horizontal">
+        <com.nitkkr.gawds.tech16.Src.MyTextview android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/text_color_primary"
+                  android:text="Email: "
+                  android:textSize="20sp"/>
+        <Button android:id="@+id/signup_Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="10dp"
-                android:text=" Sign Up"
-                android:textAllCaps="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/border_button"
                 android:textColor="@color/text_color_primary"
-                android:textSize="25sp"/>
+                android:onClick="Authenticate"
+                android:text="Gmail"
+                android:textAllCaps="false"
+                android:textSize="18sp"/>
+      </LinearLayout>
+    <TextView android:id="@+id/signup_Warning"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="5dp"
+              android:layout_marginTop="5dp"
+              android:text="Please fill out all the fields"
+              android:textAlignment="center"
+              android:textColor="@color/text_color_primary"
+              android:visibility="invisible"/>
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="0dp"
-                android:background="#c0c0c0"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="25dp"
-                android:orientation="horizontal">
-
-                <com.nitkkr.gawds.tech16.Src.MyTextview
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="*Name: "
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="20sp"/>
-
-                <EditText
-                    android:id="@+id/signup_Name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_style"
-                    android:inputType="textPersonName"
-                    android:padding="5dp"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <com.nitkkr.gawds.tech16.Src.MyTextview
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="*College: "
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="20sp"/>
-
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#20c20e"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/signup_NitRadio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:buttonTint="@color/border_color"
-                            android:checked="true"
-                            android:text="NIT Kurukshetra"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="15sp"/>
-
-                        <RadioButton
-                            android:id="@+id/signup_OtherRadio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:buttonTint="@color/border_color"
-                            android:text="Other"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="15sp"/>
-                    </RadioGroup>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/signup_OtherCollege"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="College: "
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="20sp"
-                        android:visibility="invisible"/>
-
-                    <EditText
-                        android:id="@+id/signup_CollegeName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:hint="Your College Name"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/text_color_primary"
-                        android:textColorHint="@color/text_color_primary"
-                        android:textSize="20sp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <com.nitkkr.gawds.tech16.Src.MyTextview
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Roll Number: "
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="20sp"/>
-
-                <EditText
-                    android:id="@+id/signup_Roll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_style"
-                    android:inputType="phone"
-                    android:padding="5dp"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <com.nitkkr.gawds.tech16.Src.MyTextview
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="*Mobile Number: "
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="20sp"/>
-
-                <EditText
-                    android:id="@+id/signup_Number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_style"
-                    android:inputType="phone"
-                    android:maxLength="10"
-                    android:padding="5dp"
-                    android:textColor="@color/text_color_primary"
-
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <com.nitkkr.gawds.tech16.Src.MyTextview
-                    android:id="@+id/gender_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Gender: "
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="20sp"/>
-
-                <Spinner
-                    android:id="@+id/signup_gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:backgroundTint="@color/border_color"
-                    android:popupBackground="@color/app_background"
-                    android:textColor="@color/app_background"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <com.nitkkr.gawds.tech16.Src.MyTextview
-                    android:id="@+id/year_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Year: "
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="20sp"/>
-
-                <EditText
-                    android:id="@+id/signup_year"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_style"
-                    android:inputType="phone"
-                    android:maxLength="10"
-                    android:padding="5dp"
-                    android:textColor="@color/text_color_primary"
-
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <com.nitkkr.gawds.tech16.Src.MyTextview
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Branch: "
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="20sp"/>
-
-                <Spinner
-                    android:id="@+id/signup_Branch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:backgroundTint="@color/border_color"
-                    android:popupBackground="@color/app_background"
-                    android:textColor="@color/app_background"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <com.nitkkr.gawds.tech16.Src.MyTextview
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="*Email: "
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="20sp"/>
-
-                <Button
-                    android:id="@+id/signup_Email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/border_button"
-                    android:onClick="Authenticate"
-                    android:text="Gmail"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/signup_Warning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:text="Please fill out the Mandatory fields"
-                android:textAlignment="center"
-                android:textColor="@color/text_color_primary"
-                android:visibility="invisible"/>
-
-            <Button
-                android:id="@+id/signup_Done"
+        <Button android:id="@+id/signup_Done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/border_button"
+                android:textColor="@color/text_color_primary"
                 android:layout_gravity="right"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/border_button"
                 android:onClick="SignUp"
                 android:text="Done"
-                android:textAllCaps="false"
-                android:textColor="@color/text_color_primary"/>
-        </LinearLayout>
+                android:textAllCaps="false"/>
+            </LinearLayout>
 
     </ScrollView>
 

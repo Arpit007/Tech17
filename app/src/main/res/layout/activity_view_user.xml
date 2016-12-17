@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_view_user"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:layout_width="match_parent"
+     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.nitkkr.gawds.tech16.Activity.ViewUser">
 
@@ -15,14 +13,23 @@
         layout="@layout/actionbar_donebutton" android:id="@+id/temp_bar"
         android:layout_height="?actionBarSize" android:layout_width="match_parent"/>
 
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/temp_bar"
+            android:layout_height="match_parent">
     <RelativeLayout
-        android:layout_centerHorizontal="true" android:layout_below="@id/temp_bar"
-        android:layout_marginTop="40dp" android:id="@+id/temp_Layout"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/user_bk"
+      android:id="@+id/temp_Layout"
+        android:layout_width="match_parent" android:layout_height="200dp">
 
         <com.nitkkr.gawds.tech16.Src.CircularTextView
             android:id="@+id/view_user_Image_Letter" android:visibility="visible"
-            android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
+            android:text="A" android:textSize="80sp"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal|center_vertical"
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"
             android:layout_width="150dp" android:layout_height="150dp"/>
 
@@ -34,103 +41,269 @@
 
 
     </RelativeLayout>
-
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/cardview_dark_background"
+                android:layout_below="@+id/temp_Layout"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
     <LinearLayout
-        android:layout_marginTop="40dp"
-        android:layout_below="@id/temp_Layout" android:orientation="vertical"
+
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin" android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_below="@+id/temp_Layout">
 
-        <LinearLayout
+        <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:textAlignment="center"
+                android:background="@drawable/user_profile_textview"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:layout_height="40dp">
 
-                <TextView
-                    android:text="Name: " android:textSize="25sp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/name"
+                android:padding="5dp"
+                android:id="@+id/name_view"/>
 
-                <TextView
-                    android:textSize="25sp"
-                    android:id="@+id/user_Name" android:text="Sample Name"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        <LinearLayout
+            <TextView
+                android:textSize="16sp"
+                android:id="@+id/user_Name" android:text="Sample Name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:textColor="@color/app_background"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/name_view"
+                android:layout_toEndOf="@+id/name_view"/>
 
-                <TextView
-                    android:text="Email: " android:textSize="25sp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:id="@+id/view"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/name_view"
+                android:layout_toEndOf="@+id/name_view"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"/>
 
-                <TextView
-                    android:textSize="25sp"
-                    android:id="@+id/user_Email" android:text="Sample@mail.com"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-            </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:text="College: " android:textSize="25sp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:textSize="25sp"
-                    android:id="@+id/user_College" android:text="Sample College"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="Roll Number: " android:textSize="25sp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:textSize="25sp"
-                    android:id="@+id/user_Roll" android:text="12345"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:background="@drawable/user_profile_textview"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:layout_height="40dp">
 
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/email"
+                android:padding="5dp"
+                android:id="@+id/email_view"/>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:id="@+id/view22"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/email_view"
+                android:layout_toEndOf="@+id/email_view"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                />
             <TextView
-                android:text="Branch: " android:textSize="25sp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                android:textSize="16sp"
+                android:id="@+id/user_Email" android:text="Sample@mail.com"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
+                android:textColor="@color/app_background"
+                android:textAlignment="center"
+                android:layout_toRightOf="@+id/view22"
+                android:layout_alignParentBottom="true"/>
+
+            </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:background="@drawable/user_profile_textview"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/college"
+                android:padding="5dp"
+                android:id="@+id/college_view"/>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:id="@+id/view23"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/college_view"
+                android:layout_toEndOf="@+id/college_view"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                />
             <TextView
-                android:textSize="25sp"
+                android:textSize="16sp"
+                android:id="@+id/user_College" android:text="Sample College"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+
+                android:textColor="@color/app_background"
+                android:layout_toRightOf="@+id/view23"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:background="@drawable/user_profile_textview"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/roll_no"
+                android:padding="5dp"
+                android:id="@+id/roll_no_view"/>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:id="@+id/view24"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/roll_no_view"
+                android:layout_toEndOf="@+id/roll_no_view"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                />
+            <TextView
+                android:textSize="16sp"
+                android:id="@+id/user_Roll" android:text="12345"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:layout_toRightOf="@+id/view24"
+
+                android:textColor="@color/app_background"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:background="@drawable/user_profile_textview"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/branch"
+                android:padding="5dp"
+                android:id="@+id/branch_view"/>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:id="@+id/view25"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/branch_view"
+                android:layout_toEndOf="@+id/branch_view"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                />
+            <TextView
+                android:textSize="16sp"
                 android:id="@+id/user_Branch" android:text="IT"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-        </LinearLayout>
+                android:textColor="@color/app_background"
+                android:textAlignment="center"
+                android:layout_toRightOf="@+id/view25"
+                android:layout_alignParentBottom="true"/>
 
-        <LinearLayout
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:background="@drawable/user_profile_textview"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/contact"
+                android:padding="5dp"
+                android:id="@+id/phone_view"/>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:id="@+id/view26"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/phone_view"
+                android:layout_toEndOf="@+id/phone_view"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                />
 
             <TextView
-                android:text="Contact: " android:textSize="25sp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-
-            <TextView
-                android:textSize="25sp"
+                android:textSize="16sp"
                 android:id="@+id/user_Number" android:text="9876543210"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:layout_alignParentTop="true"
 
-        </LinearLayout>
+                android:textColor="@color/app_background"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+        </RelativeLayout>
+
 
     </LinearLayout>
+            </ScrollView>
+            </RelativeLayout>
+
 
 </RelativeLayout>

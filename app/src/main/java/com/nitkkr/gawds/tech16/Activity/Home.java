@@ -42,6 +42,9 @@ public class Home extends AppCompatActivity
 		if(CheckUpdate.CHECK_UPDATE.isUpdateAvailable() && CheckUpdate.CHECK_UPDATE.displayUpdate(Home.this));
 		else if(RateApp.rateApp.isReadyForRating(Home.this))
 					RateApp.rateApp.displayRating(Home.this);
+
+
+
 	}
 
 	@Override

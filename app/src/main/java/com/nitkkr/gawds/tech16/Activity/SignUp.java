@@ -115,10 +115,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			email_button.setText(email);
 		}
 
-		 gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-				.requestEmail()
-				.requestIdToken("726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com")
-				.build();
 
 
 		Button google_signIn_btn=(Button)findViewById(R.id.signup_Email);
@@ -126,14 +122,29 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mGoogleApiClient = Login.mGoogleApiClient;
-						signIn();
+						if(Check()){
+							mGoogleApiClient = Login.mGoogleApiClient;
+							signIn();
+
+						}else{
+
+							findViewById(R.id.signup_Warning).setVisibility(View.VISIBLE);
+							new Handler().postDelayed(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									findViewById(R.id.signup_Warning).setVisibility(View.INVISIBLE);
+								}
+							}, getResources().getInteger(R.integer.WarningDuration));
+						}
+
 					}
 				}
 		);
 
 		token_recieved=AppUserModel.MAIN_USER.getToken();
-		Log.v("debug",token_recieved);
+
 	}
 	private void signIn() {
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -176,26 +187,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		}
 	}
 
-	public void Authenticate(View view)
-	{
-		if(Check()){
-			//this is google sign in
-			signIn();
-
-		}else{
-
-			findViewById(R.id.signup_Warning).setVisibility(View.VISIBLE);
-			new Handler().postDelayed(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					findViewById(R.id.signup_Warning).setVisibility(View.INVISIBLE);
-				}
-			}, getResources().getInteger(R.integer.WarningDuration));
-		}
-
-	}
 	public void sendToken(){
 		showProgressDialog("Verifying");
 
@@ -218,7 +209,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 							code=status.getInt("code");
 							message=status.getString("message");
 
-							isNew=data.getBoolean("isNew");
+							isNew=data.getBoolean("IsNew");
 							token_recieved=data.getString("token");
 
 							//save this token for further use
@@ -234,10 +225,11 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 										email_button.setText(email);
 									}
 
-
 								}else{
+
 									//already logged in user
 									Toast.makeText(SignUp.this,"Already signed up!!, please login",Toast.LENGTH_LONG).show();
+
 								}
 							}else{
 								//failure
@@ -249,7 +241,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 						}
 
 
-						Toast.makeText(SignUp.this,res,Toast.LENGTH_LONG).show();
 						hideProgressDialog();
 					}
 				},
@@ -277,6 +268,10 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	boolean Check()
 	{
 		EditText signup_name=(EditText) findViewById(R.id.signup_Name);
+		EditText signup_number=( (EditText) findViewById(R.id.signup_Number) );
+		EditText signup_Roll=( (EditText) findViewById(R.id.signup_Roll) );
+		EditText signup_year=( (EditText) findViewById(R.id.signup_year) );
+
 		if (( signup_name ).getText().toString().trim().equals(""))
 		{
 			signup_name.setError("required");
@@ -287,7 +282,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		{
 			return false;
 		}
-		EditText signup_number=( (EditText) findViewById(R.id.signup_Number) );
 		if ( signup_number.getText().toString().trim().equals("") )
 		{
 			signup_number.setError("required");
@@ -295,6 +289,17 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		}
 		if(( (TextView) findViewById(R.id.signup_Number) ).getText().length() < 10){
 			signup_number.setError("Not valid");
+			return false;
+		}
+		if ( signup_Roll.getText().toString().trim().equals("") )
+		{
+			signup_Roll.setError("required");
+			return false;
+		}
+
+		if ( signup_year.getText().toString().trim().equals("") )
+		{
+			signup_year.setError("required");
 			return false;
 		}
 
@@ -322,12 +327,12 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
 		AppUserModel.MAIN_USER.setisCoordinator(false);
 		AppUserModel.MAIN_USER.setToken(token_recieved);
-		AppUserModel.MAIN_USER.setRoll(RollNo+"");
+		AppUserModel.MAIN_USER.setRoll(RollNo);
 		AppUserModel.MAIN_USER.setCollege(College);
 		AppUserModel.MAIN_USER.setMobile(PhoneNumber);
-		AppUserModel.MAIN_USER.setBranch(Branch+"");
-		AppUserModel.MAIN_USER.setGender(Gender+"");
-		AppUserModel.MAIN_USER.setYear(Year+"");
+		AppUserModel.MAIN_USER.setBranch(Branch);
+		AppUserModel.MAIN_USER.setGender(Gender);
+		AppUserModel.MAIN_USER.setYear(Year);
 
 		AppUserModel.MAIN_USER.saveAppUser(SignUp.this);
 
@@ -355,7 +360,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 						try {
 							response = new JSONObject(res);
 							status=response.getJSONObject("status");
-							data=response.getJSONObject("data");
 
 							code=status.getInt("code");
 							message=status.getString("message");
@@ -367,7 +371,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 								signup_result(success);
 
 							}else{
-										//failure
+
+								//failure
 								signup_result(failed);
 							}
 
@@ -390,20 +395,13 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<String, String>();
 				params.put("token",token_recieved);
-				if(personName!=null)
-				params.put("Name",personName+"");
-				if(RollNo!=null)
-				params.put("RollNo",RollNo+"");
-				if(PhoneNumber!=null)
-				params.put("PhoneNumber",PhoneNumber+"");
-				if(Branch!=null)
-				params.put("Branch",Branch+"");
-				if(Year!=null)
-				params.put("Year",Year+"");
-				if(College!=null)
-				params.put("College",College+"");
-				if(Gender!=null)
-				params.put("Gender",Gender+"");
+				params.put("name",personName);
+				params.put("rollNo",RollNo);
+				params.put("phoneNo",PhoneNumber);
+				params.put("branch",Branch);
+				params.put("year",Year);
+				params.put("college",College);
+				params.put("gender",Gender);
 				return params;
 			}
 
@@ -417,27 +415,20 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 	public void signup_result(SignInStatus status){
 
-		UserModel user=new UserModel();
-		user.setName((( EditText)findViewById(R.id.signup_Name)).getText().toString());
-		if(( (RadioButton) findViewById(R.id.signup_NitRadio) ).isChecked())
-			user.setCollege("NIT Kurukshetra");
-		else user.setCollege(((EditText)findViewById(R.id.signup_CollegeName)).getText().toString());
-		user.setRoll((( EditText)findViewById(R.id.signup_Roll)).getText().toString());
-		user.setMobile((( EditText)findViewById(R.id.signup_Number)).getText().toString());
-		user.setGender(((Spinner)findViewById(R.id.signup_gender)).getSelectedItem().toString());
-		user.setBranch(((Spinner)findViewById(R.id.signup_Branch)).getSelectedItem().toString());
-		user.setYear((( EditText)findViewById(R.id.signup_year)).getText().toString());
-		user.setEmail((( TextView)findViewById(R.id.signup_Email)).getText().toString());
 
 		switch (status)
 			{
 				case FAILED:
+					AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
 					Toast.makeText(this,"Failed to Sign Up, Please Try Again",Toast.LENGTH_LONG).show();
 					break;
 				case SUCCESS:
+
+					AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
+					AppUserModel.MAIN_USER.setLoggedIn(true,getBaseContext());
+
 					Intent intent=new Intent(SignUp.this, Interests.class);
 					Bundle bundle=new Bundle();
-					bundle.putSerializable("User",user);
 					bundle.putBoolean("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
 					intent.putExtras(bundle);
 					startActivity(intent);
@@ -495,6 +486,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			mProgressDialog = new ProgressDialog(this);
 			mProgressDialog.setMessage(msg);
 			mProgressDialog.setIndeterminate(true);
+			mProgressDialog.setCancelable(false);
+
 		}
 
 		mProgressDialog.show();

@@ -29,17 +29,6 @@ public class InterestAdapter extends BaseAdapter
 	{
 		list=new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.Interests)));
 		Selected=new boolean[list.size()];
-
-		if(AppUserModel.MAIN_USER.isUserLoaded())
-		{
-			ArrayList<String> array=AppUserModel.MAIN_USER.getInterests();
-			for( String string: array)
-			{
-				int ID=list.indexOf(string);
-				if(ID!=-1)
-					Selected[ID]=true;
-			}
-		}
 		this.context=context;
 	}
 

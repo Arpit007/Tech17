@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
@@ -97,11 +98,11 @@ public class ActionBarNavDrawer
 		else if (id == R.id.nav_logout)
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
-			intent=new Intent(activity,Login.class);
+			AppUserModel.MAIN_USER.setLoggedIn(false,activity.getBaseContext());
+			Intent intent1=new Intent(activity,Login.class);
+			intent1.putExtra("Start_Home",false);
+			activity.startActivity(intent1);
 
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("isLogout",true);
-			activity.startActivity(intent);
 		}
 		else if(id==R.id.nav_login)
 		{

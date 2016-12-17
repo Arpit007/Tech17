@@ -3,6 +3,6 @@
 
         <item android:id="@+id/google_Image" android:title="Use Google Profile Pic"/>
         <item android:id="@+id/avatar" android:title="Avatar"/>
-        <item android:id="@+id/alphabet" android:title="Name"/>
+        <item android:id="@+id/alphabet" android:title="Alphabet"/>
 
 </menu>
