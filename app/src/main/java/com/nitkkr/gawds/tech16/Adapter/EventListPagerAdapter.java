@@ -1,6 +1,5 @@
 package com.nitkkr.gawds.tech16.Adapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,8 +14,10 @@ import com.nitkkr.gawds.tech16.Activity.Fragment.RegisteredEventList;
 public class EventListPagerAdapter extends FragmentStatePagerAdapter
 {
 	private int mNumOfTabs;
+	private AllEventList allEventListist=new AllEventList();
+	private RegisteredEventList registeredEventList=new RegisteredEventList();
 
-	public EventListPagerAdapter(FragmentManager fm, int NumOfTabs, Context context) {
+	public EventListPagerAdapter(FragmentManager fm, int NumOfTabs) {
 		super(fm);
 		this.mNumOfTabs = NumOfTabs;
 	}
@@ -26,9 +27,9 @@ public class EventListPagerAdapter extends FragmentStatePagerAdapter
 	{
 		switch (position) {
 			case 0:
-				return new AllEventList();
+				return allEventListist;
 			case 1:
-				return new RegisteredEventList();
+				return registeredEventList;
 			default:
 				return null;
 		}
@@ -38,4 +39,11 @@ public class EventListPagerAdapter extends FragmentStatePagerAdapter
 	public int getCount() {
 		return mNumOfTabs;
 	}
+
+	public void Filter(String Query)
+	{
+		allEventListist.SearchQuery(Query);
+		registeredEventList.SearchQuery(Query);
+	}
+
 }

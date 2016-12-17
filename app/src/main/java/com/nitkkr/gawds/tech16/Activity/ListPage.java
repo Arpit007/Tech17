@@ -4,17 +4,19 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.nitkkr.gawds.tech16.API.Query;
 import com.nitkkr.gawds.tech16.Adapter.EventListAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSearch;
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.iActionBar;
 import com.nitkkr.gawds.tech16.Model.BaseEventModel;
+import com.nitkkr.gawds.tech16.Model.EventKey;
+import com.nitkkr.gawds.tech16.Model.EventModel;
+import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -23,7 +25,9 @@ public class ListPage extends AppCompatActivity
 {
 	private Query query;
 	private ListView listView;
-	private ArrayList<BaseEventModel> listDataChild;
+	private ArrayList<EventKey> listDataChild;
+	private EventListAdapter listAdapter;
+	ActionBarSearch actionBarSearch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,7 +35,7 @@ public class ListPage extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_page);
 
-		ActionBarSearch actionBarSearch=new ActionBarSearch(ListPage.this, new iActionBar()
+		actionBarSearch=new ActionBarSearch(ListPage.this, new iActionBar()
 		{
 			@Override
 			public void NavButtonClicked()
@@ -40,9 +44,9 @@ public class ListPage extends AppCompatActivity
 			}
 
 			@Override
-			public void SearchButtonClicked()
+			public void SearchQuery(String Query)
 			{
-
+				listAdapter.getFilter().filter(Query);
 			}
 		});
 
@@ -50,13 +54,14 @@ public class ListPage extends AppCompatActivity
 		this.query=(Query) getIntent().getExtras().getSerializable("Query");
 
 		actionBarSearch.setLabel(Label);
+		actionBarSearch.setSearchHint(Label);
 
 
 		listView = (ListView) this.findViewById(R.id.event_list);
 
 		prepareListData();
 
-		final EventListAdapter listAdapter = new EventListAdapter(ListPage.this, listDataChild);
+		listAdapter = new EventListAdapter(ListPage.this, listDataChild);
 		listAdapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
@@ -84,17 +89,17 @@ public class ListPage extends AppCompatActivity
 				switch (query.getQueryTargetType())
 				{
 					case Event:
-						bundle.putSerializable("Event",(BaseEventModel)listView.getAdapter().getItem(i));
+						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
 						intent=new Intent(view.getContext(), Event.class);
 						intent.putExtras(bundle);
 						view.getContext().startActivity(intent);
 						break;
 					case Exhibition:
 					case GuestTalk:
-						bundle.putSerializable("Exhibition",(BaseEventModel)listView.getAdapter().getItem(i));
+						bundle.putSerializable("Exhibition",(EventKey)listView.getAdapter().getItem(i));
 						intent=new Intent(view.getContext(), Exhibition.class);
 						intent.putExtras(bundle);
-						view.getContext().startActivity(intent);
+						ListPage.this.startActivity(intent);
 						break;
 				}
 			}
@@ -105,8 +110,28 @@ public class ListPage extends AppCompatActivity
 	{
 		//===================Handle===================================
 
-		listDataChild=new ArrayList<>();
-		listDataChild.add(new BaseEventModel("Hello"));
-		listDataChild.add(new BaseEventModel("World"));
+		listDataChild = new ArrayList<>();
+		if (query.getQueryTargetType() == Query.QueryTargetType.Event)
+		{
+			listDataChild.add(new EventKey("Hello",123,false));
+			listDataChild.add(new EventKey("World",456,false));
+		}
+		else
+		{
+			listDataChild.add(new EventKey("Hello",123,false));
+			listDataChild.add(new EventKey("World",456,false));
+		}
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if(actionBarSearch.backPressed())
+		{
+			if(ActivityHelper.revertToHomeIfLast(ListPage.this))
+				return;
+		}
+		else
+		super.onBackPressed();
 	}
 }

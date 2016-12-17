@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.Activity.Event;
 import com.nitkkr.gawds.tech16.Model.BaseEventModel;
+import com.nitkkr.gawds.tech16.Model.EventKey;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -19,45 +21,52 @@ import java.util.HashMap;
  * Created by Home Laptop on 20-Nov-16.
  */
 
-public class AllEventListAdapter extends BaseExpandableListAdapter
+public class AllEventListAdapter extends BaseExpandableListAdapter implements Filterable
 {
 	private Context context;
-	private ArrayList<String> Categories;
 	private HashMap<String, EventListAdapter> Events;
+	private AllEventSearch Filter;
 
-	public AllEventListAdapter(Context context, ArrayList<String> categories, HashMap<String,ArrayList<BaseEventModel>> events)
+	public AllEventListAdapter(Context context, HashMap<String,ArrayList<EventKey>> events)
 	{
 		this.context = context;
-		this.Categories = categories;
 		Events=new HashMap<>(events.size());
-		for(int x=0;x<categories.size();x++)
+		for(String Category: events.keySet())
 		{
-			Events.put(Categories.get(x),new EventListAdapter(context,events.get(categories.get(x))));
+			Events.put(Category,new EventListAdapter(context,events.get(Category)));
 		}
+		Filter=new AllEventSearch(this, context);
 	}
 
 	@Override
 	public Object getChild(int i, int i1)
 	{
-		return this.Events.get(this.Categories.get(i)).getItem(i1);
+		return this.Events.get((String)getGroup(i)).getItem(i1);
 	}
 
 	@Override
 	public int getGroupCount()
 	{
-		return Categories.size();
+		return Events.size();
 	}
 
 	@Override
 	public int getChildrenCount(int i)
 	{
-		return this.Events.get(this.Categories.get(i)).getCount();
+		return this.Events.get((String)getGroup(i)).getCount();
 	}
 
 	@Override
 	public Object getGroup(int i)
 	{
-		return this.Events.get(i);
+		int index=0;
+		for(String Category: Events.keySet())
+		{
+			if(index==i)
+				return Category;
+			index++;
+		}
+		return "";
 	}
 
 	@Override
@@ -83,8 +92,8 @@ public class AllEventListAdapter extends BaseExpandableListAdapter
 	{
 		String headerTitle = (String) getGroup(i);
 		if (view == null) {
-			LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = infalInflater.inflate(R.layout.layout_event_list_head, null);
+			LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = layoutInflater.inflate(R.layout.layout_event_list_head, null);
 		}
 
 		TextView lblListHeader = (TextView) view
@@ -98,7 +107,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter
 	@Override
 	public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup)
 	{
-		return this.Events.get(this.Categories.get(i)).getView(i1,view,viewGroup);
+		return this.Events.get((String)getGroup(i)).getView(i1,view,viewGroup);
 	}
 
 	@Override
@@ -106,4 +115,20 @@ public class AllEventListAdapter extends BaseExpandableListAdapter
 	{
 		return true;
 	}
+
+	public AllEventSearch getFilter()
+	{
+		return Filter;
+	}
+
+	public HashMap<String,EventListAdapter> getEvents()
+	{
+		return Events;
+	}
+
+	public void setEvents(HashMap<String,EventListAdapter> events)
+	{
+		Events=events;
+	}
+
 }

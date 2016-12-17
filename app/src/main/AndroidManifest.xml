@@ -102,6 +102,10 @@
                   android:label="About"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.Exhibition"
+                  android:label="@string/Exhibition"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 

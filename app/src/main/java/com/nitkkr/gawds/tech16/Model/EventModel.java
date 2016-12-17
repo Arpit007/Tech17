@@ -24,6 +24,8 @@ public class EventModel extends BaseEventModel implements Serializable
 		void EventStatusChanged(com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status);
 	}
 
+	public EventModel(){}
+	public EventModel(String name){setEventName(name);}
 
 	private String Rules;
 	private int MinUsers;

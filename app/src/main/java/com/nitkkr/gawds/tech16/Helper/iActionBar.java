@@ -7,5 +7,5 @@ public interface iActionBar
 {
 	void NavButtonClicked();
 
-	void SearchButtonClicked();
+	void SearchQuery(String Query);
 }

@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.Model.EventKey;
 import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -23,8 +24,12 @@ public class Exhibition extends AppCompatActivity
 
 		actionBarBack=new ActionBarBack(Exhibition.this);
 
-		model=(ExhibitionModel)getIntent().getExtras().getSerializable("Exhibition");
+		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Exhibition");
 
+		model=new ExhibitionModel();
+		model.setEventID(key.getID()+"");
+		model.setEventName(key.getName());
+		model.setNotify(model.isNotify());
 		LoadExhibition();
 
 		final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.exhibition_notify);
@@ -58,6 +63,7 @@ public class Exhibition extends AppCompatActivity
 	{
 		//TODO: Implement
 		StringBuilder text = new StringBuilder("");
+		text.append("\nID: ").append(model.getEventID());
 		text.append("Name: ").append(model.getEventName());
 		text.append("\nVenue: ").append(model.getVenue());
 		text.append("\nDescription: ").append(model.getDescription());
