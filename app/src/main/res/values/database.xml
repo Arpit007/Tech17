@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="DatabaseName">Tech17.db</string>
+    <integer name="DatabaseVersion">1</integer>
+
+    <string name="CreateEventsTable"></string>
+
+    <string name="CreateNotificationTable"></string>
+
+    <string name="CreateInterestsTable"></string>
+
+</resources>

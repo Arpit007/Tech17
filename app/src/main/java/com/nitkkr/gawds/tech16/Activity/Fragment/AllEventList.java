@@ -49,7 +49,19 @@ public class AllEventList extends Fragment implements iActionBar
 
 		listAdapter = new AllEventListAdapter(MyView.getContext(), listDataChild);
 		listAdapter.getFilter().setSearchList(( ListView)MyView.findViewById(R.id.search_event_list));
+		final ListView listView=(ListView)MyView.findViewById(R.id.search_event_list);
+		listView.getAdapter().registerDataSetObserver(new DataSetObserver()
+		{
+			@Override
+			public void onChanged()
+			{
+				if(listView.getVisibility()==View.VISIBLE && listView.getAdapter().getCount()==0)
+					MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
+				else MyView.findViewById(R.id.None).setVisibility(View.GONE);
 
+				super.onChanged();
+			}
+		});
 		listAdapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
@@ -59,7 +71,7 @@ public class AllEventList extends Fragment implements iActionBar
 				{
 					MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
 				}
-				else MyView.findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				else MyView.findViewById(R.id.None).setVisibility(View.GONE);
 				super.onChanged();
 			}
 		});
@@ -129,6 +141,7 @@ public class AllEventList extends Fragment implements iActionBar
 	{
 		if(Query.equals(""))
 		{
+			MyView.findViewById(R.id.None).setVisibility(View.GONE);
 			MyView.findViewById(R.id.all_event_list).setVisibility(View.VISIBLE);
 			MyView.findViewById(R.id.search_event_list).setVisibility(View.GONE);
 		}

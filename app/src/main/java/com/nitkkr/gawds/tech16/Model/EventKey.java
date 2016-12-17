@@ -10,26 +10,32 @@ import java.io.Serializable;
 
 public class EventKey implements Serializable
 {
+	private String Name;
+	private int EventID;
+	private boolean Notify;
+
 	//Change ID from int to String
 
-	public int getID()
+	public int getEventID()
 	{
-		return ID;
+		return EventID;
 	}
-
-	public void setID(int ID)
-	{
-		this.ID = ID;
-	}
-
-	public String getName()
+	public String getEventName()
 	{
 		return Name;
 	}
 
-	public void setName(String name)
+	public void setEventID(int ID)
+	{
+		this.EventID = ID;
+	}
+	public void setEventName(String name)
 	{
 		Name = name;
+	}
+	public void setNotify(boolean notify)
+	{
+		Notify = notify;
 	}
 
 	public boolean isNotify()
@@ -37,19 +43,11 @@ public class EventKey implements Serializable
 		return Notify;
 	}
 
-	public void setNotify(boolean notify)
-	{
-		Notify = notify;
-	}
-
-	private String Name;
-	private int ID;
-	private boolean Notify;
-
+	public EventKey(){}
 	public EventKey(@NonNull  String name, int id, boolean notify)
 	{
 		Name = name;
-		ID=id;
+		EventID=id;
 		Notify=notify;
 	}
 }

@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.nitkkr.gawds.tech16.Model.BaseEventModel;
 import com.nitkkr.gawds.tech16.Model.EventKey;
 import com.nitkkr.gawds.tech16.R;
 
@@ -52,7 +51,7 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup)
 	{
-		final String childText = Event.get(i).getName();
+		final String childText = Event.get(i).getEventName();
 
 		if (view == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

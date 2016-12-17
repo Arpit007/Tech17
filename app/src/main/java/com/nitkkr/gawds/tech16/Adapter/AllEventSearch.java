@@ -36,7 +36,7 @@ public class AllEventSearch extends Filter
 		{
 			for(EventKey key: Events.get(Label).getEvents())
 			{
-				if(key.getName().toLowerCase().contains(charSequence.toString().toLowerCase()))
+				if(key.getEventName().toLowerCase().contains(charSequence.toString().toLowerCase()))
 					list.add(key);
 			}
 		}

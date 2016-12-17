@@ -27,8 +27,8 @@ public class Exhibition extends AppCompatActivity
 		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Exhibition");
 
 		model=new ExhibitionModel();
-		model.setEventID(key.getID()+"");
-		model.setEventName(key.getName());
+		model.setEventID(key.getEventID());
+		model.setEventName(key.getEventName());
 		model.setNotify(model.isNotify());
 		LoadExhibition();
 

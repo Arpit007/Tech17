@@ -153,8 +153,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		//Load Event
 		model=new EventModel();
-		model.setEventID(key.getID()+"");
-		model.setEventName(key.getName());
+		model.setEventID(key.getEventID());
+		model.setEventName(key.getEventName());
 		model.setNotify(model.isNotify());
 
 		try

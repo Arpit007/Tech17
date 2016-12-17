@@ -2,7 +2,6 @@ package com.nitkkr.gawds.tech16.Adapter;
 
 import android.widget.Filter;
 
-import com.nitkkr.gawds.tech16.Model.BaseEventModel;
 import com.nitkkr.gawds.tech16.Model.EventKey;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class EventSearch extends Filter
 
 			for (EventKey model : eventKeys)
 			{
-				if (model.getName().toLowerCase().contains(charSequence.toString().toLowerCase()))
+				if (model.getEventName().toLowerCase().contains(charSequence.toString().toLowerCase()))
 				{
 					tempList.add(model);
 				}
