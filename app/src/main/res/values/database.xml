@@ -4,10 +4,73 @@
     <string name="DatabaseName">Tech17.db</string>
     <integer name="DatabaseVersion">1</integer>
 
-    <string name="CreateEventsTable"></string>
+    <string name="QueryCreateEventsTable">
+        CREATE TABLE EventList
+        (
+            EVENT_ID INT PRIMARY KEY NOT NULL,
+            EVENT_NAME VARCHAR(127) NOT NULL,
+            NOTIFY INT DEFAULT 0,
+            _DATE INT DEFAULT 0,
+            VENUE VARCHAR(127),
+            _DESCRIPTION VARCHAR(1024),
+            IMAGE_URL VARCHAR(255),
+            END_DATE INT DEFAULT 0,
+            RULES VARCHAR(1024),
+            MIN_USER INT DEFAULT 0,
+            MAX_USER INT DEFAULT 0,
+            PDF VARCHAR(255)
+        );
+    </string>
 
-    <string name="CreateNotificationTable"></string>
+    <string name="QueryCreateNotificationTable">
+        CREATE TABLE NotificationList
+        (
+            EVENT_ID INT PRIMARY KEY NOT NULL,
+            EVENT_NAME VARCHAR(127),
+            _DATE INT DEFAULT 0,
+        );
+    </string>
 
-    <string name="CreateInterestsTable"></string>
+    <string name="QueryUpdateNotificationList">
+        DELETE FROM NotificationList;
+        INSERT INTO NotificationList
+        SELECT EVENT_ID, EVENT_NAME, _DATE
+        FROM EventList
+        WHERE EventList.NOTIFY=1 OR EventList.REGISTERED=0;
+    </string>
+
+    <string name="QueryCreateInterestsTable">
+        CREATE TABLE Interest
+        (
+            _INTEREST VARCHAR(255) NOT NULL,
+            SELECTED INT DEFAULT 0
+        );
+    </string>
+
+    <string name="QueryCreateExhibitionTable">
+        CREATE TABLE Exhibition
+    (
+        EVENT_ID INT PRIMARY KEY NOT NULL,
+        EVENT_NAME VARCHAR(127) NOT NULL,
+        NOTIFY INT DEFAULT 0,
+        _DATE INT DEFAULT 0,
+        VENUE VARCHAR(127),
+        _DESCRIPTION VARCHAR(1024),
+        IMAGE_URL VARCHAR(255),
+        AUTHOR VARCHAR(127),
+        PDF VARCHAR(254)
+    );
+    </string>
+
+    <string name="QueryCreateCoordinatorTable">
+        CREATE TABLE Coordinator
+        (
+            NAME VARCHAR(255) NOT NULL,
+            EVENT_ID INT DEFAULT 0,
+            EMAIL VARCHAR(255) NOT NULL,
+            MOBILE VARCHAR(15),
+            DESIGNATION VARCHAR(255)
+        );
+    </string>
 
 </resources>

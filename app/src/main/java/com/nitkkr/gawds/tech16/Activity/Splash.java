@@ -103,6 +103,8 @@ public class Splash extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 
+		ActivityHelper.setApplictionContext(getApplicationContext());
+
 		if(!ActivityHelper.isDebugMode(getApplicationContext()))
 		{
 			Fabric.with(this, new Crashlytics());

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by Home Laptop on 07-Nov-16.
  */
 
-public class AppUserModel extends CoordinatorModel
+public class AppUserModel extends UserModel
 {
 	private boolean Coordinator;
 	private ArrayList<String> Interests;
@@ -76,8 +76,6 @@ public class AppUserModel extends CoordinatorModel
 		editor.putString("Interests",interestsToString());
 		editor.putBoolean("GoogleImage",isUseGoogleImage());
 		editor.putInt("ImageDrawableID",getImageId());
-		if(isCoordinator())
-			editor.putString("Designation",getDesignation());
 		return editor.commit();
 	}
 
@@ -99,8 +97,6 @@ public class AppUserModel extends CoordinatorModel
 		Interests=stringToInterests(preferences.getString("Interests",""));
 		setUseGoogleImage(preferences.getBoolean("GoogleImage",true));
 		setImageId(preferences.getInt("ImageDrawableID",-1));
-		if(isCoordinator())
-			setDesignation(preferences.getString("Designation",""));
 	}
 
 	public void logoutUser(Context context) {
