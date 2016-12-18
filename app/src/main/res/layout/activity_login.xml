@@ -11,7 +11,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:fontFamily="sans-serif-light"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:background="#222"
+    android:background="@color/app_background"
     tools:context="com.nitkkr.gawds.tech16.Activity.Login">
 
     <Button
@@ -70,8 +70,8 @@
         android:layout_alignTop="@+id/view"
         android:layout_toRightOf="@+id/view"
         android:layout_toEndOf="@+id/view"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"/>
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="-5dp"/>
 
     <View
         android:layout_width="120dp"
@@ -94,15 +94,15 @@
     <View
         android:layout_width="55dp"
         android:layout_height="4dp"
-        android:background="@color/colorAccent"
+        android:background="@color/neon_green"
         android:id="@+id/view"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="38dp"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/view3"/>
 
     <com.nitkkr.gawds.tech16.Activity.Typewriter
         android:textSize="40sp" android:id="@+id/label"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="41dp"
         android:text="    Login"
         android:gravity="start"
         android:textAlignment="textStart"

@@ -1,7 +1,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#33FF95</color>
+    <color name="colorAccent">#54F8C6</color>
     <color name="c1">#c62828</color>
     <color name="c2">#AD1457</color>
     <color name="c3">#6A1B9A</color>
@@ -19,7 +19,7 @@
     <color name="c15">#D84315</color>
     <color name="c16">#4E342E</color>
     <color name="border_color">#00c853</color>
-    <color name="app_background">#222</color>
+    <color name="app_background">#151A1E</color>
     <color name="text_color_primary">#fff</color>
     <color name="User_Image_Border_Color">#000000</color>
     <color name="action_bar_color">#000000</color>
@@ -28,4 +28,5 @@
     <color name="event_bk">#212025</color>
     <color name="tab_layout_bk_event">#2A2B2F</color>
     <color name="event_round_primary_color">#CE3331</color>
+    <color name="neon_green">#54F8C6</color>
 </resources>

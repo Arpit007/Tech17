@@ -46,7 +46,7 @@
         <View
             android:layout_width="145dp"
             android:layout_height="0.5dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginRight="20dp"
             android:background="#fff"
             android:id="@+id/view7"
             android:layout_centerVertical="true"
@@ -67,7 +67,8 @@
             app:srcCompat="@drawable/suggestions"
             android:id="@+id/imageView11"
             android:layout_alignTop="@+id/imageView10"
-            android:layout_alignStart="@+id/imageView9"/>
+            android:layout_alignStart="@+id/imageView9"
+            android:layout_alignEnd="@+id/textView20"/>
 
         <TextView
             android:text="WISHLIST "
@@ -109,8 +110,8 @@
             app:srcCompat="@drawable/notification"
             android:id="@+id/imageView9"
             android:layout_alignTop="@+id/view6"
-            android:layout_alignStart="@+id/textView18"
-            android:layout_marginStart="25dp"/>
+            android:layout_alignEnd="@+id/textView18"
+            android:layout_alignStart="@+id/textView18"/>
 
         <TextView
             android:text="LIVE EVENTS"
