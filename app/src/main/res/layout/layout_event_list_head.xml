@@ -6,7 +6,12 @@
 
     <TextView
         android:id="@+id/event_list_head_label" android:text="Sample"
-        android:textSize="15sp" android:paddingLeft="?android:expandableListPreferredItemPaddingLeft"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        android:textSize="17sp"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:textColor="@color/app_background"
+        android:paddingLeft="?android:expandableListPreferredItemPaddingLeft"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
 
 </LinearLayout>
