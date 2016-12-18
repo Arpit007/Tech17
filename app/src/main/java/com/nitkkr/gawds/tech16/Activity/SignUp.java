@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -23,13 +25,25 @@ public class SignUp extends AppCompatActivity
 {
 
 	boolean Processing, Verified = false;
-
+	Animation slideUp,slideDown;
+	View upper, lower;
+	Thread runAnimationUp = new Thread(){
+		@Override
+		public void run() {
+			upper.startAnimation(slideUp);
+		}
+	};
+	Thread runAnimationDown = new Thread(){
+		@Override
+		public void run() {
+			lower.startAnimation(slideDown);
+		}
+	};
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
-
 		( (RadioButton) findViewById(R.id.signup_NitRadio) ).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 		{
 			@Override
@@ -45,6 +59,13 @@ public class SignUp extends AppCompatActivity
 				}
 			}
 		});
+
+		lower = findViewById(R.id.view4);
+		upper = findViewById(R.id.view5);
+		slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
+		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
+		runAnimationUp.start();
+		runAnimationDown.start();
 
 		//TODO: Add Branches Data
 		String Branches[] = getResources().getStringArray(R.array.Branches);

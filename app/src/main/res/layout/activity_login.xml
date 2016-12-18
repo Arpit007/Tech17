@@ -76,8 +76,16 @@
         android:id="@+id/view2"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:layout_below="@+id/label"
-        android:background="#c0c0c0" />
+        android:layout_below="@+id/include"
+        android:background="#c0c0c0"
+        android:layout_marginTop="56dp"/>
+    <View
+        android:id="@+id/view3"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/include"
+        android:background="#c0c0c0"
+        android:layout_marginTop="56dp"/>
 
     <com.nitkkr.gawds.tech16.Activity.Typewriter
         android:id="@+id/label"

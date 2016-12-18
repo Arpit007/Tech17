@@ -17,22 +17,32 @@
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize" />
 
-
-    <com.nitkkr.gawds.tech16.Activity.Typewriter
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_color_primary"
-        android:layout_marginBottom="0dp"
-        android:layout_marginTop="10dp"
-        android:text="  Sign Up"
-        android:textSize="25sp"
-        android:textAllCaps="true"/>
-    <View
-        android:id="@+id/view2"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="#c0c0c0"
-        android:layout_marginTop="0dp"/>
+        android:layout_height="wrap_content">
+        <com.nitkkr.gawds.tech16.Activity.Typewriter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_primary"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="10dp"
+            android:text="  Sign Up"
+            android:textSize="25sp"
+            android:textAllCaps="true"/>
+        <View
+            android:id="@+id/view4"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"
+            android:layout_marginTop="24dp"/>
+        <View
+            android:id="@+id/view5"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"
+            android:layout_marginTop="24dp"/>
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

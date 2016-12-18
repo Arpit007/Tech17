@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -43,6 +45,22 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity  implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener
 {
+
+	Animation slideUp,slideDown;
+	View upper, lower;
+	Thread runAnimationUp = new Thread(){
+		@Override
+		public void run() {
+			upper.startAnimation(slideUp);
+		}
+	};
+	Thread runAnimationDown = new Thread(){
+		@Override
+		public void run() {
+			lower.startAnimation(slideDown);
+		}
+	};
+
 	boolean signingIn = false;
 	boolean exit=false;
 	private static final int RC_SIGN_IN = 007;
@@ -61,10 +79,14 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
+		lower = findViewById(R.id.view2);
+		upper = findViewById(R.id.view3);
 		ActionBarSimple barSimple = new ActionBarSimple(this);
 		barSimple.setLabel(getString(R.string.FestName));
-
+		slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
+		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
+		runAnimationUp.start();
+		runAnimationDown.start();
 		Typewriter login_type=(Typewriter)findViewById(R.id.label);
 		login_type.animateText("      Login");
 		login_type.setCharacterDelay(80);
