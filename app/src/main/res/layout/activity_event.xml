@@ -6,7 +6,7 @@
     android:id="@+id/activity_event"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+
     android:background="@color/app_background"
     tools:context="com.nitkkr.gawds.tech16.Activity.Event">
     <include layout="@layout/actionbar_back" android:id="@+id/temp_bar"
@@ -17,25 +17,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:layout_alignParentBottom="true"
+       android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/temp_bar">
 
 
-        <Button
-        android:text="Register" android:id="@+id/event_Register"
-        android:background="@drawable/border_button"
-        android:textColor="@color/text_color_primary"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
-
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/Link"
+            app:srcCompat="@drawable/link"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView"
             android:layout_below="@+id/textView7"
@@ -44,7 +34,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/Link"
+            app:srcCompat="@drawable/link"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView2"
             android:layout_below="@+id/imageView"
@@ -53,7 +43,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/Link"
+            app:srcCompat="@drawable/link"
             android:layout_marginTop="13dp"
             android:id="@+id/imageView3"
             android:layout_below="@+id/imageView2"
@@ -132,6 +122,58 @@
             android:layout_alignBottom="@+id/imageView3"
             android:layout_alignStart="@+id/imageView4"
             android:layout_alignEnd="@+id/imageView4"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/textView8"
+            android:background="@color/tab_layout_bk_event"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+
+            android:layout_above="@+id/event_Register">
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
+            app:tabMode="scrollable"
+            app:tabGravity="center"
+            android:id="@+id/event_tab_layout"
+            app:tabTextColor="@color/text_color_primary"
+            app:tabSelectedTextColor="@color/text_color_primary"
+            android:layout_alignParentStart="true"
+            >   </android.support.design.widget.TabLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_below="@+id/event_tab_layout"/>
+
+
+
+        </RelativeLayout>
+
+        <Button
+            android:text="Register" android:id="@+id/event_Register"
+            android:background="@drawable/border_button"
+            android:textColor="@color/text_color_primary"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/textView11"/>
+
+        <Button
+            android:text="Download as PDF"
+            android:id="@+id/event_download"
+            android:background="@drawable/border_button"
+            android:textColor="@color/text_color_primary"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/event_Register"/>
+
     </RelativeLayout>
 
 
