@@ -36,7 +36,7 @@
         INSERT INTO NotificationList
         SELECT EVENT_ID, EVENT_NAME, _DATE
         FROM EventList
-        WHERE EventList.NOTIFY=1 OR EventList.REGISTERED=0;
+        WHERE EventList.NOTIFY=1 OR EventList.REGISTERED=1;
     </string>
 
     <string name="QueryCreateInterestsTable">
@@ -49,17 +49,17 @@
 
     <string name="QueryCreateExhibitionTable">
         CREATE TABLE Exhibition
-    (
-        EVENT_ID INT PRIMARY KEY NOT NULL,
-        EVENT_NAME VARCHAR(127) NOT NULL,
-        NOTIFY INT DEFAULT 0,
-        _DATE INT DEFAULT 0,
-        VENUE VARCHAR(127),
-        _DESCRIPTION VARCHAR(1024),
-        IMAGE_URL VARCHAR(255),
-        AUTHOR VARCHAR(127),
-        PDF VARCHAR(254)
-    );
+        (
+            EVENT_ID INT PRIMARY KEY NOT NULL,
+            EVENT_NAME VARCHAR(127) NOT NULL,
+            NOTIFY INT DEFAULT 0,
+            _DATE INT DEFAULT 0,
+            VENUE VARCHAR(127),
+            _DESCRIPTION VARCHAR(1024),
+            IMAGE_URL VARCHAR(255),
+            AUTHOR VARCHAR(127),
+            PDF VARCHAR(254)
+        );
     </string>
 
     <string name="QueryCreateCoordinatorTable">

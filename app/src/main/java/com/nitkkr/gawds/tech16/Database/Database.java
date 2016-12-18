@@ -3,6 +3,8 @@ package com.nitkkr.gawds.tech16.Database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+
 /**
  * Created by Home Laptop on 18-Dec-16.
  */
@@ -26,6 +28,8 @@ public class Database implements iDbRequest
 		database = this;
 
 		DbConstants.Constants=new DbConstants(context);
+
+		startDatabase(false);
 
 		eventsDB=new EventsDB(context,Database.this);
 		interestDB=new InterestDB(context,Database.this);
@@ -62,27 +66,16 @@ public class Database implements iDbRequest
 
 	public void startDatabase(boolean Restart)
 	{
-		try
+		if(sqLiteDatabase!=null && sqLiteDatabase.isOpen() && Restart)
+			sqLiteDatabase.close();
+
+		if (sqLiteDatabase == null)
 		{
-			if (sqLiteDatabase == null)
-			{
-				sqLiteDatabase = eventsDB.getWritableDatabase();
-			}
-			else if (!sqLiteDatabase.isOpen())
-			{
-				sqLiteDatabase = eventsDB.getWritableDatabase();
-			}
-			else if (sqLiteDatabase.isOpen() && Restart)
-			{
-				sqLiteDatabase = eventsDB.getWritableDatabase();
-			}
-			if(sqLiteDatabase==null || !sqLiteDatabase.isOpen())
-				throw new Exception("Unable to get Database");
+			sqLiteDatabase=SQLiteDatabase.openOrCreateDatabase(ActivityHelper.getApplicationContext().getDatabasePath(DbConstants.Constants.getDatabaseName()),null);
 		}
-		catch (Exception e)
+		else if (!sqLiteDatabase.isOpen() || Restart)
 		{
-			e.printStackTrace();
-			sqLiteDatabase = exhibitionDB.getWritableDatabase();
+			sqLiteDatabase=SQLiteDatabase.openOrCreateDatabase(ActivityHelper.getApplicationContext().getDatabasePath(DbConstants.Constants.getDatabaseName()),null);
 		}
 	}
 
