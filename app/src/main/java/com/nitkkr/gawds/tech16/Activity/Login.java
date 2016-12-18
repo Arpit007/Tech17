@@ -295,7 +295,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                         }
 
 
-                        Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
                         hideProgressDialog();
                     }
                 },
@@ -355,7 +355,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                         }
 
 
-                        Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
                         hideProgressDialog();
                     }
                 },
