@@ -125,8 +125,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
             personPhotoUrl = acct.getPhotoUrl().toString();
             email = acct.getEmail();
             token_user=acct.getIdToken().toString();
-            Log.e(TAG, "Name: " + personName + ", email: " + email
-                    + ", Image: " + personPhotoUrl+" token :"+token_user);
+//            Log.e(TAG, "Name: " + personName + ", email: " + email
+//                    + ", Image: " + personPhotoUrl+" token :"+token_user);
 
             sendToken();
         } else {
@@ -164,7 +164,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
                             //save this token for further use
                             if(code==200){
-                                Log.v(TAG,response.toString());
+                                //Log.v(TAG,response.toString());
 
                                 //success
                                 AppUserModel.MAIN_USER.setName(personName);
@@ -241,7 +241,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                             message=status.getString("message");
 
                             if(code==200){
-                                Log.v(TAG,message);
+                                //Log.v(TAG,message);
 
                                 RollNo= String.valueOf(data.getInt("RollNo"));
                                 PhoneNumber=data.getString("PhoneNumber");
@@ -312,7 +312,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                             message=status.getString("message");
 
                             if(code==200){
-                                Log.v(TAG,message);
+                                //Log.v(TAG,message);
                                 for(int i=0;i<data.length();i++){
                                     interests.add(data.getString(i));
                                 }
@@ -370,14 +370,14 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                     Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
                     Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
                 }
-                if(getIntent().getBooleanExtra("Start_Home",true))
+                //if(getIntent().getBooleanExtra("Start_Home",true))
                     startActivity(new Intent(Login.this, Home.class));
-                else
-                {
-                    Intent intent=new Intent();
-                    intent.putExtra("Logged_In",true);
-                    setResult(RESULT_OK,intent);
-                }
+//                else
+//                {
+//                    Intent intent=new Intent();
+//                    intent.putExtra("Logged_In",true);
+//                    setResult(RESULT_OK,intent);
+//                }
                 finish();
                 break;
             case SIGNUP:

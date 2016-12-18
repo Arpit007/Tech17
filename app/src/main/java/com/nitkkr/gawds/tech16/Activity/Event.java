@@ -215,6 +215,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			}
 		else
 			super.onActivityResult(requestCode, resultCode, data);
+
 	}
 
 	@Override
