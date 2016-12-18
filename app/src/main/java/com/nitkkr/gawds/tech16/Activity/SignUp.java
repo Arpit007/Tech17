@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -47,6 +49,20 @@ import java.util.Map;
 
 public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
 {
+	Animation slideUp,slideDown;
+	View upper, lower;
+	Thread runAnimationUp = new Thread(){
+		@Override
+		public void run() {
+			upper.startAnimation(slideUp);
+		}
+	};
+	Thread runAnimationDown = new Thread(){
+		@Override
+		public void run() {
+			lower.startAnimation(slideDown);
+		}
+	};
 
 	boolean Processing, Verified = false;
 	private  String TAG="DEBUG";
@@ -144,6 +160,12 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		);
 
 		token_recieved=AppUserModel.MAIN_USER.getToken();
+		lower = findViewById(R.id.view5);
+		upper = findViewById(R.id.view4);
+		slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
+		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
+		runAnimationUp.start();
+		runAnimationDown.start();
 
 	}
 	private void signIn() {

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -41,7 +42,8 @@ import com.nitkkr.gawds.tech16.Helper.App;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +55,20 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity  implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener
 {
+    Animation slideUp,slideDown;
+    View upper, lower;
+    Thread runAnimationUp = new Thread(){
+        @Override
+        public void run() {
+            upper.startAnimation(slideUp);
+        }
+    };
+    Thread runAnimationDown = new Thread(){
+        @Override
+        public void run() {
+            lower.startAnimation(slideDown);
+        }
+    };
     boolean signingIn = false;
     boolean exit=false;
     private static final int RC_SIGN_IN = 007;
@@ -88,6 +104,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         RelativeLayout rl=(RelativeLayout) findViewById(R.id.activity_login);
+
+
 //        Bitmap bk=App.decodeSampledBitmapFromResource(getResources(),R.drawable.login_bk3,300,300);
 //        Drawable bd=new BitmapDrawable(getResources(),bk);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -96,7 +114,12 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 //            rl.setBackgroundDrawable(bd);
 //        }
 
-
+        lower = findViewById(R.id.view2);
+        upper = findViewById(R.id.view3);
+        slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
+        slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
+        runAnimationUp.start();
+        runAnimationDown.start();
     }
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
