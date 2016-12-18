@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Home Laptop on 03-Nov-16.
@@ -16,22 +21,21 @@ import com.nitkkr.gawds.tech16.R;
 
 public class InterestAdapter extends BaseAdapter
 {
-	private String list[];
+	private ArrayList<String> list;
 	private boolean Selected[];
 	private Context context;
 
 	public InterestAdapter(Context context)
 	{
-		list=context.getResources().getStringArray(R.array.Interests);
-		Selected=new boolean[list.length];
-
+		list=new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.Interests)));
+		Selected=new boolean[list.size()];
 		this.context=context;
 	}
 
 	@Override
 	public int getCount()
 	{
-		return list.length;
+		return list.size();
 	}
 
 	@Override
@@ -55,7 +59,7 @@ public class InterestAdapter extends BaseAdapter
 			view=inflater.inflate(R.layout.layout_list_item_interest,viewGroup,false);
 		}
 
-		(( TextView)view.findViewById(R.id.interest_item_label)).setText(list[i]);
+		(( TextView)view.findViewById(R.id.interest_item_label)).setText(list.get(i));
 
 		if(Selected[i])
 			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
@@ -66,9 +70,16 @@ public class InterestAdapter extends BaseAdapter
 
 	public void onItemClick(View view, int Position)
 	{
-		if(Selected[Position])
+		boolean x=Selected[Position];
+		if(x)
+		{
+			Selected[Position]=false;
+			((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
+		}else{
+
+			Selected[Position]=true;
 			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
-		else ((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
+		}
 	}
 
 	public boolean isDone()
@@ -82,13 +93,13 @@ public class InterestAdapter extends BaseAdapter
 	public String getInterestsString()
 	{
 		StringBuilder stringBuilder=new StringBuilder("");
-
-		for(int x=0;x<list.length;x++)
+		int length=list.size();
+		for(int x=0;x<length;x++)
 			if(Selected[x])
 			{
 				if(stringBuilder.toString().equals(""))
-					stringBuilder.append(list[x]);
-				else (stringBuilder.append(",")).append(list[x]);
+					stringBuilder.append(list.get(x));
+				else (stringBuilder.append(",")).append(list.get(x));
 			}
 		return stringBuilder.toString();
 	}

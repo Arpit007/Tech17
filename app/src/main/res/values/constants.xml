@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="SplashDuration">2000</integer>
+<resources xmlns:android="http://schemas.android.com/tools">
+    <integer name="SplashDuration">3000</integer>
     <integer name="WarningDuration">4000</integer>
     <integer name="AfterUpdateHours">8</integer>
     <integer name="LaterUpdateHours">6</integer>
@@ -11,14 +11,26 @@
     <string name="Misc_Prefs">Misc_Prefs</string>
 
     <string-array name="Branches">
-        <item>CS</item>
-        <item>IT</item>
-        <item>Mechanical</item>
+        <item >Computer Sc</item>
+        <item >Information Tech.</item>
+        <item >Mechanical</item>
+        <item >Electrical</item>
+        <item >Electronics</item>
+        <item >PIE</item>
+
+    </string-array>
+
+    <string-array name="Gender">
+        <item >Male</item>
+        <item >Female</item>
     </string-array>
 
     <string-array name="Interests">
-        <item>Interest 1</item>
-        <item>Interest 2</item>
+        <item>Technical</item>
+        <item>Exhibitions</item>
+        <item>Guest Lectures</item>
+        <item>Debates</item>
+        <item>Music,Dance</item>
     </string-array>
 
 

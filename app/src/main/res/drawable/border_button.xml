@@ -10,5 +10,5 @@
         />
     <stroke
         android:width="2dip"
-        android:color="@color/border_color" />
+        android:color="#33FF95" />
 </shape>

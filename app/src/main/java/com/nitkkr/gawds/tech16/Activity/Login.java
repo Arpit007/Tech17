@@ -4,14 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,371 +37,475 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.Helper.App;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity  implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener
 {
+    boolean signingIn = false;
+    boolean exit=false;
+    private static final int RC_SIGN_IN = 007;
+    private  String TAG="DEBUG";
+    static public GoogleApiClient mGoogleApiClient;
+    static public GoogleSignInOptions gso;
+    private ProgressDialog mProgressDialog;
+    private Button btnSignIn;
+    String personName,personPhotoUrl,email,token_user,token_recieved;
+    SignInStatus success=SignInStatus.SUCCESS;
+    SignInStatus failed=SignInStatus.FAILED;
+    private String client_server_id="726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com";
 
-	Animation slideUp,slideDown;
-	View upper, lower;
-	Thread runAnimationUp = new Thread(){
-		@Override
-		public void run() {
-			upper.startAnimation(slideUp);
-		}
-	};
-	Thread runAnimationDown = new Thread(){
-		@Override
-		public void run() {
-			lower.startAnimation(slideDown);
-		}
-	};
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-	boolean signingIn = false;
-	boolean exit=false;
-	private static final int RC_SIGN_IN = 007;
-	private  String TAG="DEBUG";
-	private GoogleApiClient mGoogleApiClient;
-	private ProgressDialog mProgressDialog;
-	private SignInButton btnSignIn;
-	private boolean issignout;
-	String personName,personPhotoUrl,email,token;
-	SignInStatus success=SignInStatus.SUCCESS;
-	SignInStatus failed=SignInStatus.FAILED;
+        Typewriter login_type=(Typewriter)findViewById(R.id.label);
+        login_type.animateText("    Login");
+        login_type.setCharacterDelay(80);
+        btnSignIn = (Button) findViewById(R.id.login_Gmail);
+        btnSignIn.setOnClickListener(this);
 
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(client_server_id)
+                .build();
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
-		lower = findViewById(R.id.view2);
-		upper = findViewById(R.id.view3);
-		ActionBarSimple barSimple = new ActionBarSimple(this);
-		barSimple.setLabel(getString(R.string.FestName));
-		slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
-		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
-		runAnimationUp.start();
-		runAnimationDown.start();
-		Typewriter login_type=(Typewriter)findViewById(R.id.label);
-		login_type.animateText("      Login");
-		login_type.setCharacterDelay(80);
-		btnSignIn = (SignInButton) findViewById(R.id.login_Gmail);
-		btnSignIn.setOnClickListener(this);
-
-		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-				.requestEmail()
-				.requestIdToken("726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com")
-				.build();
-
-		mGoogleApiClient = new GoogleApiClient.Builder(this)
-				.enableAutoManage(this, this)
-				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-				.build();
-		// Customizing G+ button
-		btnSignIn.setSize(SignInButton.SIZE_STANDARD);
-		btnSignIn.setScopes(gso.getScopeArray());
-
-		issignout=getIntent().getBooleanExtra("isLogout",false);
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        RelativeLayout rl=(RelativeLayout) findViewById(R.id.activity_login);
+//        Bitmap bk=App.decodeSampledBitmapFromResource(getResources(),R.drawable.login_bk3,300,300);
+//        Drawable bd=new BitmapDrawable(getResources(),bk);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//            rl.setBackground(bd);
+//        }else{
+//            rl.setBackgroundDrawable(bd);
+//        }
 
 
-	}
-	private void signIn() {
-		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-		startActivityForResult(signInIntent, RC_SIGN_IN);
-	}
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+    }
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-		// Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-		if (requestCode == RC_SIGN_IN) {
-			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-			handleSignInResult(result);
-		}
-	}
-	private void handleSignInResult(GoogleSignInResult result) {
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+    private void handleSignInResult(GoogleSignInResult result) {
 
-		Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-		if (result.isSuccess()) {
-			// Signed in successfully, show authenticated UI.
-			GoogleSignInAccount acct = result.getSignInAccount();
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
 
-			Log.v(TAG, "display name: " + acct.getDisplayName());
+            //Log.v(TAG, "display name: " + acct.getDisplayName());
 
-			 personName = acct.getDisplayName();
-			 personPhotoUrl = acct.getPhotoUrl().toString();
-			 email = acct.getEmail();
-			token=acct.getIdToken().toString();
-			Log.e(TAG, "Name: " + personName + ", email: " + email
-					+ ", Image: " + personPhotoUrl+" token :"+token);
+            personName = acct.getDisplayName();
+            personPhotoUrl = acct.getPhotoUrl().toString();
+            email = acct.getEmail();
+            token_user=acct.getIdToken().toString();
+            Log.e(TAG, "Name: " + personName + ", email: " + email
+                    + ", Image: " + personPhotoUrl+" token :"+token_user);
 
-			sendToken();
-			showProgressDialog("Verifying");
-		} else {
-			// Signed out, show unauthenticated UI.
-			SignIn(failed);
-		}
-	}
-
-
-	public void sendToken(){
-
-		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
-				getResources().getString(R.string.login_post_url),
-				new Response.Listener<String>() {
-					@Override
-					public void onResponse(String res) {
-
-						//check response if good send to handler
-						JSONObject response= null,status=null,data=null;
-						String message,token;
-						int code;
-						boolean isNew;
-						try {
-							response = new JSONObject(res);
-							status=response.getJSONObject("status");
-							data=response.getJSONObject("data");
-
-							code=status.getInt("code");
-							message=status.getString("message");
-
-							isNew=data.getBoolean("isNew");
-							token=data.getString("token");
-
-							if(code==200){
-								Log.v(TAG,message);
-								//success
-								if(isNew){
-									SignInStatus sign_up=SignInStatus.SIGNUP;
-									SignIn(sign_up);
-								}else{
-									//get things first
-									SignIn(success);
-								}
-							}else{
-								//failure
-								SignIn(failed);
-							}
-
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
+            sendToken();
+        } else {
+            // Signed out, show unauthenticated UI.
+            SignIn(failed);
+        }
+    }
 
 
-						//SignIn(success);
-						Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
-						hideProgressDialog();
-					}
-				},
-				new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
-						hideProgressDialog();
-					}
-				}){
-			@Override
-			protected Map<String,String> getParams(){
-				Map<String,String> params = new HashMap<String, String>();
-				params.put("gmailToken",token);
-				return params;
-			}
+    public void sendToken(){
+        showProgressDialog("Verifying");
 
-		};
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
+                getResources().getString(R.string.login_post_url),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String res) {
 
-		RequestQueue requestQueue = Volley.newRequestQueue(this);
-		requestQueue.add(stringRequest);
-	}
+                        //check response if good send to handler
+                        JSONObject response= null,status=null,data=null;
+                        String message;
+                        int code;
+                        boolean isNew;
+                        try {
+                            response = new JSONObject(res);
+                            status=response.getJSONObject("status");
 
-	public void SignIn(SignInStatus status)
-	{
+                            data=response.getJSONObject("data");
+                            token_recieved=data.getString("token");
 
-		signingIn = true;
+                            code=status.getInt("code");
+                            message=status.getString("message");
 
-		switch (status)
-		{
-			case FAILED:
-				Toast.makeText(getBaseContext(), "Failed to LogIn", Toast.LENGTH_LONG).show();
-				break;
-			case SUCCESS:
-				Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
+                            isNew=data.getBoolean("IsNew");
 
-				AppUserModel appUserModel=new AppUserModel();
+                            //save this token for further use
+                            if(code==200){
+                                Log.v(TAG,response.toString());
 
-				AppUserModel.MAIN_USER=appUserModel;
-
-				//saving user data
-				AppUserModel.MAIN_USER.setName(personName);
-				AppUserModel.MAIN_USER.setEmail(email);
-				AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
-				AppUserModel.MAIN_USER.setisCoordinator(false);
-
-				//else sign up intent
-//				AppUserModel.MAIN_USER.setRoll("");
-//				AppUserModel.MAIN_USER.setCollege("");
-//				AppUserModel.MAIN_USER.setMobile("");
-//				AppUserModel.MAIN_USER.setBranch("");
-//				AppUserModel.MAIN_USER.setInterests("");
+                                //success
+                                AppUserModel.MAIN_USER.setName(personName);
+                                AppUserModel.MAIN_USER.setEmail(email);
+                                AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
+                                AppUserModel.MAIN_USER.setisCoordinator(false);
+                                AppUserModel.MAIN_USER.setToken(token_recieved);
+                                AppUserModel.MAIN_USER.saveAppUser(Login.this);
 
 
-				AppUserModel.MAIN_USER.saveAppUser(Login.this);
+                                if(isNew){
 
-				if(!ActivityHelper.isDebugMode(getApplicationContext()))
-				{
-					Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
-					Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
-				}
-				if(getIntent().getBooleanExtra("Start_Home",true))
-					startActivity(new Intent(Login.this, Home.class));
-				else
-				{
-					Intent intent=new Intent();
-					intent.putExtra("Logged_In",true);
-					setResult(RESULT_OK,intent);
-				}
-				finish();
-				break;
-			case SIGNUP:
-				Intent intent=new Intent(Login.this, SignUp.class);
-				intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
-				startActivity(intent);
-				break;
-			default:
-				break;
-		}
-	}
-	private void signOut() {
-		if(mGoogleApiClient.isConnected()) {
-			Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-					new ResultCallback<Status>() {
-						@Override
-						public void onResult(Status status) {
+                                    SignInStatus sign_up=SignInStatus.SIGNUP;
+                                    SignIn(sign_up);
 
-						}
-					});
-		}
-	}
-	@Override
-	public void onStart() {
-		super.onStart();
+                                }else{
+                                //get things first
+                                    AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
 
-		if(!issignout) {
-			OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-			if (opr.isDone()) {
-				// If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-				// and the GoogleSignInResult will be available instantly.
-				Log.d(TAG, "Got cached sign-in");
-				GoogleSignInResult result = opr.get();
-				handleSignInResult(result);
+                                    SignIn(success);
+                                    fetch_user_details();
+                                }
+                            }else{
+                                //failure
+                                SignIn(failed);
+                            }
 
-			} else {
-				// If the user has not previously signed in on this device or the sign-in has expired,
-				// this asynchronous branch will attempt to sign in the user silently.  Cross-device
-				// single sign-on will occur in this branch.
-				showProgressDialog("Loading");
-				opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-					@Override
-					public void onResult(GoogleSignInResult googleSignInResult) {
-						hideProgressDialog();
-						handleSignInResult(googleSignInResult);
-					}
-				});
-			}
-		}else{
-			signOut();
-		}
-	}
-	private void showProgressDialog(String msg) {
-		if (mProgressDialog == null) {
-			mProgressDialog = new ProgressDialog(this);
-			mProgressDialog.setMessage(msg);
-			mProgressDialog.setIndeterminate(true);
-		}
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-		mProgressDialog.show();
-	}
+                        hideProgressDialog();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
+                        hideProgressDialog();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("idToken",token_user);
+                return params;
+            }
 
-	private void hideProgressDialog() {
-		if (mProgressDialog != null && mProgressDialog.isShowing()) {
-			mProgressDialog.hide();
-		}
-	}
+        };
 
-	public void SignUp(View view)
-	{
-		Intent intent=new Intent(Login.this, SignUp.class);
-		intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
-		startActivity(intent);
-	}
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
-	public void Skip(View view)
-	{
-		SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
-		editor.putBoolean("Skip",true);
-		editor.apply();
+    public void fetch_user_details(){
 
-		AppUserModel.MAIN_USER.logoutUser(getBaseContext());
-		if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
-			startActivity(new Intent(Login.this, Home.class));
-		finish();
-	}
+        showProgressDialog("Locating you in our beacon..");
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.server_url)+
+                getResources().getString(R.string.get_user_details_url)+"?token="+token_recieved,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String res) {
 
-	@Override
-	public void onBackPressed()
-	{
-		if (signingIn)
-		{
-			Toast.makeText(getBaseContext(), "Please Wait", Toast.LENGTH_SHORT).show();
-		}
-		else
-		{
-			if(exit)
-				super.onBackPressed();
+                        //check response if good send to handler
+                        JSONObject response= null,status=null,data=null;
+                        String message,RollNo,PhoneNumber,Branch,Year,College,Gender;
+                        int code;
+                        try {
+                            response = new JSONObject(res);
+                            status=response.getJSONObject("status");
+                            data=response.getJSONObject("data");
 
-			if(isTaskRoot())
-			{
-				if(!exit)
-				{
-					exit = true;
-					Toast.makeText(Login.this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
-					new Handler().postDelayed(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							exit = false;
-						}
-					}, getResources().getInteger(R.integer.WarningDuration));
-				}
-			}
-			else super.onBackPressed();
-		}
-	}
+                            code=status.getInt("code");
+                            message=status.getString("message");
 
-	@Override
-	public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-		// An unresolvable error has occurred and Google APIs (including Sign-In) will not
-		// be available.
-		Log.d(TAG, "onConnectionFailed:" + connectionResult);
-	}
+                            if(code==200){
+                                Log.v(TAG,message);
 
-	@Override
-	public void onClick(View v) {
-		int id = v.getId();
+                                RollNo= String.valueOf(data.getInt("RollNo"));
+                                PhoneNumber=data.getString("PhoneNumber");
+                                College=data.getString("College");
+                                Branch=data.getString("Branch");
+                                Gender=data.getString("Gender");
+                                Year=data.getString("Year");
+                                //saving user data
+                                AppUserModel.MAIN_USER.setRoll(RollNo);
+                                AppUserModel.MAIN_USER.setCollege(College);
+                                AppUserModel.MAIN_USER.setMobile(PhoneNumber);
+                                AppUserModel.MAIN_USER.setBranch(Branch);
+                                AppUserModel.MAIN_USER.setGender(Gender);
+                                AppUserModel.MAIN_USER.setYear(Year);
 
-		switch (id) {
-			case R.id.login_Gmail:
-				signIn();
-				break;
-		}
-	}
+                                AppUserModel.MAIN_USER.saveAppUser(Login.this);
+
+                                //now fetch interests
+                                fetch_interests();
+
+                            }else{
+                                //failure
+                                SignIn(failed);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
+                        hideProgressDialog();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
+                        hideProgressDialog();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
+    public void fetch_interests(){
+        showProgressDialog("Optimising your feed...");
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.server_url)+
+                getResources().getString(R.string.get_user_interests_url)+"?token="+token_recieved,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String res) {
+
+                        //check response if good send to handler
+                        JSONObject response= null,status=null;
+                        JSONArray data;
+                        String message,RollNo,PhoneNumber,Branch,Year,College,Gender;
+                        ArrayList<String> interests=new ArrayList<String>();
+                        int code;
+                        try {
+                            response = new JSONObject(res);
+                            status=response.getJSONObject("status");
+                            data=response.getJSONArray("data");
+
+                            code=status.getInt("code");
+                            message=status.getString("message");
+
+                            if(code==200){
+                                Log.v(TAG,message);
+                                for(int i=0;i<data.length();i++){
+                                    interests.add(data.getString(i));
+                                }
+                                AppUserModel.MAIN_USER.setInterests_arraylist(interests);
+
+                                //everything is fetched and saved now
+                                //so intent to home
+
+                                SignIn(success);
+                            }else{
+                                //failure
+                                SignIn(failed);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        Toast.makeText(Login.this,res,Toast.LENGTH_LONG).show();
+                        hideProgressDialog();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG).show();
+                        hideProgressDialog();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+    public void SignIn(SignInStatus status)
+    {
+
+        signingIn = true;
+
+        switch (status)
+        {
+            case FAILED:
+                AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
+                Toast.makeText(getBaseContext(), "Failed to LogIn", Toast.LENGTH_LONG).show();
+                break;
+            case SUCCESS:
+
+                AppUserModel.MAIN_USER.setLoggedIn(true,getBaseContext());
+                Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
+
+
+                if(!ActivityHelper.isDebugMode(getApplicationContext()))
+                {
+                    Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
+                    Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
+                }
+                if(getIntent().getBooleanExtra("Start_Home",true))
+                    startActivity(new Intent(Login.this, Home.class));
+                else
+                {
+                    Intent intent=new Intent();
+                    intent.putExtra("Logged_In",true);
+                    setResult(RESULT_OK,intent);
+                }
+                finish();
+                break;
+            case SIGNUP:
+                AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
+                Intent intent=new Intent(Login.this, SignUp.class);
+                intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
+                startActivity(intent);
+                finish();
+                break;
+            default:
+                break;
+        }
+    }
+     private void signOut() {
+        Log.v("Debug","Logged out");
+
+        if(mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            Log.v("Debug","Logged out");
+                        }
+                    });
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
+
+            if(!AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
+                SignIn(SignInStatus.SIGNUP);
+            }else{
+                startActivity(new Intent(Login.this,Home.class));
+            }
+
+        }
+        else{
+            //show login screen
+        }
+
+    }
+    private void showProgressDialog(String msg) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(msg);
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
+    public void SignUp(View view)
+    {
+        Intent intent=new Intent(Login.this, SignUp.class);
+        intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
+        startActivity(intent);
+    }
+
+    public void Skip(View view)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
+        editor.putBoolean("Skip",true);
+        editor.commit();
+        AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
+        AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
+        AppUserModel.MAIN_USER.logoutUser(getBaseContext());
+        if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
+            startActivity(new Intent(Login.this, Home.class));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (signingIn)
+        {
+            Toast.makeText(getBaseContext(), "Please Wait", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            if(exit)
+                super.onBackPressed();
+
+            if(isTaskRoot())
+            {
+                if(!exit)
+                {
+                    exit = true;
+                    Toast.makeText(Login.this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            exit = false;
+                        }
+                    }, getResources().getInteger(R.integer.WarningDuration));
+                }
+            }
+            else super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        switch (id) {
+            case R.id.login_Gmail:
+                signIn();
+                break;
+        }
+    }
+
 }

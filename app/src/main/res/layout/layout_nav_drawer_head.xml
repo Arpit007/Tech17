@@ -2,35 +2,36 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
     android:background="#455A64"
-    android:gravity="bottom"
+    android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
 
-    <com.nitkkr.gawds.tech16.Src.CircularTextView
-        android:id="@+id/nav_User_Image_Letter" android:visibility="visible"
-        android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
-        android:layout_centerHorizontal="true" android:layout_centerVertical="true"
-        android:layout_width="90dp" android:layout_height="90dp"/>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        app:border_color="@color/User_Image_Border_Color" app:border_width="@dimen/User_Image_Border_Width"
-        android:id="@+id/nav_User_Image" android:src="@drawable/avatar_1"
+    <RelativeLayout android:layout_marginTop="10dp"
+        android:orientation="horizontal" android:id="@+id/temp_Layout"
         android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-        android:layout_width="90dp" android:layout_height="90dp"/>
+        android:layout_width="100dp" android:layout_height="100dp">
+
+        <com.nitkkr.gawds.tech16.Src.CircularTextView
+            android:id="@+id/nav_User_Image_Letter" android:visibility="visible"
+            android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+            android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            app:border_color="@color/User_Image_Border_Color" app:border_width="@dimen/User_Image_Border_Width"
+            android:id="@+id/nav_User_Image" android:src="@drawable/avatar_1"
+            android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+            android:layout_width="match_parent" android:layout_height="match_parent"/>
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
 
     <TextView
@@ -40,6 +41,6 @@
         android:textAlignment="center"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="User" android:textSize="18sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        android:layout_below="@id/temp_Layout" android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

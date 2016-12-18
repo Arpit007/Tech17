@@ -14,6 +14,7 @@ import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.Model.EventKey;
 import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -113,7 +114,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 					}
 					else
 					{
-						AppUserModel.MAIN_USER.LoginUser(Event.this,true);
+						AppUserModel.MAIN_USER.LoginUserNoHome(Event.this,true);
 					}
 				}
 			});
@@ -148,15 +149,31 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 	private void LoadEvent()
 	{
-		model=(EventModel) getIntent().getSerializableExtra("Event");
-		model.setStatusListener(this);
-		//TODO: Implement
+		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
+
+		//Load Event
+		model=new EventModel();
+		model.setEventID(key.getID()+"");
+		model.setEventName(key.getName());
+		model.setNotify(model.isNotify());
+
+		try
+		{
+			model.setStatusListener(this);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		//TODO: Implement------------ Load event from net
 		StringBuilder text = new StringBuilder("");
-		text.append("Name: ").append(model.getEventName());
+		text.append("\nID: ").append(model.getEventID());
+		text.append("\nName: ").append(model.getEventName());
 		text.append("\nVenue: ").append(model.getVenue());
 		text.append("\nDescription: ").append(model.getDescription());
 		text.append("\nRules: ").append(model.getRules());
 		text.append("\nStatus: ").append(model.getEventStatus());
+		text.append("\nNotify: ").append(model.isNotify());
 
 		//----------------Date, Result, Cood, Participants------------------------
 

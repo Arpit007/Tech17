@@ -17,9 +17,8 @@ public class AppUserModel extends CoordinatorModel
 {
 	private boolean Coordinator;
 	private ArrayList<String> Interests;
-
 	public static final int LOGIN_REQUEST_CODE=99;
-
+	private boolean loggedIn,signedup;
 	public ArrayList<String> getInterests(){return Interests;}
 
 	public static AppUserModel MAIN_USER=new AppUserModel();
@@ -27,8 +26,10 @@ public class AppUserModel extends CoordinatorModel
 	public boolean isCoordinator(){return Coordinator;}
 	public void setisCoordinator(boolean coordinator){Coordinator=coordinator;}
 
-	private String interestsToString() {
+	public String interestsToString() {
+		//TODO: Add Tokens Accordingly
 		StringBuilder stringBuilder=new StringBuilder("");
+		if(Interests!=null){
 		for(String interest:Interests)
 		{
 			if(stringBuilder.toString().equals(""))
@@ -38,7 +39,11 @@ public class AppUserModel extends CoordinatorModel
 				stringBuilder.append(",").append(interest);
 			}
 		}
-		return stringBuilder.toString();
+
+		return stringBuilder.toString();}
+		else{
+			return "";
+		}
 	}
 	private ArrayList<String> stringToInterests(String Interests) {
 		String[] strings=Interests.split(",");
@@ -49,15 +54,17 @@ public class AppUserModel extends CoordinatorModel
 	}
 	public void setInterests(String interests){Interests=stringToInterests(interests);}
 
+	public void setInterests_arraylist(ArrayList<String> s){
+		this.Interests=s;
+	}
+
 	public boolean saveAppUser(Context context) {
 		return saveAppUser(context, "User_Data");
-	}
-	public boolean saveTempUser(Context context) {
-		return saveAppUser(context, "Temp_User");
 	}
 	private boolean saveAppUser(Context context, String File) {
 		SharedPreferences.Editor editor=context.getSharedPreferences(File,Context.MODE_PRIVATE).edit();
 		editor.putString("Name",getName());
+		editor.putString("Token",getToken());
 		editor.putString("Email",getEmail());
 		editor.putString("Roll",getRoll());
 		editor.putString("College",getCollege());
@@ -65,7 +72,10 @@ public class AppUserModel extends CoordinatorModel
 		editor.putString("Branch",getBranch());
 		editor.putBoolean("Coordinator",isCoordinator());
 		editor.putString("ImageId",getImageResource());
+		editor.putString("Gender",getGender());
 		editor.putString("Interests",interestsToString());
+		editor.putBoolean("GoogleImage",isUseGoogleImage());
+		editor.putInt("ImageDrawableID",getImageId());
 		if(isCoordinator())
 			editor.putString("Designation",getDesignation());
 		return editor.commit();
@@ -73,9 +83,6 @@ public class AppUserModel extends CoordinatorModel
 
 	public void loadAppUser(Context context) {
 		loadUser(context,"User_Data");
-	}
-	public void loadTempUser(Context context) {
-		loadUser(context,"Temp_Data");
 	}
 	private void loadUser(Context context, String File) {
 		SharedPreferences preferences=context.getSharedPreferences(File,Context.MODE_PRIVATE);
@@ -87,30 +94,72 @@ public class AppUserModel extends CoordinatorModel
 		setBranch(preferences.getString("Branch",""));
 		setImageResource(preferences.getString("ImageId",null));
 		setisCoordinator(preferences.getBoolean("Coordinator",false));
+		setToken(preferences.getString("Token",""));
+		setGender(preferences.getString("Gender",""));
 		Interests=stringToInterests(preferences.getString("Interests",""));
+		setUseGoogleImage(preferences.getBoolean("GoogleImage",true));
+		setImageId(preferences.getInt("ImageDrawableID",-1));
 		if(isCoordinator())
 			setDesignation(preferences.getString("Designation",""));
 	}
 
-	public boolean logoutUser(Context context) {
+	public void logoutUser(Context context) {
 		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
 		editor.clear();
-		if(editor.commit())
-		{
-			loadAppUser(context);
-			saveAppUser(context);
-			return true;
-		}
-		return false;
+		editor.commit();
+		loadAppUser(context);
+		saveAppUser(context);
 	}
 	public boolean isUserLoaded(){
-		return !getEmail().equals("");
-	}
 
-	public void LoginUser(Activity activity, boolean Result)
+		if(getEmail()!=null)
+		return !getEmail().equals("");
+		else
+			return false;
+	}
+	public void LoginUserHome(Activity activity, boolean Result)
 	{
 		if(Result)
 			activity.startActivityForResult(new Intent(activity, Login.class),LOGIN_REQUEST_CODE);
 		else activity.startActivity(new Intent(activity,Login.class));
+	}
+
+	public boolean isUserLoggedIn(Context context){
+		SharedPreferences sp=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE);
+		loggedIn=sp.getBoolean("loggedIn",false);
+
+		if(loggedIn)
+			return true;
+		else
+			return false;
+	}
+
+	public void setLoggedIn(boolean val,Context context){
+		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
+		editor.putBoolean("loggedIn",val);
+		editor.commit();
+	}
+
+	public boolean isUserSignedUp(Context context){
+		SharedPreferences sp=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE);
+		signedup=sp.getBoolean("signedup",false);
+		if(signedup)
+			return true;
+		else
+			return false;
+	}
+	public void setSignedup(boolean val,Context context){
+		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
+		editor.putBoolean("signedup",val);
+		editor.commit();
+	}
+
+	public void LoginUserNoHome(Activity activity, boolean Result)
+	{
+		Intent intent=new Intent(activity,Login.class);
+		intent.putExtra("Start_Home",false);
+		if(Result)
+			activity.startActivityForResult(intent,LOGIN_REQUEST_CODE);
+		else activity.startActivity(intent);
 	}
 }

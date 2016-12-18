@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.nitkkr.gawds.tech16">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <application
         android:allowBackup="true"
@@ -27,7 +27,9 @@
             android:name=".Activity.Login"
             android:label="@string/Login"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+
+            </activity>
         <activity
             android:name=".Activity.Home"
             android:label="@string/Home"
@@ -43,7 +45,9 @@
             android:name=".Activity.Interests"
             android:label="Interests"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+
+</activity>
         <activity
             android:name=".Activity.SearchPage"
             android:label="Search"
@@ -74,13 +78,35 @@
             android:label="Event List"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.ListPage"
-                  android:label="List Page"
+        <activity
+            android:name=".Activity.ListPage"
+            android:label="List Page"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="fdeefa2727df0c4191430c1ec466304d71e88d96"/>
+
+        <activity
+            android:name=".Activity.EditUser"
+            android:label="Edit Details"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.AvatarPicker"
+            android:label="Avatar"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.About"
+                  android:label="About"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.Exhibition"
+                  android:label="@string/Exhibition"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
-       <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="fdeefa2727df0c4191430c1ec466304d71e88d96" />
     </application>
+
 </manifest>

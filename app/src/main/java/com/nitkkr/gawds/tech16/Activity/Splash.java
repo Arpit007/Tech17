@@ -6,18 +6,36 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Helper.fetch_data;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.Src.CheckUpdate;
 import io.fabric.sdk.android.Fabric;
 import com.nitkkr.gawds.tech16.Src.RateApp;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Splash extends AppCompatActivity
 {
 	private Handler handler = new Handler();
+	fetch_data f=fetch_data.getInstance();
 	private Runnable runnable = new Runnable()
 	{
 		public void run()
@@ -39,7 +57,8 @@ public class Splash extends AppCompatActivity
 					@Override
 					public void uncaughtException(Thread thread, Throwable throwable)
 					{
-						throwable.printStackTrace();
+						//throwable.printStackTrace();
+
 					}
 				});
 			}
@@ -51,15 +70,33 @@ public class Splash extends AppCompatActivity
 			SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
 			boolean Skip=preferences.getBoolean("Skip",false);
 
-			if (AppUserModel.MAIN_USER.isUserLoaded() || Skip)
+			//fetch events in background
+			//and store it in table and update the existing ones
+
+			f.fetch_events(getBaseContext());
+			f.fetch_interests(getBaseContext());
+
+			//if skip or logged in
+			if(Skip)
 			{
-				startActivity(new Intent(Splash.this, Home.class));
+				startActivity(new Intent(Splash.this,Home.class));
 			}
-			else
-				AppUserModel.MAIN_USER.LoginUser(Splash.this,false);
+			if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
+				startActivity(new Intent(Splash.this,Login.class));
+			}
+			//if  logged in
+			if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
+				startActivity(new Intent(Splash.this,Home.class));
+			}
+			Log.v("DEBUG","YEs i did"+AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())+" "+AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()));
+
+			startActivity(new Intent(Splash.this,Login.class));
+
 			finish();
 		}
 	};
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

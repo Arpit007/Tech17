@@ -1,14 +1,11 @@
 package com.nitkkr.gawds.tech16.Activity;
 
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Helper.ActionBarNavDrawer;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.Src.CheckUpdate;
@@ -34,19 +31,20 @@ public class Home extends AppCompatActivity
 			}
 
 			@Override
-			public void SearchButtonClicked()
+			public void SearchQuery(String Query)
 			{
 
 			}
-		});
+		},R.id.nav_home);
 		barNavDrawer.setLabel(getString(R.string.FestName));
+		barNavDrawer.setOpenNewSearchPage(true);
 
-		if(CheckUpdate.CHECK_UPDATE.isUpdateAvailable())
-			if(!CheckUpdate.CHECK_UPDATE.displayUpdate(Home.this))
-			{
-				if(RateApp.rateApp.isReadyForRating(Home.this))
+		if(CheckUpdate.CHECK_UPDATE.isUpdateAvailable() && CheckUpdate.CHECK_UPDATE.displayUpdate(Home.this));
+		else if(RateApp.rateApp.isReadyForRating(Home.this))
 					RateApp.rateApp.displayRating(Home.this);
-			}
+
+
+
 	}
 
 	@Override
