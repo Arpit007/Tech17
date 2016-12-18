@@ -43,28 +43,10 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/view6"/>
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:srcCompat="@drawable/notification"
-            android:id="@+id/imageView9"
-            android:layout_alignTop="@+id/imageView8"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="44dp"/>
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:srcCompat="@drawable/live_home2"
-            android:id="@+id/imageView8"
-            android:layout_marginEnd="45dp"
-            android:layout_alignTop="@+id/view6"
-            android:layout_toStartOf="@+id/view6"/>
-
         <View
-            android:layout_width="140dp"
+            android:layout_width="145dp"
             android:layout_height="0.5dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="25dp"
             android:background="#fff"
             android:id="@+id/view7"
             android:layout_centerVertical="true"
@@ -79,47 +61,16 @@
             android:layout_below="@+id/view7"
             android:layout_alignParentEnd="true"/>
 
-        <TextView
-            android:text="LIVE EVENTS"
-            android:textColor="@color/text_color_primary"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/view6"
-            android:id="@+id/textView17"
-            android:layout_alignStart="@+id/view7"
-            android:layout_alignEnd="@+id/view7"/>
-
-        <TextView
-            android:text="NOTIFICATIONS"
-            android:textColor="@color/text_color_primary"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/view6"
-            android:id="@+id/textView18"
-            android:layout_alignStart="@+id/view8"
-            android:layout_alignEnd="@+id/view8"/>
-
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:srcCompat="@drawable/wishlist"
-            android:id="@+id/imageView10"
-            android:layout_below="@+id/view8"
-            android:layout_alignStart="@+id/imageView8"
-            android:layout_marginTop="52dp"/>
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             app:srcCompat="@drawable/suggestions"
             android:id="@+id/imageView11"
             android:layout_alignTop="@+id/imageView10"
             android:layout_alignStart="@+id/imageView9"/>
 
         <TextView
-            android:text="WISHLIST"
+            android:text="WISHLIST "
             android:textColor="@color/text_color_primary"
             android:textAlignment="center"
             android:layout_width="wrap_content"
@@ -145,11 +96,64 @@
 
         <View
             android:layout_width="0.5dp"
-            android:layout_height="150dp"
+            android:layout_height="140dp"
             android:background="#fff"
             android:id="@+id/view10"
             android:layout_marginRight="20dp"
             android:layout_above="@+id/textView20"
             android:layout_toEndOf="@+id/view7"/>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/notification"
+            android:id="@+id/imageView9"
+            android:layout_alignTop="@+id/view6"
+            android:layout_alignStart="@+id/textView18"
+            android:layout_marginStart="25dp"/>
+
+        <TextView
+            android:text="LIVE EVENTS"
+            android:textColor="@color/text_color_primary"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView17"
+            android:layout_below="@+id/imageView8"
+            android:layout_alignStart="@+id/view7"
+            android:layout_marginTop="17dp"
+            android:layout_alignEnd="@+id/view7"/>
+
+        <TextView
+            android:text="NOTIFICATIONS"
+            android:textColor="@color/text_color_primary"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView18"
+            android:layout_alignBaseline="@+id/textView17"
+            android:layout_alignBottom="@+id/textView17"
+            android:layout_alignStart="@+id/view8"
+            android:layout_alignEnd="@+id/view8"/>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/wishlist"
+            android:id="@+id/imageView10"
+            android:layout_marginTop="51dp"
+            android:layout_below="@+id/view8"
+            android:layout_alignStart="@+id/imageView8"
+            android:layout_alignEnd="@+id/textView19"/>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/live_home2"
+            android:id="@+id/imageView8"
+            android:layout_marginRight="10dp"
+            android:layout_alignTop="@+id/view6"
+            android:layout_alignStart="@+id/textView19"
+            android:layout_alignEnd="@+id/textView17"/>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
