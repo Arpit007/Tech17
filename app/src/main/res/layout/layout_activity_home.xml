@@ -13,4 +13,6 @@
     tools:context="com.nitkkr.gawds.tech16.Activity.Home"
     tools:showIn="@layout/layout_activity_home_bar">
 
+
+
 </RelativeLayout>

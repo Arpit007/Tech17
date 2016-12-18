@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.Activity.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

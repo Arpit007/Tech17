@@ -12,9 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nitkkr.gawds.tech16.Activity.Fragment.About_Fragment;
+import com.nitkkr.gawds.tech16.Activity.Fragment.Contact_frag;
+import com.nitkkr.gawds.tech16.Activity.Fragment.Result_frag;
+import com.nitkkr.gawds.tech16.Activity.Fragment.Rules_frag;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
