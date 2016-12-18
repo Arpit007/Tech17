@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Model.InterestModel;
-import com.nitkkr.gawds.tech16.Model.NotificationModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -21,66 +21,32 @@ import java.util.List;
 
 public class InterestDB extends SQLiteOpenHelper
 {
-	private Context context;
-	private String TABLENAME = "Interest";
+	private iDbRequest dbRequest;
 
-	public enum InterestNames
+	public InterestDB(Context context, iDbRequest dbRequest)
 	{
-		Interest("INTEREST"),
-		Selected("SELECTED");
+		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
+		this.dbRequest = dbRequest;
 
-		private String Name;
-
-		InterestNames(String value)
-		{
-			Name = value;
-		}
-
-		public String Name()
-		{
-			return Name;
-		}
-
-		@Override
-		public String toString()
-		{
-			return Name;
-		}
-	}
-
-	public InterestDB(Context context)
-	{
-		super(context, context.getString(R.string.DatabaseName), null, context.getResources().getInteger(R.integer.DatabaseVersion));
-		this.context = context;
-
-		onCreate(getWritableDatabase());
-		this.close();
+		onCreate(dbRequest.getDatabase());
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(context.getString(R.string.CreateInterestsTable));
+		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.QueryCreateInterestsTable));
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
 	{
-		sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLENAME);
-	}
-
-	public void executeQuery(String Query)
-	{
-		Log.d("Query:\t",Query);
-
-		getWritableDatabase().execSQL(Query);
-		this.close();
+		sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DbConstants.Constants.getInterestTableName());
 	}
 
 	public ArrayList<InterestModel> getInterests(String Clause)
 	{
 		ArrayList<InterestModel> keys = new ArrayList<>();
-		String Query = "SELECT * FROM " + TABLENAME;
+		String Query = "SELECT * FROM " + DbConstants.Constants.getInterestTableName();
 		if (Clause.equals(""))
 		{
 			Query += ";";
@@ -94,13 +60,13 @@ public class InterestDB extends SQLiteOpenHelper
 		Cursor cursor = null;
 		try
 		{
-			cursor = getReadableDatabase().rawQuery(Query, null);
+			cursor = dbRequest.getDatabase().rawQuery(Query, null);
 
 			List<String> Columns = Arrays.asList(cursor.getColumnNames());
 			int[] ColumnIndex =
 					{
-							Columns.indexOf(InterestNames.Interest.Name()),
-							Columns.indexOf(InterestNames.Selected.Name())
+							Columns.indexOf(DbConstants.InterestNames.Interest.Name()),
+							Columns.indexOf(DbConstants.InterestNames.Selected.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -126,66 +92,70 @@ public class InterestDB extends SQLiteOpenHelper
 			{
 				cursor.close();
 			}
-			this.close();
 		}
 		return keys;
 	}
 
-	public ArrayList<InterestModel> getAllInterests(String Clause)
+	public ArrayList<InterestModel> getAllInterests()
 	{
 		return getInterests("");
 	}
 
 	public ArrayList<InterestModel> getSelectedInterests()
 	{
-		return getInterests(InterestNames.Selected.Name() + " = 1");
+		return getInterests(DbConstants.InterestNames.Selected.Name() + " = 1");
 	}
 
 	public void deleteInterest(InterestModel interest)
 	{
-		String Query = "DELETE FROM " + TABLENAME + " WHERE " + InterestNames.Interest.Name() + " = " + interest.getInterest() + ";";
+		String Query = "DELETE FROM " + DbConstants.Constants.getInterestTableName() + " WHERE " + DbConstants.InterestNames.Interest.Name() + " = " + interest.getInterest() + ";";
 		Log.d("Query:\t",Query);
-		getWritableDatabase().rawQuery(Query, null);
-		this.close();
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	public String getTableName()
 	{
-		return TABLENAME;
+		return DbConstants.Constants.getInterestTableName();
 	}
 
 	public void addOrUpdateInterest(InterestModel interest)
 	{
-		SQLiteDatabase database = getWritableDatabase();
+		SQLiteDatabase database = dbRequest.getDatabase();
 
 		ContentValues values=new ContentValues();
-		values.put(InterestNames.Interest.Name(),interest.getInterest());
-		values.put(InterestNames.Selected.Name(),((interest.isSelected())?1:0));
+		values.put(DbConstants.InterestNames.Interest.Name(),interest.getInterest());
+		values.put(DbConstants.InterestNames.Selected.Name(),((interest.isSelected())?1:0));
 
-		if(database.update(TABLENAME,values, InterestNames.Interest.Name() + " = " + interest.getInterest(),null)<1)
+		if(database.update(DbConstants.Constants.getInterestTableName(),values, DbConstants.InterestNames.Interest.Name() + " = " + interest.getInterest(),null)<1)
 		{
-			database.insert(TABLENAME,null,values);
+			database.insert(DbConstants.Constants.getInterestTableName(),null,values);
 		}
+	}
 
-		this.close();
+	@Override
+	public synchronized void close()
+	{
+		//super.close();
 	}
 
 	public void addOrUpdateInterest(ArrayList<InterestModel> interests)
 	{
-		SQLiteDatabase database=getWritableDatabase();
+		SQLiteDatabase database=dbRequest.getDatabase();
+
+		String TABLENAME=DbConstants.Constants.getInterestTableName();
+		String Interest_Name=DbConstants.InterestNames.Interest.Name();
+		String Selected_Name=DbConstants.InterestNames.Selected.Name();
 
 		for(InterestModel interest : interests)
 		{
 			ContentValues values=new ContentValues();
-			values.put(InterestNames.Interest.Name(),interest.getInterest());
-			values.put(InterestNames.Selected.Name(),((interest.isSelected())?1:0));
+			values.put(Interest_Name,interest.getInterest());
+			values.put(Selected_Name,((interest.isSelected())?1:0));
 
-			if(database.update(TABLENAME,values, InterestNames.Interest.Name() + " = " + interest.getInterest(),null)<1)
+			if(database.update(TABLENAME,values, Interest_Name + " = " + interest.getInterest(),null)<1)
 			{
 				database.insert(TABLENAME,null,values);
 			}
 		}
-
-		this.close();
 	}
 }

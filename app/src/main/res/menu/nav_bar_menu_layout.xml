@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_home" android:icon="@drawable/ic_home_black_24dp" android:title="Home"/>
+        <item android:id="@+id/nav_events" android:icon="@drawable/ic_event_black_24dp" android:title="Event"/>
+        <item android:id="@+id/nav_gusto_talks" android:icon="@drawable/gustos_talks" android:title="Gusto Talks"/>
+        <item android:id="@+id/nav_informals" android:icon="@drawable/informals" android:title="Informals"/>
+        <item android:id="@+id/nav_exhibitions" android:icon="@drawable/exhibitions" android:title="Exhibitions"/>
+        <item android:id="@+id/nav_logout" android:icon="@drawable/sign_out" android:title="Logout"/>
+        <item android:id="@+id/nav_login" android:icon="@drawable/ic_menu_camera" android:title="Login" android:visible="false"/>
+        <item android:id="@+id/nav_About" android:icon="@drawable/about_icon" android:title="About"/>
+    </group>
+</menu>

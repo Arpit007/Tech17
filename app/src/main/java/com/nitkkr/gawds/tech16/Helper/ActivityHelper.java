@@ -16,6 +16,12 @@ import com.nitkkr.gawds.tech16.Activity.ListPage;
 
 public class ActivityHelper
 {
+	private static Context context=null;
+
+	public static Context getApplicationContext(){return context;}
+
+	public static void setApplictionContext(Context context){ActivityHelper.context = context;}
+
 	public static boolean revertToHomeIfLast(Activity activity)
 	{
 		if(activity.isTaskRoot())
