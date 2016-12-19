@@ -3,6 +3,7 @@ package com.nitkkr.gawds.tech16.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -37,7 +38,7 @@ public class NotificationDB extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.QueryCreateNotificationTable));
+		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_NotificationTable));
 	}
 
 	@Override
@@ -143,7 +144,7 @@ public class NotificationDB extends SQLiteOpenHelper
 
 	public void UpdateTable()
 	{
-		dbRequest.getDatabase().rawQuery(ActivityHelper.getApplicationContext().getString(R.string.QueryUpdateNotificationList), null);
+		dbRequest.getDatabase().rawQuery(ActivityHelper.getApplicationContext().getString(R.string.Query_Update_NotificationList), null);
 	}
 
 	@Override
@@ -175,5 +176,10 @@ public class NotificationDB extends SQLiteOpenHelper
 				database.insert(TABLENAME,null,values);
 			}
 		}
+	}
+
+	public long getRowCount()
+	{
+		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getNotificationTableName());
 	}
 }

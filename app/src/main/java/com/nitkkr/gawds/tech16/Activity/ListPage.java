@@ -10,13 +10,12 @@ import android.widget.ListView;
 
 import com.nitkkr.gawds.tech16.API.Query;
 import com.nitkkr.gawds.tech16.Adapter.EventListAdapter;
+import com.nitkkr.gawds.tech16.Database.Database;
+import com.nitkkr.gawds.tech16.Database.DbConstants;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSearch;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.iActionBar;
-import com.nitkkr.gawds.tech16.Model.BaseEventModel;
 import com.nitkkr.gawds.tech16.Model.EventKey;
-import com.nitkkr.gawds.tech16.Model.EventModel;
-import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class ListPage extends AppCompatActivity
 {
 	private Query query;
 	private ListView listView;
-	private ArrayList<EventKey> listDataChild;
+	private ArrayList<EventKey> Data;
 	private EventListAdapter listAdapter;
 	ActionBarSearch actionBarSearch;
 
@@ -61,7 +60,7 @@ public class ListPage extends AppCompatActivity
 
 		prepareListData();
 
-		listAdapter = new EventListAdapter(ListPage.this, listDataChild);
+		listAdapter = new EventListAdapter(ListPage.this, Data);
 		listAdapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
@@ -88,7 +87,7 @@ public class ListPage extends AppCompatActivity
 
 				switch (query.getQueryTargetType())
 				{
-					case Event:
+					case Informals:
 						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
 						intent=new Intent(view.getContext(), Event.class);
 						intent.putExtras(bundle);
@@ -108,18 +107,18 @@ public class ListPage extends AppCompatActivity
 
 	void prepareListData()
 	{
-		//===================Handle===================================
-
-		listDataChild = new ArrayList<>();
-		if (query.getQueryTargetType() == Query.QueryTargetType.Event)
+		Data = new ArrayList<>();
+		if (query.getQueryTargetType() == Query.QueryTargetType.Informals)
 		{
-			listDataChild.add(new EventKey("Hello",123,false));
-			listDataChild.add(new EventKey("World",456,false));
+			//===================TODO: IMPLEMENT=================
 		}
-		else
+		else if (query.getQueryTargetType() == Query.QueryTargetType.Exhibition)
 		{
-			listDataChild.add(new EventKey("Hello",123,false));
-			listDataChild.add(new EventKey("World",456,false));
+			Data= Database.database.getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk + " = 0");
+		}
+		else if (query.getQueryTargetType() == Query.QueryTargetType.GuestTalk)
+		{
+			Data= Database.database.getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk + " = 1");
 		}
 	}
 

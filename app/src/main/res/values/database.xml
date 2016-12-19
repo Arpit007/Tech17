@@ -2,9 +2,10 @@
 <resources>
 
     <string name="DatabaseName">Tech17.db</string>
+
     <integer name="DatabaseVersion">1</integer>
 
-    <string name="QueryCreateEventsTable">
+    <string name="Query_Create_EventsTable">
         CREATE TABLE EventList
         (
             EVENT_ID INT PRIMARY KEY NOT NULL,
@@ -18,11 +19,12 @@
             RULES VARCHAR(1024),
             MIN_USER INT DEFAULT 0,
             MAX_USER INT DEFAULT 0,
-            PDF VARCHAR(255)
+            PDF VARCHAR(255),
+            SOCIETY INT DEFAULT 0
         );
     </string>
 
-    <string name="QueryCreateNotificationTable">
+    <string name="Query_Create_NotificationTable">
         CREATE TABLE NotificationList
         (
             EVENT_ID INT PRIMARY KEY NOT NULL,
@@ -31,15 +33,7 @@
         );
     </string>
 
-    <string name="QueryUpdateNotificationList">
-        DELETE FROM NotificationList;
-        INSERT INTO NotificationList
-        SELECT EVENT_ID, EVENT_NAME, _DATE
-        FROM EventList
-        WHERE EventList.NOTIFY=1 OR EventList.REGISTERED=1;
-    </string>
-
-    <string name="QueryCreateInterestsTable">
+    <string name="Query_Create_InterestsTable">
         CREATE TABLE Interest
         (
             _INTEREST VARCHAR(255) NOT NULL,
@@ -47,7 +41,15 @@
         );
     </string>
 
-    <string name="QueryCreateExhibitionTable">
+    <string name="Query_Create_SocietyTable">
+        CREATE TABLE Society
+        (
+            ID INT PRIMARY KEY,
+            NAME VARCHAR(127)
+        );
+    </string>
+
+    <string name="Query_Create_ExhibitionTable">
         CREATE TABLE Exhibition
         (
             EVENT_ID INT PRIMARY KEY NOT NULL,
@@ -58,11 +60,12 @@
             _DESCRIPTION VARCHAR(1024),
             IMAGE_URL VARCHAR(255),
             AUTHOR VARCHAR(127),
-            PDF VARCHAR(254)
+            PDF VARCHAR(254),
+            GTALK INT DEFAULT 0
         );
     </string>
 
-    <string name="QueryCreateCoordinatorTable">
+    <string name="Query_Create_CoordinatorTable">
         CREATE TABLE Coordinator
         (
             NAME VARCHAR(255) NOT NULL,
@@ -71,6 +74,14 @@
             MOBILE VARCHAR(15),
             DESIGNATION VARCHAR(255)
         );
+    </string>
+
+    <string name="Query_Update_NotificationList">
+        DELETE FROM NotificationList;
+        INSERT INTO NotificationList
+        SELECT EVENT_ID, EVENT_NAME, _DATE
+        FROM EventList
+        WHERE EventList.NOTIFY=1 OR EventList.REGISTERED=1;
     </string>
 
 </resources>

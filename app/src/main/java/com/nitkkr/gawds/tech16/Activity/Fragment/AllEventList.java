@@ -12,10 +12,11 @@ import android.widget.ListView;
 
 import com.nitkkr.gawds.tech16.Activity.Event;
 import com.nitkkr.gawds.tech16.Adapter.AllEventListAdapter;
+import com.nitkkr.gawds.tech16.Database.Database;
+import com.nitkkr.gawds.tech16.Database.DbConstants;
 import com.nitkkr.gawds.tech16.Helper.iActionBar;
-import com.nitkkr.gawds.tech16.Model.BaseEventModel;
 import com.nitkkr.gawds.tech16.Model.EventKey;
-import com.nitkkr.gawds.tech16.Model.EventModel;
+import com.nitkkr.gawds.tech16.Model.SocietyModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class AllEventList extends Fragment implements iActionBar
 {
 	View MyView;
 	ExpandableListView expListView;
-	HashMap<String, ArrayList<EventKey>> listDataChild;
+	HashMap<String, ArrayList<EventKey>> HashData;
 	AllEventListAdapter listAdapter;
 	public  AllEventList()
 	{
@@ -47,7 +48,7 @@ public class AllEventList extends Fragment implements iActionBar
 
 		prepareListData();
 
-		listAdapter = new AllEventListAdapter(MyView.getContext(), listDataChild);
+		listAdapter = new AllEventListAdapter(MyView.getContext(), HashData);
 		listAdapter.getFilter().setSearchList(( ListView)MyView.findViewById(R.id.search_event_list));
 		final ListView listView=(ListView)MyView.findViewById(R.id.search_event_list);
 		listView.getAdapter().registerDataSetObserver(new DataSetObserver()
@@ -99,8 +100,7 @@ public class AllEventList extends Fragment implements iActionBar
 
 	private void prepareListData()
 	{
-		listDataChild = new HashMap<>();
-
+		/*
 		ArrayList<EventKey> top250 = new ArrayList<>();
 		top250.add(new EventKey("The Shawshank Redemption",123,false));
 		top250.add(new EventKey("The Godfather",123,false));
@@ -125,9 +125,18 @@ public class AllEventList extends Fragment implements iActionBar
 		comingSoon.add(new EventKey("The Canyons",123,false));
 		comingSoon.add(new EventKey("Europa Report",123,false));
 
-		listDataChild.put("Top 250", top250); // Header, Child data
-		listDataChild.put("Now Showing", nowShowing);
-		listDataChild.put("Coming Soon", comingSoon);
+		HashData.put("Top 250", top250); // Header, Child data
+		HashData.put("Now Showing", nowShowing);
+		HashData.put("Coming Soon", comingSoon);
+		*/
+
+		HashData = new HashMap<>();
+		ArrayList<SocietyModel> societies= Database.database.getSocietyDB().getAllSocieties();
+
+		for(SocietyModel society: societies)
+		{
+			HashData.put(society.getName(),Database.database.getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID()));
+		}
 	}
 
 	@Override

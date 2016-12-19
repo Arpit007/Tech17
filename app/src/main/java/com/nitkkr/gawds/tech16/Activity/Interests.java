@@ -204,6 +204,7 @@ public class Interests extends AppCompatActivity
 				break;
 		}
 	}
+
 	private void showProgressDialog(String msg) {
 		if (mProgressDialog == null) {
 			mProgressDialog = new ProgressDialog(this);

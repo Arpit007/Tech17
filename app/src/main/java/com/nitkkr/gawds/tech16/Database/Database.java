@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.Database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
@@ -17,6 +18,7 @@ public class Database implements iDbRequest
 	private NotificationDB notificationDB;
 	private CoordinatorDB coordinatorDB;
 	private InterestDB interestDB;
+	private SocietyDB societyDB;
 	private EventsDB eventsDB;
 
 	public static Database database = null;
@@ -25,6 +27,9 @@ public class Database implements iDbRequest
 
 	public Database(Context context)
 	{
+		if(database!=null)
+			return;
+
 		database = this;
 
 		DbConstants.Constants=new DbConstants(context);
@@ -33,6 +38,7 @@ public class Database implements iDbRequest
 
 		eventsDB=new EventsDB(context,Database.this);
 		interestDB=new InterestDB(context,Database.this);
+		societyDB = new SocietyDB(context,Database.this);
 		exhibitionDB=new ExhibitionDB(context,Database.this);
 		notificationDB=new NotificationDB(context,Database.this);
 		coordinatorDB = new CoordinatorDB(context,Database.this);
@@ -79,14 +85,15 @@ public class Database implements iDbRequest
 		}
 	}
 
-	public void runQuery(String Query)
+	public Cursor runQuery(String Query)
 	{
-		getDatabase().rawQuery(Query,null);
+		return getDatabase().rawQuery(Query,null);
 	}
 
 	public ExhibitionDB getExhibitionDB(){return exhibitionDB;}
 	public NotificationDB getNotificationDB(){return notificationDB;}
 	public CoordinatorDB getCoordinatorDB(){return coordinatorDB;}
+	public SocietyDB getSocietyDB(){return societyDB;}
 	public InterestDB getInterestDB(){return interestDB;}
 	public EventsDB getEventsDB(){return eventsDB;}
 

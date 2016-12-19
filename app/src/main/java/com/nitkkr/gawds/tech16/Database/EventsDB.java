@@ -4,6 +4,7 @@ package com.nitkkr.gawds.tech16.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -40,7 +41,7 @@ public class EventsDB extends SQLiteOpenHelper
 	@Override
 	public void onCreate( SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.QueryCreateEventsTable));
+		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_EventsTable));
 	}
 
 	@Override
@@ -83,7 +84,8 @@ public class EventsDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.EventNames.MinUser.Name()),
 							Columns.indexOf(DbConstants.EventNames.MaxUser.Name()),
 							Columns.indexOf(DbConstants.EventNames.Pdf.Name()),
-							Columns.indexOf(DbConstants.EventNames.Registered.Name())
+							Columns.indexOf(DbConstants.EventNames.Registered.Name()),
+							Columns.indexOf(DbConstants.EventNames.Society.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -106,6 +108,7 @@ public class EventsDB extends SQLiteOpenHelper
 					event.setMaxUsers(cursor.getInt(ColumnIndex[10]));
 					event.setPdfLink(cursor.getString(ColumnIndex[11]));
 					event.setRegistered(cursor.getInt(ColumnIndex[12])!=0);
+					event.setSociety(cursor.getInt(ColumnIndex[13]));
 
 					keys.add(event);
 				}
@@ -153,7 +156,8 @@ public class EventsDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.EventNames.MinUser.Name()),
 							Columns.indexOf(DbConstants.EventNames.MaxUser.Name()),
 							Columns.indexOf(DbConstants.EventNames.Pdf.Name()),
-							Columns.indexOf(DbConstants.EventNames.Registered.Name())
+							Columns.indexOf(DbConstants.EventNames.Registered.Name()),
+							Columns.indexOf(DbConstants.EventNames.Society.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -173,6 +177,7 @@ public class EventsDB extends SQLiteOpenHelper
 				event.setMaxUsers(cursor.getInt(ColumnIndex[10]));
 				event.setPdfLink(cursor.getString(ColumnIndex[11]));
 				event.setRegistered(cursor.getInt(ColumnIndex[12])!=0);
+				event.setSociety(cursor.getInt(ColumnIndex[13]));
 			}
 		}
 		catch (Exception e)
@@ -199,6 +204,11 @@ public class EventsDB extends SQLiteOpenHelper
 		return getEvents("");
 	}
 
+	public ArrayList<EventModel> getRegisteredEvents()
+	{
+		return getEvents(DbConstants.EventNames.Registered.Name() + " = 1");
+	}
+
 	public EventKey getEventKey(EventKey key)
 	{
 		return getEventKey(key.getEventID());
@@ -207,7 +217,7 @@ public class EventsDB extends SQLiteOpenHelper
 	public EventKey getEventKey(int ID)
 	{
 		String Query = "SELECT " + DbConstants.EventNames.EventName.Name() + ", " + DbConstants.EventNames.EventID.Name() + ", "+
-				DbConstants.EventNames.Notify.Name() + ", FROM " + DbConstants.Constants.getEventsTableName() + " WHERE " +
+				DbConstants.EventNames.Notify.Name() + ", " + DbConstants.EventNames.Society.Name() +" FROM " + DbConstants.Constants.getEventsTableName() + " WHERE " +
 				DbConstants.EventNames.EventID.Name() + " = " + ID + ";";
 		Log.d("Query:\t",Query);
 
@@ -224,6 +234,7 @@ public class EventsDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.EventNames.EventName.Name()),
 							Columns.indexOf(DbConstants.EventNames.EventID.Name()),
 							Columns.indexOf(DbConstants.EventNames.Notify.Name()),
+							Columns.indexOf(DbConstants.EventNames.Society.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -231,8 +242,9 @@ public class EventsDB extends SQLiteOpenHelper
 				cursor.moveToFirst();
 
 				key.setEventName(cursor.getString(ColumnIndex[0]));
-				key.setEventID(Integer.parseInt(cursor.getString(ColumnIndex[1])));
-				key.setNotify(cursor.getInt(ColumnIndex[3]) != 0);
+				key.setEventID(cursor.getInt(ColumnIndex[1]));
+				key.setNotify(cursor.getInt(ColumnIndex[2]) != 0);
+				key.setSociety(cursor.getInt(ColumnIndex[3]));
 			}
 		}
 		catch (Exception e)
@@ -253,7 +265,7 @@ public class EventsDB extends SQLiteOpenHelper
 	{
 		ArrayList<EventKey> keys = new ArrayList<>();
 		String Query = "SELECT " + DbConstants.EventNames.EventName.Name() + ", " + DbConstants.EventNames.EventID.Name() + ", "+
-				DbConstants.EventNames.Notify.Name() + ", FROM " + DbConstants.Constants.getEventsTableName();
+				DbConstants.EventNames.Notify.Name() + ", " + DbConstants.EventNames.Society.Name() +" FROM " + DbConstants.Constants.getEventsTableName();
 		if (Clause.equals(""))
 		{
 			Query += ";";
@@ -275,6 +287,7 @@ public class EventsDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.EventNames.EventName.Name()),
 							Columns.indexOf(DbConstants.EventNames.EventID.Name()),
 							Columns.indexOf(DbConstants.EventNames.Notify.Name()),
+							Columns.indexOf(DbConstants.EventNames.Society.Name()),
 					};
 
 			if (cursor.getCount() > 0)
@@ -285,9 +298,9 @@ public class EventsDB extends SQLiteOpenHelper
 					EventKey key = new EventKey();
 
 					key.setEventName(cursor.getString(ColumnIndex[0]));
-					key.setEventID(Integer.parseInt(cursor.getString(ColumnIndex[1])));
-					key.setNotify(cursor.getInt(ColumnIndex[3]) != 0);
-
+					key.setEventID(cursor.getInt(ColumnIndex[1]));
+					key.setNotify(cursor.getInt(ColumnIndex[2]) != 0);
+					key.setSociety(cursor.getInt(ColumnIndex[3]));
 					keys.add(key);
 				}
 				while (cursor.moveToNext());
@@ -305,6 +318,11 @@ public class EventsDB extends SQLiteOpenHelper
 			}
 		}
 		return keys;
+	}
+
+	public ArrayList<EventKey> getRegisteredEventKeys()
+	{
+		return getEventKeys(DbConstants.EventNames.Registered.Name() + " = 1");
 	}
 
 	public ArrayList<EventKey> getAllEventKeys()
@@ -348,6 +366,7 @@ public class EventsDB extends SQLiteOpenHelper
 		values.put(DbConstants.EventNames.MaxUser.Name(),event.getMaxUsers());
 		values.put(DbConstants.EventNames.Pdf.Name(),event.getPdfLink());
 		values.put(DbConstants.EventNames.Registered.Name(),event.isRegistered());
+		values.put(DbConstants.EventNames.Society.Name(),event.getSociety());
 
 		if(database.update(DbConstants.Constants.getEventsTableName(),values, DbConstants.EventNames.EventID.Name() + " = "+event.getEventID(),null)<1)
 		{
@@ -380,6 +399,7 @@ public class EventsDB extends SQLiteOpenHelper
 		String Event_MaxUser= DbConstants.EventNames.MaxUser.Name();
 		String Event_Pdf= DbConstants.EventNames.Pdf.Name();
 		String Event_Registered= DbConstants.EventNames.Registered.Name();
+		String Event_Society= DbConstants.EventNames.Society.Name();
 
 		for(EventModel event : events)
 		{
@@ -398,11 +418,17 @@ public class EventsDB extends SQLiteOpenHelper
 			values.put(Event_MaxUser,event.getMaxUsers());
 			values.put(Event_Pdf,event.getPdfLink());
 			values.put(Event_Registered,event.isRegistered());
+			values.put(Event_Society,event.getSociety());
 
 			if(database.update(TABLENAME,values, DbConstants.EventNames.EventID.Name() + " = "+event.getEventID(),null)<1)
 			{
 				database.insert(TABLENAME,null,values);
 			}
 		}
+	}
+
+	public long getRowCount()
+	{
+		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getEventsTableName());
 	}
 }

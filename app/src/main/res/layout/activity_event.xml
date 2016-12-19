@@ -25,7 +25,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/link"
+            app:srcCompat="@drawable/link_pic"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView"
             android:layout_below="@+id/textView7"
@@ -34,7 +34,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/link"
+            app:srcCompat="@drawable/link_pic"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView2"
             android:layout_below="@+id/imageView"
@@ -43,7 +43,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/link"
+            app:srcCompat="@drawable/link_pic"
             android:layout_marginTop="13dp"
             android:id="@+id/imageView3"
             android:layout_below="@+id/imageView2"

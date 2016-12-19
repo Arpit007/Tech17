@@ -89,7 +89,7 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.nav_informals)
 		{
-			Query query=new Query("============Implement===========", Query.QueryType.SQl, Query.QueryTargetType.Event);
+			Query query=new Query("============Implement===========", Query.QueryType.SQl, Query.QueryTargetType.Informals);
 			startListActivity(activity,activity.getString(R.string.Informals),query);
 		}
 		else if (id == R.id.nav_exhibitions)

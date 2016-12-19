@@ -3,6 +3,7 @@ package com.nitkkr.gawds.tech16.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -35,7 +36,7 @@ public class CoordinatorDB extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.QueryCreateCoordinatorTable));
+		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_CoordinatorTable));
 	}
 
 	@Override
@@ -193,5 +194,10 @@ public class CoordinatorDB extends SQLiteOpenHelper
 				database.insert(DbConstants.Constants.getCoordinatorTableName(),null,values);
 			}
 		}
+	}
+
+	public long getRowCount()
+	{
+		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getCoordinatorTableName());
 	}
 }

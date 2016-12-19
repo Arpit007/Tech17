@@ -16,6 +16,7 @@ public class DbConstants
 	private String NOTIFICATION_TABLE_NAME;
 	private String INTEREST_TABLE_NAME;
 	private String COORDINATOR_TABLE_NAME;
+	private String SOCIETY_TABLE_NAME;
 	private int DATABASE_VERSION=1;
 
 	public String getDatabaseName()
@@ -27,6 +28,7 @@ public class DbConstants
 	public String getNotificationTableName(){return NOTIFICATION_TABLE_NAME;}
 	public String getInterestTableName(){return INTEREST_TABLE_NAME;}
 	public String getCoordinatorTableName(){return COORDINATOR_TABLE_NAME;}
+	public String getSocietyTableName(){return SOCIETY_TABLE_NAME;}
 	public int getDatabaseVersion(){return DATABASE_VERSION;}
 
 	public void setDatabaseName(String databaseName, Context context){DATABASE_NAME=databaseName; saveCache(context);}
@@ -35,6 +37,7 @@ public class DbConstants
 	public void setNotificationTableName(String notificationTableName, Context context){NOTIFICATION_TABLE_NAME = notificationTableName; saveCache(context);}
 	public void setInterestTableName(String interestTableName, Context context){INTEREST_TABLE_NAME = interestTableName; saveCache(context);}
 	public void setCoordinatorTableName(String coordinatorTableName, Context context){COORDINATOR_TABLE_NAME = coordinatorTableName; saveCache(context);}
+	public void setSocietyTableName(String societyTableName, Context context){SOCIETY_TABLE_NAME = societyTableName; saveCache(context);}
 	public void setDatabaseVersion(int databaseVersion, Context context){DATABASE_VERSION = databaseVersion; saveCache(context);}
 
 	public static DbConstants Constants=new DbConstants();
@@ -48,6 +51,7 @@ public class DbConstants
 		NOTIFICATION_TABLE_NAME="NotificationList";
 		INTEREST_TABLE_NAME="Interests";
 		COORDINATOR_TABLE_NAME="Coordinator";
+		SOCIETY_TABLE_NAME="Society";
 	}
 
 	public DbConstants(Context context)
@@ -66,6 +70,7 @@ public class DbConstants
 		NOTIFICATION_TABLE_NAME=preferences.getString("NotificationTableName","NotificationList");
 		INTEREST_TABLE_NAME=preferences.getString("InterestTableName","Interests");
 		COORDINATOR_TABLE_NAME=preferences.getString("CoordinatorTableName","Coordinator");
+		SOCIETY_TABLE_NAME=preferences.getString("SocietyTableName","Society");
 	}
 
 	public  void saveCache(Context context)
@@ -79,6 +84,7 @@ public class DbConstants
 		editor.putString("NotificationTableName",NOTIFICATION_TABLE_NAME);
 		editor.putString("InterestTableName",INTEREST_TABLE_NAME);
 		editor.putString("CoordinatorTableName",COORDINATOR_TABLE_NAME);
+		editor.putString("SocietyTableName",SOCIETY_TABLE_NAME);
 
 		editor.apply();
 	}
@@ -143,7 +149,8 @@ public class DbConstants
 		Description("_DESCRIPTION"),
 		ImageUrl("IMAGE_URL"),
 		Author("AUTHOR"),
-		Pdf("PDF");
+		Pdf("PDF"),
+		GTalk("GTALK");
 
 		private String Name;
 
@@ -178,7 +185,8 @@ public class DbConstants
 		MinUser("MIN_USER"),
 		MaxUser("MAX_USER"),
 		Pdf("PDF"),
-		Registered("REGISTERED"),;
+		Registered("REGISTERED"),
+		Society("SOCIETY");
 
 		private String Name;
 
@@ -210,6 +218,30 @@ public class DbConstants
 		private String Name;
 
 		CoordinatorNames(String value)
+		{
+			Name = value;
+		}
+
+		public String Name()
+		{
+			return Name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return Name;
+		}
+	}
+
+	public enum SocietyNames
+	{
+		Id("ID"),
+		SocietyName("NAME");
+
+		private String Name;
+
+		SocietyNames(String value)
 		{
 			Name = value;
 		}

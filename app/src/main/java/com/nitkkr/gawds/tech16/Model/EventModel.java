@@ -32,6 +32,7 @@ public class EventModel extends BaseEventModel implements Serializable
 	private int MaxUsers;
 	private int TotalRounds = 0;
 	private int CurrentRound = 0;
+	private int Society;
 	private boolean Registered = false;
 	private com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status= com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.None;
 	private ArrayList<RoundResultModel> Result;
@@ -40,6 +41,7 @@ public class EventModel extends BaseEventModel implements Serializable
 	private EventStatusListener listener;
 
 
+	public int getSociety(){return Society;}
 	public String getRules(){return Rules;}
 	public int getMinUsers(){return MinUsers;}
 	public int getMaxUsers(){return MaxUsers;}
@@ -61,6 +63,7 @@ public class EventModel extends BaseEventModel implements Serializable
 	}
 
 
+	public void setSociety(int society){Society = society;}
 	public void setRules(String rules){Rules=rules;}
 	public void setMaxUsers(int maxUsers){MaxUsers=maxUsers;}
 	public void setMinUsers(int minUsers){MinUsers=minUsers;}

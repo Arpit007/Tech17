@@ -3,12 +3,14 @@ package com.nitkkr.gawds.tech16.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Model.EventKey;
+import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -39,7 +41,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 	@Override
 	public void onCreate( SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.QueryCreateExhibitionTable));
+		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_ExhibitionTable));
 	}
 
 	@Override
@@ -78,7 +80,8 @@ public class ExhibitionDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.ExhibitionNames.Description.Name()),
 							Columns.indexOf(DbConstants.ExhibitionNames.ImageUrl.Name()),
 							Columns.indexOf(DbConstants.ExhibitionNames.Author.Name()),
-							Columns.indexOf(DbConstants.ExhibitionNames.Pdf.Name())
+							Columns.indexOf(DbConstants.ExhibitionNames.Pdf.Name()),
+							Columns.indexOf(DbConstants.ExhibitionNames.GTalk.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -97,6 +100,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 					exhibition.setImage_URL(cursor.getString(ColumnIndex[6]));
 					exhibition.setAuthor(cursor.getString(ColumnIndex[7]));
 					exhibition.setPdfLink(cursor.getString(ColumnIndex[8]));
+					exhibition.setGTalk(cursor.getInt(ColumnIndex[9])!=0);
 
 					keys.add(exhibition);
 				}
@@ -140,7 +144,8 @@ public class ExhibitionDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.ExhibitionNames.Description.Name()),
 							Columns.indexOf(DbConstants.ExhibitionNames.ImageUrl.Name()),
 							Columns.indexOf(DbConstants.ExhibitionNames.Author.Name()),
-							Columns.indexOf(DbConstants.ExhibitionNames.Pdf.Name())
+							Columns.indexOf(DbConstants.ExhibitionNames.Pdf.Name()),
+							Columns.indexOf(DbConstants.ExhibitionNames.GTalk.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -156,6 +161,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 				exhibition.setImage_URL(cursor.getString(ColumnIndex[6]));
 				exhibition.setAuthor(cursor.getString(ColumnIndex[7]));
 				exhibition.setPdfLink(cursor.getString(ColumnIndex[8]));
+				exhibition.setGTalk(cursor.getInt(ColumnIndex[9])!=0);
 			}
 		}
 		catch (Exception e)
@@ -177,6 +183,10 @@ public class ExhibitionDB extends SQLiteOpenHelper
 		return getExhibition(key.getEventID());
 	}
 
+	public ArrayList<ExhibitionModel> getRegisteredExhibitions()
+	{
+		return getExhibitions(DbConstants.ExhibitionNames.Notify.Name() + " = 1");
+	}
 	public ArrayList<ExhibitionModel> getAllExhibitions()
 	{
 		return getExhibitions("");
@@ -290,6 +300,11 @@ public class ExhibitionDB extends SQLiteOpenHelper
 		return keys;
 	}
 
+	public ArrayList<EventKey> getRegisteredExhibitionKeys()
+	{
+		return getExhibitionKeys(DbConstants.ExhibitionNames.Notify.Name() + " = 1");
+	}
+
 	public ArrayList<EventKey> getAllExhibitionKeys()
 	{
 		return getExhibitionKeys("");
@@ -327,6 +342,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 		values.put(DbConstants.ExhibitionNames.ImageUrl.Name(),exhibition.getImage_URL());
 		values.put(DbConstants.ExhibitionNames.Author.Name(),exhibition.getAuthor());
 		values.put(DbConstants.ExhibitionNames.Pdf.Name(),exhibition.getPdfLink());
+		values.put(DbConstants.ExhibitionNames.GTalk.Name(),exhibition.isGTalk());
 
 		if(database.update(DbConstants.Constants.getExhibitionTableName(),values, DbConstants.ExhibitionNames.EventID.Name() + " = "+exhibition.getEventID(),null)<1)
 		{
@@ -355,6 +371,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 		String Event_ImageURL= DbConstants.ExhibitionNames.ImageUrl.Name();
 		String Event_Author= DbConstants.ExhibitionNames.Author.Name();
 		String Event_Pdf= DbConstants.ExhibitionNames.Pdf.Name();
+		String Event_GTalk= DbConstants.ExhibitionNames.GTalk.Name();
 
 		for(ExhibitionModel exhibition : exhibitions)
 		{
@@ -369,11 +386,17 @@ public class ExhibitionDB extends SQLiteOpenHelper
 			values.put(Event_ImageURL,exhibition.getImage_URL());
 			values.put(Event_Author,exhibition.getAuthor());
 			values.put(Event_Pdf,exhibition.getPdfLink());
+			values.put(Event_GTalk,exhibition.isGTalk());
 
 			if(database.update(TABLENAME,values, DbConstants.ExhibitionNames.EventID.Name() + " = "+exhibition.getEventID(),null)<1)
 			{
 				database.insert(TABLENAME,null,values);
 			}
 		}
+	}
+
+	public long getRowCount()
+	{
+		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getExhibitionTableName());
 	}
 }

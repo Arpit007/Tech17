@@ -60,7 +60,7 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:srcCompat="@drawable/link"
+        app:srcCompat="@drawable/link_pic"
         android:layout_below="@+id/imageView5"
         android:layout_alignStart="@+id/textView12"
         android:layout_marginStart="12dp"
@@ -70,7 +70,7 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:srcCompat="@drawable/link"
+        app:srcCompat="@drawable/link_pic"
         android:layout_marginStart="33dp"
         android:id="@+id/imageView6"
         android:layout_alignTop="@+id/imageView7"

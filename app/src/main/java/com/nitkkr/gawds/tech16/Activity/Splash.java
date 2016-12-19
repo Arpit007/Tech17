@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
+import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Helper.fetch_data;
@@ -73,6 +74,8 @@ public class Splash extends AppCompatActivity
 			//fetch events in background
 			//and store it in table and update the existing ones
 
+			Database database=new Database(getApplicationContext());
+			Log.d("Instance: ",database.toString() +" Started");
 
 			//if skip or logged in
 			if(Skip)

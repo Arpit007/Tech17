@@ -3,6 +3,7 @@ package com.nitkkr.gawds.tech16.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -34,7 +35,7 @@ public class InterestDB extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.QueryCreateInterestsTable));
+		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_InterestsTable));
 	}
 
 	@Override
@@ -157,5 +158,10 @@ public class InterestDB extends SQLiteOpenHelper
 				database.insert(TABLENAME,null,values);
 			}
 		}
+	}
+
+	public long getRowCount()
+	{
+		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getInterestTableName());
 	}
 }

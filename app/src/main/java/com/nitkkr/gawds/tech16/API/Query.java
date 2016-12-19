@@ -16,7 +16,7 @@ public class Query implements Serializable
 	}
 	public enum QueryTargetType
 	{
-		Event,
+		Informals,
 		GuestTalk,
 		Exhibition
 	}

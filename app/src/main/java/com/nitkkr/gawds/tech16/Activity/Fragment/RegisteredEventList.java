@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.nitkkr.gawds.tech16.Activity.Event;
 import com.nitkkr.gawds.tech16.Adapter.EventListAdapter;
+import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Helper.iActionBar;
 import com.nitkkr.gawds.tech16.Model.BaseEventModel;
 import com.nitkkr.gawds.tech16.Model.EventKey;
@@ -38,6 +39,7 @@ public class RegisteredEventList extends Fragment implements iActionBar
 
 	private ListView listView;
 	private ArrayList<EventKey> listDataChild;
+
 	public RegisteredEventList()
 	{
 
@@ -95,8 +97,6 @@ public class RegisteredEventList extends Fragment implements iActionBar
 
 	void prepareListData()
 	{
-		listDataChild=new ArrayList<>();
-		listDataChild.add(new EventKey("Hello",123,false));
-		listDataChild.add(new EventKey("World",123,false));
+		listDataChild=Database.database.getEventsDB().getRegisteredEventKeys();
 	}
 }
