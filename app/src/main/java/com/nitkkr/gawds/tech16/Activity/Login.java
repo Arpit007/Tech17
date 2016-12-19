@@ -4,6 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -117,6 +121,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -126,6 +131,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+
         }
     }
     private void handleSignInResult(GoogleSignInResult result) {
@@ -154,7 +160,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
     public void sendToken(){
         showProgressDialog("Verifying");
-
+        Log.v("login","Sending Token");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
                 getResources().getString(R.string.login_post_url),
                 new Response.Listener<String>() {
@@ -180,7 +186,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
                             //save this token for further use
                             if(code==200){
-                                //Log.v(TAG,response.toString());
+                                Log.v("login",response.toString());
 
                                 //success
                                 AppUserModel.MAIN_USER.setName(personName);
@@ -200,7 +206,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                                 //get things first
                                     AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
 
-                                    SignIn(success);
+                                    //SignIn(success);
                                     fetch_user_details();
                                 }
                             }else{
@@ -274,6 +280,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                                 AppUserModel.MAIN_USER.setYear(Year);
 
                                 AppUserModel.MAIN_USER.saveAppUser(Login.this);
+                                Log.v("login","Fetched");
 
                                 //now fetch interests
                                 fetch_interests();
@@ -336,6 +343,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
                                 //everything is fetched and saved now
                                 //so intent to home
+                                Log.v("login","interests fetched");
 
                                 SignIn(success);
                             }else{
@@ -386,6 +394,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                     Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
                     Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
                 }
+                Log.v("login","Successful login");
+
                 //if(getIntent().getBooleanExtra("Start_Home",true))
                     startActivity(new Intent(Login.this, Home.class));
 //                else
@@ -466,8 +476,10 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
         editor.putBoolean("Skip",true);
         editor.commit();
+
         AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
         AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
+
         AppUserModel.MAIN_USER.logoutUser(getBaseContext());
         if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
             startActivity(new Intent(Login.this, Home.class));

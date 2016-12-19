@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:padding="10dp"
-                android:background="@color/app_background"
+                android:background="@color/action_bar_color"
                 android:layout_height="match_parent">
     <ImageButton
         android:layout_centerVertical="true"
         android:id="@+id/actionbar_back"
-        android:src="@drawable/icon_back" android:background="#00000000"
+        android:src="@drawable/icon_back" android:background="@color/action_bar_color"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
     <RelativeLayout
@@ -24,7 +24,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="#00000000"
+            android:background="@color/action_bar_color"
             android:src="@drawable/icon_search" />
 
         <TextView

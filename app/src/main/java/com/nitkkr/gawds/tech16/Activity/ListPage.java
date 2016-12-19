@@ -5,6 +5,8 @@ import android.database.DataSetObserver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -85,6 +87,11 @@ public class ListPage extends AppCompatActivity
 				Intent intent;
 				Bundle bundle=new Bundle();
 
+				//adding animation
+				Animation animation1 = new AlphaAnimation(0.3f, 1.0f);
+				animation1.setDuration(1000);
+				view.startAnimation(animation1);
+
 				switch (query.getQueryTargetType())
 				{
 					case Informals:
@@ -94,6 +101,11 @@ public class ListPage extends AppCompatActivity
 						view.getContext().startActivity(intent);
 						break;
 					case Exhibition:
+						bundle.putSerializable("Exhibition",(EventKey)listView.getAdapter().getItem(i));
+						intent=new Intent(view.getContext(), Exhibition.class);
+						intent.putExtras(bundle);
+						ListPage.this.startActivity(intent);
+						break;
 					case GuestTalk:
 						bundle.putSerializable("Exhibition",(EventKey)listView.getAdapter().getItem(i));
 						intent=new Intent(view.getContext(), Exhibition.class);
@@ -101,6 +113,7 @@ public class ListPage extends AppCompatActivity
 						ListPage.this.startActivity(intent);
 						break;
 				}
+
 			}
 		});
 	}

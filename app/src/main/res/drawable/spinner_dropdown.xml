@@ -2,14 +2,14 @@
 <layer-list
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:bottom="-1dp"
-          android:left="1dp"
-          android:right="1dp"
-          android:top="-1dp">
+    <item android:bottom="1dp"
+          android:left="-2dp"
+          android:right="-2dp"
+          android:top="-2dp">
         <shape android:shape="rectangle" >
             <stroke
                 android:width="2dp"
-                android:color="#20c20e" />
+                android:color="@color/neon_green" />
         </shape>
     </item>
 

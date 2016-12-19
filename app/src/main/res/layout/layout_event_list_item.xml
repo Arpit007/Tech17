@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
+              android:background="@color/app_background"
               android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/event_list_item_label"
-        android:textSize="17sp"
-        android:textColor="@color/app_background"
+        android:textSize="19sp"
+        android:textColor="@color/neon_green"
         android:text="Hello World"
-        android:padding="5dp"
-        android:textAlignment="center"
-        android:layout_width="match_parent" android:layout_height="40dp"/>
+        android:padding="15dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
 </LinearLayout>

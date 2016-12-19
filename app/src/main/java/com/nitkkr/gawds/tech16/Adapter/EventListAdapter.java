@@ -59,7 +59,6 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 		}
 
 		TextView txtListChild = (TextView) view.findViewById(R.id.event_list_item_label);
-
 		txtListChild.setText(childText);
 		return view;
 	}

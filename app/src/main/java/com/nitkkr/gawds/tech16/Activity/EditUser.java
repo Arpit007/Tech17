@@ -146,6 +146,7 @@ public class EditUser extends AppCompatActivity
 		Spinner spinner = (Spinner) findViewById(R.id.user_Branch);
 		spinner.setAdapter(adapter);
 
+
 		int ID;
 		for(ID=0;ID<Branches.length;ID++)
 		{

@@ -75,7 +75,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sign_up);
+		setContentView(R.layout.sign_up);
 
 		( (RadioButton) findViewById(R.id.signup_NitRadio) ).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 		{
@@ -102,20 +102,15 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Gender);
 		( (Spinner) findViewById(R.id.signup_gender) ).setAdapter(adapter2);
 
-
-		ActionBarSimple barSimple = new ActionBarSimple(this);
-		barSimple.setLabel(getString(R.string.FestName));
-
 		Typewriter signup_label=(Typewriter)findViewById(R.id.signup_label);
-		signup_label.animateText("      Sign up");
+		signup_label.animateText("   Sign up");
 		signup_label.setCharacterDelay(60);
-
 
 		//if user logged in first then if found new
 
 		 personName=AppUserModel.MAIN_USER.getName();
 		 email=AppUserModel.MAIN_USER.getEmail();
-		personPhotoUrl=AppUserModel.MAIN_USER.getImageResource();
+		 personPhotoUrl=AppUserModel.MAIN_USER.getImageResource();
 
 		EditText name_editText; Button email_button;
 		if(!personName.equals("")){
@@ -156,8 +151,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		);
 
 		token_recieved=AppUserModel.MAIN_USER.getToken();
-		lower = findViewById(R.id.view5);
-		upper = findViewById(R.id.view4);
+		lower = findViewById(R.id.view2);
+		upper = findViewById(R.id.view3);
 		slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
 		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
 		runAnimationUp.start();
@@ -246,8 +241,10 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 								}else{
 
 									//already logged in user
+									AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
+									AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
 									Toast.makeText(SignUp.this,"Already signed up!!, please login",Toast.LENGTH_LONG).show();
-
+									startActivity(new Intent(SignUp.this,Login.class));
 								}
 							}else{
 								//failure
