@@ -148,7 +148,7 @@ public class Splash extends AppCompatActivity
 
 		runAnimationDown.start();
 		runAnimationUp.start();
-		splashTypewriter.animateText("     TechSpardha");
+		splashTypewriter.animateText("     TechSpardha    ");
 
 
 		final Thread timerThread = new Thread()
