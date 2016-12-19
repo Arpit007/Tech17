@@ -79,7 +79,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sign_up);
+		setContentView(R.layout.sign_up);
 
 		( (RadioButton) findViewById(R.id.signup_NitRadio) ).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 		{
@@ -107,8 +107,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		( (Spinner) findViewById(R.id.signup_gender) ).setAdapter(adapter2);
 
 
-		ActionBarSimple barSimple = new ActionBarSimple(this);
-		barSimple.setLabel(getString(R.string.FestName));
+//		ActionBarSimple barSimple = new ActionBarSimple(this);
+//		barSimple.setLabel(getString(R.string.FestName));
 
 		Typewriter signup_label=(Typewriter)findViewById(R.id.signup_label);
 		signup_label.animateText("      Sign up");
@@ -160,12 +160,12 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		);
 
 		token_recieved=AppUserModel.MAIN_USER.getToken();
-		lower = findViewById(R.id.view5);
-		upper = findViewById(R.id.view4);
-		slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
-		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
-		runAnimationUp.start();
-		runAnimationDown.start();
+		//lower = findViewById(R.id.view5);
+		//upper = findViewById(R.id.view4);
+//		slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
+//		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
+//		runAnimationUp.start();
+//		runAnimationDown.start();
 
 	}
 	private void signIn() {

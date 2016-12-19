@@ -79,7 +79,7 @@
         android:background="#fff"
         android:id="@+id/view3"
         android:layout_marginTop="20dp"
-        android:layout_alignTop="@+id/label"
+        android:layout_alignTop="@+id/signup_label"
         android:layout_alignParentStart="true"
         android:layout_marginStart="31dp"/>
 
@@ -101,7 +101,7 @@
         android:layout_alignStart="@+id/view3"/>
 
     <com.nitkkr.gawds.tech16.Activity.Typewriter
-        android:textSize="40sp" android:id="@+id/label"
+        android:textSize="40sp" android:id="@+id/signup_label"
         android:layout_marginTop="41dp"
         android:text="    Login"
         android:gravity="start"

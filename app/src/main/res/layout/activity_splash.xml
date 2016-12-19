@@ -19,21 +19,12 @@
         android:id="@+id/ts_logo"/>
     <View
         android:layout_width="280dp"
-        android:layout_height="6dp"
-        android:background="@color/User_Image_Fill_Color"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="176dp"
-        android:id="@+id/lower_splash"
-        android:layout_marginStart="83dp"
-        android:layout_marginEnd="30dp"/>
-    <View
-        android:layout_width="200dp"
-        android:layout_height="6dp"
+        android:layout_height="5dp"
         android:background="@color/User_Image_Fill_Color"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="176dp"
         android:id="@+id/upper_splash"
-        android:layout_marginStart="83dp"
+        android:layout_marginStart="50dp"
         android:layout_marginEnd="30dp"/>
     <com.nitkkr.gawds.tech16.Activity.Typewriter
         android:text="Techspardha"
@@ -47,4 +38,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:paddingEnd="5dp"/>
+    <View
+        android:layout_width="280dp"
+        android:layout_height="5dp"
+        android:background="@color/User_Image_Fill_Color"
+        android:id="@+id/lower_splash"
+        android:layout_alignTop="@+id/upper_splash" android:layout_alignStart="@+id/upper_splash"/>
 </RelativeLayout>
