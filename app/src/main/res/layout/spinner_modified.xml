@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
+              android:background="@color/app_background"
               android:layout_height="match_parent">
 
     <TextView
@@ -9,7 +10,8 @@
         android:padding="10dp"
         android:background="@drawable/spinner_dropdown"
         android:textSize="16sp"
-        android:textColor="@color/text_color_primary"
+        android:text="Hello World"
+        android:textColor="@color/neon_green"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
