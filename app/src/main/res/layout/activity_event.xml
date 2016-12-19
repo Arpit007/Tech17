@@ -28,8 +28,8 @@
             app:srcCompat="@drawable/time"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView"
-            android:layout_below="@id/Event_Category"
-            android:layout_alignStart="@id/Event_Category"/>
+            android:layout_below="@+id/Event_Category"
+            android:layout_alignStart="@+id/Event_Category"/>
 
         <ImageView
             android:layout_width="25dp"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/Event_Venue"
             android:layout_above="@id/imageView3"
-            android:layout_alignStart="@id/Event_Date"/>
+            android:layout_alignStart="@+id/Event_Date"/>
 
         <TextView
             android:text="Team (3-4 members)"

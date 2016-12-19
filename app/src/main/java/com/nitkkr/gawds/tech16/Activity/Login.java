@@ -85,7 +85,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Typewriter login_type=(Typewriter)findViewById(R.id.label);
+        Typewriter login_type=(Typewriter)findViewById(R.id.signup_label);
         login_type.animateText("    Login");
         login_type.setCharacterDelay(80);
         btnSignIn = (Button) findViewById(R.id.login_Gmail);

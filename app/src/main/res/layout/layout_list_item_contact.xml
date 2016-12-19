@@ -14,8 +14,8 @@
         android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/imageView12"
-        android:layout_toEndOf="@id/imageView12"
+        android:layout_alignBottom="@+id/imageView12"
+        android:layout_toEndOf="@+id/imageView12"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:id="@+id/Coordinator_Number"/>
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/Coordinator_Number"
-        android:layout_toEndOf="@id/imageView13"
+        android:layout_toEndOf="@+id/imageView13"
         android:layout_marginStart="18dp"
         android:id="@+id/Coordinator_Email"/>
 
@@ -36,8 +36,8 @@
         app:srcCompat="@drawable/email_coordinator"
         android:id="@+id/imageView13"
         android:layout_marginStart="34dp"
-        android:layout_alignTop="@id/imageView12"
-        android:layout_toEndOf="@id/Coordinator_Name"/>
+        android:layout_alignTop="@+id/imageView12"
+        android:layout_toEndOf="@+id/Coordinator_Name"/>
 
     <ImageView
         android:layout_width="30dp"
