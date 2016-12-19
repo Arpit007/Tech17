@@ -207,7 +207,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                                 //get things first
                                     AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
 
-                                    SignIn(success);
+                                    //SignIn(success);
                                     fetch_user_details();
                                 }
                             }else{
