@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
-
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <include
@@ -10,6 +9,7 @@
         android:layout_height="?actionBarSize" android:layout_width="match_parent"/>
 
     <LinearLayout android:orientation="vertical"
+                  android:background="@color/app_background"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent">
 
@@ -21,12 +21,13 @@
             android:layout_height="wrap_content"
             app:tabSelectedTextColor="@color/text_color_primary"
             app:tabTextColor="@color/light_grey"
-            android:background="@color/app_background"
+            android:background="@color/tab_layout_bk_event"
             android:minHeight="?attr/actionBarSize"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/event_list_page_view"
-            android:layout_width="match_parent" android:layout_height="match_parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 

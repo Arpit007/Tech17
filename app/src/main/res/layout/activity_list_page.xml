@@ -5,6 +5,7 @@
     android:id="@+id/activity_list_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     tools:context="com.nitkkr.gawds.tech16.Activity.ListPage">
 
     <include
@@ -19,7 +20,10 @@
     <ListView
         android:layout_below="@id/temp_bar"
         android:id="@+id/event_list"
-
-        android:layout_width="match_parent" android:layout_height="match_parent"/>
+        android:layout_width="match_parent"
+        android:divider="@color/neon_green"
+        android:dividerHeight="0.5dp"
+        android:footerDividersEnabled="true"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

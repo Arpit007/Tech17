@@ -70,10 +70,6 @@ public class Splash extends AppCompatActivity
 			SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
 			boolean Skip=preferences.getBoolean("Skip",false);
 
-			//fetch events in background
-			//and store it in table and update the existing ones
-
-
 			//if skip or logged in
 			if(Skip)
 			{

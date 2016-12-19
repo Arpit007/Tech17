@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
+                android:background="@color/app_background"
              android:layout_height="match_parent"
              tools:context="com.nitkkr.gawds.tech16.Activity.Fragment.AllEventList">
 
@@ -17,10 +18,13 @@
         android:animateLayoutChanges="true"
          android:layout_width="match_parent"
         android:padding="10dp"
+        android:childDivider="@color/neon_green"
+        android:groupIndicator="@drawable/custom_expandable"
         android:layout_height="match_parent"/>
 
     <ListView
-        android:id="@+id/search_event_list" android:visibility="gone"
+        android:id="@+id/search_event_list"
+        android:visibility="gone"
         android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
 </RelativeLayout>

@@ -60,7 +60,7 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:srcCompat="@drawable/link"
+        app:srcCompat="@drawable/time"
         android:layout_below="@+id/imageView5"
         android:layout_alignStart="@+id/textView12"
         android:layout_marginStart="12dp"
@@ -70,7 +70,7 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:srcCompat="@drawable/link"
+        app:srcCompat="@drawable/venue"
         android:layout_marginStart="33dp"
         android:id="@+id/imageView6"
         android:layout_alignTop="@+id/imageView7"
@@ -84,32 +84,42 @@
         android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView7"
         android:id="@+id/textView13"
-        android:layout_toEndOf="@+id/imageView7"/>
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/imageView7"
+        android:layout_below="@+id/imageView5"
+        android:layout_marginTop="7dp"
+        android:layout_alignBottom="@+id/textView14"/>
 
     <TextView
         android:text="Senate"
         android:padding="5dp"
         android:textStyle="bold"
         android:textSize="16sp"
+        android:layout_marginLeft="10dp"
         android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView6"
         android:layout_toEndOf="@+id/imageView6"
-        android:id="@+id/textView14"/>
+        android:layout_marginTop="7dp"
+        android:id="@+id/textView14"
+        android:layout_below="@+id/imageView5"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/textView13"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/exhibition_notify">
     <TextView
         android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
         android:padding="15dp"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textColor="@color/text_color_primary"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/textView15"
         android:layout_below="@+id/imageView7"
         android:layout_alignParentStart="true"/>
-
+    </ScrollView>
 
 </RelativeLayout>

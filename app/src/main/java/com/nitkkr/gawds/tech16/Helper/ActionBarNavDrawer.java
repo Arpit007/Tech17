@@ -125,9 +125,13 @@ public class ActionBarNavDrawer
 		else if (id == R.id.nav_logout)
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
+
 			AppUserModel.MAIN_USER.setLoggedIn(false,activity.getBaseContext());
+			AppUserModel.MAIN_USER.setSignedup(false,activity.getBaseContext());
+
 			Intent intent1=new Intent(activity,Login.class);
 			intent1.putExtra("Start_Home",false);
+
 			activity.startActivity(intent1);
 			activity.finish();
 
@@ -231,7 +235,7 @@ public class ActionBarNavDrawer
 			}
 		});
 
-		if(AppUserModel.MAIN_USER.isUserLoaded())
+		if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
 		{
 			if(AppUserModel.MAIN_USER.getImageResource()!=null && AppUserModel.MAIN_USER.isUseGoogleImage())
 			{
@@ -301,7 +305,7 @@ public class ActionBarNavDrawer
 			@Override
 			public void onClick(View view)
 			{
-				if(AppUserModel.MAIN_USER.isUserLoaded())
+				if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
 				{
 					Intent intent=new Intent(activity, ViewUser.class);
 					Bundle bundle=new Bundle();

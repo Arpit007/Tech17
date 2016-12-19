@@ -6,7 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="false"
+    android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
     <include
@@ -21,7 +21,7 @@
         android:layout_gravity="start"
         app:itemTextColor="@color/text_color_primary"
         app:itemIconTint="@color/neon_green"
-        android:fitsSystemWindows="false"
+        android:fitsSystemWindows="true"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:headerLayout="@layout/layout_nav_drawer_head"
