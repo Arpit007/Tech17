@@ -133,7 +133,7 @@ public class AppUserModel extends UserModel
 	public void setLoggedIn(boolean val,Context context){
 		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
 		editor.putBoolean("loggedIn",val);
-		editor.apply();
+		editor.commit();
 	}
 
 	public boolean isUserSignedUp(Context context){
@@ -147,7 +147,7 @@ public class AppUserModel extends UserModel
 	public void setSignedup(boolean val,Context context){
 		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
 		editor.putBoolean("signedup",val);
-		editor.apply();
+		editor.commit();
 	}
 
 	public void LoginUserNoHome(Activity activity, boolean Result)

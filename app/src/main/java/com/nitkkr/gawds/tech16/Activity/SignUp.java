@@ -245,8 +245,10 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 								}else{
 
 									//already logged in user
+									AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
+									AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
 									Toast.makeText(SignUp.this,"Already signed up!!, please login",Toast.LENGTH_LONG).show();
-
+									startActivity(new Intent(SignUp.this,Login.class));
 								}
 							}else{
 								//failure

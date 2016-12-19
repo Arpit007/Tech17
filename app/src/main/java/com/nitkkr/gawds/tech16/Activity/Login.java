@@ -471,8 +471,10 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
         editor.putBoolean("Skip",true);
         editor.commit();
+
         AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
         AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
+
         AppUserModel.MAIN_USER.logoutUser(getBaseContext());
         if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
             startActivity(new Intent(Login.this, Home.class));
