@@ -55,8 +55,15 @@ public class EventModel extends BaseEventModel implements Serializable
 	public ArrayList<iUserModel> getParticipants(){return Participants;}
 	public EventStatusListener getListener(){return listener;}
 	public void callStatusListener() {
-		if(listener!=null)
-			listener.EventStatusChanged(status);
+		try
+		{
+			if (listener != null)
+				listener.EventStatusChanged(status);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	public void callStatusListener(com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status) {
 		this.status=status;

@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Adapter.RegisterTeamAdapter;
+import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class CreateTeam extends AppCompatActivity
 {
 	private RegisterTeamAdapter adapter;
+	private EventModel eventModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +32,7 @@ public class CreateTeam extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_team);
 
-		EventModel eventModel=( EventModel)getIntent().getExtras().getSerializable("Event");
+		eventModel=( EventModel)getIntent().getExtras().getSerializable("Event");
 
 		ActionBarBack actionBarBack=new ActionBarBack(CreateTeam.this);
 		actionBarBack.setLabel("Create Team");
@@ -92,6 +94,12 @@ public class CreateTeam extends AppCompatActivity
 				Intent intent=new Intent();
 				intent.putExtra("Register",true);
 				setResult(RESULT_OK,intent);
+
+				eventModel.setRegistered(true);
+				Database.database.getEventsDB().addOrUpdateEvent(eventModel);
+				Database.database.getNotificationDB().UpdateTable();
+				eventModel.callStatusListener();
+
 				finish();
 				break;
 			case OTHER:

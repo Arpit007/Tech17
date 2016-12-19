@@ -88,6 +88,11 @@
         FROM EventList
         WHERE NOTIFY=1 OR REGISTERED=1;
 
+        INSERT INTO TempNL ( EVENT_ID, EVENT_NAME, _DATE)
+        SELECT EVENT_ID, EVENT_NAME, _DATE
+        FROM Exhibition
+        WHERE NOTIFY=1;
+
         UPDATE TempNL
         SET GENERATED = (
                             SELECT NL.GENERATED FROM NotificationList AS NL

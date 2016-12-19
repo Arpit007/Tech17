@@ -96,7 +96,12 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 											break;
 										case SUCCESS:
 											Toast.makeText(Event.this, "Registered Successfully", Toast.LENGTH_LONG).show();
-											LoadEvent();
+
+											model.setRegistered(true);
+											Database.database.getEventsDB().addOrUpdateEvent(model);
+											Database.database.getNotificationDB().UpdateTable();
+											model.callStatusListener();
+
 											break;
 										case OTHER:
 											Toast.makeText(Event.this, "----------------------Message--------------------", Toast.LENGTH_LONG).show();
@@ -281,7 +286,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				if(data.getBooleanExtra("Register",false))
 				{
 					Toast.makeText(Event.this,"Registered Successfully",Toast.LENGTH_LONG).show();
-					LoadEvent();
+					EventStatusChanged(EventModel.EventStatus.None);
 				}
 			}
 		}
@@ -301,6 +306,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	@Override
 	public void EventStatusChanged(EventModel.EventStatus status)
 	{
+		LoadEvent();
 		//Set Round Num
 		//TODO: Event Status
 	}
