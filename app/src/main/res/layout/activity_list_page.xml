@@ -5,9 +5,6 @@
     android:id="@+id/activity_list_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="com.nitkkr.gawds.tech16.Activity.ListPage">
 
     <include
@@ -20,7 +17,9 @@
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
     <ListView
-        android:layout_below="@id/temp_bar" android:id="@+id/event_list"
+        android:layout_below="@id/temp_bar"
+        android:id="@+id/event_list"
+
         android:layout_width="match_parent" android:layout_height="match_parent"/>
 
 </RelativeLayout>

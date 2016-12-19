@@ -73,24 +73,28 @@ public class Splash extends AppCompatActivity
 			//fetch events in background
 			//and store it in table and update the existing ones
 
-			f.fetch_events(getBaseContext());
-			f.fetch_interests(getBaseContext());
 
 			//if skip or logged in
 			if(Skip)
 			{
 				startActivity(new Intent(Splash.this,Home.class));
+				f.fetch_events(getBaseContext());
+
 			}
 			if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
 				startActivity(new Intent(Splash.this,Login.class));
+				f.fetch_events(getBaseContext());
 			}
 			//if  logged in
 			if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
 				startActivity(new Intent(Splash.this,Home.class));
+				f.fetch_interests(getBaseContext());
+				f.fetch_events(getBaseContext());
 			}
-			Log.v("DEBUG","YEs i did"+AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())+" "+AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()));
-
-			startActivity(new Intent(Splash.this,Login.class));
+			else{
+				startActivity(new Intent(Splash.this,Login.class));
+				f.fetch_events(getBaseContext());
+			}
 
 			finish();
 		}

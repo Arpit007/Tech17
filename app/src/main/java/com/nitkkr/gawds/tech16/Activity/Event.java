@@ -2,6 +2,11 @@ package com.nitkkr.gawds.tech16.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +22,9 @@ import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.EventKey;
 import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Event extends AppCompatActivity implements EventModel.EventStatusListener
 {
@@ -128,9 +136,51 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		setContentView(R.layout.activity_event);
 
 		actionBar = new ActionBarBack(this);
-		LoadEvent();
+
+		TabLayout tabLayout=(TabLayout)findViewById(R.id.event_tab_layout);
+		ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
+		setupViewPager(viewPager);
+		tabLayout.setupWithViewPager(viewPager);
+				LoadEvent();
+
 	}
 
+	private void setupViewPager(ViewPager viewPager) {
+		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+		adapter.addFragment(new About_Fragment(), "About");
+		adapter.addFragment(new Rules_frag(), "Rules");
+		adapter.addFragment(new Contact_frag(), "Contact");
+		adapter.addFragment(new Result_frag(), "Result");
+		viewPager.setAdapter(adapter);
+	}
+	class ViewPagerAdapter extends FragmentPagerAdapter {
+		private final List<Fragment> mFragmentList = new ArrayList<>();
+		private final List<String> mFragmentTitleList = new ArrayList<>();
+
+		public ViewPagerAdapter(FragmentManager manager) {
+			super(manager);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			return mFragmentList.get(position);
+		}
+
+		@Override
+		public int getCount() {
+			return mFragmentList.size();
+		}
+
+		public void addFragment(Fragment fragment, String title) {
+			mFragmentList.add(fragment);
+			mFragmentTitleList.add(title);
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return mFragmentTitleList.get(position);
+		}
+	}
 
 	@Override
 	public void onBackPressed()
@@ -178,6 +228,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		//----------------Date, Result, Cood, Participants------------------------
 
 		actionBar.setLabel(model.getEventName());
+
 		if (model.isGroupEvent())
 		{
 			text.append("\nMember Count: ").append(model.getMinUsers());
@@ -187,7 +238,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			text.append("\nTeam Size:").append(model.getMinUsers()).append("-").append(model.getMaxUsers());
 		}
 
-		( (TextView) findViewById(R.id.event_detail) ).setText(text.toString());
+		//( (TextView) findViewById(R.id.event_detail) ).setText(text.toString());
+
 		setRegister();
 	}
 
@@ -215,6 +267,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			}
 		else
 			super.onActivityResult(requestCode, resultCode, data);
+
 	}
 
 	@Override

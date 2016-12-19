@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -41,7 +42,8 @@ import com.nitkkr.gawds.tech16.Helper.App;
 import com.nitkkr.gawds.tech16.Helper.SignInStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +55,20 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity  implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener
 {
+    Animation slideUp,slideDown;
+    View upper, lower;
+    Thread runAnimationUp = new Thread(){
+        @Override
+        public void run() {
+            upper.startAnimation(slideUp);
+        }
+    };
+    Thread runAnimationDown = new Thread(){
+        @Override
+        public void run() {
+            lower.startAnimation(slideDown);
+        }
+    };
     boolean signingIn = false;
     boolean exit=false;
     private static final int RC_SIGN_IN = 007;
@@ -88,6 +104,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         RelativeLayout rl=(RelativeLayout) findViewById(R.id.activity_login);
+
+
 //        Bitmap bk=App.decodeSampledBitmapFromResource(getResources(),R.drawable.login_bk3,300,300);
 //        Drawable bd=new BitmapDrawable(getResources(),bk);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -96,7 +114,12 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 //            rl.setBackgroundDrawable(bd);
 //        }
 
-
+        lower = findViewById(R.id.view2);
+        upper = findViewById(R.id.view3);
+        slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
+        slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
+        runAnimationUp.start();
+        runAnimationDown.start();
     }
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -125,8 +148,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
             personPhotoUrl = acct.getPhotoUrl().toString();
             email = acct.getEmail();
             token_user=acct.getIdToken().toString();
-            Log.e(TAG, "Name: " + personName + ", email: " + email
-                    + ", Image: " + personPhotoUrl+" token :"+token_user);
+//            Log.e(TAG, "Name: " + personName + ", email: " + email
+//                    + ", Image: " + personPhotoUrl+" token :"+token_user);
 
             sendToken();
         } else {
@@ -164,7 +187,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
                             //save this token for further use
                             if(code==200){
-                                Log.v(TAG,response.toString());
+                                //Log.v(TAG,response.toString());
 
                                 //success
                                 AppUserModel.MAIN_USER.setName(personName);
@@ -241,7 +264,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                             message=status.getString("message");
 
                             if(code==200){
-                                Log.v(TAG,message);
+                                //Log.v(TAG,message);
 
                                 RollNo= String.valueOf(data.getInt("RollNo"));
                                 PhoneNumber=data.getString("PhoneNumber");
@@ -312,7 +335,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                             message=status.getString("message");
 
                             if(code==200){
-                                Log.v(TAG,message);
+                                //Log.v(TAG,message);
                                 for(int i=0;i<data.length();i++){
                                     interests.add(data.getString(i));
                                 }
@@ -370,14 +393,14 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                     Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
                     Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
                 }
-                if(getIntent().getBooleanExtra("Start_Home",true))
+                //if(getIntent().getBooleanExtra("Start_Home",true))
                     startActivity(new Intent(Login.this, Home.class));
-                else
-                {
-                    Intent intent=new Intent();
-                    intent.putExtra("Logged_In",true);
-                    setResult(RESULT_OK,intent);
-                }
+//                else
+//                {
+//                    Intent intent=new Intent();
+//                    intent.putExtra("Logged_In",true);
+//                    setResult(RESULT_OK,intent);
+//                }
                 finish();
                 break;
             case SIGNUP:

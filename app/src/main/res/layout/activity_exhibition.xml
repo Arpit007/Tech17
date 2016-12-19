@@ -1,29 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_exhibition"
     android:layout_width="match_parent"
+    android:background="@color/app_background"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+
     tools:context="com.nitkkr.gawds.tech16.Activity.Exhibition">
 
     <include
         layout="@layout/actionbar_back" android:id="@id/temp_bar"
         android:layout_height="?actionBarSize" android:layout_width="match_parent"/>
-    <TextView
-        android:layout_below="@id/temp_bar" android:id="@+id/exhibition_detail"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/exhibition_notify"
+    <Button
+        android:text="Add to Wishlist"
+        android:background="@drawable/border_button"
+        android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/icon_unstarred"/>
+        android:id="@+id/exhibition_notify"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:text="Ihitashri Shandilya"
+        android:textSize="30sp"
+        android:textColor="@color/text_color_primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/temp_bar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:id="@+id/textView6"/>
+
+    <TextView
+        android:text="Founder,Mithilashri"
+        android:textColor="@color/text_color_primary"
+        android:textStyle="italic"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_alignStart="@+id/textView6"
+        android:id="@+id/textView12"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="190dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/user_bk"
+        android:id="@+id/imageView5"
+        android:layout_below="@+id/textView12"
+        android:layout_alignParentStart="true"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:srcCompat="@drawable/link"
+        android:layout_below="@+id/imageView5"
+        android:layout_alignStart="@+id/textView12"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="11dp"
+        android:id="@+id/imageView7"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:srcCompat="@drawable/link"
+        android:layout_marginStart="33dp"
+        android:id="@+id/imageView6"
+        android:layout_alignTop="@+id/imageView7"
+        android:layout_toEndOf="@+id/textView12"/>
+
+    <TextView
+        android:text="9:00 am, 20 Jan"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/text_color_primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView7"
+        android:id="@+id/textView13"
+        android:layout_toEndOf="@+id/imageView7"/>
+
+    <TextView
+        android:text="Senate"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/text_color_primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView6"
+        android:layout_toEndOf="@+id/imageView6"
+        android:id="@+id/textView14"/>
+
+    <TextView
+        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+        android:padding="15dp"
+        android:textSize="16sp"
+        android:textColor="@color/text_color_primary"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/textView15"
+        android:layout_below="@+id/imageView7"
+        android:layout_alignParentStart="true"/>
+
 
 </RelativeLayout>
