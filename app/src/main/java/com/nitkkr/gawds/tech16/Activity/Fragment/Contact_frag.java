@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Model.CoordinatorModel;
-import com.nitkkr.gawds.tech16.Model.Coordinator_adapter;
+import com.nitkkr.gawds.tech16.Adapter.CoordinatorAdapter;
+import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -22,22 +24,30 @@ import java.util.List;
  */
 public class Contact_frag extends Fragment {
 
-    private List<CoordinatorModel> coordinatorModelList=new ArrayList<>();
-    private Coordinator_adapter mCoordinator_adapter;
+    private ArrayList<CoordinatorModel> coordinatorModelList=new ArrayList<>();
+    private CoordinatorAdapter mCoordinatorAdapter;
     private RecyclerView mreRecyclerView;
 
+    private EventModel model;
+
+    public static Contact_frag getNewFragment(EventModel model)
+    {
+        Contact_frag contact_frag=new Contact_frag();
+        contact_frag.model=model;
+        return contact_frag;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
-        View rootView= inflater.inflate(R.layout.contact_frag,container,false);
-        mreRecyclerView=(RecyclerView) rootView.findViewById(R.id.myrecyclerview);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        View rootView= inflater.inflate(R.layout.fragment_contact,container,false);
+        mreRecyclerView=(RecyclerView) rootView.findViewById(R.id.Event_Contacts);
 
-        mCoordinator_adapter=new Coordinator_adapter(coordinatorModelList);
+        mCoordinatorAdapter =new CoordinatorAdapter(coordinatorModelList);
 
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(rootView.getContext());
@@ -45,33 +55,15 @@ public class Contact_frag extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mreRecyclerView.setLayoutManager(layoutManager);
         mreRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mreRecyclerView.setAdapter(mCoordinator_adapter);
+        mreRecyclerView.setAdapter(mCoordinatorAdapter);
 
         prepare_list();
         return rootView;
     }
 
-    public void prepare_list(){
-
-        CoordinatorModel c1=new CoordinatorModel();
-        c1.setName("Coordinator 1");
-        c1.setEmail("xyz@gmail.com");
-        c1.setMobile("9999999999");
-        coordinatorModelList.add(c1);
-
-        CoordinatorModel c2=new CoordinatorModel();
-        c2.setName("Coordinator 2");
-        c2.setEmail("xyz@gmail.com");
-        c2.setMobile("9999999999");
-        coordinatorModelList.add(c2);
-
-        CoordinatorModel c3=new CoordinatorModel();
-        c3.setName("Coordinator 3");
-        c3.setEmail("xyz@gmail.com");
-        c3.setMobile("9999999999");
-        coordinatorModelList.add(c3);
-
-        mCoordinator_adapter.notifyDataSetChanged();
-
+    public void prepare_list()
+    {
+        coordinatorModelList= Database.database.getCoordinatorDB().getCoordinators(model);
+        mCoordinatorAdapter.notifyDataSetChanged();
     }
 }

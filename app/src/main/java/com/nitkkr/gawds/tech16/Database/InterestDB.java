@@ -44,6 +44,50 @@ public class InterestDB extends SQLiteOpenHelper
 		sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DbConstants.Constants.getInterestTableName());
 	}
 
+	public String getInterest(InterestModel model)
+	{
+		return getInterest(model.getID());
+	}
+
+	public String getInterest(int ID)
+	{
+		String Query = "SELECT " + DbConstants.InterestNames.Interest.Name() + " FROM " + DbConstants.Constants.getInterestTableName() +
+				" WHERE " + DbConstants.InterestNames.Id.Name() + " = " + ID + ";";
+		Log.d("Query:\t",Query);
+
+		String Name="";
+
+		Cursor cursor = null;
+		try
+		{
+			cursor = dbRequest.getDatabase().rawQuery(Query, null);
+
+			List<String> Columns = Arrays.asList(cursor.getColumnNames());
+			int[] ColumnIndex =
+					{
+							Columns.indexOf(DbConstants.InterestNames.Interest.Name())
+					};
+
+			if (cursor.getCount() > 0)
+			{
+				cursor.moveToFirst();
+					Name=cursor.getString(ColumnIndex[0]);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (cursor != null)
+			{
+				cursor.close();
+			}
+		}
+		return Name;
+	}
+
 	public ArrayList<InterestModel> getInterests(String Clause)
 	{
 		ArrayList<InterestModel> keys = new ArrayList<>();
@@ -67,7 +111,8 @@ public class InterestDB extends SQLiteOpenHelper
 			int[] ColumnIndex =
 					{
 							Columns.indexOf(DbConstants.InterestNames.Interest.Name()),
-							Columns.indexOf(DbConstants.InterestNames.Selected.Name())
+							Columns.indexOf(DbConstants.InterestNames.Selected.Name()),
+							Columns.indexOf(DbConstants.InterestNames.Id.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -78,6 +123,7 @@ public class InterestDB extends SQLiteOpenHelper
 					InterestModel interest=new InterestModel();
 					interest.setInterest(cursor.getString(ColumnIndex[0]));
 					interest.setSelected(cursor.getInt(ColumnIndex[1])!=0);
+					interest.setID(cursor.getInt(ColumnIndex[2]));
 					keys.add(interest);
 				}
 				while (cursor.moveToNext());
@@ -109,7 +155,12 @@ public class InterestDB extends SQLiteOpenHelper
 
 	public void deleteInterest(InterestModel interest)
 	{
-		String Query = "DELETE FROM " + DbConstants.Constants.getInterestTableName() + " WHERE " + DbConstants.InterestNames.Interest.Name() + " = " + interest.getInterest() + ";";
+		deleteInterest(interest.getID());
+	}
+
+	public void deleteInterest(int ID)
+	{
+		String Query = "DELETE FROM " + DbConstants.Constants.getInterestTableName() + " WHERE " + DbConstants.InterestNames.Id.Name() + " = " + ID + ";";
 		Log.d("Query:\t",Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
@@ -126,8 +177,9 @@ public class InterestDB extends SQLiteOpenHelper
 		ContentValues values=new ContentValues();
 		values.put(DbConstants.InterestNames.Interest.Name(),interest.getInterest());
 		values.put(DbConstants.InterestNames.Selected.Name(),((interest.isSelected())?1:0));
+		values.put(DbConstants.InterestNames.Id.Name(),interest.getID());
 
-		if(database.update(DbConstants.Constants.getInterestTableName(),values, DbConstants.InterestNames.Interest.Name() + " = " + interest.getInterest(),null)<1)
+		if(database.update(DbConstants.Constants.getInterestTableName(),values, DbConstants.InterestNames.Id.Name() + " = " + interest.getID(),null)<1)
 		{
 			database.insert(DbConstants.Constants.getInterestTableName(),null,values);
 		}
@@ -145,15 +197,17 @@ public class InterestDB extends SQLiteOpenHelper
 
 		String TABLENAME=DbConstants.Constants.getInterestTableName();
 		String Interest_Name=DbConstants.InterestNames.Interest.Name();
-		String Selected_Name=DbConstants.InterestNames.Selected.Name();
+		String Selected=DbConstants.InterestNames.Selected.Name();
+		String Interest_ID=DbConstants.InterestNames.Id.Name();
 
 		for(InterestModel interest : interests)
 		{
 			ContentValues values=new ContentValues();
 			values.put(Interest_Name,interest.getInterest());
-			values.put(Selected_Name,((interest.isSelected())?1:0));
+			values.put(Selected,((interest.isSelected())?1:0));
+			values.put(Interest_ID,interest.getID());
 
-			if(database.update(TABLENAME,values, Interest_Name + " = " + interest.getInterest(),null)<1)
+			if(database.update(TABLENAME,values, Interest_ID + " = " + interest.getID(),null)<1)
 			{
 				database.insert(TABLENAME,null,values);
 			}

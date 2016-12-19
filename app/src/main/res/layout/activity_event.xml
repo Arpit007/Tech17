@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/temp_bar">
+        android:layout_below="@id/temp_bar">
 
 
         <ImageView
@@ -28,8 +28,8 @@
             app:srcCompat="@drawable/time"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView"
-            android:layout_below="@+id/textView7"
-            android:layout_alignStart="@+id/textView7"/>
+            android:layout_below="@id/Event_Category"
+            android:layout_alignStart="@id/Event_Category"/>
 
         <ImageView
             android:layout_width="25dp"
@@ -37,8 +37,8 @@
             app:srcCompat="@drawable/venue"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView2"
-            android:layout_below="@+id/imageView"
-            android:layout_alignStart="@+id/imageView"/>
+            android:layout_below="@id/imageView"
+            android:layout_alignStart="@id/imageView"/>
 
         <ImageView
             android:layout_width="30dp"
@@ -46,8 +46,8 @@
             app:srcCompat="@drawable/team2"
             android:layout_marginTop="13dp"
             android:id="@+id/imageView3"
-            android:layout_below="@+id/imageView2"
-            android:layout_alignStart="@+id/imageView2"/>
+            android:layout_below="@id/imageView2"
+            android:layout_alignStart="@id/imageView2"/>
 
         <TextView
             android:text="Event Name"
@@ -57,7 +57,7 @@
             android:layout_marginTop="19dp"
             android:textSize="30sp"
             android:textColor="@color/text_color_primary"
-            android:id="@+id/Event_name_txtview"
+            android:id="@+id/Event_Name"
             android:textStyle="normal|bold"
             android:textAlignment="textStart"
             android:layout_alignParentTop="true"
@@ -70,36 +70,42 @@
             android:textColor="@color/text_color_primary"
             android:textAllCaps="true"
             android:textSize="15sp"
-            android:id="@+id/textView7"
-            android:layout_below="@+id/Event_name_txtview"
-            android:layout_alignStart="@+id/Event_name_txtview"/>
+            android:id="@+id/Event_Category"
+            android:layout_below="@id/Event_Name"
+            android:layout_alignStart="@id/Event_Name"/>
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            app:srcCompat="@drawable/round"
+        <TextView
+            android:visibility="visible"
+            android:background="@drawable/round_background"
             android:id="@+id/imageView4"
+            android:textSize="100sp"
             android:layout_marginEnd="15dp"
-            android:layout_alignTop="@+id/Event_name_txtview"
-            android:layout_alignParentEnd="true"/>
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="1"
+            android:textColor="#ffffff"
+            android:layout_alignTop="@id/Event_Name"
+            android:layout_alignParentEnd="true"
+            android:layout_width="120dp"
+            android:layout_height="120dp"/>
 
         <TextView
             android:text="L Block"
             android:textColor="@color/text_color_primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView10"
-            android:layout_above="@+id/imageView3"
-            android:layout_alignStart="@+id/textView9"/>
+            android:id="@+id/Event_Venue"
+            android:layout_above="@id/imageView3"
+            android:layout_alignStart="@id/Event_Date"/>
 
         <TextView
             android:text="Team (3-4 members)"
             android:textColor="@color/text_color_primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView11"
-            android:layout_alignTop="@+id/imageView3"
-            android:layout_alignStart="@+id/textView10"/>
+            android:id="@+id/Event_Members"
+            android:layout_alignTop="@id/imageView3"
+            android:layout_alignStart="@id/Event_Venue"/>
 
         <TextView
             android:text="9:00 am,20Jan"
@@ -107,9 +113,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/text_color_primary"
             android:layout_marginStart="18dp"
-            android:id="@+id/textView9"
-            android:layout_above="@+id/imageView2"
-            android:layout_toEndOf="@+id/imageView"/>
+            android:id="@+id/Event_Date"
+            android:layout_above="@id/imageView2"
+            android:layout_toEndOf="@id/imageView"/>
 
         <TextView
             android:text="ROUND"
@@ -132,7 +138,8 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
 
-            android:layout_above="@+id/event_Register">
+            android:layout_above="@+id/Event_Register">
+
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
             android:layout_marginTop="1dp"
@@ -142,38 +149,38 @@
             android:id="@+id/event_tab_layout"
             app:tabTextColor="@color/text_color_primary"
             app:tabSelectedTextColor="@color/text_color_primary"
-            android:layout_alignParentStart="true"
-            >   </android.support.design.widget.TabLayout>
+            android:layout_alignParentStart="true">
+        </android.support.design.widget.TabLayout>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:layout_below="@+id/event_tab_layout"/>
-
-
+                android:layout_below="@id/event_tab_layout"
+                android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"/>
 
         </RelativeLayout>
 
         <Button
-            android:text="Register" android:id="@+id/event_Register"
+            android:text="Register" android:id="@+id/Event_Register"
             android:background="@drawable/border_button"
             android:textColor="@color/text_color_primary"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/textView11"/>
+            android:layout_toEndOf="@id/Event_Members"/>
 
         <Button
             android:text="Download as PDF"
-            android:id="@+id/event_download"
+            android:id="@+id/Event_Pdf"
             android:background="@drawable/border_button"
             android:textColor="@color/text_color_primary"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/event_Register"/>
+            android:layout_toStartOf="@id/Event_Register"/>
+
 
     </RelativeLayout>
 

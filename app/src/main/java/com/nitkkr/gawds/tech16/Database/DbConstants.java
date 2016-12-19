@@ -91,6 +91,7 @@ public class DbConstants
 
 	public enum InterestNames
 	{
+		Id("ID"),
 		Interest("_INTEREST"),
 		Selected("SELECTED");
 
@@ -118,7 +119,8 @@ public class DbConstants
 		EventName("EVENT_NAME"),
 		EventID("EVENT_ID"),
 		Notify("NOTIFY"),
-		Date("_DATE");
+		Date("_DATE"),
+		Generated("GENERATED");
 
 		private String Name;
 
@@ -186,7 +188,8 @@ public class DbConstants
 		MaxUser("MAX_USER"),
 		Pdf("PDF"),
 		Registered("REGISTERED"),
-		Society("SOCIETY");
+		Society("SOCIETY"),
+		Category("CATEGORY");
 
 		private String Name;
 

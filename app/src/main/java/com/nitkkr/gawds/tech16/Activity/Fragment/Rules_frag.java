@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.R;
 
 /**
@@ -14,19 +16,27 @@ import com.nitkkr.gawds.tech16.R;
  */
 public class Rules_frag extends Fragment {
 
-    public Rules_frag(){
+    private EventModel model;
 
+    public static Rules_frag getNewFragment(EventModel model)
+    {
+        Rules_frag rules_frag=new Rules_frag();
+        rules_frag.model=model;
+        return rules_frag;
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.about_frag,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        View view= inflater.inflate(R.layout.fragment_about,container,false);
+
+        ((TextView)view.findViewById(R.id.Event_Content)).setText(model.getRules());
+
+        return view;
     }
 
 }

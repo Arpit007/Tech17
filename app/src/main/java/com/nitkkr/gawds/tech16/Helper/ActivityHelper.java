@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.nitkkr.gawds.tech16.API.Query;
@@ -54,5 +56,12 @@ public class ActivityHelper
 	{
 		int appFlags=context.getApplicationInfo().flags;
 		return (appFlags & ApplicationInfo.FLAG_DEBUGGABLE)!=0;
+	}
+
+	public static boolean isInternetConnected()
+	{
+		ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 	}
 }

@@ -55,7 +55,7 @@
           android:layout_alignBottom="@+id/signup_label"
           android:layout_alignStart="@+id/view5"/>
 
-    <com.nitkkr.gawds.tech16.Activity.Typewriter
+    <com.nitkkr.gawds.tech16.Src.Typewriter
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/text_color_primary"

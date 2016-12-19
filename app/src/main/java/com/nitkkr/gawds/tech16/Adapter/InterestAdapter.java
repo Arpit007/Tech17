@@ -9,7 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.Model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
@@ -21,14 +23,12 @@ import java.util.Arrays;
 
 public class InterestAdapter extends BaseAdapter
 {
-	private ArrayList<String> list;
-	private boolean Selected[];
+	private ArrayList<InterestModel> list;
 	private Context context;
 
 	public InterestAdapter(Context context)
 	{
-		list=new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.Interests)));
-		Selected=new boolean[list.size()];
+		list= Database.database.getInterestDB().getAllInterests();
 		this.context=context;
 	}
 
@@ -59,9 +59,9 @@ public class InterestAdapter extends BaseAdapter
 			view=inflater.inflate(R.layout.layout_list_item_interest,viewGroup,false);
 		}
 
-		(( TextView)view.findViewById(R.id.interest_item_label)).setText(list.get(i));
+		(( TextView)view.findViewById(R.id.interest_item_label)).setText(list.get(i).getInterest());
 
-		if(Selected[i])
+		if(list.get(i).isSelected())
 			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
 		else ((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
 
@@ -70,37 +70,42 @@ public class InterestAdapter extends BaseAdapter
 
 	public void onItemClick(View view, int Position)
 	{
-		boolean x=Selected[Position];
-		if(x)
+		list.get(Position).setSelected(!list.get(Position).isSelected());
+		if(list.get(Position).isSelected())
 		{
-			Selected[Position]=false;
 			((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
-		}else{
-
-			Selected[Position]=true;
+		}else
+		{
 			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
 		}
 	}
 
 	public boolean isDone()
 	{
-		for(int x=0;x<Selected.length;x++)
-			if(Selected[x])
+		int length=list.size();
+		for(int x=0;x<length;x++)
+			if(list.get(x).isSelected())
 				return true;
 		return false;
 	}
 
 	public String getInterestsString()
 	{
+		//TODO:Set Token
+		String Token=",";
 		StringBuilder stringBuilder=new StringBuilder("");
 		int length=list.size();
 		for(int x=0;x<length;x++)
-			if(Selected[x])
+		{
+			if (list.get(x).isSelected())
 			{
-				if(stringBuilder.toString().equals(""))
-					stringBuilder.append(list.get(x));
-				else (stringBuilder.append(",")).append(list.get(x));
+				if (stringBuilder.toString().equals(""))
+					stringBuilder.append(list.get(x).getID());
+				else ( stringBuilder.append(Token) ).append(list.get(x).getID());
 			}
+		}
 		return stringBuilder.toString();
 	}
+
+	public ArrayList<InterestModel> getFinalList(){return list;}
 }

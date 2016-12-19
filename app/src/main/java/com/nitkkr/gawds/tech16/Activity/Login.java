@@ -4,10 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -31,18 +27,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.App;
-import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-import android.view.animation.Animation;
+import com.nitkkr.gawds.tech16.Src.Typewriter;
+
 import android.view.animation.AnimationUtils;
 
 import org.json.JSONArray;
@@ -78,8 +71,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     private ProgressDialog mProgressDialog;
     private Button btnSignIn;
     String personName,personPhotoUrl,email,token_user,token_recieved;
-    SignInStatus success=SignInStatus.SUCCESS;
-    SignInStatus failed=SignInStatus.FAILED;
+    ResponseStatus success= ResponseStatus.SUCCESS;
+    ResponseStatus failed= ResponseStatus.FAILED;
     private String client_server_id="726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com";
 
     @Override
@@ -200,7 +193,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
                                 if(isNew){
 
-                                    SignInStatus sign_up=SignInStatus.SIGNUP;
+                                    ResponseStatus sign_up= ResponseStatus.SIGNUP;
                                     SignIn(sign_up);
 
                                 }else{
@@ -371,7 +364,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         requestQueue.add(stringRequest);
 
     }
-    public void SignIn(SignInStatus status)
+    public void SignIn(ResponseStatus status)
     {
 
         signingIn = true;
@@ -434,7 +427,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
 
             if(!AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
-                SignIn(SignInStatus.SIGNUP);
+                SignIn(ResponseStatus.SIGNUP);
             }else{
                 startActivity(new Intent(Login.this,Home.class));
             }

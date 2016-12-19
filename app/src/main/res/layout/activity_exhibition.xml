@@ -3,11 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_exhibition"
     android:layout_width="match_parent"
     android:background="@color/app_background"
     android:layout_height="match_parent"
-
     tools:context="com.nitkkr.gawds.tech16.Activity.Exhibition">
 
     <include
@@ -34,7 +32,7 @@
         android:layout_below="@+id/temp_bar"
         android:layout_alignParentStart="true"
         android:layout_marginStart="30dp"
-        android:id="@+id/textView6"/>
+        android:id="@+id/exhibition_Title"/>
 
     <TextView
         android:text="Founder,Mithilashri"
@@ -43,9 +41,9 @@
         android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView6"
-        android:layout_alignStart="@+id/textView6"
-        android:id="@+id/textView12"/>
+        android:layout_below="@id/exhibition_Title"
+        android:layout_alignStart="@id/exhibition_Title"
+        android:id="@+id/exhibition_Author"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -53,16 +51,16 @@
         android:scaleType="centerCrop"
         android:layout_marginTop="10dp"
         app:srcCompat="@drawable/user_bk"
-        android:id="@+id/imageView5"
-        android:layout_below="@+id/textView12"
+        android:id="@+id/exhibition_Image"
+        android:layout_below="@id/exhibition_Author"
         android:layout_alignParentStart="true"/>
 
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
         app:srcCompat="@drawable/link_pic"
-        android:layout_below="@+id/imageView5"
-        android:layout_alignStart="@+id/textView12"
+        android:layout_below="@id/exhibition_Image"
+        android:layout_alignStart="@id/exhibition_Author"
         android:layout_marginStart="12dp"
         android:layout_marginTop="11dp"
         android:id="@+id/imageView7"/>
@@ -73,8 +71,8 @@
         app:srcCompat="@drawable/link_pic"
         android:layout_marginStart="33dp"
         android:id="@+id/imageView6"
-        android:layout_alignTop="@+id/imageView7"
-        android:layout_toEndOf="@+id/textView12"/>
+        android:layout_alignTop="@id/imageView7"
+        android:layout_toEndOf="@id/exhibition_Author"/>
 
     <TextView
         android:text="9:00 am, 20 Jan"
@@ -84,9 +82,9 @@
         android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView7"
-        android:id="@+id/textView13"
-        android:layout_toEndOf="@+id/imageView7"/>
+        android:layout_alignTop="@id/imageView7"
+        android:id="@+id/exhibition_Date"
+        android:layout_toEndOf="@id/imageView7"/>
 
     <TextView
         android:text="Senate"
@@ -96,9 +94,9 @@
         android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView6"
-        android:layout_toEndOf="@+id/imageView6"
-        android:id="@+id/textView14"/>
+        android:layout_alignTop="@id/imageView6"
+        android:layout_toEndOf="@id/imageView6"
+        android:id="@+id/exhibition_Venue"/>
 
     <TextView
         android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
@@ -107,8 +105,8 @@
         android:textColor="@color/text_color_primary"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/textView15"
-        android:layout_below="@+id/imageView7"
+        android:id="@+id/exhibition_Description"
+        android:layout_below="@id/imageView7"
         android:layout_alignParentStart="true"/>
 
 

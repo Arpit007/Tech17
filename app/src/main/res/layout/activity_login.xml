@@ -100,7 +100,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/view3"/>
 
-    <com.nitkkr.gawds.tech16.Activity.Typewriter
+    <com.nitkkr.gawds.tech16.Src.Typewriter
         android:textSize="40sp" android:id="@+id/label"
         android:layout_marginTop="41dp"
         android:text="    Login"

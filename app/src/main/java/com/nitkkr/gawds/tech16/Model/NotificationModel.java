@@ -8,9 +8,13 @@ import java.util.Date;
 
 public class NotificationModel extends EventKey
 {
+	private boolean generated=false;
 	private long date;
 
+	public void setGenerated(boolean generated){this.generated = generated;}
 	public void setDate(long date){this.date = date;}
+
+	public boolean isGenerated(){return generated;}
 	public long getDate(){return date;}
 	public Date getDateObject()
 	{

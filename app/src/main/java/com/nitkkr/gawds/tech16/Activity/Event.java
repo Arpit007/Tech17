@@ -12,22 +12,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Activity.Fragment.About_Fragment;
 import com.nitkkr.gawds.tech16.Activity.Fragment.Contact_frag;
 import com.nitkkr.gawds.tech16.Activity.Fragment.Result_frag;
 import com.nitkkr.gawds.tech16.Activity.Fragment.Rules_frag;
+import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.EventKey;
 import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.Src.PdfHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Event extends AppCompatActivity implements EventModel.EventStatusListener
 {
@@ -36,9 +41,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	private ActionBarBack actionBar;
 	private AlertDialog alertDialog;
 
-	private void setRegister()
+	private void setCallbacks()
 	{
-		Button Register = (Button) findViewById(R.id.event_Register);
+		Button Register = (Button) findViewById(R.id.Event_Register);
 		if (model.isRegistered())
 		{
 			if (model.isSingleEvent())
@@ -54,7 +59,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 					@Override
 					public void onClick(View view)
 					{
-						//TODO: Pass Team Model
 						Intent intent=new Intent(Event.this,ViewTeam.class);
 						Bundle bundle=new Bundle();
 						bundle.putSerializable("Event",model);
@@ -66,6 +70,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else
 		{
+			Register.setText("Register");
 			Register.setOnClickListener(new View.OnClickListener()
 			{
 				@Override
@@ -82,7 +87,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 								@Override
 								public void onClick(DialogInterface dialogInterface, int i)
 								{
-									SignInStatus status = SignInStatus.NONE;
+									ResponseStatus status = ResponseStatus.NONE;
 									//TODO: Register Single Event
 									switch (status)
 									{
@@ -130,6 +135,31 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				}
 			});
 		}
+
+		findViewById(R.id.Event_Pdf).setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				if(PdfHelper.pdfHelper.isPdfExisting(model.getPdfLink()))
+				{
+					PdfHelper.pdfHelper.viewPdfIfExists(model.getPdfLink(),Event.this);
+				}
+				else
+				{
+					PdfHelper.pdfHelper.DownloadPdf(model.getPdfLink(), new PdfHelper.iCallback()
+					{
+						@Override
+						public void DownloadComplete(String url, ResponseStatus status)
+						{
+							if (status==ResponseStatus.SUCCESS)
+								( (Button) findViewById(R.id.Event_Pdf) ).setText("View Pdf");
+							else ( (Button) findViewById(R.id.Event_Register) ).setText("Download as PDF");
+						}
+					},Event.this);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -142,21 +172,26 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		TabLayout tabLayout=(TabLayout)findViewById(R.id.event_tab_layout);
 		ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
-		setupViewPager(viewPager);
-		tabLayout.setupWithViewPager(viewPager);
-				LoadEvent();
 
+		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
+		model= Database.database.getEventsDB().getEvent(key);
+
+		setupViewPager(viewPager,model);
+		tabLayout.setupWithViewPager(viewPager);
+		LoadEvent();
 	}
 
-	private void setupViewPager(ViewPager viewPager) {
+	private void setupViewPager(ViewPager viewPager, EventModel model) {
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-		adapter.addFragment(new About_Fragment(), "About");
-		adapter.addFragment(new Rules_frag(), "Rules");
-		adapter.addFragment(new Contact_frag(), "Contact");
-		adapter.addFragment(new Result_frag(), "Result");
+		adapter.addFragment(About_Fragment.getNewFragment(model), "About");
+		adapter.addFragment(Rules_frag.getNewFragment(model), "Rules");
+		adapter.addFragment(Contact_frag.getNewFragment(model), "Contact");
+		adapter.addFragment(Result_frag.getNewFragment(model), "Result");
 		viewPager.setAdapter(adapter);
 	}
-	class ViewPagerAdapter extends FragmentPagerAdapter {
+
+	class ViewPagerAdapter extends FragmentPagerAdapter
+	{
 		private final List<Fragment> mFragmentList = new ArrayList<>();
 		private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -202,48 +237,38 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 	private void LoadEvent()
 	{
-		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
+		model.setListener(Event.this);
 
-		//Load Event
-		model=new EventModel();
-		model.setEventID(key.getEventID());
-		model.setEventName(key.getEventName());
-		model.setNotify(model.isNotify());
+		(( TextView)findViewById(R.id.Event_Name)).setText(model.getEventName());
+		(( TextView)findViewById(R.id.Event_Category)).setText(Database.database.getInterestDB().getInterest(model.getSociety()));
 
-		try
+		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "am").replace("PM","pm");
+		(( TextView)findViewById(R.id.Event_Date)).setText(date);
+
+		(( TextView)findViewById(R.id.Event_Venue)).setText(model.getVenue());
+
+		if(model.isSingleEvent())
+			(( TextView)findViewById(R.id.Event_Members)).setText("Individual");
+		else
 		{
-			model.setStatusListener(this);
+			String Text="Team ("+model.getMinUsers();
+			if(model.isVariableGroupEvent())
+				Text += "-" + model.getMaxUsers() + " members)";
+			else Text += " members)";
+			(( TextView)findViewById(R.id.Event_Members)).setText(Text);
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		//TODO: Implement------------ Load event from net
-		StringBuilder text = new StringBuilder("");
-		text.append("\nID: ").append(model.getEventID());
-		text.append("\nName: ").append(model.getEventName());
-		text.append("\nVenue: ").append(model.getVenue());
-		text.append("\nDescription: ").append(model.getDescription());
-		text.append("\nRules: ").append(model.getRules());
-		text.append("\nStatus: ").append(model.getEventStatus());
-		text.append("\nNotify: ").append(model.isNotify());
 
-		//----------------Date, Result, Cood, Participants------------------------
+		if(PdfHelper.pdfHelper.isPdfExisting(model.getPdfLink()))
+		{
+			( (Button) findViewById(R.id.Event_Pdf) ).setText("View Pdf");
+		}
+		else
+			( (Button) findViewById(R.id.Event_Register) ).setText("Download as PDF");
+
 
 		actionBar.setLabel(model.getEventName());
 
-		if (model.isGroupEvent())
-		{
-			text.append("\nMember Count: ").append(model.getMinUsers());
-		}
-		if (model.isVariableGroupEvent())
-		{
-			text.append("\nTeam Size:").append(model.getMinUsers()).append("-").append(model.getMaxUsers());
-		}
-
-		//( (TextView) findViewById(R.id.event_detail) ).setText(text.toString());
-
-		setRegister();
+		setCallbacks();
 	}
 
 	@Override
@@ -265,7 +290,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				if(requestCode==RESULT_OK)
 				{
 					AppUserModel.MAIN_USER.loadAppUser(Event.this);
-					findViewById(R.id.event_Register).performClick();
+					findViewById(R.id.Event_Register).performClick();
 				}
 			}
 		else
@@ -276,6 +301,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	@Override
 	public void EventStatusChanged(EventModel.EventStatus status)
 	{
+		//Set Round Num
 		//TODO: Event Status
 	}
 }

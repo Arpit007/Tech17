@@ -21,7 +21,7 @@ import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.Adapter.InterestAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -83,7 +83,10 @@ public class Interests extends AppCompatActivity
 					if(getIntent().getBooleanExtra("Return_Interest",false))
 					{
 						Intent data=new Intent();
-						data.putExtra("Interests",appUserModel.interestsToString());
+						Bundle bundle=new Bundle();
+						bundle.putSerializable("Interests",adapter.getFinalList());
+						bundle.putString("InterestString",adapter.getInterestsString());
+						data.putExtras(bundle);
 						setResult(RESULT_OK,data);
 						finish();
 						return;
@@ -132,10 +135,10 @@ public class Interests extends AppCompatActivity
 							code=status.getInt("code");
 
 							if(code==200){
-								interests_status(SignInStatus.SUCCESS);
+								interests_status(ResponseStatus.SUCCESS);
 							}else{
 								//failure
-								interests_status(SignInStatus.FAILED);
+								interests_status(ResponseStatus.FAILED);
 							}
 
 						} catch (JSONException e) {
@@ -168,7 +171,7 @@ public class Interests extends AppCompatActivity
 
 	}
 
-	public void interests_status(SignInStatus status){
+	public void interests_status(ResponseStatus status){
 		switch (status)
 		{
 			case SUCCESS:
@@ -220,6 +223,7 @@ public class Interests extends AppCompatActivity
 			mProgressDialog.hide();
 		}
 	}
+
 	@Override
 	public void onBackPressed()
 	{

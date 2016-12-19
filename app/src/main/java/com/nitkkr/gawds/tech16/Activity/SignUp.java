@@ -2,7 +2,6 @@ package com.nitkkr.gawds.tech16.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -31,15 +30,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
-import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
-import com.nitkkr.gawds.tech16.Model.UserModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.Src.Typewriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,8 +68,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	private GoogleSignInOptions gso;
 	String personName,personPhotoUrl,email,token_user,token_recieved,College,Gender,Branch,RollNo,PhoneNumber,Year;
 
-	SignInStatus success=SignInStatus.SUCCESS;
-	SignInStatus failed=SignInStatus.FAILED;
+	ResponseStatus success= ResponseStatus.SUCCESS;
+	ResponseStatus failed= ResponseStatus.FAILED;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -435,7 +431,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 	}
 
-	public void signup_result(SignInStatus status){
+	public void signup_result(ResponseStatus status){
 
 
 		switch (status)

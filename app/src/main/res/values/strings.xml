@@ -38,6 +38,7 @@
     <string name="get_user_interests_url">/api/user/interests</string>
     <string name="get_events_list">/api/events</string>
     <string name="get_interests_list">/api/categories </string>
+    <string name="FolderName">Tech17</string>
 
 
 </resources>

@@ -72,7 +72,8 @@ public class NotificationDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.NotificationNames.EventName.Name()),
 							Columns.indexOf(DbConstants.NotificationNames.EventID.Name()),
 							Columns.indexOf(DbConstants.NotificationNames.Date.Name()),
-							Columns.indexOf(DbConstants.NotificationNames.Notify.Name())
+							Columns.indexOf(DbConstants.NotificationNames.Notify.Name()),
+							Columns.indexOf(DbConstants.NotificationNames.Generated.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -85,6 +86,7 @@ public class NotificationDB extends SQLiteOpenHelper
 					notification.setEventID(Integer.parseInt(cursor.getString(ColumnIndex[1])));
 					notification.setDate(cursor.getLong(ColumnIndex[2]));
 					notification.setNotify(cursor.getInt(ColumnIndex[3]) != 0);
+					notification.setGenerated(cursor.getInt(ColumnIndex[4]) != 0);
 					keys.add(notification);
 				}
 				while (cursor.moveToNext());
@@ -135,6 +137,7 @@ public class NotificationDB extends SQLiteOpenHelper
 		values.put(DbConstants.NotificationNames.EventID.Name(),notification.getEventID());
 		values.put(DbConstants.NotificationNames.Date.Name(),notification.getDate());
 		values.put(DbConstants.NotificationNames.Notify.Name(),((notification.isNotify())?1:0));
+		values.put(DbConstants.NotificationNames.Generated.Name(),((notification.isGenerated())?1:0));
 
 		if(database.update(DbConstants.Constants.getNotificationTableName(),values, DbConstants.NotificationNames.EventID.Name() + " = "+notification.getEventID(),null)<1)
 		{
@@ -162,6 +165,7 @@ public class NotificationDB extends SQLiteOpenHelper
 		String Event_ID= DbConstants.NotificationNames.EventID.Name();
 		String Event_Date= DbConstants.NotificationNames.Date.Name();
 		String Event_Notify= DbConstants.NotificationNames.Notify.Name();
+		String Event_Generated= DbConstants.NotificationNames.Generated.Name();
 
 		for(NotificationModel notification : notifications)
 		{
@@ -170,6 +174,7 @@ public class NotificationDB extends SQLiteOpenHelper
 			values.put(Event_ID,notification.getEventID());
 			values.put(Event_Date,notification.getDate());
 			values.put(Event_Notify,((notification.isNotify())?1:0));
+			values.put(Event_Generated,((notification.isGenerated())?1:0));
 
 			if(database.update(TABLENAME,values,Event_ID + " = " + notification.getEventID(),null) < 1)
 			{

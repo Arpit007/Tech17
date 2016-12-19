@@ -14,21 +14,21 @@
         android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView12"
-        android:layout_toEndOf="@+id/imageView12"
+        android:layout_alignBottom="@id/imageView12"
+        android:layout_toEndOf="@id/imageView12"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:id="@+id/coordinator_call_txtview"/>
+        android:id="@+id/Coordinator_Number"/>
 
     <TextView
         android:text="EMAIL"
         android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/coordinator_call_txtview"
-        android:layout_toEndOf="@+id/imageView13"
+        android:layout_alignTop="@id/Coordinator_Number"
+        android:layout_toEndOf="@id/imageView13"
         android:layout_marginStart="18dp"
-        android:id="@+id/coordinator_email_txtview"/>
+        android:id="@+id/Coordinator_Email"/>
 
         <ImageView
         android:layout_width="30dp"
@@ -36,8 +36,8 @@
         app:srcCompat="@drawable/email_coordinator"
         android:id="@+id/imageView13"
         android:layout_marginStart="34dp"
-        android:layout_alignTop="@+id/imageView12"
-        android:layout_toEndOf="@+id/coordinator_name_txtview"/>
+        android:layout_alignTop="@id/imageView12"
+        android:layout_toEndOf="@id/Coordinator_Name"/>
 
     <ImageView
         android:layout_width="30dp"
@@ -46,7 +46,7 @@
         android:layout_marginTop="13dp"
         android:id="@+id/imageView12"
         android:layout_marginLeft="5dp"
-        android:layout_below="@+id/coordinator_name_txtview"
+        android:layout_below="@+id/Coordinator_Name"
         android:layout_alignParentStart="true"/>
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_marginStart="35dp"
             android:textColor="@color/text_color_primary"
             android:layout_marginTop="10dp"
-            android:id="@+id/coordinator_name_txtview"
+            android:id="@+id/Coordinator_Name"
             android:textSize="18sp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"/>
@@ -65,7 +65,7 @@
             android:layout_height="1dp"
             android:background="@color/neon_green"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/coordinator_email_txtview"/>
+            android:layout_below="@id/Coordinator_Email"/>
 
     </RelativeLayout>
 

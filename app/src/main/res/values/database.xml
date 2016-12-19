@@ -20,7 +20,9 @@
             MIN_USER INT DEFAULT 0,
             MAX_USER INT DEFAULT 0,
             PDF VARCHAR(255),
-            SOCIETY INT DEFAULT 0
+            REGISTERED INT DEFAULT 0,
+            SOCIETY INT DEFAULT 0,
+            CATEGORY INT DEFAULT 0
         );
     </string>
 
@@ -30,12 +32,14 @@
             EVENT_ID INT PRIMARY KEY NOT NULL,
             EVENT_NAME VARCHAR(127),
             _DATE INT DEFAULT 0,
+            GENERATED INT DEFAULT 0
         );
     </string>
 
     <string name="Query_Create_InterestsTable">
         CREATE TABLE Interest
         (
+            ID INT PRIMARY KEY NOT NULL,
             _INTEREST VARCHAR(255) NOT NULL,
             SELECTED INT DEFAULT 0
         );
@@ -77,11 +81,20 @@
     </string>
 
     <string name="Query_Update_NotificationList">
-        DELETE FROM NotificationList;
-        INSERT INTO NotificationList
+        CREATE TABLE TempNL AS SELECT * FROM NotificationList WHERE 0;
+
+        INSERT INTO TempNL ( EVENT_ID, EVENT_NAME, _DATE)
         SELECT EVENT_ID, EVENT_NAME, _DATE
         FROM EventList
-        WHERE EventList.NOTIFY=1 OR EventList.REGISTERED=1;
+        WHERE NOTIFY=1 OR REGISTERED=1;
+
+        UPDATE TempNL
+        SET GENERATED = (
+                            SELECT NL.GENERATED FROM NotificationList AS NL
+                            WHERE NL.EVENT_ID = TempNL.EVENT_ID);
+        DROP TABLE NotificationList ;
+
+        ALTER TABLE TempNL RENAME TO NotificationList;
     </string>
 
 </resources>

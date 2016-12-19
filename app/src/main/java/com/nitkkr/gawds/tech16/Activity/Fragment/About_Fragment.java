@@ -6,16 +6,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.R;
 
 /**
  * Created by Dell on 18-Dec-16.
  */
-public class About_Fragment extends Fragment {
+public class About_Fragment extends Fragment
+{
+    private EventModel model;
 
-    public About_Fragment(){
-
+    public static About_Fragment getNewFragment(EventModel model)
+    {
+        About_Fragment aboutFragment=new About_Fragment();
+        aboutFragment.model=model;
+        return aboutFragment;
     }
 
     @Override
@@ -24,8 +31,12 @@ public class About_Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.about_frag,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        View view= inflater.inflate(R.layout.fragment_about,container,false);
+
+        (( TextView)view.findViewById(R.id.Event_Content)).setText(model.getRules());
+
+        return view;
     }
 }

@@ -16,12 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.SignInStatus;
+import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.Model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.Src.CircularTextView;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,6 +35,7 @@ public class EditUser extends AppCompatActivity
 	private static final int AVATAR=700;
 	private String interest=AppUserModel.MAIN_USER.interestsToString();
 	private String Name, Number, Branch;
+	private ArrayList<InterestModel> interestModels;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -47,7 +52,7 @@ public class EditUser extends AppCompatActivity
 				if(Check())
 				{
 					//TODO: Send info
-					SignInStatus status=SignInStatus.NONE;
+					ResponseStatus status= ResponseStatus.NONE;
 					switch (status)
 					{
 						case SUCCESS:
@@ -56,6 +61,7 @@ public class EditUser extends AppCompatActivity
 							AppUserModel.MAIN_USER.setBranch(Branch);
 							AppUserModel.MAIN_USER.setInterests(interest);
 							AppUserModel.MAIN_USER.saveAppUser(EditUser.this);
+							Database.database.getInterestDB().addOrUpdateInterest(interestModels);
 							finish();
 							//When finished, check if View User Changes Itself
 							break;
@@ -128,7 +134,7 @@ public class EditUser extends AppCompatActivity
 
 	public void Initialise()
 	{
-
+		interestModels= Database.database.getInterestDB().getAllInterests();
 		((EditText)findViewById(R.id.user_Name)).setText(AppUserModel.MAIN_USER.getName());
 		(( TextView)findViewById(R.id.user_Email)).setText(AppUserModel.MAIN_USER.getEmail());
 		(( TextView)findViewById(R.id.user_College)).setText(AppUserModel.MAIN_USER.getCollege());
@@ -159,7 +165,8 @@ public class EditUser extends AppCompatActivity
 		{
 			if(resultCode==INTEREST)
 			{
-				interest=data.getStringExtra("Interests");
+				interest=data.getStringExtra("InterestString");
+				interestModels=(ArrayList<InterestModel>)data.getSerializableExtra("Interests");
 			}
 		}
 		else if(requestCode==AVATAR)

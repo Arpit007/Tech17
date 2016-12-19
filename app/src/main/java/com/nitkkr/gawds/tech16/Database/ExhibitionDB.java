@@ -225,7 +225,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 
 				key.setEventName(cursor.getString(ColumnIndex[0]));
 				key.setEventID(Integer.parseInt(cursor.getString(ColumnIndex[1])));
-				key.setNotify(cursor.getInt(ColumnIndex[3]) != 0);
+				key.setNotify(cursor.getInt(ColumnIndex[2]) != 0);
 			}
 		}
 		catch (Exception e)
@@ -279,7 +279,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 
 					key.setEventName(cursor.getString(ColumnIndex[0]));
 					key.setEventID(Integer.parseInt(cursor.getString(ColumnIndex[1])));
-					key.setNotify(cursor.getInt(ColumnIndex[3]) != 0);
+					key.setNotify(cursor.getInt(ColumnIndex[2]) != 0);
 
 					keys.add(key);
 				}
