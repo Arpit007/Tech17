@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -14,10 +15,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.system.Os;
 import android.util.Log;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,6 +65,22 @@ public class ActionBarNavDrawer
 			if(activity instanceof Home)
 			{
 				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+				Window window = activity.getWindow();
+
+				int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+				if(currentapiVersion>= Build.VERSION_CODES.JELLY_BEAN) {
+					// Enable status bar translucency (requires API 19)
+
+					window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+							WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+				}else{
+					// Disable status bar translucency (requires API 19)
+					window.getAttributes().flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+					// Set a color (requires API 21)
+					window.setStatusBarColor(activity.getResources().getColor(R.color.action_bar_color));
+
+				}
 				drawer.closeDrawer(GravityCompat.START);
 				return true;
 			}
@@ -142,7 +162,6 @@ public class ActionBarNavDrawer
 		});
 
 		navigationView.setCheckedItem(pageNavID);
-
 		activity.findViewById(R.id.actionbar_navButton).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -153,7 +172,7 @@ public class ActionBarNavDrawer
 				NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
 				navigationView.setCheckedItem(ActionBarNavDrawer.this.pageNavID);
 
-				if(AppUserModel.MAIN_USER.isUserLoaded())
+				if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
 				{
 					navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
 					navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);

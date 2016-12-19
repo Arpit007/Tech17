@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.Activity.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,8 +12,8 @@ import com.nitkkr.gawds.tech16.R;
 /**
  * Created by Dell on 18-Dec-16.
  */
-public class Contact_frag extends Fragment {
-    public Contact_frag(){
+public class Result_frag extends Fragment {
+    public Result_frag(){
 
     }
 

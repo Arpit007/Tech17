@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.Activity.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,9 +12,9 @@ import com.nitkkr.gawds.tech16.R;
 /**
  * Created by Dell on 18-Dec-16.
  */
-public class About_Fragment extends Fragment {
+public class Rules_frag extends Fragment {
 
-    public About_Fragment(){
+    public Rules_frag(){
 
     }
 
@@ -28,4 +28,5 @@ public class About_Fragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.about_frag,container,false);
     }
+
 }
