@@ -23,27 +23,27 @@
 
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:srcCompat="@drawable/link"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/time"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView"
             android:layout_below="@+id/textView7"
             android:layout_alignStart="@+id/textView7"/>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:srcCompat="@drawable/link"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/venue"
             android:layout_marginTop="10dp"
             android:id="@+id/imageView2"
             android:layout_below="@+id/imageView"
             android:layout_alignStart="@+id/imageView"/>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:srcCompat="@drawable/link"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/team2"
             android:layout_marginTop="13dp"
             android:id="@+id/imageView3"
             android:layout_below="@+id/imageView2"
@@ -126,6 +126,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_below="@+id/textView8"
+            android:layout_marginTop="10dp"
             android:background="@color/tab_layout_bk_event"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -134,7 +135,7 @@
             android:layout_above="@+id/event_Register">
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:layout_height="40dp"
             app:tabMode="scrollable"
             app:tabGravity="center"
