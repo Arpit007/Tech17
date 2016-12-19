@@ -63,6 +63,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/edit_text_image_design"
+                    android:layout_marginLeft="5dp"
                     android:backgroundTint="@color/app_background"
                     app:srcCompat="@drawable/arrow" />
 
@@ -73,7 +74,7 @@
                     android:layout_weight="10"
                     android:inputType="textPersonName"
                     android:padding="5dp"
-                    android:textColor="@color/text_color_primary"
+                    android:textColor="@color/User_Image_Fill_Color"
                     android:textSize="18sp"
                     android:hint="Enter Your Name"
                     android:textColorHint="@color/User_Image_Fill_Color"/>
@@ -100,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="College: "
-                        android:textColor="@color/text_color_primary"
+                        android:textColor="@color/User_Image_Fill_Color"
                         android:textSize="20sp"
                         android:visibility="invisible" />
 
@@ -111,8 +112,8 @@
                         android:layout_marginLeft="15dp"
                         android:hint="Your College Name"
                         android:inputType="textPersonName"
-                        android:textColor="@color/text_color_primary"
-                        android:textColorHint="@color/text_color_primary"
+                        android:textColor="@color/User_Image_Fill_Color"
+                        android:textColorHint="@color/User_Image_Fill_Color"
                         android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -150,7 +151,7 @@
                     android:inputType="phone"
                     android:maxLength="10"
                     android:padding="5dp"
-                    android:textColor="@color/text_color_primary"
+                    android:textColor="@color/User_Image_Fill_Color"
                     android:hint="Mobile Number"
                     android:textColorHint="@color/User_Image_Fill_Color"
                     android:textSize="18sp" />
@@ -186,9 +187,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:backgroundTint="@color/border_color"
+                    android:backgroundTint="@color/User_Image_Fill_Color"
                     android:popupBackground="@color/app_background"
-                    android:textColor="@color/app_background"
+                    android:textColor="@color/User_Image_Fill_Color"
                     android:padding="5dp"/>
             </LinearLayout>
             <View
@@ -226,7 +227,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:buttonTint="@color/border_color"
+                        android:buttonTint="@color/User_Image_Fill_Color"
                         android:checked="true"
                         android:text="NIT Kurukshetra"
                         android:textColor="@color/text_color_primary"
@@ -237,7 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:buttonTint="@color/border_color"
+                        android:buttonTint="@color/User_Image_Fill_Color"
                         android:text="Other"
                         android:textColor="@color/text_color_primary"
                         android:textSize="15sp" />
@@ -273,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:padding="5dp"
-                    android:textColor="@color/text_color_primary"
+                    android:textColor="@color/User_Image_Fill_Color"
                     android:textSize="18sp"
                     android:hint="RollNumber"
                     android:textColorHint="@color/User_Image_Fill_Color"/>
@@ -310,7 +311,7 @@
                     android:inputType="phone"
                     android:maxLength="10"
                     android:padding="5dp"
-                    android:textColor="@color/text_color_primary"
+                    android:textColor="@color/User_Image_Fill_Color"
                     android:hint="Year"
                     android:textColorHint="@color/User_Image_Fill_Color"
                     android:textSize="18sp" />
@@ -349,7 +350,7 @@
                     android:layout_marginRight="15dp"
                     android:backgroundTint="@color/border_color"
                     android:popupBackground="@color/app_background"
-                    android:textColor="@color/app_background" />
+                    android:textColor="@color/User_Image_Fill_Color" />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
