@@ -100,13 +100,13 @@ public class ListPage extends AppCompatActivity
 						view.getContext().startActivity(intent);
 						break;
 					case Exhibition:
-						bundle.putSerializable("Exhibition",(EventKey)listView.getAdapter().getItem(i));
+						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
 						intent=new Intent(view.getContext(), Exhibition.class);
 						intent.putExtras(bundle);
 						ListPage.this.startActivity(intent);
 						break;
 					case GuestTalk:
-						bundle.putSerializable("Exhibition",(EventKey)listView.getAdapter().getItem(i));
+						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
 						intent=new Intent(view.getContext(), Exhibition.class);
 						intent.putExtras(bundle);
 						ListPage.this.startActivity(intent);

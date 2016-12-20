@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech16.Activity;
 
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -181,6 +182,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		actionBar = new ActionBarBack(this);
 
+		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(getIntent().getExtras().getInt("NotificationID"));
+
 		TabLayout tabLayout=(TabLayout)findViewById(R.id.event_tab_layout);
 		ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
 
@@ -190,6 +193,10 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		setupViewPager(viewPager,model);
 		tabLayout.setupWithViewPager(viewPager);
 		LoadEvent();
+
+		int PageID=getIntent().getExtras().getInt("PageID",0);
+		if(PageID<tabLayout.getTabCount())
+			viewPager.setCurrentItem(PageID);
 	}
 
 	private void setupViewPager(ViewPager viewPager, EventModel model) {

@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech16.Activity;
 
+import android.app.NotificationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +32,9 @@ public class Exhibition extends AppCompatActivity
 
 		actionBarBack = new ActionBarBack(Exhibition.this);
 
-		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Exhibition");
+		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(getIntent().getExtras().getInt("NotificationID"));
+
+		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
 		LoadExhibition(key);
 
 		final Button fab = (Button) findViewById(R.id.exhibition_notify);
