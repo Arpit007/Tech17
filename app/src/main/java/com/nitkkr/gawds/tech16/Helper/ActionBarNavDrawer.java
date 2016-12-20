@@ -51,7 +51,6 @@ public class ActionBarNavDrawer
 
 	private iActionBar barNavDrawer;
 	private AppCompatActivity activity;
-	private int pageNavID;
 	private boolean openNewSearchPage=false;
 
 	private boolean NavigationItemSelected(MenuItem item)

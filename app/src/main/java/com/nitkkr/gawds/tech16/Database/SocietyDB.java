@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Home Laptop on 19-Dec-16.
  */
 
-public class SocietyDB extends SQLiteOpenHelper
+public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 {
 	private iDbRequest dbRequest;
 
@@ -31,6 +31,9 @@ public class SocietyDB extends SQLiteOpenHelper
 	{
 		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
 		this.dbRequest = dbRequest;
+
+		if(DbConstants.Constants==null)
+			DbConstants.Constants=new DbConstants(context);
 
 		onCreate(dbRequest.getDatabase());
 	}
@@ -212,6 +215,7 @@ public class SocietyDB extends SQLiteOpenHelper
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
+	@Override
 	public String getTableName()
 	{
 		return DbConstants.Constants.getSocietyTableName();
@@ -258,6 +262,7 @@ public class SocietyDB extends SQLiteOpenHelper
 		}
 	}
 
+	@Override
 	public long getRowCount()
 	{
 		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getSocietyTableName());
@@ -273,4 +278,15 @@ public class SocietyDB extends SQLiteOpenHelper
 		return map;
 	}
 
+	@Override
+	public void resetTable()
+	{
+	}
+
+	@Override
+	public void deleteTable()
+	{
+		String Query="DROP TABLE " + DbConstants.Constants.getSocietyTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
 }

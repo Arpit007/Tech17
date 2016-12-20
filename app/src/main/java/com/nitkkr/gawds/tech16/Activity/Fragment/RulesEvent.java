@@ -14,16 +14,17 @@ import com.nitkkr.gawds.tech16.R;
 /**
  * Created by Dell on 18-Dec-16.
  */
-public class Rules_frag extends Fragment {
+public class RulesEvent extends Fragment {
 
     private EventModel model;
 
-    public static Rules_frag getNewFragment(EventModel model)
+    public static RulesEvent getNewFragment(EventModel model)
     {
-        Rules_frag rules_frag=new Rules_frag();
+        RulesEvent rules_frag=new RulesEvent();
         rules_frag.model=model;
         return rules_frag;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,5 +39,4 @@ public class Rules_frag extends Fragment {
 
         return view;
     }
-
 }

@@ -21,8 +21,20 @@ import java.util.List;
  * Created by Home Laptop on 18-Dec-16.
  */
 
-public class CoordinatorDB extends SQLiteOpenHelper
+public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 {
+	@Override
+	public void deleteTable()
+	{
+		String Query="DROP TABLE " + DbConstants.Constants.getCoordinatorTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
+	@Override
+	public void resetTable()
+	{
+	}
+
 	private iDbRequest dbRequest;
 
 	public CoordinatorDB(Context context, iDbRequest dbRequest)
@@ -82,7 +94,6 @@ public class CoordinatorDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.CoordinatorNames.Email.Name()),
 							Columns.indexOf(DbConstants.CoordinatorNames.Designation.Name()),
 							Columns.indexOf(DbConstants.CoordinatorNames.Mobile.Name())
-
 					};
 
 			if (cursor.getCount() > 0)
@@ -188,8 +199,7 @@ public class CoordinatorDB extends SQLiteOpenHelper
 			values.put(Coordinator_Mobile,coordinator.getMobile());
 			values.put(Coordinator_Designation,coordinator.getDesignation());
 
-			if(database.update(TABLENAME,values, DbConstants.CoordinatorNames.CoordinatorName.Name() +
-					" = " + coordinator.getName() + " AND " + DbConstants.CoordinatorNames.EventID.Name() + " = " + coordinator.getEventID(),null)<1)
+			if(database.update(TABLENAME,values, Coordinator_Name + " = " + coordinator.getName() + " AND " + Event_ID + " = " + coordinator.getEventID(),null)<1)
 			{
 				database.insert(DbConstants.Constants.getCoordinatorTableName(),null,values);
 			}

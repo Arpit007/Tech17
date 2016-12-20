@@ -1,16 +1,19 @@
 package com.nitkkr.gawds.tech16.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.Adapter.RegisterTeamAdapter;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.Model.TeamModel;
 import com.nitkkr.gawds.tech16.Model.UserModel;
@@ -20,25 +23,63 @@ import java.util.ArrayList;
 //TODO:Fix
 public class ViewTeam extends AppCompatActivity
 {
-	TeamModel model;
+	EventModel model;
+	TeamModel teamModel =new TeamModel();
+	ActionBarBack barBack;
+	RegisterTeamAdapter adapter;
+	ProgressDialog progressDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_team);
 
-		model=new TeamModel();
-		model.setMembers(new ArrayList<UserModel>());
+		barBack=new ActionBarBack(ViewTeam.this);
+		barBack.setLabel("");
 
-		//--------------------Load Team Model------------------------
+		model=(EventModel)getIntent().getExtras().getSerializable("Event");
 
-		ActionBarBack barBack=new ActionBarBack(ViewTeam.this);
-		barBack.setLabel("Team: "+model.getTeamName());
+		progressDialog=new ProgressDialog(ViewTeam.this);
+		progressDialog.setMessage("Loading, Please Wait");
+		progressDialog.show();
 
-		EventModel eventModel=(EventModel)getIntent().getExtras().getSerializable("Event");
+		//TODO:Load Team Model------------------------
+		ResponseStatus status=ResponseStatus.SUCCESS;
+
+		switch (status)
+		{
+			case SUCCESS:
+				loadTeam();
+				adapter.notifyDataSetChanged();
+				progressDialog.dismiss();
+				break;
+			case OTHER:
+				Toast.makeText(ViewTeam.this,"==================MESSAGE==================",Toast.LENGTH_LONG).show();
+				new Handler().postDelayed(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						finish();
+					}
+				},getResources().getInteger(R.integer.AutoCloseDuration));
+				break;
+			default:
+				Toast.makeText(ViewTeam.this,"Failed to Fetch Team Details",Toast.LENGTH_LONG).show();
+				new Handler().postDelayed(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						finish();
+					}
+				},getResources().getInteger(R.integer.AutoCloseDuration));
+				break;
+		}
 
 		ListView listView=(ListView)findViewById(R.id.view_team_list);
-		RegisterTeamAdapter adapter=new RegisterTeamAdapter(ViewTeam.this,model,eventModel.getMinUsers(),eventModel.getMaxUsers(),false);
+		adapter=new RegisterTeamAdapter(ViewTeam.this, teamModel,model.getMinUsers(),model.getMaxUsers(),false);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
@@ -47,13 +88,18 @@ public class ViewTeam extends AppCompatActivity
 			{
 				Intent intent=new Intent(ViewTeam.this,ViewUser.class);
 				Bundle bundle=new Bundle();
-				bundle.putSerializable("User",model.getMembers().get(i));
+				bundle.putSerializable("User", teamModel.getMembers().get(i));
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 		});
 	}
 
+	void loadTeam()
+	{
+		//TODO:Implement
+		barBack.setLabel("Team: "+ teamModel.getTeamName());
+	}
 
 	@Override
 	public void onBackPressed()

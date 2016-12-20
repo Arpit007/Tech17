@@ -15,10 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.Activity.Fragment.About_Fragment;
-import com.nitkkr.gawds.tech16.Activity.Fragment.Contact_frag;
+import com.nitkkr.gawds.tech16.Activity.Fragment.AboutEvent;
+import com.nitkkr.gawds.tech16.Activity.Fragment.ContactEvent;
 import com.nitkkr.gawds.tech16.Activity.Fragment.Result_frag;
-import com.nitkkr.gawds.tech16.Activity.Fragment.Rules_frag;
+import com.nitkkr.gawds.tech16.Activity.Fragment.RulesEvent;
 import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
@@ -98,6 +98,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 											Toast.makeText(Event.this, "Registered Successfully", Toast.LENGTH_LONG).show();
 
 											model.setRegistered(true);
+											model.setNotify(true);
 											Database.database.getEventsDB().addOrUpdateEvent(model);
 											Database.database.getNotificationDB().UpdateTable();
 											model.callStatusListener();
@@ -193,9 +194,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 	private void setupViewPager(ViewPager viewPager, EventModel model) {
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-		adapter.addFragment(About_Fragment.getNewFragment(model), "About");
-		adapter.addFragment(Rules_frag.getNewFragment(model), "Rules");
-		adapter.addFragment(Contact_frag.getNewFragment(model), "Contact");
+		adapter.addFragment(AboutEvent.getNewFragment(model), "About");
+		adapter.addFragment(RulesEvent.getNewFragment(model), "Rules");
+		adapter.addFragment(ContactEvent.getNewFragment(model), "Contact");
 		adapter.addFragment(Result_frag.getNewFragment(model), "Result");
 		viewPager.setAdapter(adapter);
 	}
@@ -262,7 +263,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			(( TextView)findViewById(R.id.Event_Members)).setText("Individual");
 		else
 		{
-			String Text="Team (" +model.getMinUsers() + "-" + model.getMaxUsers() + " members)";
+			String Text="Team (" +model.getMinUsers() + "-" + model.getMaxUsers() + " Members)";
 			(( TextView)findViewById(R.id.Event_Members)).setText(Text);
 		}
 
@@ -321,7 +322,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	public void EventStatusChanged(EventModel.EventStatus status)
 	{
 		LoadEvent();
-		//Set Round Num
-		//TODO: Event Status
+		//TODO: Event Status, Round Num
 	}
 }

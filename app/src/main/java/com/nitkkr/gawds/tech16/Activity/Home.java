@@ -27,25 +27,21 @@ public class Home extends AppCompatActivity
 			@Override
 			public void NavButtonClicked()
 			{
-
 			}
 
 			@Override
 			public void SearchQuery(String Query)
 			{
-
 			}
 		},R.id.nav_home);
 		barNavDrawer.setLabel(getString(R.string.FestName));
 		barNavDrawer.setOpenNewSearchPage(true);
 
 
-		if(CheckUpdate.getInstance().isUpdateAvailable() && CheckUpdate.getInstance().displayUpdate(Home.this));
-		else if(RateApp.getInstance().isReadyForRating(Home.this))
+		if(CheckUpdate.getInstance().isUpdateAvailable())
+			if(!CheckUpdate.getInstance().displayUpdate(Home.this))
+				if(RateApp.getInstance().isReadyForRating(Home.this))
 					RateApp.getInstance().displayRating(Home.this);
-
-
-
 	}
 
 	@Override

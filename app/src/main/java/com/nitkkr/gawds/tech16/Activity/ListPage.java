@@ -41,7 +41,6 @@ public class ListPage extends AppCompatActivity
 			@Override
 			public void NavButtonClicked()
 			{
-				//-----------------No Need Here-------------------------------------
 			}
 
 			@Override

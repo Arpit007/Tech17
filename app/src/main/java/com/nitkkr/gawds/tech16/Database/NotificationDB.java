@@ -16,12 +16,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 /**
  * Created by Home Laptop on 17-Dec-16.
  */
 
-public class NotificationDB extends SQLiteOpenHelper
+public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 {
+	@Override
+	public void deleteTable()
+	{
+		String Query="DROP TABLE " + DbConstants.Constants.getNotificationTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
+	@Override
+	public void resetTable()
+	{
+		String Query="DELETE FROM " + DbConstants.Constants.getNotificationTableName() + ";";
+		Log.d("Query: ",Query);
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
 	private iDbRequest dbRequest;
 
 	public NotificationDB(Context context, iDbRequest dbRequest)

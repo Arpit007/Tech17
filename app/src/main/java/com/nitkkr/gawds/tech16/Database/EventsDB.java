@@ -22,8 +22,24 @@ import java.util.List;
  * Created by Home Laptop on 17-Dec-16.
  */
 
-public class EventsDB extends SQLiteOpenHelper
+public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 {
+	@Override
+	public void deleteTable()
+	{
+		String Query="DROP TABLE " + DbConstants.Constants.getEventsTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
+	@Override
+	public void resetTable()
+	{
+		String Query="UPDATE " + DbConstants.Constants.getEventsTableName()+ " SET " + DbConstants.EventNames.Notify.Name() + " = 0, " +
+				DbConstants.EventNames.Registered.Name() + " = 0;";
+		Log.d("Query: ",Query);
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
 	private iDbRequest dbRequest;
 
 
@@ -337,11 +353,12 @@ public class EventsDB extends SQLiteOpenHelper
 
 	public void deleteEvent(int ID)
 	{
-		String Query = "DELETE FROM " + DbConstants.Constants.getEventsTableName() + " WHERE " + DbConstants.EventNames.EventID.Name() + "=" + ID + ";";
+		String Query = "DELETE FROM " + DbConstants.Constants.getEventsTableName() + " WHERE " + DbConstants.EventNames.EventID.Name() + " = " + ID + ";";
 		Log.d("Query:\t",Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
+	@Override
 	public String getTableName()
 	{
 		return DbConstants.Constants.getEventsTableName();
@@ -420,13 +437,14 @@ public class EventsDB extends SQLiteOpenHelper
 			values.put(Event_Society,event.getSociety());
 			values.put(Event_Category,event.getCategory());
 
-			if(database.update(TABLENAME,values, DbConstants.EventNames.EventID.Name() + " = "+event.getEventID(),null)<1)
+			if(database.update(TABLENAME,values,Event_ID + " = "+event.getEventID(),null)<1)
 			{
 				database.insert(TABLENAME,null,values);
 			}
 		}
 	}
 
+	@Override
 	public long getRowCount()
 	{
 		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getEventsTableName());

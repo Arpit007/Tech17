@@ -15,14 +15,25 @@ import java.util.Arrays;
  * Created by Home Laptop on 07-Nov-16.
  */
 
-public class AppUserModel extends UserModel
+public class AppUserModel extends UserModel implements Cloneable
 {
 
 	ArrayList<InterestModel> Interests;
 
 	public static final int LOGIN_REQUEST_CODE=99;
 	private boolean loggedIn,signedup;
-	public ArrayList<String> getInterests(){return Database.database.getInterestDB().getSelectedInterestStrings();}
+
+	public ArrayList<InterestModel> getInterests(){return Interests;}
+	public ArrayList<String> getSelectedInterests()
+	{
+		ArrayList<String> Keys=new ArrayList<>();
+		for(InterestModel interestModel: Interests)
+		{
+			if(interestModel.isSelected())
+				Keys.add(interestModel.getID()+"");
+		}
+		return Keys;
+	}
 
 	public static AppUserModel MAIN_USER=new AppUserModel();
 
@@ -56,6 +67,8 @@ public class AppUserModel extends UserModel
 
 		return list;
 	}
+
+	public void setInterests(ArrayList<InterestModel> interests){Interests = interests;}
 
 	public void setInterests(String interests)
 	{
@@ -170,5 +183,19 @@ public class AppUserModel extends UserModel
 		if(Result)
 			activity.startActivityForResult(intent,LOGIN_REQUEST_CODE);
 		else activity.startActivity(intent);
+	}
+
+	@Override
+	public Object clone()
+	{
+		try
+		{
+			return super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+			return this;
+		}
 	}
 }

@@ -20,8 +20,23 @@ import java.util.List;
  * Created by Home Laptop on 17-Dec-16.
  */
 
-public class InterestDB extends SQLiteOpenHelper
+public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 {
+	@Override
+	public void deleteTable()
+	{
+		String Query="DROP TABLE " + DbConstants.Constants.getInterestTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
+	@Override
+	public void resetTable()
+	{
+		String Query="UPDATE " + DbConstants.Constants.getInterestTableName()+ " SET " + DbConstants.InterestNames.Selected.Name() + " = 0;";
+		Log.d("Query: ",Query);
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
 	private iDbRequest dbRequest;
 
 	public InterestDB(Context context, iDbRequest dbRequest)
@@ -186,6 +201,7 @@ public class InterestDB extends SQLiteOpenHelper
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
+	@Override
 	public String getTableName()
 	{
 		return DbConstants.Constants.getInterestTableName();
@@ -249,6 +265,7 @@ public class InterestDB extends SQLiteOpenHelper
 		}
 	}
 
+	@Override
 	public long getRowCount()
 	{
 		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getInterestTableName());

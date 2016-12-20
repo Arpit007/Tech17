@@ -1,6 +1,5 @@
 package com.nitkkr.gawds.tech16.Activity;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.nitkkr.gawds.tech16.Database.Database;
 import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.Model.EventKey;
 import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
@@ -57,8 +55,6 @@ public class Exhibition extends AppCompatActivity
 					Database.database.getExhibitionDB().addOrUpdateExhibition(model);
 					Database.database.getNotificationDB().UpdateTable();
 				}
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-						.setAction("Action", null).show();
 			}
 		});
 	}

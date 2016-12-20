@@ -17,25 +17,26 @@ import com.nitkkr.gawds.tech16.Model.EventModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dell on 18-Dec-16.
  */
-public class Contact_frag extends Fragment {
-
+public class ContactEvent extends Fragment
+{
     private ArrayList<CoordinatorModel> coordinatorModelList=new ArrayList<>();
     private CoordinatorAdapter mCoordinatorAdapter;
     private RecyclerView mreRecyclerView;
 
     private EventModel model;
 
-    public static Contact_frag getNewFragment(EventModel model)
+    public static ContactEvent getNewFragment(EventModel model)
     {
-        Contact_frag contact_frag=new Contact_frag();
+        ContactEvent contact_frag=new ContactEvent();
         contact_frag.model=model;
+
         return contact_frag;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,6 @@ public class Contact_frag extends Fragment {
 
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(rootView.getContext());
-        layoutManager.canScrollVertically();
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mreRecyclerView.setLayoutManager(layoutManager);
         mreRecyclerView.setItemAnimator(new DefaultItemAnimator());

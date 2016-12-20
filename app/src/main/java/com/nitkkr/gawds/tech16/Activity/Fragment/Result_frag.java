@@ -32,6 +32,7 @@ public class Result_frag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
+        fetchResult();
         return inflater.inflate(R.layout.fragment_about,container,false);
     }
 

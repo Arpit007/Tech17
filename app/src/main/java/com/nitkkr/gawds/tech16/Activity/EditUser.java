@@ -26,6 +26,7 @@ import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.Src.CircularTextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,9 +34,8 @@ public class EditUser extends AppCompatActivity
 {
 	private static final int INTEREST=900;
 	private static final int AVATAR=700;
-	private String interest=AppUserModel.MAIN_USER.interestsToString();
-	private String Name, Number, Branch;
-	private ArrayList<InterestModel> interestModels;
+	private AppUserModel model= (AppUserModel)AppUserModel.MAIN_USER.clone();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -52,16 +52,12 @@ public class EditUser extends AppCompatActivity
 				if(Check())
 				{
 					//TODO: Send info
-					ResponseStatus status= ResponseStatus.NONE;
+					ResponseStatus status= ResponseStatus.SUCCESS;
 					switch (status)
 					{
 						case SUCCESS:
-							AppUserModel.MAIN_USER.setName(Name);
-							AppUserModel.MAIN_USER.setMobile(Number);
-							AppUserModel.MAIN_USER.setBranch(Branch);
-							AppUserModel.MAIN_USER.setInterests(interest);
-							AppUserModel.MAIN_USER.saveAppUser(EditUser.this);
-							Database.database.getInterestDB().addOrUpdateInterest(interestModels);
+							model.saveAppUser(EditUser.this);
+							AppUserModel.MAIN_USER=model;
 							finish();
 							//When finished, check if View User Changes Itself
 							break;
@@ -129,12 +125,10 @@ public class EditUser extends AppCompatActivity
 				popup.show();
 			}
 		});
-
 	}
 
 	public void Initialise()
 	{
-		interestModels= Database.database.getInterestDB().getAllInterests();
 		((EditText)findViewById(R.id.user_Name)).setText(AppUserModel.MAIN_USER.getName());
 		(( TextView)findViewById(R.id.user_Email)).setText(AppUserModel.MAIN_USER.getEmail());
 		(( TextView)findViewById(R.id.user_College)).setText(AppUserModel.MAIN_USER.getCollege());
@@ -146,15 +140,7 @@ public class EditUser extends AppCompatActivity
 		Spinner spinner = (Spinner) findViewById(R.id.user_Branch);
 		spinner.setAdapter(adapter);
 
-
-		int ID;
-		for(ID=0;ID<Branches.length;ID++)
-		{
-			if(Branches[ID].equals(AppUserModel.MAIN_USER.getBranch()))
-				break;
-		}
-
-		spinner.setSelection(ID);
+		spinner.setSelection(Arrays.asList(Branches).indexOf(AppUserModel.MAIN_USER.getBranch()));
 		setImage();
 	}
 
@@ -166,17 +152,18 @@ public class EditUser extends AppCompatActivity
 		{
 			if(resultCode==INTEREST)
 			{
-				interest=data.getStringExtra("InterestString");
-				interestModels=(ArrayList<InterestModel>)data.getSerializableExtra("Interests");
+				model.setInterests((ArrayList<InterestModel>)data.getSerializableExtra("Interests"));
 			}
 		}
 		else if(requestCode==AVATAR)
 		{
 			int ID=data.getIntExtra("ID",-1);
 			AppUserModel.MAIN_USER.setImageId(ID);
-			if(ID!=-1)
-				AppUserModel.MAIN_USER.setUseGoogleImage(false);
+
+			AppUserModel.MAIN_USER.setUseGoogleImage((ID==-1));
+
 			AppUserModel.MAIN_USER.saveAppUser(EditUser.this);
+
 			setImage();
 		}
 	}
@@ -228,21 +215,22 @@ public class EditUser extends AppCompatActivity
 
 	private boolean Check()
 	{
-		if(((EditText)findViewById(R.id.user_Name)).getText().equals(""))
+		if(((EditText)findViewById(R.id.user_Name)).getText().toString().equals("") || (( EditText)findViewById(R.id.user_Number)).getText().toString().equals(""))
 		{
 			Toast.makeText(EditUser.this,"All Fields Are Mandatory",Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		else Name=((EditText)findViewById(R.id.user_Name)).getText().toString();
+		else model.setName(((EditText)findViewById(R.id.user_Name)).getText().toString());
+
 		int length=(( EditText)findViewById(R.id.user_Number)).getText().length();
 		if(length<10)
 		{
-			Toast.makeText(EditUser.this,"All Fields Are Mandatory",Toast.LENGTH_SHORT).show();
+			Toast.makeText(EditUser.this,"Contact Number Should Be 10 Digits Long",Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		else Number=((EditText)findViewById(R.id.user_Number)).getText().toString();
+		else model.setMobile(((EditText)findViewById(R.id.user_Number)).getText().toString());
 
-		Branch=((Spinner) findViewById(R.id.user_Branch)).getSelectedItem().toString();
+		model.setBranch(((Spinner) findViewById(R.id.user_Branch)).getSelectedItem().toString());
 
 		return true;
 	}

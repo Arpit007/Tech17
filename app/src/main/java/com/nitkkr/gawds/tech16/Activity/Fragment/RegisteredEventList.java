@@ -21,17 +21,10 @@ import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
 
-public class RegisteredEventList extends Fragment implements iActionBar
+public class RegisteredEventList extends Fragment
 {
 	private EventListAdapter listAdapter;
 
-	@Override
-	public void NavButtonClicked()
-	{
-		//-------------No need here-----------------------
-	}
-
-	@Override
 	public void SearchQuery(String Query)
 	{
 		listAdapter.getFilter().filter(Query);
@@ -39,11 +32,6 @@ public class RegisteredEventList extends Fragment implements iActionBar
 
 	private ListView listView;
 	private ArrayList<EventKey> listDataChild;
-
-	public RegisteredEventList()
-	{
-
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)

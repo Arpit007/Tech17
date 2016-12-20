@@ -25,7 +25,6 @@ import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +34,7 @@ import java.util.Map;
 
 public class Interests extends AppCompatActivity
 {
+	private AppUserModel appUserModel=(AppUserModel)AppUserModel.MAIN_USER.clone();
 	private InterestAdapter adapter;
 	private ProgressDialog mProgressDialog;
 	String token,interests_post_data;
@@ -66,18 +66,7 @@ public class Interests extends AppCompatActivity
 			{
 				if (adapter.isDone())
 				{
-
-					AppUserModel appUserModel=AppUserModel.MAIN_USER;
-
-					try
-					{
-						appUserModel.setInterests(adapter.getInterestsString());
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-						appUserModel=new AppUserModel();
-					}
+					appUserModel.setInterests(adapter.getFinalList());
 
 					//Used for Edit User
 					if(getIntent().getBooleanExtra("Return_Interest",false))
@@ -85,21 +74,21 @@ public class Interests extends AppCompatActivity
 						Intent data=new Intent();
 						Bundle bundle=new Bundle();
 						bundle.putSerializable("Interests",adapter.getFinalList());
-						bundle.putString("InterestString",adapter.getInterestsString());
 						data.putExtras(bundle);
 						setResult(RESULT_OK,data);
 						finish();
 						return;
 					}
+
 					interests_post_data="[";
 					//TODO: Send Info
-					ArrayList<String> s=AppUserModel.MAIN_USER.getInterests();
-					for(int i=0;i<s.size()-1;i++){
+					ArrayList<String> s=appUserModel.getSelectedInterests();
+					for(int i=0;i<s.size()-1;i++)
+					{
 						interests_post_data+='"'+s.get(i)+'"'+",";
 					}
 					interests_post_data+='"'+s.get(s.size()-1)+'"'+"]";
-					send_interests();
-
+					sendInterests();
 				}
 				else
 				{
@@ -110,38 +99,34 @@ public class Interests extends AppCompatActivity
 
 		barDone.setLabel("Interests");
 		token=AppUserModel.MAIN_USER.getToken();
-
-
 	}
 
-	public void send_interests(){
-		showProgressDialog("Optimising your feed...");
+	public void sendInterests()
+	{
+		showProgressDialog("Uploading Information, Please Wait...");
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
 				getResources().getString(R.string.get_user_interests_url),
 				new Response.Listener<String>() {
 					@Override
-					public void onResponse(String res) {
-
-						//check response if good send to handler
-						JSONObject response= null,status=null;
-						JSONArray data;
-						String message,RollNo,PhoneNumber,Branch,Year,College,Gender;
-						ArrayList<String> interests=new ArrayList<String>();
-						int code;
-						try {
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						try
+						{
 							response = new JSONObject(res);
-							status=response.getJSONObject("status");
 
-							code=status.getInt("code");
-
-							if(code==200){
-								interests_status(ResponseStatus.SUCCESS);
-							}else{
-								//failure
-								interests_status(ResponseStatus.FAILED);
+							if(response.getJSONObject("status").getInt("code")==200)
+							{
+								serverResponse(ResponseStatus.SUCCESS);
 							}
-
-						} catch (JSONException e) {
+							else
+							{
+								serverResponse(ResponseStatus.FAILED);
+							}
+						}
+						catch (JSONException e)
+						{
+							Toast.makeText(Interests.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
 							e.printStackTrace();
 						}
 
@@ -149,10 +134,12 @@ public class Interests extends AppCompatActivity
 						hideProgressDialog();
 					}
 				},
-				new Response.ErrorListener() {
+				new Response.ErrorListener()
+				{
 					@Override
-					public void onErrorResponse(VolleyError error) {
-						Toast.makeText(Interests.this,error.toString(),Toast.LENGTH_LONG).show();
+					public void onErrorResponse(VolleyError error)
+					{
+						Toast.makeText(Interests.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
 						hideProgressDialog();
 					}
 				}){
@@ -163,7 +150,6 @@ public class Interests extends AppCompatActivity
 				params.put("interests",interests_post_data);
 				return params;
 			}
-
 		};
 
 		RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -171,11 +157,12 @@ public class Interests extends AppCompatActivity
 
 	}
 
-	public void interests_status(ResponseStatus status){
+	public void serverResponse(ResponseStatus status){
 		switch (status)
 		{
 			case SUCCESS:
-				AppUserModel.MAIN_USER.saveAppUser(Interests.this);
+				appUserModel.saveAppUser(Interests.this);
+				AppUserModel.MAIN_USER=appUserModel;
 
 				SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
 				editor.putBoolean("Skip",false);
@@ -186,7 +173,6 @@ public class Interests extends AppCompatActivity
 					Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
 					Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
 				}
-				//Check if it works as not part of bundle=================
 				if(getIntent().getExtras().getBoolean("Start_Home",true))
 					startActivity(new Intent(Interests.this, Home.class));
 				else

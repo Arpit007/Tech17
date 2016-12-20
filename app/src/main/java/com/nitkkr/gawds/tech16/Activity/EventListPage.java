@@ -16,6 +16,7 @@ public class EventListPage extends AppCompatActivity
 {
 	private ActionBarNavDrawer barNavDrawer;
 	private EventListPagerAdapter adapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -27,7 +28,6 @@ public class EventListPage extends AppCompatActivity
 			@Override
 			public void NavButtonClicked()
 			{
-
 			}
 
 			@Override

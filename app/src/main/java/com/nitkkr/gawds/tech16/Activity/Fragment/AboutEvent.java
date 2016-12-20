@@ -14,13 +14,13 @@ import com.nitkkr.gawds.tech16.R;
 /**
  * Created by Dell on 18-Dec-16.
  */
-public class About_Fragment extends Fragment
+public class AboutEvent extends Fragment
 {
     private EventModel model;
 
-    public static About_Fragment getNewFragment(EventModel model)
+    public static AboutEvent getNewFragment(EventModel model)
     {
-        About_Fragment aboutFragment=new About_Fragment();
+        AboutEvent aboutFragment=new AboutEvent();
         aboutFragment.model=model;
         return aboutFragment;
     }
@@ -35,7 +35,7 @@ public class About_Fragment extends Fragment
     {
         View view= inflater.inflate(R.layout.fragment_about,container,false);
 
-        (( TextView)view.findViewById(R.id.Event_Content)).setText(model.getRules());
+        (( TextView)view.findViewById(R.id.Event_Content)).setText(model.getDescription());
 
         return view;
     }

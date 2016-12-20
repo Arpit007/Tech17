@@ -17,8 +17,7 @@ public class About extends AppCompatActivity
 		setContentView(R.layout.activity_about);
 
 		ActionBarBack actionBarBack=new ActionBarBack(About.this);
-		//--------------------------Set Label-------------------------------------------
-		actionBarBack.setLabel("About...");
+		actionBarBack.setLabel("About");
 	}
 
 	@Override

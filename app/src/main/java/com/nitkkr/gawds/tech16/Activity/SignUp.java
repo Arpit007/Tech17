@@ -31,7 +31,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.nitkkr.gawds.tech16.Helper.ActionBarSimple;
 import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.Model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -75,14 +74,14 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.sign_up);
+		setContentView(R.layout.activity_sign_up);
 
 		( (RadioButton) findViewById(R.id.signup_NitRadio) ).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 		{
 			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean b)
+			public void onCheckedChanged(CompoundButton compoundButton, boolean checked)
 			{
-				if (b)
+				if (checked)
 				{
 					findViewById(R.id.signup_OtherCollege).setVisibility(View.GONE);
 				}
@@ -102,9 +101,9 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Gender);
 		( (Spinner) findViewById(R.id.signup_gender) ).setAdapter(adapter2);
 
-		Typewriter signup_label=(Typewriter)findViewById(R.id.signup_label);
-		signup_label.animateText("   Sign up");
-		signup_label.setCharacterDelay(60);
+		Typewriter signupLabel=(Typewriter)findViewById(R.id.signup_label);
+		signupLabel.animateText("   Sign up");
+		signupLabel.setCharacterDelay(60);
 
 		//if user logged in first then if found new
 

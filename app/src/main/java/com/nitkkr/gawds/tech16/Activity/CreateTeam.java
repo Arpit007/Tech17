@@ -25,6 +25,7 @@ public class CreateTeam extends AppCompatActivity
 {
 	private RegisterTeamAdapter adapter;
 	private EventModel eventModel;
+	TeamModel model;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -37,7 +38,7 @@ public class CreateTeam extends AppCompatActivity
 		ActionBarBack actionBarBack=new ActionBarBack(CreateTeam.this);
 		actionBarBack.setLabel("Create Team");
 
-		TeamModel model=new TeamModel();
+		model=new TeamModel();
 		ArrayList<UserModel> userModels=new ArrayList<>();
 		userModels.add(AppUserModel.MAIN_USER);
 		model.setMembers(userModels);
@@ -46,13 +47,12 @@ public class CreateTeam extends AppCompatActivity
 
 		ListView listView=(ListView)findViewById(R.id.team_register_list);
 		listView.setAdapter(adapter);
-		//TODO---Change users left count on reg button
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				if(i!=adapter.getTeamModel().getMembers().size())
+				if(i!=adapter.getTeamModel().getMembers().size() && i!=0)
 				{
 					Intent intent=new Intent(CreateTeam.this,ViewUser.class);
 					Bundle bundle=new Bundle();
@@ -95,6 +95,7 @@ public class CreateTeam extends AppCompatActivity
 				intent.putExtra("Register",true);
 				setResult(RESULT_OK,intent);
 
+				eventModel.setNotify(true);
 				eventModel.setRegistered(true);
 				Database.database.getEventsDB().addOrUpdateEvent(eventModel);
 				Database.database.getNotificationDB().UpdateTable();

@@ -2,6 +2,7 @@ package com.nitkkr.gawds.tech16.Activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +33,7 @@ import com.nitkkr.gawds.tech16.Src.Typewriter;
 
 public class Splash extends AppCompatActivity
 {
+	boolean secondPermissionRequest=false;
 	private static final int STORAGE_PERMISSION_CODE =1 ;
 	private Handler handler = new Handler();
 	fetch_data f=fetch_data.getInstance();
@@ -55,13 +58,6 @@ public class Splash extends AppCompatActivity
 	{
 		public void run()
 		{
-			/*
-			TODO:FIX
-			//Starting Database  No Fetching
-			//=================FIRST COMMAND, DO NOT REMOVE==================================
-			Database database=new Database(getApplicationContext());
-			Log.d("Instance: ",database.toString() +" Started");
-			*/
 			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
 			if(!ActivityHelper.isDebugMode(getApplicationContext()))
@@ -74,15 +70,15 @@ public class Splash extends AppCompatActivity
 			}
 			else
 			{
+				/*
 				Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler()
 				{
 					@Override
 					public void uncaughtException(Thread thread, Throwable throwable)
 					{
-						//throwable.printStackTrace();
-
+						throwable.printStackTrace();
 					}
-				});
+				});*/
 			}
 
 			CheckUpdate.getInstance().checkForUpdate(getApplicationContext());
@@ -93,16 +89,10 @@ public class Splash extends AppCompatActivity
 			SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
 			boolean Skip=preferences.getBoolean("Skip",false);
 
-			//fetch events in background
-			//and store it in table and update the existing ones
-
-
-			//if skip or logged in
 			if(Skip)
 			{
 				startActivity(new Intent(Splash.this,Home.class));
 				f.fetch_events(getBaseContext());
-
 			}
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
 				startActivity(new Intent(Splash.this,Login.class));
@@ -156,46 +146,54 @@ public class Splash extends AppCompatActivity
 		runAnimationUp.start();
 		splashTypewriter.animateText("        Techspardha");
 
-		//First checking if the app is already having the permission
-		if(isReadStorageAllowed()){
-
-			Database database=new Database(getApplicationContext());
-			Log.d("Instance: ",database.toString() +" Started");
-			start_app();
-		}else{
-			//If the app has not the permission then asking for the permission
-			requestStoragePermission();
+		if(!isReadStorageAllowed())
+		{
+			ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
 		}
-
-
-
+		else start_app();
 	}
-	private boolean isReadStorageAllowed() {
+
+	private boolean isReadStorageAllowed()
+	{
 		//Getting the permission status
 		int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
 		//If permission is granted returning true
-		if (result == PackageManager.PERMISSION_GRANTED)
-			return true;
-
-		//If permission is not granted returning false
-		return false;
+		return result == PackageManager.PERMISSION_GRANTED;
 	}
 
-	//Requesting permission
-	private void requestStoragePermission(){
+	private void requestStoragePermission()
+	{
+		if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE))
+		{
+			final AlertDialog.Builder builder = new AlertDialog.Builder(Splash.this);
+			builder.setCancelable(false);
+			builder.setTitle("Permission Request");
+			builder.setMessage("SD Card Write Permission Needed for App's Functioning");
+			builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i)
+				{
+					dialogInterface.dismiss();
+					secondPermissionRequest=true;
+					ActivityCompat.requestPermissions(Splash.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
+				}
+			});
+		}
+	}
 
-		if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-			//If the user has denied the permission previously your code will come to this block
-			//Here you can explain why you need this permission
-			//Explain here why you need this permission
+	public void start_app()
+	{
+		if(!isReadStorageAllowed())
+		{
+			Toast.makeText(getApplicationContext(),"Failed to Get Write Permissions",Toast.LENGTH_LONG).show();
+			finish();
+			System.exit(-1);
 		}
 
-		//And finally ask for the permission
-		ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
-	}
-
-	public void start_app(){
+		Database database=new Database(getApplicationContext());
+		Log.d("Instance: ",database.toString() +" Started");
 
 		final Thread timerThread = new Thread()
 		{
@@ -209,8 +207,22 @@ public class Splash extends AppCompatActivity
 	}
 
 	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+	{
+		switch (requestCode)
+		{
+			case STORAGE_PERMISSION_CODE:
+				if(isReadStorageAllowed())
+					start_app();
+				else if(!secondPermissionRequest)
+					requestStoragePermission();
+				break;
+		}
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	}
+
+	@Override
 	public void onBackPressed()
 	{
-		return;
 	}
 }

@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.Model.CoordinatorModel;
@@ -19,14 +20,19 @@ public class CoordinatorAdapter extends RecyclerView.Adapter<CoordinatorAdapter.
 {
     private List<CoordinatorModel> coordinatorModelList;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder
+    {
         public TextView name,email,mobile;
+        public ImageView callImg, emailImg;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view)
+        {
             super(view);
             name = (TextView) view.findViewById(R.id.Coordinator_Name);
             email = (TextView) view.findViewById(R.id.Coordinator_Email);
             mobile = (TextView) view.findViewById(R.id.Coordinator_Number);
+            callImg=(ImageView)view.findViewById(R.id.imageView12);
+            emailImg=(ImageView)view.findViewById(R.id.imageView13);
         }
 
     }
@@ -45,12 +51,36 @@ public class CoordinatorAdapter extends RecyclerView.Adapter<CoordinatorAdapter.
     }
 
     @Override
-    public void onBindViewHolder(CoordinatorAdapter.MyViewHolder holder, int position)
+    public void onBindViewHolder(CoordinatorAdapter.MyViewHolder holder, final int position)
     {
         CoordinatorModel coordinatorModel=coordinatorModelList.get(position);
         holder.email.setText(coordinatorModel.getEmail());
         holder.mobile.setText(coordinatorModel.getMobile());
         holder.name.setText(coordinatorModel.getName());
+
+        View.OnClickListener emailListener=new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                coordinatorModelList.get(position).EmailCoordinator(view.getContext());
+            }
+        };
+
+        View.OnClickListener callListener=new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                coordinatorModelList.get(position).CallCoordinator(view.getContext());
+            }
+        };
+
+        holder.email.setOnClickListener(emailListener);
+        holder.emailImg.setOnClickListener(emailListener);
+
+        holder.callImg.setOnClickListener(callListener);
+        holder.mobile.setOnClickListener(callListener);
     }
 
 

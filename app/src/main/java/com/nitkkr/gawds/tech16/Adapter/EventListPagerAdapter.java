@@ -14,7 +14,7 @@ import com.nitkkr.gawds.tech16.Activity.Fragment.RegisteredEventList;
 public class EventListPagerAdapter extends FragmentStatePagerAdapter
 {
 	private int mNumOfTabs;
-	private AllEventList allEventListist=new AllEventList();
+	private AllEventList allEventList =new AllEventList();
 	private RegisteredEventList registeredEventList=new RegisteredEventList();
 
 	public EventListPagerAdapter(FragmentManager fm, int NumOfTabs) {
@@ -27,7 +27,7 @@ public class EventListPagerAdapter extends FragmentStatePagerAdapter
 	{
 		switch (position) {
 			case 0:
-				return allEventListist;
+				return allEventList;
 			case 1:
 				return registeredEventList;
 			default:
@@ -42,7 +42,7 @@ public class EventListPagerAdapter extends FragmentStatePagerAdapter
 
 	public void Filter(String Query)
 	{
-		allEventListist.SearchQuery(Query);
+		allEventList.SearchQuery(Query);
 		registeredEventList.SearchQuery(Query);
 	}
 

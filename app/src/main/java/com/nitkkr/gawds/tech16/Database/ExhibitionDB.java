@@ -22,8 +22,22 @@ import java.util.List;
  * Created by Home Laptop on 18-Dec-16.
  */
 
-public class ExhibitionDB extends SQLiteOpenHelper
+public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 {
+	@Override
+	public void deleteTable()
+	{
+		String Query="DROP TABLE " + DbConstants.Constants.getExhibitionTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
+	@Override
+	public void resetTable()
+	{
+		String Query="UPDATE " + DbConstants.Constants.getExhibitionTableName()+ " SET " + DbConstants.ExhibitionNames.Notify.Name() + " = 0;";
+		dbRequest.getDatabase().rawQuery(Query,null);
+	}
+
 	private iDbRequest dbRequest;
 
 
@@ -187,6 +201,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 	{
 		return getExhibitions(DbConstants.ExhibitionNames.Notify.Name() + " = 1");
 	}
+
 	public ArrayList<ExhibitionModel> getAllExhibitions()
 	{
 		return getExhibitions("");
@@ -200,7 +215,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 	public EventKey getExhibitionKey(int ID)
 	{
 		String Query = "SELECT " + DbConstants.ExhibitionNames.EventName.Name() + ", " + DbConstants.ExhibitionNames.EventID.Name() + ", "+
-				DbConstants.ExhibitionNames.Notify.Name() + ", FROM " + DbConstants.Constants.getExhibitionTableName() + " WHERE " +
+				DbConstants.ExhibitionNames.Notify.Name() + " FROM " + DbConstants.Constants.getExhibitionTableName() + " WHERE " +
 				DbConstants.ExhibitionNames.EventID.Name() + " = " + ID + ";";
 		Log.d("Query:\t",Query);
 
@@ -246,7 +261,7 @@ public class ExhibitionDB extends SQLiteOpenHelper
 	{
 		ArrayList<EventKey> keys = new ArrayList<>();
 		String Query = "SELECT " + DbConstants.ExhibitionNames.EventName.Name() + ", " + DbConstants.ExhibitionNames.EventID.Name() + ", "+
-				DbConstants.ExhibitionNames.Notify.Name() + ", FROM " + DbConstants.Constants.getExhibitionTableName();
+				DbConstants.ExhibitionNames.Notify.Name() + " FROM " + DbConstants.Constants.getExhibitionTableName();
 		if (Clause.equals(""))
 		{
 			Query += ";";
@@ -317,11 +332,12 @@ public class ExhibitionDB extends SQLiteOpenHelper
 
 	public void deleteExhibition(int ID)
 	{
-		String Query = "DELETE FROM " + DbConstants.Constants.getExhibitionTableName() + " WHERE " + DbConstants.ExhibitionNames.EventID.Name() + "=" + ID + ";";
+		String Query = "DELETE FROM " + DbConstants.Constants.getExhibitionTableName() + " WHERE " + DbConstants.ExhibitionNames.EventID.Name() + " = " + ID + ";";
 		Log.d("Query:\t",Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
+	@Override
 	public String getTableName()
 	{
 		return DbConstants.Constants.getExhibitionTableName();
@@ -388,13 +404,14 @@ public class ExhibitionDB extends SQLiteOpenHelper
 			values.put(Event_Pdf,exhibition.getPdfLink());
 			values.put(Event_GTalk,exhibition.isGTalk());
 
-			if(database.update(TABLENAME,values, DbConstants.ExhibitionNames.EventID.Name() + " = "+exhibition.getEventID(),null)<1)
+			if(database.update(TABLENAME,values, Event_ID + " = " + exhibition.getEventID(),null)<1)
 			{
 				database.insert(TABLENAME,null,values);
 			}
 		}
 	}
 
+	@Override
 	public long getRowCount()
 	{
 		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getExhibitionTableName());

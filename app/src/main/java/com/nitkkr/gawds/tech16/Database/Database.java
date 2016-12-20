@@ -23,8 +23,6 @@ public class Database implements iDbRequest
 
 	public static Database database = null;
 
-	private Database(){}
-
 	public Database(Context context)
 	{
 		if(database!=null)
@@ -47,10 +45,7 @@ public class Database implements iDbRequest
 	@Override
 	public SQLiteDatabase getDatabase()
 	{
-		if(sqLiteDatabase ==null)
-			startDatabase(false);
-
-		if (!sqLiteDatabase.isOpen())
+		if(sqLiteDatabase ==null || !sqLiteDatabase.isOpen())
 			startDatabase(false);
 
 		return sqLiteDatabase;
@@ -72,13 +67,12 @@ public class Database implements iDbRequest
 
 	public void startDatabase(boolean Restart)
 	{
-		if(sqLiteDatabase!=null && sqLiteDatabase.isOpen() && Restart)
+		if(sqLiteDatabase!=null && (sqLiteDatabase.isOpen() || Restart))
 			sqLiteDatabase.close();
 
 		if (sqLiteDatabase == null)
 		{
 			sqLiteDatabase=SQLiteDatabase.openOrCreateDatabase(ActivityHelper.getApplicationContext().getDatabasePath(DbConstants.Constants.getDatabaseName()),null);
-
 		}
 		else if (!sqLiteDatabase.isOpen() || Restart)
 		{
@@ -100,7 +94,12 @@ public class Database implements iDbRequest
 
 	public void ResetTables()
 	{
-		//TODO:Implement
+		exhibitionDB.resetTable();
+		notificationDB.resetTable();
+		coordinatorDB.resetTable();
+		societyDB.resetTable();
+		interestDB.resetTable();
+		eventsDB.resetTable();
 	}
 
 
