@@ -44,8 +44,9 @@
         <TextView
             android:onClick="SignUp"
             android:text="@string/signup"
-            android:textColor="@color/text_color_primary"
+            android:textColor="@color/neon_green"
             android:textSize="15sp"
+            android:textStyle="bold"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
     </LinearLayout>

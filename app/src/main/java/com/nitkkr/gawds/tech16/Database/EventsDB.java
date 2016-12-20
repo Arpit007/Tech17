@@ -109,8 +109,8 @@ public class EventsDB extends SQLiteOpenHelper
 					event.setMaxUsers(cursor.getInt(ColumnIndex[10]));
 					event.setPdfLink(cursor.getString(ColumnIndex[11]));
 					event.setRegistered(cursor.getInt(ColumnIndex[12])!=0);
-					event.setSociety(cursor.getInt(ColumnIndex[13]));
-					event.setCategory(cursor.getInt(ColumnIndex[14]));
+					event.setSocietyId(cursor.getInt(ColumnIndex[13]));
+					event.setCategoryId(cursor.getInt(ColumnIndex[14]));
 
 					keys.add(event);
 				}
@@ -180,8 +180,8 @@ public class EventsDB extends SQLiteOpenHelper
 				event.setMaxUsers(cursor.getInt(ColumnIndex[10]));
 				event.setPdfLink(cursor.getString(ColumnIndex[11]));
 				event.setRegistered(cursor.getInt(ColumnIndex[12])!=0);
-				event.setSociety(cursor.getInt(ColumnIndex[13]));
-				event.setCategory(cursor.getInt(ColumnIndex[14]));
+				event.setSocietyId(cursor.getInt(ColumnIndex[13]));
+				event.setCategoryId(cursor.getInt(ColumnIndex[14]));
 			}
 		}
 		catch (Exception e)
@@ -248,7 +248,7 @@ public class EventsDB extends SQLiteOpenHelper
 				key.setEventName(cursor.getString(ColumnIndex[0]));
 				key.setEventID(cursor.getInt(ColumnIndex[1]));
 				key.setNotify(cursor.getInt(ColumnIndex[2]) != 0);
-				key.setSociety(cursor.getInt(ColumnIndex[3]));
+				key.setSocietyId(cursor.getInt(ColumnIndex[3]));
 			}
 		}
 		catch (Exception e)
@@ -304,7 +304,7 @@ public class EventsDB extends SQLiteOpenHelper
 					key.setEventName(cursor.getString(ColumnIndex[0]));
 					key.setEventID(cursor.getInt(ColumnIndex[1]));
 					key.setNotify(cursor.getInt(ColumnIndex[2]) != 0);
-					key.setSociety(cursor.getInt(ColumnIndex[3]));
+					key.setSocietyId(cursor.getInt(ColumnIndex[3]));
 					keys.add(key);
 				}
 				while (cursor.moveToNext());
@@ -370,8 +370,8 @@ public class EventsDB extends SQLiteOpenHelper
 		values.put(DbConstants.EventNames.MaxUser.Name(),event.getMaxUsers());
 		values.put(DbConstants.EventNames.Pdf.Name(),event.getPdfLink());
 		values.put(DbConstants.EventNames.Registered.Name(),event.isRegistered());
-		values.put(DbConstants.EventNames.Society.Name(),event.getSociety());
-		values.put(DbConstants.EventNames.Category.Name(),event.getCategory());
+		values.put(DbConstants.EventNames.Society.Name(),event.getSocietyId());
+		values.put(DbConstants.EventNames.Category.Name(),event.getCategoryId());
 
 		if(database.update(DbConstants.Constants.getEventsTableName(),values, DbConstants.EventNames.EventID.Name() + " = "+event.getEventID(),null)<1)
 		{
@@ -424,8 +424,8 @@ public class EventsDB extends SQLiteOpenHelper
 			values.put(Event_MaxUser,event.getMaxUsers());
 			values.put(Event_Pdf,event.getPdfLink());
 			values.put(Event_Registered,event.isRegistered());
-			values.put(Event_Society,event.getSociety());
-			values.put(Event_Category,event.getCategory());
+			values.put(Event_Society,event.getSocietyId());
+			values.put(Event_Category,event.getCategoryId());
 
 			if(database.update(TABLENAME,values, DbConstants.EventNames.EventID.Name() + " = "+event.getEventID(),null)<1)
 			{

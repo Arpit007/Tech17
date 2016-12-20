@@ -17,7 +17,7 @@ public class EventKey implements Serializable
 
 	//Change ID from int to String
 
-	public int getSociety(){return Society;}
+	public int getSocietyId(){return Society;}
 	public int getEventID()
 	{
 		return EventID;
@@ -27,7 +27,7 @@ public class EventKey implements Serializable
 		return Name;
 	}
 
-	public void setSociety(int society){this.Society = society;}
+	public void setSocietyId(int societyId){this.Society = societyId;}
 	public void setEventID(int ID)
 	{
 		this.EventID = ID;

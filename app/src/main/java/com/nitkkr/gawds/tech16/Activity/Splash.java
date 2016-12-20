@@ -122,10 +122,12 @@ public class Splash extends AppCompatActivity
 					if (grantResults.length > 0
 							&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-						Database database=new Database(getApplicationContext());
-						Log.d("Instance: ",database.toString() +" Started");
+						//Database database=new Database(getApplicationContext());
+						//Log.d("Instance: ",database.toString() +" Started");
+
 
 					} else {
+
 
 						// permission denied, boo! Disable the
 						// functionality that depends on this permission.
@@ -174,10 +176,11 @@ public class Splash extends AppCompatActivity
 		//First checking if the app is already having the permission
 		if(isReadStorageAllowed()){
 
-			Database database=new Database(getApplicationContext());
-			Log.d("Instance: ",database.toString() +" Started");
+			//Database database=new Database(getApplicationContext());
+			//Log.d("Instance: ",database.toString() +" Started");
 			start_app();
 		}else{
+
 			//If the app has not the permission then asking for the permission
 			requestStoragePermission();
 		}

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public class EventModel extends BaseEventModel implements Serializable
 {
+
+
 	public enum EventStatus {
 		None,
 		Upcoming,
@@ -30,10 +32,21 @@ public class EventModel extends BaseEventModel implements Serializable
 	private String Rules;
 	private int MinUsers;
 	private int MaxUsers;
-	private int TotalRounds = 0;
+	private int Id;
+	private String Name;
+    private String Description;
+	private String Venue;
+	private String Start;
+	private String End;
 	private int CurrentRound = 0;
-	private int Society;
-	private int Category;
+	private int MaxContestants;
+	private int TotalRounds = 0;
+
+
+	private String Status;
+	private int SocietyId;
+	private int CategoryId;
+	private String Pdf;
 	private boolean Registered = false;
 	private com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status= com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.None;
 	private ArrayList<RoundResultModel> Result;
@@ -42,8 +55,8 @@ public class EventModel extends BaseEventModel implements Serializable
 	private EventStatusListener listener;
 
 
-	public int getCategory(){return Category;}
-	public int getSociety(){return Society;}
+	public int getCategoryId(){return CategoryId;}
+	public int getSocietyId(){return SocietyId;}
 	public String getRules(){return Rules;}
 	public int getMinUsers(){return MinUsers;}
 	public int getMaxUsers(){return MaxUsers;}
@@ -72,9 +85,12 @@ public class EventModel extends BaseEventModel implements Serializable
 	}
 
 
+
 	public void setListener(EventStatusListener listener){this.listener=listener;}
-	public void setCategory(int category){Category = category;}
-	public void setSociety(int society){Society = society;}
+	public void setCategoryId(int categoryId){
+		CategoryId = categoryId;}
+	public void setSocietyId(int societyId){
+		SocietyId = societyId;}
 	public void setRules(String rules){Rules=rules;}
 	public void setMaxUsers(int maxUsers){MaxUsers=maxUsers;}
 	public void setMinUsers(int minUsers){MinUsers=minUsers;}
@@ -97,6 +113,81 @@ public class EventModel extends BaseEventModel implements Serializable
 	public boolean isSingleEvent(){return (MinUsers==MaxUsers && MinUsers==1);}
 	public boolean isGroupEvent(){return !isSingleEvent();}
 	public boolean isVariableGroupEvent(){return MinUsers!=MaxUsers;}
+
+	public EventStatus getStatus() {
+		return status;
+	}
+	public int getMaxContestants() {
+		return MaxContestants;
+	}
+
+	public void setMaxContestants(int maxContestants) {
+		MaxContestants = maxContestants;
+	}
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+
+	public String getName() {
+		return Name;
+	}
+
+	public void setName(String name) {
+		Name = name;
+	}
+
+	public String getPdf() {
+		return Pdf;
+	}
+
+	public void setPdf(String pdf) {
+		Pdf = pdf;
+	}
+
+	@Override
+	public String getDescription() {
+		return Description;
+	}
+
+	@Override
+	public void setDescription(String description) {
+		Description = description;
+	}
+	@Override
+	public String getVenue() {
+		return Venue;
+	}
+
+	@Override
+	public void setVenue(String venue) {
+		Venue = venue;
+	}
+
+	public String getStart() {
+		return Start;
+	}
+
+	public void setStart(String start) {
+		Start = start;
+	}
+
+	public String getEnd() {
+		return End;
+	}
+
+	public void setEnd(String end) {
+		End = end;
+	}
+
+	public void setStatus(String status) {
+		Status = status;
+	}
+
+
 
 
 	public void setRoundLive() {
