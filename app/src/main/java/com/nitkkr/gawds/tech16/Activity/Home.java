@@ -40,9 +40,9 @@ public class Home extends AppCompatActivity
 		barNavDrawer.setOpenNewSearchPage(true);
 
 
-		if(CheckUpdate.CHECK_UPDATE.isUpdateAvailable() && CheckUpdate.CHECK_UPDATE.displayUpdate(Home.this));
-		else if(RateApp.rateApp.isReadyForRating(Home.this))
-					RateApp.rateApp.displayRating(Home.this);
+		if(CheckUpdate.getInstance().isUpdateAvailable() && CheckUpdate.getInstance().displayUpdate(Home.this));
+		else if(RateApp.getInstance().isReadyForRating(Home.this))
+					RateApp.getInstance().displayRating(Home.this);
 
 
 

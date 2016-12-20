@@ -71,9 +71,9 @@ public class Splash extends AppCompatActivity
 				});
 			}
 
-			CheckUpdate.CHECK_UPDATE.checkForUpdate(getApplicationContext());
+			CheckUpdate.getInstance().checkForUpdate(getApplicationContext());
 
-			RateApp.rateApp.incrementAppStartCount(getApplicationContext());
+			RateApp.getInstance().incrementAppStartCount(getApplicationContext());
 
 			SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
 			boolean Skip=preferences.getBoolean("Skip",false);

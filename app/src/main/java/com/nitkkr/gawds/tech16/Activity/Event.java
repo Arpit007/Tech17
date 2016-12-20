@@ -141,25 +141,30 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			});
 		}
 
-		findViewById(R.id.Event_Pdf).setOnClickListener(new View.OnClickListener()
+		final Button PdfButton=(Button)findViewById(R.id.Event_Pdf);
+		PdfButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
 			{
-				if(PdfHelper.pdfHelper.isPdfExisting(model.getPdfLink()))
+				if(PdfHelper.getInstance().isPdfExisting(model.getPdfLink()))
 				{
-					PdfHelper.pdfHelper.viewPdfIfExists(model.getPdfLink(),Event.this);
+					PdfHelper.getInstance().viewPdfIfExists(model.getPdfLink(),Event.this);
 				}
 				else
 				{
-					PdfHelper.pdfHelper.DownloadPdf(model.getPdfLink(), new PdfHelper.iCallback()
+					PdfButton.setText("Downloading");
+					PdfButton.setEnabled(false);
+
+					PdfHelper.getInstance().DownloadPdf(model.getPdfLink(), new PdfHelper.iCallback()
 					{
 						@Override
 						public void DownloadComplete(String url, ResponseStatus status)
 						{
 							if (status==ResponseStatus.SUCCESS)
-								( (Button) findViewById(R.id.Event_Pdf) ).setText("View Pdf");
-							else ( (Button) findViewById(R.id.Event_Register) ).setText("Download as PDF");
+								PdfButton.setText("View Pdf");
+							else PdfButton.setText("Download as PDF");
+							PdfButton.setEnabled(true);
 						}
 					},Event.this);
 				}
@@ -234,6 +239,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else
 		{
+			PdfHelper.getInstance().removeListener(model.getPdfLink());
 			if(ActivityHelper.revertToHomeIfLast(Event.this))
 				return;
 			super.onBackPressed();
@@ -263,12 +269,23 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			(( TextView)findViewById(R.id.Event_Members)).setText(Text);
 		}
 
-		if(PdfHelper.pdfHelper.isPdfExisting(model.getPdfLink()))
+		Button PdfButton=(Button)findViewById(R.id.Event_Pdf);
+
+		if(PdfHelper.getInstance().isPdfExisting(model.getPdfLink()))
 		{
-			( (Button) findViewById(R.id.Event_Pdf) ).setText("View Pdf");
+			PdfButton.setText("View Pdf");
+			PdfButton.setEnabled(true);
+		}
+		else if (PdfHelper.getInstance().isPdfDownloading(model.getPdfLink()))
+		{
+			PdfButton.setText("Downloading");
+			PdfButton.setEnabled(false);
 		}
 		else
-			( (Button) findViewById(R.id.Event_Register) ).setText("Download as PDF");
+		{
+			PdfButton.setText("Download as PDF");
+			PdfButton.setEnabled(true);
+		}
 
 
 		actionBar.setLabel(model.getEventName());

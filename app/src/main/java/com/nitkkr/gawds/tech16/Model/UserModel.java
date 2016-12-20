@@ -21,6 +21,9 @@ public class UserModel implements iUserModel, Serializable
 	private int ImageId=-1;
 	private boolean useGoogleImage=true;
 
+	public String getToken() {
+		return token;
+	}
 	public String getName() {return Name;}
 	public String getEmail(){return Email;}
 	public String getRoll(){return Roll;}
@@ -29,6 +32,10 @@ public class UserModel implements iUserModel, Serializable
 	public String getBranch(){return Branch;}
 	public String getImageResource(){return imageResourceURL;}
 	public int getImageId(){return ImageId;}
+	public String getYear() {return year;}
+	public String getGender() {
+		return Gender;
+	}
 	public boolean isUseGoogleImage(){return useGoogleImage;}
 
 	public void setName(String name){Name = name;}
@@ -40,28 +47,7 @@ public class UserModel implements iUserModel, Serializable
 	public void setImageResource(String imageResource){this.imageResourceURL=imageResource;}
 	public void setImageId(int imageId){ImageId=imageId;}
 	public void  setUseGoogleImage(boolean useGoogleImage){this.useGoogleImage=useGoogleImage;}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public String getGender() {
-		return Gender;
-	}
-
-	public void setGender(String gender) {
-		Gender = gender;
-	}
-
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
-	}
+	public void setToken(String token) {this.token = token;}
+	public void setGender(String gender) {Gender = gender;}
+	public void setYear(String year) {this.year = year;}
 }

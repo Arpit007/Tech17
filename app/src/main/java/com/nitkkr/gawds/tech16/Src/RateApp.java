@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
+import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.Calendar;
@@ -18,9 +19,10 @@ import java.util.Date;
 
 public class RateApp
 {
-	public static RateApp rateApp=new RateApp();
+	private static RateApp rateApp=new RateApp();
 
-	//No new Class Instance
+	public static RateApp getInstance(){return rateApp;}
+
 	private RateApp(){}
 
 	public void incrementAppStartCount(Context context)
@@ -29,56 +31,67 @@ public class RateApp
 		final SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
 
 		long count=preferences.getLong("AppStartCount",0);
+		long maxCount=preferences.getLong("MaxCount",context.getResources().getInteger(R.integer.AppStartCount));
+
 		count++;
+
 		editor.putLong("AppStartCount",count);
+		editor.putLong("MaxCount",maxCount);
+
 		editor.apply();
 	}
 
 	public boolean isReadyForRating(Context context)
 	{
 		final SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
-		long _date=preferences.getLong("Rate_Date",new Date().getTime());
+		long MaxCount=preferences.getLong("MaxCount",context.getResources().getInteger(R.integer.AppStartCount));
 
-		if(_date==0)
+		if(MaxCount==-1)
 			return false;
 
-		final Date date=new Date(_date);
-
 		long count=preferences.getLong("AppStartCount",0);
-		if(count>context.getResources().getInteger(R.integer.AppStartCount) && !date.after(new Date()))
-			return true;
-		return false;
+
+		return count >= MaxCount;
 	}
 
 	public void displayRating(final Context context)
 	{
+
+		if (!ActivityHelper.isInternetConnected())
+			return;
+
 		final SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
+		final SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
 
 		AlertDialog.Builder builder=new AlertDialog.Builder(context);
 		builder.setCancelable(false);
+
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i)
 			{
 
-				editor.putLong("Rate_Date",0);
+				editor.putLong("MaxCount",-1);
 				editor.apply();
 
 				Intent intent=new Intent(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse("market://details?id="+context.getPackageName()));
 				context.startActivity(intent);
+
+				dialogInterface.dismiss();
 			}
 		});
+
 		builder.setNegativeButton("Later", new DialogInterface.OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i)
 			{
-				Calendar calendar=Calendar.getInstance();
-				calendar.setTime(new Date());
-				calendar.add(Calendar.DATE,context.getResources().getInteger(R.integer.LaterRateDays));
-				editor.putLong("Rate_Date",calendar.getTime().getTime());
+				long MaxCount=preferences.getLong("MaxCount",context.getResources().getInteger(R.integer.AppStartCount));
+				MaxCount+=context.getResources().getInteger(R.integer.AppStartCount);
+
+				editor.putLong("MaxCount",MaxCount);
 				editor.apply();
 				dialogInterface.dismiss();
 			}

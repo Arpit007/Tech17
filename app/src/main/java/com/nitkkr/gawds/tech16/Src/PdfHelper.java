@@ -33,7 +33,9 @@ public class PdfHelper
 	/* TODO:Generate Notifications */
 	HashMap<String, iCallback> Downloading;
 
-	public static PdfHelper pdfHelper=new PdfHelper();
+	private static PdfHelper pdfHelper=new PdfHelper();
+
+	public static PdfHelper getInstance(){return pdfHelper;}
 
 	private PdfHelper(){
 		Downloading = new HashMap<>();
@@ -86,7 +88,7 @@ public class PdfHelper
 
 		if(!ActivityHelper.isInternetConnected())
 		{
-			Toast.makeText(context, "No Connection Available",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "No Internet Connection",Toast.LENGTH_SHORT).show();
 			return false;
 		}
 
@@ -109,10 +111,17 @@ public class PdfHelper
 
 								Toast.makeText(getApplicationContext(), getFileName(url)+" Downloaded", Toast.LENGTH_LONG).show();
 
-								iCallback call=Downloading.get(getFileName(url));
-								Downloading.remove(getFileName(url));
-								if(call!=null)
-									call.DownloadComplete(url,ResponseStatus.SUCCESS);
+								try
+								{
+									iCallback call = Downloading.get(getFileName(url));
+									Downloading.remove(getFileName(url));
+									if (call != null)
+										call.DownloadComplete(url, ResponseStatus.SUCCESS);
+								}
+								catch (Exception e)
+								{
+									e.printStackTrace();
+								}
 							}
 							else throw new Exception("No Response");
 						}
@@ -120,10 +129,17 @@ public class PdfHelper
 						{
 							Toast.makeText(getApplicationContext(), getFileName(url)+" Download Failed", Toast.LENGTH_LONG).show();
 
-							iCallback call=Downloading.get(getFileName(url));
-							Downloading.remove(getFileName(url));
-							if(call!=null)
-								call.DownloadComplete(url,ResponseStatus.FAILED);
+							try
+							{
+								iCallback call = Downloading.get(getFileName(url));
+								Downloading.remove(getFileName(url));
+								if (call != null)
+									call.DownloadComplete(url, ResponseStatus.FAILED);
+							}
+							catch (Exception ex)
+							{
+								ex.printStackTrace();
+							}
 
 							Log.d("KEY_ERROR", "UNABLE TO DOWNLOAD FILE");
 							e.printStackTrace();
@@ -137,10 +153,17 @@ public class PdfHelper
 					{
 						Toast.makeText(getApplicationContext(), getFileName(url)+" Download Failed", Toast.LENGTH_LONG).show();
 
-						iCallback call=Downloading.get(getFileName(url));
-						Downloading.remove(getFileName(url));
-						if(call!=null)
-							call.DownloadComplete(url,ResponseStatus.FAILED);
+						try
+						{
+							iCallback call = Downloading.get(getFileName(url));
+							Downloading.remove(getFileName(url));
+							if (call != null)
+								call.DownloadComplete(url, ResponseStatus.FAILED);
+						}
+						catch (Exception e)
+						{
+							e.printStackTrace();
+						}
 
 						Log.d("KEY_ERROR", "UNABLE TO DOWNLOAD FILE");
 						error.printStackTrace();
@@ -168,8 +191,14 @@ public class PdfHelper
 			context.startActivity(intent);
 		} catch (Exception e)
 		{
-			Toast.makeText(context,"Install a Pdf File Viewer",Toast.LENGTH_LONG).show();
+			Toast.makeText(context,"Install a Pdf Viewer",Toast.LENGTH_LONG).show();
 		}
+	}
+
+	public void removeListener(String url)
+	{
+		if(isPdfDownloading(url))
+			Downloading.put(getFileName(url),null);
 	}
 
 }
