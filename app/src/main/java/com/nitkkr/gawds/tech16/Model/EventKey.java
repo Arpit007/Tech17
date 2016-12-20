@@ -1,7 +1,5 @@
 package com.nitkkr.gawds.tech16.Model;
 
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 
 /**
@@ -14,8 +12,6 @@ public class EventKey implements Serializable
 	private int EventID;
 	private boolean Notify;
 	private int Society=0;
-
-	//Change ID from int to String
 
 	public int getSociety(){return Society;}
 	public int getEventID()
@@ -44,13 +40,5 @@ public class EventKey implements Serializable
 	public boolean isNotify()
 	{
 		return Notify;
-	}
-
-	public EventKey(){}
-	public EventKey(@NonNull  String name, int id, boolean notify)
-	{
-		Name = name;
-		EventID=id;
-		Notify=notify;
 	}
 }

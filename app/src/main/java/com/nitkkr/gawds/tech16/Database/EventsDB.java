@@ -81,7 +81,6 @@ public class EventsDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.EventNames.ImageUrl.Name()),
 							Columns.indexOf(DbConstants.EventNames.EndDate.Name()),
 							Columns.indexOf(DbConstants.EventNames.Rules.Name()),
-							Columns.indexOf(DbConstants.EventNames.MinUser.Name()),
 							Columns.indexOf(DbConstants.EventNames.MaxUser.Name()),
 							Columns.indexOf(DbConstants.EventNames.Pdf.Name()),
 							Columns.indexOf(DbConstants.EventNames.Registered.Name()),
@@ -105,12 +104,11 @@ public class EventsDB extends SQLiteOpenHelper
 					event.setImage_URL(cursor.getString(ColumnIndex[6]));
 					event.setEventEndDate(cursor.getLong(ColumnIndex[7]));
 					event.setRules(cursor.getString(ColumnIndex[8]));
-					event.setMinUsers(cursor.getInt(ColumnIndex[9]));
-					event.setMaxUsers(cursor.getInt(ColumnIndex[10]));
-					event.setPdfLink(cursor.getString(ColumnIndex[11]));
-					event.setRegistered(cursor.getInt(ColumnIndex[12])!=0);
-					event.setSociety(cursor.getInt(ColumnIndex[13]));
-					event.setCategory(cursor.getInt(ColumnIndex[14]));
+					event.setMaxUsers(cursor.getInt(ColumnIndex[9]));
+					event.setPdfLink(cursor.getString(ColumnIndex[10]));
+					event.setRegistered(cursor.getInt(ColumnIndex[11])!=0);
+					event.setSociety(cursor.getInt(ColumnIndex[12]));
+					event.setCategory(cursor.getInt(ColumnIndex[13]));
 
 					keys.add(event);
 				}
@@ -155,7 +153,6 @@ public class EventsDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.EventNames.ImageUrl.Name()),
 							Columns.indexOf(DbConstants.EventNames.EndDate.Name()),
 							Columns.indexOf(DbConstants.EventNames.Rules.Name()),
-							Columns.indexOf(DbConstants.EventNames.MinUser.Name()),
 							Columns.indexOf(DbConstants.EventNames.MaxUser.Name()),
 							Columns.indexOf(DbConstants.EventNames.Pdf.Name()),
 							Columns.indexOf(DbConstants.EventNames.Registered.Name()),
@@ -176,12 +173,11 @@ public class EventsDB extends SQLiteOpenHelper
 				event.setImage_URL(cursor.getString(ColumnIndex[6]));
 				event.setEventEndDate(cursor.getLong(ColumnIndex[7]));
 				event.setRules(cursor.getString(ColumnIndex[8]));
-				event.setMinUsers(cursor.getInt(ColumnIndex[9]));
-				event.setMaxUsers(cursor.getInt(ColumnIndex[10]));
-				event.setPdfLink(cursor.getString(ColumnIndex[11]));
-				event.setRegistered(cursor.getInt(ColumnIndex[12])!=0);
-				event.setSociety(cursor.getInt(ColumnIndex[13]));
-				event.setCategory(cursor.getInt(ColumnIndex[14]));
+				event.setMaxUsers(cursor.getInt(ColumnIndex[9]));
+				event.setPdfLink(cursor.getString(ColumnIndex[10]));
+				event.setRegistered(cursor.getInt(ColumnIndex[11])!=0);
+				event.setSociety(cursor.getInt(ColumnIndex[12]));
+				event.setCategory(cursor.getInt(ColumnIndex[13]));
 			}
 		}
 		catch (Exception e)
@@ -366,7 +362,6 @@ public class EventsDB extends SQLiteOpenHelper
 		values.put(DbConstants.EventNames.ImageUrl.Name(),event.getImage_URL());
 		values.put(DbConstants.EventNames.EndDate.Name(),event.getEventEndDate());
 		values.put(DbConstants.EventNames.Rules.Name(),event.getRules());
-		values.put(DbConstants.EventNames.MinUser.Name(),event.getMinUsers());
 		values.put(DbConstants.EventNames.MaxUser.Name(),event.getMaxUsers());
 		values.put(DbConstants.EventNames.Pdf.Name(),event.getPdfLink());
 		values.put(DbConstants.EventNames.Registered.Name(),event.isRegistered());
@@ -400,7 +395,6 @@ public class EventsDB extends SQLiteOpenHelper
 		String Event_ImageURL= DbConstants.EventNames.ImageUrl.Name();
 		String Event_EndDate= DbConstants.EventNames.EndDate.Name();
 		String Event_Rules= DbConstants.EventNames.Rules.Name();
-		String Event_MinUser= DbConstants.EventNames.MinUser.Name();
 		String Event_MaxUser= DbConstants.EventNames.MaxUser.Name();
 		String Event_Pdf= DbConstants.EventNames.Pdf.Name();
 		String Event_Registered= DbConstants.EventNames.Registered.Name();
@@ -420,7 +414,6 @@ public class EventsDB extends SQLiteOpenHelper
 			values.put(Event_ImageURL,event.getImage_URL());
 			values.put(Event_EndDate,event.getEventEndDate());
 			values.put(Event_Rules,event.getRules());
-			values.put(Event_MinUser,event.getMinUsers());
 			values.put(Event_MaxUser,event.getMaxUsers());
 			values.put(Event_Pdf,event.getPdfLink());
 			values.put(Event_Registered,event.isRegistered());

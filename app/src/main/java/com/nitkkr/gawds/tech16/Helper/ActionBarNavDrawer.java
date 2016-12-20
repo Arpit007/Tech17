@@ -51,12 +51,10 @@ public class ActionBarNavDrawer
 
 	private iActionBar barNavDrawer;
 	private AppCompatActivity activity;
-	private int pageNavID;
 	private boolean openNewSearchPage=false;
 
 	private boolean NavigationItemSelected(MenuItem item)
 	{
-		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 		Intent intent;
 
@@ -65,22 +63,6 @@ public class ActionBarNavDrawer
 			if(activity instanceof Home)
 			{
 				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-				Window window = activity.getWindow();
-
-				int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-				if(currentapiVersion>= Build.VERSION_CODES.JELLY_BEAN) {
-					// Enable status bar translucency (requires API 19)
-
-					window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-							WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-				}else{
-					// Disable status bar translucency (requires API 19)
-					window.getAttributes().flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-					// Set a color (requires API 21)
-					window.setStatusBarColor(activity.getResources().getColor(R.color.action_bar_color));
-
-				}
 				drawer.closeDrawer(GravityCompat.START);
 				return true;
 			}
@@ -103,18 +85,17 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.nav_gusto_talks)
 		{
-			//TODO:Implement
-			Query query=new Query("============Implement===========", Query.QueryType.SQl, Query.QueryTargetType.GuestTalk);
+			Query query=new Query(null, Query.QueryType.SQl, Query.QueryTargetType.GuestTalk);
 			startListActivity(activity,activity.getString(R.string.Guest_Talks),query);
 		}
 		else if (id == R.id.nav_informals)
 		{
-			Query query=new Query("============Implement===========", Query.QueryType.SQl, Query.QueryTargetType.Informals);
+			Query query=new Query(null, Query.QueryType.SQl, Query.QueryTargetType.Informals);
 			startListActivity(activity,activity.getString(R.string.Informals),query);
 		}
 		else if (id == R.id.nav_exhibitions)
 		{
-			Query query=new Query("============Implement===========", Query.QueryType.SQl, Query.QueryTargetType.Exhibition);
+			Query query=new Query(null, Query.QueryType.SQl, Query.QueryTargetType.Exhibition);
 			startListActivity(activity,activity.getString(R.string.Exhibition),query);
 		}
 		else if (id == R.id.nav_About)
@@ -126,21 +107,18 @@ public class ActionBarNavDrawer
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
 
-			AppUserModel.MAIN_USER.setLoggedIn(false,activity.getBaseContext());
-			AppUserModel.MAIN_USER.setSignedup(false,activity.getBaseContext());
+			intent=new Intent(activity,Login.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-			Intent intent1=new Intent(activity,Login.class);
-			intent1.putExtra("Start_Home",false);
-
-			activity.startActivity(intent1);
+			activity.startActivity(intent);
 			activity.finish();
 
 		}
 		else if(id==R.id.nav_login)
 		{
-			Intent intent1=new Intent(activity,Login.class);
-			intent1.putExtra("Start_Home",false);
-			activity.startActivity(intent1);
+			intent=new Intent(activity,Login.class);
+			intent.putExtra("Start_Home",false);
+			activity.startActivity(intent);
 		}
 
 		DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
@@ -149,11 +127,10 @@ public class ActionBarNavDrawer
 		return true;
 	}
 
-	public ActionBarNavDrawer(final AppCompatActivity activity, iActionBar drawer, int pageNavID)
+	public ActionBarNavDrawer(final AppCompatActivity activity, iActionBar drawer, final int pageNavID)
 	{
 		this.activity = activity;
 		barNavDrawer=drawer;
-		this.pageNavID=pageNavID;
 
 		NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
@@ -174,7 +151,7 @@ public class ActionBarNavDrawer
 				DrawerLayout drawerx = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 
 				NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
-				navigationView.setCheckedItem(ActionBarNavDrawer.this.pageNavID);
+				navigationView.setCheckedItem(pageNavID);
 
 				if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
 				{
@@ -191,25 +168,30 @@ public class ActionBarNavDrawer
 				barNavDrawer.NavButtonClicked();
 			}
 		});
+
+		final SearchView searchView=(SearchView)activity.findViewById(R.id.search);
+
 		activity.findViewById(R.id.actionbar_search).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
 			{
 				if (openNewSearchPage)
+				{
+					Intent intent=new Intent(activity, SearchPage.class);
+					intent.putExtra("Data_Type","All");
 					activity.startActivity(new Intent(activity, SearchPage.class));
+				}
 				else
 				{
 					activity.findViewById(R.id.main_bar).setVisibility(View.GONE);
 					activity.findViewById(R.id.search_bar).setVisibility(View.VISIBLE);
 
-					SearchView searchView=(SearchView)activity.findViewById(R.id.search);
 					searchView.onActionViewExpanded();
 				}
 			}
 		});
 
-		SearchView searchView=(SearchView)activity.findViewById(R.id.search);
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
 		{
 			@Override
@@ -237,7 +219,7 @@ public class ActionBarNavDrawer
 
 		if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
 		{
-			if(AppUserModel.MAIN_USER.getImageResource()!=null && AppUserModel.MAIN_USER.isUseGoogleImage())
+			if(!AppUserModel.MAIN_USER.getImageResource().equals("") && AppUserModel.MAIN_USER.isUseGoogleImage())
 			{
 				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
 				view.setVisibility(View.VISIBLE);
@@ -289,7 +271,7 @@ public class ActionBarNavDrawer
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
-			view.setImageResource(array.getResourceId(0,0));
+			view.setImageResource(array.getResourceId(0,R.drawable.avatar_1));
 			array.recycle();
 
 			CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);

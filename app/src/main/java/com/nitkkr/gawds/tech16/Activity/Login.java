@@ -4,10 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -192,7 +188,6 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                                 AppUserModel.MAIN_USER.setName(personName);
                                 AppUserModel.MAIN_USER.setEmail(email);
                                 AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
-                                AppUserModel.MAIN_USER.setisCoordinator(false);
                                 AppUserModel.MAIN_USER.setToken(token_recieved);
                                 AppUserModel.MAIN_USER.saveAppUser(Login.this);
 
@@ -339,8 +334,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                                 for(int i=0;i<data.length();i++){
                                     interests.add(data.getString(i));
                                 }
-                                AppUserModel.MAIN_USER.setInterests_arraylist(interests);
-
+                                AppUserModel.MAIN_USER.setInterestsFromArray(interests);
+                                AppUserModel.MAIN_USER.saveAppUser(getApplicationContext());
                                 //everything is fetched and saved now
                                 //so intent to home
                                 Log.v("login","interests fetched");
@@ -475,10 +470,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
     {
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
         editor.putBoolean("Skip",true);
-        editor.commit();
-
-        AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
-        AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
+        editor.apply();
 
         AppUserModel.MAIN_USER.logoutUser(getBaseContext());
         if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())

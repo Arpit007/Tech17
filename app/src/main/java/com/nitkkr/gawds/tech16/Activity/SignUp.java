@@ -340,7 +340,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		AppUserModel.MAIN_USER.setName(personName);
 		AppUserModel.MAIN_USER.setEmail(email);
 		AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
-		AppUserModel.MAIN_USER.setisCoordinator(false);
 		AppUserModel.MAIN_USER.setToken(token_recieved);
 		AppUserModel.MAIN_USER.setRoll(RollNo);
 		AppUserModel.MAIN_USER.setCollege(College);

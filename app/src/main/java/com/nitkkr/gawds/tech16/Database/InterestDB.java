@@ -153,6 +153,27 @@ public class InterestDB extends SQLiteOpenHelper
 		return getInterests(DbConstants.InterestNames.Selected.Name() + " = 1");
 	}
 
+	public ArrayList<String> getInterestStrings(String Clause)
+	{
+		ArrayList<InterestModel> models=getInterests(Clause);
+		ArrayList<String> keys= new ArrayList<>(models.size());
+
+		for(InterestModel model: models)
+			keys.add(model.getInterest());
+
+		return keys;
+	}
+
+	public ArrayList<String> getAllInterestStrings()
+	{
+		return getInterestStrings("");
+	}
+
+	public ArrayList<String> getSelectedInterestStrings()
+	{
+		return getInterestStrings(DbConstants.InterestNames.Selected.Name() + " = 1");
+	}
+
 	public void deleteInterest(InterestModel interest)
 	{
 		deleteInterest(interest.getID());
@@ -182,6 +203,20 @@ public class InterestDB extends SQLiteOpenHelper
 		if(database.update(DbConstants.Constants.getInterestTableName(),values, DbConstants.InterestNames.Id.Name() + " = " + interest.getID(),null)<1)
 		{
 			database.insert(DbConstants.Constants.getInterestTableName(),null,values);
+		}
+	}
+
+	public void addSelectedInterest(ArrayList<String> list)
+	{
+		String Query="UPDATE " + DbConstants.Constants.getInterestTableName() + " SET " + DbConstants.InterestNames.Selected.Name() + " = 0;";
+		dbRequest.getDatabase().rawQuery(Query,null);
+
+		Query="UPDATE " + DbConstants.Constants.getInterestTableName() + " SET " + DbConstants.InterestNames.Selected.Name() + " = 1 WHERE " +
+				DbConstants.InterestNames.Id.Name() +" = ";
+
+		for(String key : list)
+		{
+			dbRequest.getDatabase().rawQuery(Query + key + ";",null);
 		}
 	}
 

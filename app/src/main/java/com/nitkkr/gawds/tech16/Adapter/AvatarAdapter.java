@@ -57,4 +57,11 @@ public class AvatarAdapter extends BaseAdapter
 
 		return view;
 	}
+
+	@Override
+	protected void finalize() throws Throwable
+	{
+		array.recycle();
+		super.finalize();
+	}
 }

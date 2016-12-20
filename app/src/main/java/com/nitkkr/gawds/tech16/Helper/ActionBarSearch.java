@@ -14,13 +14,13 @@ import com.nitkkr.gawds.tech16.R;
 public class ActionBarSearch
 {
 
-	private iActionBar barNavDrawer;
+	private iActionBar callback;
 	private AppCompatActivity activity;
 
-	public ActionBarSearch(final AppCompatActivity activity, iActionBar drawer)
+	public ActionBarSearch(final AppCompatActivity activity, iActionBar callback)
 	{
 		this.activity = activity;
-		barNavDrawer=drawer;
+		this.callback =callback;
 
 		activity.findViewById(R.id.actionbar_back).setOnClickListener(new View.OnClickListener()
 		{
@@ -31,6 +31,8 @@ public class ActionBarSearch
 			}
 		});
 
+		final SearchView searchView=(SearchView)activity.findViewById(R.id.search);
+
 		activity.findViewById(R.id.actionbar_search).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -38,13 +40,11 @@ public class ActionBarSearch
 			{
 				activity.findViewById(R.id.main_bar).setVisibility(View.GONE);
 
-				SearchView searchView=(SearchView)activity.findViewById(R.id.search);
 				searchView.setVisibility(View.VISIBLE);
 				searchView.onActionViewExpanded();
 			}
 		});
 
-		SearchView searchView=(SearchView)activity.findViewById(R.id.search);
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
 		{
 			@Override
@@ -56,7 +56,7 @@ public class ActionBarSearch
 			@Override
 			public boolean onQueryTextChange(String newText)
 			{
-				barNavDrawer.SearchQuery(newText);
+				ActionBarSearch.this.callback.SearchQuery(newText);
 				return true;
 			}
 		});
@@ -75,15 +75,15 @@ public class ActionBarSearch
 
 	public boolean backPressed()
 	{
-		if(activity.findViewById(R.id.search).getVisibility()==View.VISIBLE)
+		SearchView searchView=(SearchView)activity.findViewById(R.id.search);
+		if(searchView.getVisibility()==View.VISIBLE)
 		{
-			activity.findViewById(R.id.search).setVisibility(View.GONE);
 			activity.findViewById(R.id.main_bar).setVisibility(View.VISIBLE);
-			SearchView searchView=(SearchView)activity.findViewById(R.id.search);
+			searchView.setVisibility(View.GONE);
 			searchView.setQuery("",false);
-			return true;
+			return false;
 		}
 		else
-		return false;
+		return true;
 	}
 }

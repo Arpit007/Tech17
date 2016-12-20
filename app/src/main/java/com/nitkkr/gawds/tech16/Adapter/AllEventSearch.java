@@ -16,8 +16,8 @@ import java.util.HashMap;
 public class AllEventSearch extends Filter
 {
 	private HashMap<String, EventListAdapter> Events;
-	EventListAdapter adapter;
-	ListView listView;
+	private EventListAdapter adapter;
+	private ListView listView;
 
 	public AllEventSearch(AllEventListAdapter adapter, Context context)
 	{

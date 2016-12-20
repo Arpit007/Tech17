@@ -51,7 +51,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				Register.setText("Registered");
 				Register.setEnabled(false);
 			}
-			if (model.isGroupEvent() || model.isVariableGroupEvent())
+			if (model.isGroupEvent())
 			{
 				Register.setText("View Team");
 				Register.setOnClickListener(new View.OnClickListener()
@@ -76,7 +76,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				@Override
 				public void onClick(View view)
 				{
-					if(AppUserModel.MAIN_USER.isUserLoaded())
+					if(AppUserModel.MAIN_USER.isUserLoggedIn(Event.this))
 					{
 						if (model.isSingleEvent())
 						{
@@ -262,10 +262,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			(( TextView)findViewById(R.id.Event_Members)).setText("Individual");
 		else
 		{
-			String Text="Team ("+model.getMinUsers();
-			if(model.isVariableGroupEvent())
-				Text += "-" + model.getMaxUsers() + " members)";
-			else Text += " members)";
+			String Text="Team (" +model.getMinUsers() + "-" + model.getMaxUsers() + " members)";
 			(( TextView)findViewById(R.id.Event_Members)).setText(Text);
 		}
 

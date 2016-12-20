@@ -21,23 +21,18 @@ public class EventModel extends BaseEventModel implements Serializable
 
 
 	public interface EventStatusListener {
-		void EventStatusChanged(com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status);
+		void EventStatusChanged(EventStatus status);
 	}
 
-	public EventModel(){}
-	public EventModel(String name){setEventName(name);}
-
 	private String Rules;
-	private int MinUsers;
-	private int MaxUsers;
-	private int TotalRounds = 0;
+	private int MinUsers = 1;
+	private int MaxUsers = 1;
 	private int CurrentRound = 0;
 	private int Society;
 	private int Category;
 	private boolean Registered = false;
-	private com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status= com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.None;
+	private EventStatus status= EventStatus.None;
 	private ArrayList<RoundResultModel> Result;
-	private ArrayList<CoordinatorModel> Coordinators;
 	private ArrayList<iUserModel> Participants;
 	private EventStatusListener listener;
 
@@ -47,11 +42,9 @@ public class EventModel extends BaseEventModel implements Serializable
 	public String getRules(){return Rules;}
 	public int getMinUsers(){return MinUsers;}
 	public int getMaxUsers(){return MaxUsers;}
-	public int getTotalRounds(){return TotalRounds;}
 	public int getCurrentRound(){return CurrentRound;}
-	public com.nitkkr.gawds.tech16.Model.EventModel.EventStatus getEventStatus(){return  status;}
+	public EventStatus getEventStatus(){return  status;}
 	public ArrayList<RoundResultModel> getResult(){return Result;}
-	public ArrayList<CoordinatorModel> getCoordinators(){return Coordinators;}
 	public ArrayList<iUserModel> getParticipants(){return Participants;}
 	public EventStatusListener getListener(){return listener;}
 	public void callStatusListener() {
@@ -65,7 +58,7 @@ public class EventModel extends BaseEventModel implements Serializable
 			e.printStackTrace();
 		}
 	}
-	public void callStatusListener(com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status) {
+	public void callStatusListener(EventStatus status) {
 		this.status=status;
 		if(listener!=null)
 			listener.EventStatusChanged(status);
@@ -77,47 +70,44 @@ public class EventModel extends BaseEventModel implements Serializable
 	public void setSociety(int society){Society = society;}
 	public void setRules(String rules){Rules=rules;}
 	public void setMaxUsers(int maxUsers){MaxUsers=maxUsers;}
-	public void setMinUsers(int minUsers){MinUsers=minUsers;}
-	public void setTotalRounds(int totalRounds){TotalRounds = totalRounds;}
 	public void setCurrentRound(int currentRound){CurrentRound = currentRound;}
-	public void setStatus(com.nitkkr.gawds.tech16.Model.EventModel.EventStatus status){this.status=status;}
+	public void setStatus(EventStatus status){this.status=status;}
 	public void setResult(ArrayList<RoundResultModel> result){Result=result;}
-	public void setCoordinators(ArrayList<CoordinatorModel> coordinators){Coordinators=coordinators;}
 	public void setParticipants(ArrayList<iUserModel> participants){Participants=participants;}
-	public void setStatusListener(EventStatusListener listener){this.listener=listener;}
 	public void setRegistered(boolean registered){Registered=registered;}
 
-
-	public boolean isFinalRound()
-	{
-		return CurrentRound == TotalRounds;
-	}
 	public boolean isRegistered(){return Registered;}
 	public boolean isParticipantCountOK(){return (Participants.size()>=MinUsers && Participants.size()<=MaxUsers);}
-	public boolean isSingleEvent(){return (MinUsers==MaxUsers && MinUsers==1);}
-	public boolean isGroupEvent(){return !isSingleEvent();}
-	public boolean isVariableGroupEvent(){return MinUsers!=MaxUsers;}
+	public boolean isSingleEvent()
+	{
+		return (MaxUsers==1);
+	}
+	public boolean isGroupEvent()
+	{
+		return !isSingleEvent();
+	}
 
 
+	//TODO: Implement or Depreciate
 	public void setRoundLive() {
 		if (CurrentRound == 0)
 		{
 			CurrentRound = 1;
 		}
-		if (status == com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Over)
+		if (status == EventModel.EventStatus.Over)
 		{
 			CurrentRound++;
 		}
-		status = com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Live;
+		status = EventModel.EventStatus.Live;
 	}
 	public void setRoundOver()	{
-		status = com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Over;
+		status = EventStatus.Over;
 	}
 	public void setNextRound() {
-		if (status == com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Over && !isFinalRound())
+		if (status == EventStatus.Over)
 		{
 			CurrentRound++;
-			status = com.nitkkr.gawds.tech16.Model.EventModel.EventStatus.Upcoming;
+			status = EventStatus.Upcoming;
 		}
 	}
 }

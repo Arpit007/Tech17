@@ -13,5 +13,12 @@ public class SearchPage extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_page);
+
+		String DataType=getIntent().getStringExtra("Data_Type");
+		/*
+			User for Team Registration
+			All for Global Search
+		 */
+
 	}
 }

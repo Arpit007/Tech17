@@ -23,14 +23,14 @@ public class InterestModel implements Serializable
 	{
 		Interest = interest;
 	}
+	public void setSelected(boolean selected)
+	{
+		Selected = selected;
+	}
 
 	public boolean isSelected()
 	{
 		return Selected;
 	}
 
-	public void setSelected(boolean selected)
-	{
-		Selected = selected;
-	}
 }

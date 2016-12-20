@@ -21,7 +21,6 @@ public class RegisterTeamAdapter extends BaseAdapter
 {
 	private Activity activity;
 	private TeamModel teamModel;
-	private boolean FixedTeam;
 	private int Min,Max;
 	public static final int SEARCH_USER=100;
 	private boolean showAddButton;
@@ -33,7 +32,6 @@ public class RegisterTeamAdapter extends BaseAdapter
 		this.teamModel=teamModel;
 		Min = MinMembers;
 		Max = MaxMembers;
-		FixedTeam = (Min==Max);
 	}
 
 	public TeamModel getTeamModel(){return teamModel;}
@@ -41,7 +39,7 @@ public class RegisterTeamAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		if(showAddButton)
+		if(showAddButton && teamModel.getMembers().size() + 1 <= Max)
 			return teamModel.getMembers().size() + 1;
 		else return teamModel.getMembers().size();
 	}
@@ -59,9 +57,8 @@ public class RegisterTeamAdapter extends BaseAdapter
 	}
 
 	@Override
-	public View getView(int i, View view, ViewGroup viewGroup)
+	public View getView(final int i, View view, ViewGroup viewGroup)
 	{
-		final int x=i;
 		if(view==null)
 		{
 			if(i==teamModel.getMembers().size())
@@ -84,7 +81,6 @@ public class RegisterTeamAdapter extends BaseAdapter
 				public void onClick(View view)
 				{
 					Intent intent=new Intent(activity, SearchPage.class);
-					//TODO:---------Work----------
 					intent.putExtra("Data_Type","User");
 					activity.startActivityForResult(intent,SEARCH_USER);
 				}
@@ -104,7 +100,7 @@ public class RegisterTeamAdapter extends BaseAdapter
 				@Override
 				public void onClick(View view)
 				{
-					teamModel.getMembers().remove(x);
+					teamModel.getMembers().remove(i);
 					RegisterTeamAdapter.this.notifyDataSetInvalidated();
 				}
 			});

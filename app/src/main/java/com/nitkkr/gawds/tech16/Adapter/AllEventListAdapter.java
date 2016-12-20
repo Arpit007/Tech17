@@ -88,7 +88,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 	}
 
 	@Override
-	public View getGroupView(int i, boolean isexpanded, View view, ViewGroup viewGroup)
+	public View getGroupView(int i, boolean isExpanded, View view, ViewGroup viewGroup)
 	{
 		String headerTitle = (String) getGroup(i);
 		if (view == null) {
@@ -97,8 +97,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 		}
 
 
-		TextView lblListHeader = (TextView) view
-				.findViewById(R.id.event_list_head_label);
+		TextView lblListHeader = (TextView) view.findViewById(R.id.event_list_head_label);
 		lblListHeader.setText(headerTitle);
 
 		return view;
@@ -125,10 +124,4 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 	{
 		return Events;
 	}
-
-	public void setEvents(HashMap<String,EventListAdapter> events)
-	{
-		Events=events;
-	}
-
 }

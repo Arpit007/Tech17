@@ -48,6 +48,12 @@ public class Splash extends AppCompatActivity
 	{
 		public void run()
 		{
+
+			//Starting Database  No Fetching
+			//=================FIRST COMMAND, DO NOT REMOVE==================================
+			Database database=new Database(getApplicationContext());
+			Log.d("Instance: ",database.toString() +" Started");
+
 			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
 			if(!ActivityHelper.isDebugMode(getApplicationContext()))
@@ -81,9 +87,6 @@ public class Splash extends AppCompatActivity
 			//fetch events in background
 			//and store it in table and update the existing ones
 
-			//Starting Database  No Fetching
-			Database database=new Database(getApplicationContext());
-			Log.d("Instance: ",database.toString() +" Started");
 
 			//if skip or logged in
 			if(Skip)

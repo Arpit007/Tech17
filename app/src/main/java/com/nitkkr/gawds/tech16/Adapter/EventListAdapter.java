@@ -54,8 +54,8 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 		final String childText = Event.get(i).getEventName();
 
 		if (view == null) {
-			LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = infalInflater.inflate(R.layout.layout_event_list_item, null);
+			LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.layout_event_list_item, null);
 		}
 
 		TextView txtListChild = (TextView) view.findViewById(R.id.event_list_item_label);

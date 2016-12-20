@@ -97,4 +97,10 @@ public class Database implements iDbRequest
 	public InterestDB getInterestDB(){return interestDB;}
 	public EventsDB getEventsDB(){return eventsDB;}
 
+	public void ResetTables()
+	{
+		//TODO:Implement
+	}
+
+
 }

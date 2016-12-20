@@ -1,7 +1,5 @@
 package com.nitkkr.gawds.tech16.Model;
 
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.Date;
 

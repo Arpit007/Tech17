@@ -138,10 +138,9 @@ public class ListPage extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(actionBarSearch.backPressed())
+		if(!actionBarSearch.backPressed())
 		{
-			if(ActivityHelper.revertToHomeIfLast(ListPage.this))
-				return;
+			ActivityHelper.revertToHomeIfLast(ListPage.this);
 		}
 		else
 		super.onBackPressed();

@@ -1,6 +1,6 @@
 package com.nitkkr.gawds.tech16.Model;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -30,9 +30,20 @@ public class CoordinatorModel implements Serializable
 	public void setEventID(int id){EventID = id;}
 	public void setDesignation(String designation){Designation=designation;}
 
-	public void CallCoordinator(Activity activity){
+	public void CallCoordinator(Context context){
 		Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Mobile));
-		activity.startActivity(intent);
+		context.startActivity(intent);
+	}
+
+	public void EmailCoordinator(Context context)
+	{
+		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+		emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		emailIntent.setType("vnd.android.cursor.item/email");
+		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {getEmail()});
+
+		context.startActivity(Intent.createChooser(emailIntent, "Send mail using..."));
 	}
 
 }

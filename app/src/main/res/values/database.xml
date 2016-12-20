@@ -17,7 +17,6 @@
             IMAGE_URL VARCHAR(255),
             END_DATE INT DEFAULT 0,
             RULES VARCHAR(1024),
-            MIN_USER INT DEFAULT 0,
             MAX_USER INT DEFAULT 0,
             PDF VARCHAR(255),
             REGISTERED INT DEFAULT 0,

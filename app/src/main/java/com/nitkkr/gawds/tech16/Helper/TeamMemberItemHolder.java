@@ -17,6 +17,7 @@ public class TeamMemberItemHolder
 	{
 		this.view = view;
 	}
+
 	public void showCloseButton()
 	{
 		view.findViewById(R.id.team_member_Close).setVisibility(View.VISIBLE);
