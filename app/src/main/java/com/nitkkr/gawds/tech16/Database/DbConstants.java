@@ -44,7 +44,7 @@ public class DbConstants
 
 	private DbConstants()
 	{
-		DATABASE_NAME="Tech17.db";
+		DATABASE_NAME="Tech17";
 		DATABASE_VERSION=1;
 		EVENTS_TABLE_NAME="EventList";
 		EXHIBITION_TABLE_NAME="Exhibition";

@@ -1,9 +1,14 @@
 package com.nitkkr.gawds.tech16.Activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +16,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.Database.Database;
@@ -25,6 +31,7 @@ import com.nitkkr.gawds.tech16.Src.Typewriter;
 
 public class Splash extends AppCompatActivity
 {
+	private static final int STORAGE_PERMISSION_CODE =1 ;
 	private Handler handler = new Handler();
 	fetch_data f=fetch_data.getInstance();
 	View upper, lower;
@@ -48,12 +55,13 @@ public class Splash extends AppCompatActivity
 	{
 		public void run()
 		{
-
+			/*
+			TODO:FIX
 			//Starting Database  No Fetching
 			//=================FIRST COMMAND, DO NOT REMOVE==================================
 			Database database=new Database(getApplicationContext());
 			Log.d("Instance: ",database.toString() +" Started");
-
+			*/
 			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
 			if(!ActivityHelper.isDebugMode(getApplicationContext()))
@@ -80,6 +88,7 @@ public class Splash extends AppCompatActivity
 			CheckUpdate.getInstance().checkForUpdate(getApplicationContext());
 
 			RateApp.getInstance().incrementAppStartCount(getApplicationContext());
+
 
 			SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
 			boolean Skip=preferences.getBoolean("Skip",false);
@@ -145,8 +154,48 @@ public class Splash extends AppCompatActivity
 
 		runAnimationDown.start();
 		runAnimationUp.start();
-		splashTypewriter.animateText("     TechSpardha    ");
+		splashTypewriter.animateText("        Techspardha");
 
+		//First checking if the app is already having the permission
+		if(isReadStorageAllowed()){
+
+			Database database=new Database(getApplicationContext());
+			Log.d("Instance: ",database.toString() +" Started");
+			start_app();
+		}else{
+			//If the app has not the permission then asking for the permission
+			requestStoragePermission();
+		}
+
+
+
+	}
+	private boolean isReadStorageAllowed() {
+		//Getting the permission status
+		int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+		//If permission is granted returning true
+		if (result == PackageManager.PERMISSION_GRANTED)
+			return true;
+
+		//If permission is not granted returning false
+		return false;
+	}
+
+	//Requesting permission
+	private void requestStoragePermission(){
+
+		if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+			//If the user has denied the permission previously your code will come to this block
+			//Here you can explain why you need this permission
+			//Explain here why you need this permission
+		}
+
+		//And finally ask for the permission
+		ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
+	}
+
+	public void start_app(){
 
 		final Thread timerThread = new Thread()
 		{
