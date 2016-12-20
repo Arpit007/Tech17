@@ -65,22 +65,7 @@ public class ActionBarNavDrawer
 			if(activity instanceof Home)
 			{
 				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-				Window window = activity.getWindow();
 
-				int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-				if(currentapiVersion>= Build.VERSION_CODES.JELLY_BEAN) {
-					// Enable status bar translucency (requires API 19)
-
-					window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-							WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-				}else{
-					// Disable status bar translucency (requires API 19)
-					window.getAttributes().flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-					// Set a color (requires API 21)
-					window.setStatusBarColor(activity.getResources().getColor(R.color.action_bar_color));
-
-				}
 				drawer.closeDrawer(GravityCompat.START);
 				return true;
 			}

@@ -78,6 +78,7 @@ public class Database implements iDbRequest
 		if (sqLiteDatabase == null)
 		{
 			sqLiteDatabase=SQLiteDatabase.openOrCreateDatabase(ActivityHelper.getApplicationContext().getDatabasePath(DbConstants.Constants.getDatabaseName()),null);
+
 		}
 		else if (!sqLiteDatabase.isOpen() || Restart)
 		{
