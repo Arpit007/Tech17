@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
+import com.nitkkr.gawds.tech16.model.CoordinatorModel;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.model.UserModel;
@@ -395,7 +396,7 @@ public class fetch_data {
 
                         JSONObject response= null,status=null;
                         String message;
-                        JSONArray data=null;
+                        JSONArray data=null,coordinators;
                         int code;
                         boolean isNew;
 
@@ -421,8 +422,25 @@ public class fetch_data {
                                     eventModel.setMaxUsers(data.getJSONObject(i).getInt("MaxContestants"));
                                     //eventModel.setStatus(data.getJSONObject(i).getString("Status"));
                                     eventModel.setPdfLink(data.getJSONObject(i).getString("Pdf"));
+                                    eventModel.setRules(data.getJSONObject(i).getString("Rules"));
                                     eventModel.setCategory(data.getJSONObject(i).getInt("CategoryId"));
                                     eventModel. setSociety(data.getJSONObject(i).getInt("SocietyId"));
+                                    coordinators=data.getJSONObject(i).getJSONArray("Coordinators");
+
+                                    ArrayList<CoordinatorModel> coordinatorModels=new ArrayList<>();
+
+                                    for(int j=0;j<coordinators.length();j++){
+
+                                        CoordinatorModel coordinatorModel=new CoordinatorModel();
+                                        coordinatorModel.setEventID(eventModel.getEventID());
+                                        coordinatorModel.setName(coordinators.getJSONObject(j).getString("Name"));
+                                        coordinatorModel.setMobile(String.valueOf(coordinators.getJSONObject(j).getInt("PhoneNo")));
+                                        //TODO
+                                        //set email too here
+                                        coordinatorModels.add(coordinatorModel);
+                                    }
+                                    Database.database.getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
+                                    Database.database.getEventsDB().addOrUpdateEvent(eventModel);
 
                                 }
                                 Log.v("DEBUG",data.toString());

@@ -177,7 +177,7 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 		//super.close();
 	}
 
-	public void addOrUpdateInterest(ArrayList<CoordinatorModel> coordinators)
+	public void addOrUpdateCoordinator(ArrayList<CoordinatorModel> coordinators)
 	{
 		SQLiteDatabase database=dbRequest.getDatabase();
 
