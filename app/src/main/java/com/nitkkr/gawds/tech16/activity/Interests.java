@@ -83,7 +83,8 @@ public class Interests extends AppCompatActivity
 	public void sendInterests()
 	{
 		showProgressDialog("Uploading Information, Please Wait...");
-		fetchData.getInstance().sendInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
+		fetchData.getInstance()
+				.sendInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
 		{
 			@Override
 			public void onResponse(ResponseStatus status)
