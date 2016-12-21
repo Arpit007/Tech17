@@ -5,12 +5,21 @@
     android:id="@+id/activity_about"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     tools:context="com.nitkkr.gawds.tech16.activity.About">
     <include
         layout="@layout/actionbar_back" android:id="@+id/temp_bar"
         android:layout_height="?actionBarSize" android:layout_width="match_parent"/>
-    <TextView
-        android:layout_below="@id/temp_bar" android:text="Random About Text Here"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view_pager"/>
+    <include layout="@layout/indicator"
+        android:id="@+id/page_indicator"
+        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"/>
 
 </RelativeLayout>
