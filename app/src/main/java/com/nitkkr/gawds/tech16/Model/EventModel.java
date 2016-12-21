@@ -87,6 +87,11 @@ public class EventModel extends BaseEventModel implements Serializable
 		return !isSingleEvent();
 	}
 
+	public static long parseDate(String date)
+	{
+		//TODO: Implement
+		return 0;
+	}
 
 	//TODO: Implement or Depreciate
 	public void setRoundLive() {

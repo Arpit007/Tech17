@@ -346,18 +346,18 @@ public class fetch_data {
                                 for(int i=0;i<data.length();i++){
                                     EventModel eventModel=new EventModel();
 
-                                    eventModel.setId(data.getJSONObject(i).getInt("Id"));
-                                    eventModel.setName(data.getJSONObject(i).getString("Name"));
+                                    eventModel.setEventID(data.getJSONObject(i).getInt("Id"));
+                                    eventModel.setEventName(data.getJSONObject(i).getString("Name"));
                                     eventModel.setDescription(data.getJSONObject(i).getString("Description"));
                                     eventModel.setVenue(data.getJSONObject(i).getString("Venue"));
-                                    eventModel.setStart(data.getJSONObject(i).getString("Start"));
-                                    eventModel.setEnd(data.getJSONObject(i).getString("End"));
+                                    eventModel.setEventDate(EventModel.parseDate(data.getJSONObject(i).getString("Start")));
+                                    eventModel.setEventEndDate(EventModel.parseDate(data.getJSONObject(i).getString("End")));
                                     eventModel.setCurrentRound(Integer.valueOf(data.getJSONObject(i).getString("CurrentRound")));
-                                    eventModel.setMaxContestants(data.getJSONObject(i).getInt("MaxContestants"));
-                                    eventModel.setStatus(data.getJSONObject(i).getString("Status"));
-                                    eventModel.setPdf(data.getJSONObject(i).getString("Pdf"));
-                                    eventModel.setCategoryId(data.getJSONObject(i).getInt("CategoryId"));
-                                    eventModel. setSocietyId(data.getJSONObject(i).getInt("SocietyId"));
+                                    eventModel.setMaxUsers(data.getJSONObject(i).getInt("MaxContestants"));
+                                    //eventModel.setStatus(data.getJSONObject(i).getString("Status"));
+                                    eventModel.setPdfLink(data.getJSONObject(i).getString("Pdf"));
+                                    eventModel.setCategory(data.getJSONObject(i).getInt("CategoryId"));
+                                    eventModel. setSociety(data.getJSONObject(i).getInt("SocietyId"));
 
                                 }
                                 Log.v("DEBUG",data.toString());
@@ -405,18 +405,18 @@ public class fetch_data {
                             if(code==200){
                                 //success
 
-                                eventModel.setId(data.getInt("Id"));
-                                eventModel.setName(data.getString("Name"));
+                                eventModel.setEventID(data.getInt("Id"));
+                                eventModel.setEventName(data.getString("Name"));
                                 eventModel.setDescription(data.getString("Description"));
                                 eventModel.setVenue(data.getString("Venue"));
-                                eventModel.setStart(data.getString("Start"));
-                                eventModel.setEnd(data.getString("End"));
+                                eventModel.setEventDate(EventModel.parseDate(data.getString("Start")));
+                                eventModel.setEventEndDate(EventModel.parseDate(data.getString("End")));
                                 eventModel.setCurrentRound(Integer.valueOf(data.getString("CurrentRound")));
-                                eventModel.setMaxContestants(data.getInt("MaxContestants"));
-                                eventModel.setStatus(data.getString("Status"));
-                                eventModel.setPdf(data.getString("Pdf"));
-                                eventModel.setCategoryId(data.getInt("CategoryId"));
-                                eventModel. setSocietyId(data.getInt("SocietyId"));
+                                eventModel.setMaxUsers(data.getInt("MaxContestants"));
+                                //eventModel.setStatus(data.getString("Status"));
+                                eventModel.setPdfLink(data.getString("Pdf"));
+                                eventModel.setCategory(data.getInt("CategoryId"));
+                                eventModel. setSociety(data.getInt("SocietyId"));
 
 
                                 Log.v("DEBUG",data.toString());
@@ -470,18 +470,18 @@ public class fetch_data {
                                 for(int i=0;i<data.length();i++){
                                     EventModel eventModel=new EventModel();
 
-                                    eventModel.setId(data.getJSONObject(i).getInt("Id"));
-                                    eventModel.setName(data.getJSONObject(i).getString("Name"));
+                                    eventModel.setEventID(data.getJSONObject(i).getInt("Id"));
+                                    eventModel.setEventName(data.getJSONObject(i).getString("Name"));
                                     eventModel.setDescription(data.getJSONObject(i).getString("Description"));
                                     eventModel.setVenue(data.getJSONObject(i).getString("Venue"));
-                                    eventModel.setStart(data.getJSONObject(i).getString("Start"));
-                                    eventModel.setEnd(data.getJSONObject(i).getString("End"));
+                                    eventModel.setEventDate(EventModel.parseDate(data.getJSONObject(i).getString("Start")));
+                                    eventModel.setEventEndDate(EventModel.parseDate(data.getJSONObject(i).getString("End")));
                                     eventModel.setCurrentRound(Integer.valueOf(data.getJSONObject(i).getString("CurrentRound")));
-                                    eventModel.setMaxContestants(data.getJSONObject(i).getInt("MaxContestants"));
-                                    eventModel.setStatus(data.getJSONObject(i).getString("Status"));
-                                    eventModel.setPdf(data.getJSONObject(i).getString("Pdf"));
-                                    eventModel.setCategoryId(data.getJSONObject(i).getInt("CategoryId"));
-                                    eventModel. setSocietyId(data.getJSONObject(i).getInt("SocietyId"));
+                                    eventModel.setMaxUsers(data.getJSONObject(i).getInt("MaxContestants"));
+                                    //eventModel.setStatus(data.getJSONObject(i).getString("Status"));
+                                    eventModel.setPdfLink(data.getJSONObject(i).getString("Pdf"));
+                                    eventModel.setCategory(data.getJSONObject(i).getInt("CategoryId"));
+                                    eventModel. setSociety(data.getJSONObject(i).getInt("SocietyId"));
                                     result.add(eventModel);
 
                                 }
