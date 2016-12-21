@@ -93,10 +93,13 @@ public class Splash extends AppCompatActivity
 			{
 				startActivity(new Intent(Splash.this,Home.class));
 				f.fetch_events(getBaseContext());
+				f.getCategories(getBaseContext());
 			}
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
 				startActivity(new Intent(Splash.this,Login.class));
 				f.fetch_events(getBaseContext());
+				f.getCategories(getBaseContext());
+
 			}
 			//if  logged in
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
@@ -107,6 +110,7 @@ public class Splash extends AppCompatActivity
 			else{
 				startActivity(new Intent(Splash.this,Login.class));
 				f.fetch_events(getBaseContext());
+				f.getCategories(getBaseContext());
 			}
 
 			finish();

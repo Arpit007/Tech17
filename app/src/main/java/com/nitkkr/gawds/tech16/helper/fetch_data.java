@@ -10,8 +10,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventModel;
+import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.model.UserModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -39,9 +41,10 @@ public class fetch_data {
         return f;
     }
 
-    public  void fetch_interests(final Context context){
+    //fetch categories
+    public  void getCategories(final Context context){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
-                context.getResources().getString(R.string.get_interests_list),
+                context.getResources().getString(R.string.getCategories),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String res) {
@@ -55,13 +58,78 @@ public class fetch_data {
                             status=response.getJSONObject("status");
                             data=response.getJSONArray("data");
                             code=status.getInt("code");
+                            String Name,Description;
+                            int Id;
                             //message=status.getString("message");
-
+                            ArrayList<InterestModel> list=new ArrayList<>();
                             if(code==200){
                                 //success
                                 for(int i=0;i<data.length();i++){
-
+                                    InterestModel interestModel=new InterestModel();
+                                    interestModel.setID(data.getJSONObject(i).getInt("Id"));
+                                    interestModel.setInterest(data.getJSONObject(i).getString("Name"));
+                                    list.add(interestModel);
                                 }
+                                Database.database.getInterestDB().addOrUpdateInterest(list);
+                                Log.v("DEBUG",data.toString());
+
+                            }else{
+                                //internal error
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context,error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+
+    //user Interests
+    public  void fetch_interests(final Context context){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
+                context.getResources().getString(R.string.get_interests_list)+"?token="+AppUserModel.MAIN_USER.getToken(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String res) {
+
+                        JSONObject response= null,status=null;
+                        String message;
+                        JSONArray data=null;
+                        int code;
+                        try {
+                            response = new JSONObject(res);
+                            status=response.getJSONObject("status");
+                            data=response.getJSONArray("data");
+                            code=status.getInt("code");
+
+                            if(code==200){
+
+                                ArrayList<InterestModel> list=new ArrayList<>();
+                                ArrayList<InterestModel> dblist=Database.database.getInterestDB().getAllInterests();
+                                //success
+                                for(int i=0;i<data.length();i++){
+                                    InterestModel interestModel=new InterestModel();
+                                    interestModel.setID(data.getJSONObject(i).getInt("Id"));
+                                    for(int j=0;j<dblist.size();j++){
+                                        if(dblist.get(j).getID()==interestModel.getID()){
+                                            interestModel.setInterest(dblist.get(j).getInterest());
+                                        }
+                                    }
+                                    interestModel.setSelected(true);
+                                    list.add(interestModel);
+                                }
+                                Database.database.getInterestDB().addOrUpdateInterest(list);
                                 Log.v("DEBUG",data.toString());
 
                             }else{
