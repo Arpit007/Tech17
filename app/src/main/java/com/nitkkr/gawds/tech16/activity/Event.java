@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.activity;
 
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -20,9 +21,11 @@ import com.nitkkr.gawds.tech16.activity.fragment.AboutEvent;
 import com.nitkkr.gawds.tech16.activity.fragment.ContactEvent;
 import com.nitkkr.gawds.tech16.activity.fragment.Result_frag;
 import com.nitkkr.gawds.tech16.activity.fragment.RulesEvent;
+import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.fetchData;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
@@ -41,6 +44,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	private EventModel model;
 	private ActionBarBack actionBar;
 	private AlertDialog alertDialog;
+	private ProgressDialog progressDialog=null;
 
 	private void setCallbacks()
 	{
@@ -88,29 +92,50 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 								@Override
 								public void onClick(DialogInterface dialogInterface, int i)
 								{
-									ResponseStatus status = ResponseStatus.NONE;
-									//TODO: Register Single Event
-									switch (status)
+									dialogInterface.dismiss();
+									progressDialog=new ProgressDialog(Event.this);
+									progressDialog.setMessage("Registering, Please Wait");
+									progressDialog.setIndeterminate(true);
+									progressDialog.setCancelable(false);
+									progressDialog.show();
+
+									fetchData.getInstance().registerSingleEvent(getApplicationContext(), String.valueOf(model.getEventID()), new iResponseCallback()
 									{
-										case FAILED:
-											Toast.makeText(Event.this, "Failed, Please Try Again", Toast.LENGTH_LONG).show();
-											break;
-										case SUCCESS:
-											Toast.makeText(Event.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+										@Override
+										public void onResponse(ResponseStatus status)
+										{
+											if(progressDialog!=null && progressDialog.isShowing())
+												progressDialog.dismiss();
 
-											model.setRegistered(true);
-											model.setNotify(true);
-											Database.database.getEventsDB().addOrUpdateEvent(model);
-											Database.database.getNotificationDB().UpdateTable();
-											model.callStatusListener();
+											switch (status)
+											{
+												case FAILED:
+													Toast.makeText(Event.this, "Failed, Please Try Again", Toast.LENGTH_LONG).show();
+													break;
+												case SUCCESS:
+													Toast.makeText(Event.this, "Registered Successfully", Toast.LENGTH_LONG).show();
 
-											break;
-										case OTHER:
-											Toast.makeText(Event.this, "----------------------Message--------------------", Toast.LENGTH_LONG).show();
-											break;
-										default:
-											break;
-									}
+													model.setRegistered(true);
+													model.setNotify(true);
+													Database.database.getEventsDB().addOrUpdateEvent(model);
+													Database.database.getNotificationDB().UpdateTable();
+													model.callStatusListener();
+
+													break;
+												case OTHER:
+													Toast.makeText(Event.this, "Network Error", Toast.LENGTH_LONG).show();
+													break;
+												default:
+													break;
+											}
+										}
+
+										@Override
+										public void onResponse(ResponseStatus status, Object object)
+										{
+											onResponse(status);
+										}
+									});
 								}
 							});
 							builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
@@ -197,6 +222,26 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		int PageID=getIntent().getExtras().getInt("PageID",0);
 		if(PageID<tabLayout.getTabCount())
 			viewPager.setCurrentItem(PageID);
+
+		fetchData.getInstance().getEvent(getApplicationContext(), model.getEventID(), new iResponseCallback()
+		{
+			@Override
+			public void onResponse(ResponseStatus status)
+			{
+			}
+
+			@Override
+			public void onResponse(ResponseStatus status, Object object)
+			{
+				if (status == ResponseStatus.SUCCESS)
+				{
+					model = (EventModel) object;
+					Database.database.getEventsDB().addOrUpdateEvent(model);
+					LoadEvent();
+				}
+			}
+		});
+
 	}
 
 	private void setupViewPager(ViewPager viewPager, EventModel model) {
@@ -292,6 +337,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			PdfButton.setEnabled(true);
 		}
 
+		(( TextView)findViewById(R.id.Event_Round)).setText(model.getCurrentRound());
 
 		actionBar.setLabel(model.getEventName());
 
@@ -329,6 +375,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	public void EventStatusChanged(EventModel.EventStatus status)
 	{
 		LoadEvent();
-		//TODO: Event Status, Round Num
+		//TODO: Event Status
 	}
 }

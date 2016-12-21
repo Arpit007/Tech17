@@ -102,6 +102,9 @@ public class ViewTeam extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		if(progressDialog!=null && progressDialog.isShowing())
+			return;
+
 		if(ActivityHelper.revertToHomeIfLast(ViewTeam.this))
 			return;
 		super.onBackPressed();

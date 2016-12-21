@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech16.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Handler;
@@ -21,7 +22,7 @@ import com.bumptech.glide.Glide;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.helper.FetchData;
+import com.nitkkr.gawds.tech16.helper.fetchData;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
@@ -41,6 +42,7 @@ public class EditUser extends AppCompatActivity
 	private static final int AVATAR=700;
 	private AppUserModel model= (AppUserModel)AppUserModel.MAIN_USER.clone();
 	private boolean interestChanged=false, interestSuccess=false, profileSuccess=false;
+	private ProgressDialog progressDialog=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -57,8 +59,14 @@ public class EditUser extends AppCompatActivity
 			{
 				if(Check())
 				{
+					progressDialog=new ProgressDialog(EditUser.this);
+					progressDialog.setMessage("Uploading Changes...");
+					progressDialog.setCancelable(false);
+					progressDialog.setIndeterminate(true);
+					progressDialog.show();
+
 					if(interestChanged)
-						FetchData.getInstance().sendInterests(getApplicationContext(), model.getInterests(), model, new iResponseCallback()
+						fetchData.getInstance().sendInterests(getApplicationContext(), model.getInterests(), model, new iResponseCallback()
 						{
 							@Override
 							public void onResponse(ResponseStatus status)
@@ -76,7 +84,7 @@ public class EditUser extends AppCompatActivity
 							}
 						});
 
-					FetchData.getInstance().updateUserDetails(getApplicationContext(), model, new iResponseCallback()
+					fetchData.getInstance().updateUserDetails(getApplicationContext(), model, new iResponseCallback()
 					{
 						@Override
 						public void onResponse(ResponseStatus status)
@@ -290,12 +298,15 @@ public class EditUser extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		if(progressDialog!=null && progressDialog.isShowing())
+			return;
+
 		if(ActivityHelper.revertToHomeIfLast(EditUser.this))
 			return;
 		super.onBackPressed();
 	}
 
-	public void onResponse(int ID, ResponseStatus status)
+	private void onResponse(int ID, ResponseStatus status)
 	{
 		ResponseCount++;
 
@@ -306,6 +317,9 @@ public class EditUser extends AppCompatActivity
 
 		if(ResponseCount==2)
 		{
+			if (progressDialog!=null)
+				progressDialog.dismiss();
+
 			if(!interestChanged || !interestSuccess)
 				model.setInterests(AppUserModel.MAIN_USER.getInterests());
 			if(!profileSuccess)

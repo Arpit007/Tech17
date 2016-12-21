@@ -494,6 +494,9 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		}
 		else
 		{
+			if (mProgressDialog!=null && mProgressDialog.isShowing())
+				return;
+
 			super.onBackPressed();
 		}
 	}

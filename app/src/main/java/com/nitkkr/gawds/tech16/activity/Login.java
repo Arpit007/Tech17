@@ -448,6 +448,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage(msg);
             mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
         }
 
         mProgressDialog.show();
@@ -487,6 +488,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         }
         else
         {
+            if (mProgressDialog!=null && mProgressDialog.isShowing())
+                return;
+
             if(exit)
                 super.onBackPressed();
 

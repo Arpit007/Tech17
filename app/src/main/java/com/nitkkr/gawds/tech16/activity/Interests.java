@@ -16,7 +16,7 @@ import com.nitkkr.gawds.tech16.adapter.InterestAdapter;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.helper.FetchData;
+import com.nitkkr.gawds.tech16.helper.fetchData;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -83,7 +83,7 @@ public class Interests extends AppCompatActivity
 	public void sendInterests()
 	{
 		showProgressDialog("Uploading Information, Please Wait...");
-		FetchData.getInstance().sendInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
+		fetchData.getInstance().sendInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
 		{
 			@Override
 			public void onResponse(ResponseStatus status)
@@ -142,6 +142,7 @@ public class Interests extends AppCompatActivity
 			mProgressDialog = new ProgressDialog(this);
 			mProgressDialog.setMessage(msg);
 			mProgressDialog.setIndeterminate(true);
+			mProgressDialog.setCancelable(false);
 		}
 
 		mProgressDialog.show();
@@ -156,6 +157,8 @@ public class Interests extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		if (mProgressDialog!=null && mProgressDialog.isShowing())
+			return;
 		super.onBackPressed();
 	}
 }

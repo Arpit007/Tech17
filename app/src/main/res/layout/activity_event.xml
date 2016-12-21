@@ -77,7 +77,7 @@
         <TextView
             android:visibility="visible"
             android:background="@drawable/round_background"
-            android:id="@+id/imageView4"
+            android:id="@+id/Event_Round"
             android:textSize="100sp"
             android:layout_marginEnd="15dp"
             android:gravity="center"
@@ -126,8 +126,8 @@
             android:textStyle="bold"
             android:id="@+id/textView8"
             android:layout_alignBottom="@+id/imageView3"
-            android:layout_alignStart="@+id/imageView4"
-            android:layout_alignEnd="@+id/imageView4"/>
+            android:layout_alignStart="@+id/Event_Round"
+            android:layout_alignEnd="@+id/Event_Round"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
