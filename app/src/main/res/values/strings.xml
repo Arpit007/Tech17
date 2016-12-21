@@ -41,5 +41,6 @@
     <string name="FolderName">Tech17</string>
     <string name="getEvent">api/event/</string>
     <string name="search_event">api/events</string>
+    <string name="getCategories">api/categories</string>
 
 </resources>
