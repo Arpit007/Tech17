@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.activity1.Fragment;
+package com.nitkkr.gawds.tech16.activity1.fragment1;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,15 +14,15 @@ import com.nitkkr.gawds.tech16.R;
 /**
  * Created by Dell on 18-Dec-16.
  */
-public class AboutEvent extends Fragment
-{
+public class RulesEvent extends Fragment {
+
     private EventModel model;
 
-    public static AboutEvent getNewFragment(EventModel model)
+    public static RulesEvent getNewFragment(EventModel model)
     {
-        AboutEvent aboutFragment=new AboutEvent();
-        aboutFragment.model=model;
-        return aboutFragment;
+        RulesEvent rules_frag=new RulesEvent();
+        rules_frag.model=model;
+        return rules_frag;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class AboutEvent extends Fragment
     {
         View view= inflater.inflate(R.layout.fragment_about,container,false);
 
-        (( TextView)view.findViewById(R.id.Event_Content)).setText(model.getDescription());
+        ((TextView)view.findViewById(R.id.Event_Content)).setText(model.getRules());
 
         return view;
     }

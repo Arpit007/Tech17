@@ -16,10 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.activity1.Fragment.AboutEvent;
-import com.nitkkr.gawds.tech16.activity1.Fragment.ContactEvent;
-import com.nitkkr.gawds.tech16.activity1.Fragment.Result_frag;
-import com.nitkkr.gawds.tech16.activity1.Fragment.RulesEvent;
+import com.nitkkr.gawds.tech16.activity1.fragment1.AboutEvent;
+import com.nitkkr.gawds.tech16.activity1.fragment1.ContactEvent;
+import com.nitkkr.gawds.tech16.activity1.fragment1.Result_frag;
+import com.nitkkr.gawds.tech16.activity1.fragment1.RulesEvent;
 import com.nitkkr.gawds.tech16.database1.Database;
 import com.nitkkr.gawds.tech16.helper1.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper1.ActivityHelper;

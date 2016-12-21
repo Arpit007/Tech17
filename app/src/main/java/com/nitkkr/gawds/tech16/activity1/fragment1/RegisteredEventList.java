@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.activity1.Fragment;
+package com.nitkkr.gawds.tech16.activity1.fragment1;
 
 import android.content.Intent;
 import android.database.DataSetObserver;

@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.nitkkr.gawds.tech16.activity1.Fragment.AllEventList;
-import com.nitkkr.gawds.tech16.activity1.Fragment.RegisteredEventList;
+import com.nitkkr.gawds.tech16.activity1.fragment1.AllEventList;
+import com.nitkkr.gawds.tech16.activity1.fragment1.RegisteredEventList;
 
 /**
  * Created by Home Laptop on 20-Nov-16.
