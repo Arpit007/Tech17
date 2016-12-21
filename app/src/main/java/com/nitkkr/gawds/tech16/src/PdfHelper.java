@@ -30,6 +30,12 @@ import static com.nitkkr.gawds.tech16.helper.ActivityHelper.getApplicationContex
 
 public class PdfHelper
 {
+	class Holder
+	{
+		public int ID;
+		public iCallback callback;
+	}
+
 	/* TODO:Generate Notifications */
 	HashMap<String, iCallback> Downloading;
 

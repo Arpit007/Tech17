@@ -54,7 +54,8 @@ public class NotificationGenerator
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 		{
-			builder = builder.setContent(view);
+			builder = builder.setContent(view)
+					.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 		}
 		else
 		{
@@ -147,6 +148,25 @@ public class NotificationGenerator
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
 		complexBuild(IconID,Label,Ticker,Message,action,view,intent);
+	}
+
+	public int pdfNotification(String Label, String Ticker, String Message, iMessageAction action)
+	{
+		pdfNotification(LastId,Label,Ticker,Message,action);
+		saveCache();
+		return LastId-1;
+	}
+
+	public void pdfNotification(int ID, String Label, String Ticker, String Message, iMessageAction action)
+	{
+		NotificationCompat.Builder builder=basicBuild(R.drawable.ic_cloud_download,Label,Ticker,Message);
+
+		builder = builder.setContentTitle(Label)
+				.setContentText(Message)
+				.setSmallIcon(R.mipmap.ic_launcher)
+				.setAutoCancel(false)
+				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+				.setWhen(new Date().getTime());
 	}
 
 	private void saveCache()
