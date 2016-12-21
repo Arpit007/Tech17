@@ -2,20 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
+              android:background="@color/app_background"
+              android:padding="5dp"
               android:layout_height="match_parent">
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent" android:layout_height="wrap_content">
-
         <ImageButton
-            android:layout_alignParentRight="true" android:id="@+id/team_member_Close"
-            android:src="@drawable/icon_close" android:background="#00000000"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:id="@+id/team_member_Close"
+            android:padding="5dp"
+            android:src="@drawable/icon_close"
+            android:background="@color/app_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"/>
 
         <TextView
             android:layout_toLeftOf="@id/team_member_Close"
             android:textStyle="bold" android:id="@+id/team_member_Name"
             android:text="Name" android:textSize="25sp"
+            android:textColor="@color/text_color_primary"
+            android:padding="5dp"
             android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
 
@@ -23,11 +31,15 @@
 
     <TextView
         android:id="@+id/team_member_Email"
+        android:padding="5dp"
+        android:textColor="@color/text_color_primary"
         android:textSize="20sp" android:text="Email"
         android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/team_member_College"
+        android:padding="5dp"
+        android:textColor="@color/text_color_primary"
         android:textSize="20sp" android:text="College"
         android:layout_width="match_parent" android:layout_height="wrap_content"/>
 

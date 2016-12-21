@@ -5,10 +5,32 @@
     android:id="@+id/activity_search_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nitkkr.gawds.tech16.Activity.SearchPage">
+    <include
+        layout="@layout/actionbar_search" android:id="@+id/temp_bar"
+        android:layout_width="match_parent" android:layout_height="?actionBarSize"
+        android:layout_alignParentTop="true" android:layout_alignParentStart="true"/>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:layout_height="match_parent" android:layout_below="@+id/temp_bar">
+
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp" android:id="@+id/progressBar"
+            android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+
+        <ListView android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+        </ListView>
+
+    </RelativeLayout>
 
 </RelativeLayout>

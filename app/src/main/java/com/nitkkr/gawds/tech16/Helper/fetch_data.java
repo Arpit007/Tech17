@@ -42,7 +42,7 @@ public class fetch_data {
         return f;
     }
 
-    public  void fetch_interests(final Context context, String interests_ids[]){
+    public  void fetch_interests(final Context context){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
                 context.getResources().getString(R.string.get_interests_list),
                 new Response.Listener<String>() {
@@ -321,7 +321,7 @@ public class fetch_data {
     }
 
     //fetch all events
-    public void fetch_events(final Context context, final ArrayList<EventModel> fun){
+    public void fetch_events(final Context context){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
                 context.getResources().getString(R.string.get_events_list),
                 new Response.Listener<String>() {
@@ -358,7 +358,6 @@ public class fetch_data {
                                     eventModel.setPdf(data.getJSONObject(i).getString("Pdf"));
                                     eventModel.setCategoryId(data.getJSONObject(i).getInt("CategoryId"));
                                     eventModel. setSocietyId(data.getJSONObject(i).getInt("SocietyId"));
-                                    fun.add(eventModel);
 
                                 }
                                 Log.v("DEBUG",data.toString());
