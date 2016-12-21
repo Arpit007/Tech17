@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -707,5 +708,160 @@ public class fetchData
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
+
+    //get wishlist
+    public void getUserWishlist(final Context context)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
+                +"?token"+AppUserModel.MAIN_USER.getToken(),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            //TODO:make a wishlist model
+                            //ArrayList<>
+                            if(code==200)
+                            {
+                                data=response.getJSONArray("data");
+                                for(int i=0;i<data.length();i++){
+                                    int lecture_id=data.getInt(i);
+                                }
+                            }
+                            else
+                            {
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                     }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    //add to wishlist
+    public void addToWishlist(final Context context, final int lectureId)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
+                +"/"+lectureId,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        String data;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            if(code==200)
+                            {
+                                //example  "data": "Successfully added to wishlist"
+                                data=response.getString("data");
+                            }
+                            else
+                            {
+                                //error
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("token",AppUserModel.MAIN_USER.getToken());
+                params.put("lectureId", String.valueOf(lectureId));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    //remove from wishlist
+    public void removeFromWishlist(final Context context, final int lectureId)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
+                +"/"+lectureId+"?token="+AppUserModel.MAIN_USER.getToken(),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        String data;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            if(code==200)
+                            {
+                                //example  "data": "Unsubscribed from the requested Guest Lecture"
+                                data=response.getString("data");
+                            }
+                            else
+                            {
+                                //error
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+
 }
+
 
