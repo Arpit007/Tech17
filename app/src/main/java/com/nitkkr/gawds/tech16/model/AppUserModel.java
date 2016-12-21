@@ -131,7 +131,6 @@ public class AppUserModel extends UserModel implements Cloneable
 		setGender(preferences.getString("Gender",""));
 		setUseGoogleImage(preferences.getBoolean("GoogleImage",true));
 		setImageId(preferences.getInt("ImageDrawableID",-1));
-
 		Interests=Database.database.getInterestDB().getSelectedInterests();
 	}
 

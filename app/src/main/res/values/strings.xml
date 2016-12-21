@@ -36,10 +36,10 @@
     <string name="get_user_details_url">/api/user/me</string>
     <string name="get_user_interests_url">/api/user/interests</string>
     <string name="get_events_list">/api/events</string>
-    <string name="get_interests_list">api/user/interests </string>
+    <string name="get_interests_list">/api/user/interests </string>
     <string name="FolderName">Tech17</string>
-    <string name="getEvent">api/event/</string>
-    <string name="search_event">api/events</string>
-    <string name="getCategories">api/categories</string>
+    <string name="getEvent">/api/event/</string>
+    <string name="search_event">/api/events</string>
+    <string name="getCategories">/api/categories</string>
 
 </resources>

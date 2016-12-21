@@ -30,6 +30,7 @@ public class EventModel extends BaseEventModel implements Serializable
 	private int CurrentRound = 0;
 	private int Society;
 	private int Category;
+
 	private boolean Registered = false;
 	private EventStatus status= EventStatus.None;
 	private ArrayList<RoundResultModel> Result;
