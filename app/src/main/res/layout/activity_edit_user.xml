@@ -8,7 +8,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.activity.EditUser">
+    tools:context="com.nitkkr.gawds.tech16.activity1.EditUser">
 
     <include
         layout="@layout/actionbar_donebutton" android:id="@+id/temp_bar"
@@ -31,7 +31,7 @@
         android:layout_centerHorizontal="true" android:id="@+id/temp_Layout"
         android:layout_width="match_parent" android:layout_height="200dp">
 
-        <com.nitkkr.gawds.tech16.src.CircularTextView
+        <com.nitkkr.gawds.tech16.src1.CircularTextView
             android:id="@+id/view_user_Image_Letter" android:visibility="visible"
             android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"

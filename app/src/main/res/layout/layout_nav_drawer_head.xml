@@ -19,7 +19,7 @@
         android:layout_centerVertical="true" android:layout_centerHorizontal="true"
         android:layout_width="100dp" android:layout_height="100dp">
 
-        <com.nitkkr.gawds.tech16.src.CircularTextView
+        <com.nitkkr.gawds.tech16.src1.CircularTextView
             android:id="@+id/nav_User_Image_Letter" android:visibility="visible"
             android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"
