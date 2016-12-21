@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.helper.fetch_data;
+import com.nitkkr.gawds.tech16.helper.Fetch_Data1;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.src.CheckUpdate;
@@ -36,7 +36,6 @@ public class Splash extends AppCompatActivity
 	boolean secondPermissionRequest=false;
 	private static final int STORAGE_PERMISSION_CODE =1 ;
 	private Handler handler = new Handler();
-	fetch_data f=fetch_data.getInstance();
 	View upper, lower;
 	Animation slideup, slidedown,imageSLideUp;
 	Thread runAnimationUp = new Thread() {
@@ -193,25 +192,24 @@ public class Splash extends AppCompatActivity
 
 		if(Skip)
 		{
-			f.fetch_events(getBaseContext());
-			f.getCategories(getBaseContext());
+			Fetch_Data1.getInstance().fetchAllEvents(getBaseContext());
+			Fetch_Data1.getInstance().fetchAllInterests(getBaseContext());
 		}
 		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
-			f.fetch_events(getBaseContext());
-			f.getCategories(getBaseContext());
-
+			Fetch_Data1.getInstance().fetchAllEvents(getBaseContext());
+			Fetch_Data1.getInstance().fetchAllInterests(getBaseContext());
 		}
 		//if  logged in
 		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
 		{
-			f.fetch_interests(getBaseContext());
-			f.fetch_events(getBaseContext());
+			Fetch_Data1.getInstance().fetchUserInterests(getBaseContext());
+			Fetch_Data1.getInstance().fetchAllEvents(getBaseContext());
 		}
 		else
 		{
-			f.fetch_events(getBaseContext());
-			f.getCategories(getBaseContext());
+			Fetch_Data1.getInstance().fetchAllEvents(getBaseContext());
+			Fetch_Data1.getInstance().fetchAllInterests(getBaseContext());
 		}
 
 		handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));

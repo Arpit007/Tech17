@@ -2,6 +2,7 @@ package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,8 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.Fetch_Data1;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
@@ -32,9 +35,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditUser extends AppCompatActivity
 {
+	private int ResponseCount=0;
+	private final int PROFILE=200;
 	private static final int INTEREST=900;
 	private static final int AVATAR=700;
 	private AppUserModel model= (AppUserModel)AppUserModel.MAIN_USER.clone();
+	private boolean interestChanged=false, interestSuccess=false, profileSuccess=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +57,42 @@ public class EditUser extends AppCompatActivity
 			{
 				if(Check())
 				{
+					if(interestChanged)
+						Fetch_Data1.getInstance().sendInterests(getApplicationContext(), model.getInterests(), model, new iResponseCallback()
+						{
+							@Override
+							public void onResponse(ResponseStatus status)
+							{
+								if(status==ResponseStatus.FAILED)
+									Toast.makeText(EditUser.this,"Failed to Update Interests",Toast.LENGTH_SHORT).show();
+
+								EditUser.this.onResponse(PROFILE,status);
+							}
+
+							@Override
+							public void onResponse(ResponseStatus status, Object object)
+							{
+								this.onResponse(status);
+							}
+						});
+
+					Fetch_Data1.getInstance().updateUserDetails(getApplicationContext(), model, new iResponseCallback()
+					{
+						@Override
+						public void onResponse(ResponseStatus status)
+						{
+							if(status==ResponseStatus.FAILED)
+								Toast.makeText(EditUser.this,"Failed to Update Profile",Toast.LENGTH_SHORT).show();
+							EditUser.this.onResponse(PROFILE,status);
+						}
+
+						@Override
+						public void onResponse(ResponseStatus status, Object object)
+						{
+							this.onResponse(status);
+						}
+					});
+
 					//TODO: Send info
 					ResponseStatus status= ResponseStatus.SUCCESS;
 					switch (status)
@@ -160,6 +202,7 @@ public class EditUser extends AppCompatActivity
 		{
 			if(resultCode==INTEREST)
 			{
+				interestChanged=true;
 				model.setInterests((ArrayList<InterestModel>)data.getSerializableExtra("Interests"));
 			}
 		}
@@ -250,5 +293,43 @@ public class EditUser extends AppCompatActivity
 		if(ActivityHelper.revertToHomeIfLast(EditUser.this))
 			return;
 		super.onBackPressed();
+	}
+
+	public void onResponse(int ID, ResponseStatus status)
+	{
+		ResponseCount++;
+
+		if(ID==PROFILE)
+			profileSuccess = status==ResponseStatus.SUCCESS;
+		if(ID==INTEREST)
+			interestSuccess = status==ResponseStatus.SUCCESS;
+
+		if(ResponseCount==2)
+		{
+			if(!interestChanged || !interestSuccess)
+				model.setInterests(AppUserModel.MAIN_USER.getInterests());
+			if(!profileSuccess)
+			{
+				AppUserModel temp=(AppUserModel)AppUserModel.MAIN_USER.clone();
+				temp.setInterests(model.getInterests());
+				model=temp;
+			}
+			model.saveAppUser(getApplicationContext());
+			AppUserModel.MAIN_USER=model;
+
+			ResponseCount=0;
+			profileSuccess=false;
+			interestSuccess=false;
+			interestChanged=false;
+			Toast.makeText(getApplicationContext(),"Changes Updated Successfuully",Toast.LENGTH_LONG).show();
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EditUser.this.finish();
+				}
+			},getResources().getInteger(R.integer.AutoCloseDuration));
+		}
 	}
 }

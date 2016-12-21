@@ -11,33 +11,22 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.adapter.InterestAdapter;
+import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.Fetch_Data1;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Interests extends AppCompatActivity
 {
 	private AppUserModel appUserModel=(AppUserModel)AppUserModel.MAIN_USER.clone();
 	private InterestAdapter adapter;
 	private ProgressDialog mProgressDialog;
-	String token,interests_post_data;
+	String token;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -77,18 +66,8 @@ public class Interests extends AppCompatActivity
 						data.putExtras(bundle);
 						setResult(RESULT_OK,data);
 						finish();
-						return;
 					}
-
-					interests_post_data="[";
-					//TODO: Send Info
-					ArrayList<String> s=appUserModel.getSelectedInterests();
-					for(int i=0;i<s.size()-1;i++)
-					{
-						interests_post_data+='"'+s.get(i)+'"'+",";
-					}
-					interests_post_data+='"'+s.get(s.size()-1)+'"'+"]";
-					sendInterests();
+					else sendInterests();
 				}
 				else
 				{
@@ -104,57 +83,21 @@ public class Interests extends AppCompatActivity
 	public void sendInterests()
 	{
 		showProgressDialog("Uploading Information, Please Wait...");
-		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
-				getResources().getString(R.string.get_user_interests_url),
-				new Response.Listener<String>() {
-					@Override
-					public void onResponse(String res)
-					{
-						JSONObject response;
-						try
-						{
-							response = new JSONObject(res);
-
-							if(response.getJSONObject("status").getInt("code")==200)
-							{
-								serverResponse(ResponseStatus.SUCCESS);
-							}
-							else
-							{
-								serverResponse(ResponseStatus.FAILED);
-							}
-						}
-						catch (JSONException e)
-						{
-							Toast.makeText(Interests.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
-							e.printStackTrace();
-						}
-
-						Toast.makeText(Interests.this,res,Toast.LENGTH_LONG).show();
-						hideProgressDialog();
-					}
-				},
-				new Response.ErrorListener()
-				{
-					@Override
-					public void onErrorResponse(VolleyError error)
-					{
-						Toast.makeText(Interests.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
-						hideProgressDialog();
-					}
-				}){
+		Fetch_Data1.getInstance().sendInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
+		{
 			@Override
-			protected Map<String,String> getParams(){
-				Map<String,String> params = new HashMap<String, String>();
-				params.put("token",token);
-				params.put("interests",interests_post_data);
-				return params;
+			public void onResponse(ResponseStatus status)
+			{
+				hideProgressDialog();
+				serverResponse(status);
 			}
-		};
 
-		RequestQueue requestQueue = Volley.newRequestQueue(this);
-		requestQueue.add(stringRequest);
-
+			@Override
+			public void onResponse(ResponseStatus status, Object object)
+			{
+				this.onResponse(status);
+			}
+		});
 	}
 
 	public void serverResponse(ResponseStatus status){

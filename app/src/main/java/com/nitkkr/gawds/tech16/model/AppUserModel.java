@@ -37,43 +37,39 @@ public class AppUserModel extends UserModel implements Cloneable
 
 	public static AppUserModel MAIN_USER=new AppUserModel();
 
-	public String interestsToString()
+	public String selectedInterestsToString()
 	{
-		//TODO: Set Token
-		StringBuilder stringBuilder=new StringBuilder("");
-		String Token=",";
+		StringBuilder stringBuilder=new StringBuilder("[");
 
-		ArrayList<String> Interests=Database.database.getInterestDB().getSelectedInterestStrings();
-
-		for(String interest:Interests)
+		for(InterestModel model:Interests)
 		{
-			if(stringBuilder.toString().equals(""))
-				stringBuilder.append(interest);
-			else
-			{
-				stringBuilder.append(Token).append(interest);
-			}
+			if(model.isSelected())
+				stringBuilder.append(",").append(model.getID());
 		}
+
+		stringBuilder.append("]");
+		stringBuilder.deleteCharAt(1);
 
 		return stringBuilder.toString();
 	}
 
-	private ArrayList<String> stringToInterests(String Interests)
+	public String unSelectedInterestsToString()
 	{
-		//TODO: Set Token
-		String Token=",";
-		String[] strings=Interests.split(Token);
-		ArrayList<String> list = (ArrayList<String>)Arrays.asList(strings);
+		StringBuilder stringBuilder=new StringBuilder("[");
 
-		return list;
+		for(InterestModel model:Interests)
+		{
+			if(!model.isSelected())
+				stringBuilder.append(",").append(model.getID());
+		}
+
+		stringBuilder.append("]");
+		stringBuilder.deleteCharAt(1);
+
+		return stringBuilder.toString();
 	}
 
 	public void setInterests(ArrayList<InterestModel> interests){Interests = interests;}
-
-	public void setInterests(String interests)
-	{
-		setInterestsFromArray(stringToInterests(interests));
-	}
 
 	public void setInterestsFromArray(ArrayList<String> list)
 	{

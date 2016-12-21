@@ -10,7 +10,7 @@ public class InterestModel implements Serializable
 {
 	private int ID;
 	private String Interest;
-	private boolean Selected;
+	private boolean Selected = false;
 
 	public int getID(){return ID;}
 	public String getInterest()
