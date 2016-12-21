@@ -20,11 +20,11 @@
                     android:layout_alignParentStart="true">
 
 <TextView
-    android:text="Techspardha"
+    android:text="@string/FestName"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textSize="18sp"
-    android:textColor="#fff"
+    android:textColor="#ffffff"
     android:id="@+id/textView4"
     android:layout_alignTop="@+id/view"
     android:layout_toRightOf="@+id/view"
@@ -32,7 +32,7 @@
     android:layout_marginLeft="1dp"
     android:layout_marginTop="-5dp"/>
     <com.nitkkr.gawds.tech16.src.Typewriter
-        android:textSize="40sp" android:id="@+id/signup_label"
+        android:textSize="38sp" android:id="@+id/signup_label"
         android:layout_marginTop="13dp"
         android:text="    Sign Up"
         android:gravity="start"
@@ -66,7 +66,7 @@
     android:layout_height="4dp"
     android:background="@color/neon_green"
     android:id="@+id/view"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="18dp"
     android:layout_marginLeft="-0dp"
     android:layout_alignParentTop="true"
     android:layout_alignStart="@+id/view3"/>
@@ -79,7 +79,7 @@
     android:backgroundTint="@color/app_background"
     app:srcCompat="@drawable/right_arrow" android:layout_below="@+id/signup_label"
     android:layout_toStartOf="@+id/textView4"
-    android:layout_marginTop="38dp" android:id="@+id/imageView15"/>
+    android:layout_marginTop="30dp" android:id="@+id/imageView15"/>
 <ImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
@@ -132,10 +132,11 @@
 <EditText
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:inputType="textPersonName"
+    android:inputType="phone"
     android:textColor="@color/text_color_primary"
     android:hint="Mobile No"
     android:ems="10"
+    android:maxLength="10"
     android:textColorHint="@color/text_color_primary"
     android:layout_marginLeft="10dp"
     android:layout_marginBottom="-20dp"
@@ -292,9 +293,10 @@
 <EditText
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:inputType="textPersonName"
+    android:inputType="phone"
     android:hint="Roll Number"
     android:ems="10"
+    android:maxLength="12"
     android:textColor="@color/text_color_primary"
 
     android:textColorHint="@color/text_color_primary"
@@ -326,7 +328,7 @@
     android:backgroundTint="#ffffff"
     app:srcCompat="@drawable/year"
     android:id="@+id/imageView32"
-    android:layout_marginTop="21dp"
+    android:layout_marginTop="18dp"
     android:layout_below="@+id/view30" android:layout_alignStart="@+id/imageView27"/>
 <ImageView
     android:layout_width="25dp"
@@ -337,8 +339,6 @@
     app:srcCompat="@drawable/right_arrow"
     android:id="@+id/imageView33"
     android:layout_alignTop="@+id/imageView32" android:layout_toStartOf="@+id/signup_Roll"/>
-    android:layout_toEndOf="@+id/imageView24" android:layout_alignTop="@+id/imageView33"/>
-
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/signup_year"
             android:layout_width="match_parent"
@@ -349,8 +349,8 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginStart="15dp"
-            android:layout_alignBottom="@+id/imageView33" android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/imageView24" android:layout_alignTop="@+id/imageView33"/>
+            android:layout_alignStart="@+id/signup_Roll" android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/imageView33"/>
 
 <ImageView
     android:layout_width="25dp"
