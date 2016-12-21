@@ -26,7 +26,7 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		String Query="DROP TABLE " + DbConstants.Constants.getCoordinatorTableName() + ";";
+		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getCoordinatorTableName() + ";";
 		dbRequest.getDatabase().rawQuery(Query,null);
 	}
 

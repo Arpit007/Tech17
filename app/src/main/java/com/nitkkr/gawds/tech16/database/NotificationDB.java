@@ -26,9 +26,8 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		/*
-		String Query="DROP TABLE " + DbConstants.Constants.getNotificationTableName() + ";";
-		dbRequest.getDatabase().rawQuery(Query,null);*/
+		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getNotificationTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query,null);
 	}
 
 	@Override

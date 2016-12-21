@@ -26,7 +26,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		String Query="DROP TABLE " + DbConstants.Constants.getExhibitionTableName() + ";";
+		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getExhibitionTableName() + ";";
 		dbRequest.getDatabase().rawQuery(Query,null);
 	}
 

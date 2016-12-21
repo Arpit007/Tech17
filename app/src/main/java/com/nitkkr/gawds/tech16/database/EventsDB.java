@@ -27,7 +27,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		String Query="DROP TABLE " + DbConstants.Constants.getEventsTableName() + ";";
+		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getEventsTableName() + ";";
 		dbRequest.getDatabase().rawQuery(Query,null);
 	}
 
