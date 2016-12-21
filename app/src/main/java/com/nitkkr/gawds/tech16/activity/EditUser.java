@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.api.fetchDatax;
+import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
@@ -66,7 +66,7 @@ public class EditUser extends AppCompatActivity
 					progressDialog.show();
 
 					if(interestChanged)
-						fetchDatax.getInstance().sendInterests(getApplicationContext(), model.getInterests(), model, new iResponseCallback()
+						FetchData.getInstance().sendInterests(getApplicationContext(), model.getInterests(), model, new iResponseCallback()
 						{
 							@Override
 							public void onResponse(ResponseStatus status)
@@ -84,7 +84,7 @@ public class EditUser extends AppCompatActivity
 							}
 						});
 
-					fetchDatax.getInstance().updateUserDetails(getApplicationContext(), model, new iResponseCallback()
+					FetchData.getInstance().updateUserDetails(getApplicationContext(), model, new iResponseCallback()
 					{
 						@Override
 						public void onResponse(ResponseStatus status)

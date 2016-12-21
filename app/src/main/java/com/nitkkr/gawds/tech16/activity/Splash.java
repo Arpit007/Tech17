@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.api.fetchDatax;
+import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.model.SocietyModel;
@@ -200,24 +200,24 @@ public class Splash extends AppCompatActivity
 
 		if(Skip)
 		{
-			fetchDatax.getInstance().fetchAllEvents(getBaseContext());
-			fetchDatax.getInstance().fetchAllInterests(getBaseContext());
+			FetchData.getInstance().fetchAllEvents(getBaseContext());
+			FetchData.getInstance().fetchAllInterests(getBaseContext());
 		}
 		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
-			fetchDatax.getInstance().fetchAllEvents(getBaseContext());
-			fetchDatax.getInstance().fetchAllInterests(getBaseContext());
+			FetchData.getInstance().fetchAllEvents(getBaseContext());
+			FetchData.getInstance().fetchAllInterests(getBaseContext());
 		}
 		//if  logged in
 		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
 		{
-			fetchDatax.getInstance().fetchUserInterests(getBaseContext());
-			fetchDatax.getInstance().fetchAllEvents(getBaseContext());
+			FetchData.getInstance().fetchUserInterests(getBaseContext());
+			FetchData.getInstance().fetchAllEvents(getBaseContext());
 		}
 		else
 		{
-			fetchDatax.getInstance().fetchAllEvents(getBaseContext());
-			fetchDatax.getInstance().fetchAllInterests(getBaseContext());
+			FetchData.getInstance().fetchAllEvents(getBaseContext());
+			FetchData.getInstance().fetchAllInterests(getBaseContext());
 		}
 
 		handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));

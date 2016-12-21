@@ -33,13 +33,13 @@ import java.util.Map;
  * Created by Dell on 17-Dec-16.
  */
 
-public class fetchDatax
+public class FetchData
 {
-    private fetchDatax(){}
+    private FetchData(){}
 
-    private static fetchDatax f=new fetchDatax();
+    private static FetchData f=new FetchData();
 
-    public static fetchDatax getInstance(){return f;}
+    public static FetchData getInstance(){return f;}
 
     public  void fetchAllInterests(final Context context)
     {

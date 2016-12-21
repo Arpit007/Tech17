@@ -25,7 +25,7 @@ import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.api.fetchDatax;
+import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
@@ -99,7 +99,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 									progressDialog.setCancelable(false);
 									progressDialog.show();
 
-									fetchDatax.getInstance().registerSingleEvent(getApplicationContext(), String.valueOf(model.getEventID()), new iResponseCallback()
+									FetchData.getInstance().registerSingleEvent(getApplicationContext(), String.valueOf(model.getEventID()), new iResponseCallback()
 									{
 										@Override
 										public void onResponse(ResponseStatus status)
@@ -223,7 +223,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		if(PageID<tabLayout.getTabCount())
 			viewPager.setCurrentItem(PageID);
 
-		fetchDatax.getInstance().getEvent(getApplicationContext(), model.getEventID(), new iResponseCallback()
+		FetchData.getInstance().getEvent(getApplicationContext(), model.getEventID(), new iResponseCallback()
 		{
 			@Override
 			public void onResponse(ResponseStatus status)
