@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.nitkkr.gawds.tech16.activity1.fragment1.RegisteredEventList">
+             tools:context="com.nitkkr.gawds.tech16.activity.fragment.RegisteredEventList">
 
     <TextView
         android:text="@string/No_Data"

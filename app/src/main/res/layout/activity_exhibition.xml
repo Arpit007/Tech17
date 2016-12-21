@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:background="@color/app_background"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.activity1.Exhibition">
+    tools:context="com.nitkkr.gawds.tech16.activity.Exhibition">
 
     <include
         layout="@layout/actionbar_back" android:id="@id/temp_bar"

@@ -6,7 +6,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.activity1.Splash"
+    tools:context="com.nitkkr.gawds.tech16.activity.Splash"
     android:backgroundTint="@color/app_background"
     android:background="@color/app_background">
     tools:context="com.nitkkr.gawds.tech16.Activity.Splash">
@@ -32,7 +32,7 @@
         android:background="@color/User_Image_Fill_Color"
         android:id="@+id/lower_splash"
         android:layout_alignTop="@+id/upper_splash" android:layout_alignStart="@+id/upper_splash"/>
-    <com.nitkkr.gawds.tech16.src1.Typewriter
+    <com.nitkkr.gawds.tech16.src.Typewriter
         android:text="        Techspardha"
         android:id="@+id/splash_text"
         android:textSize="38sp"

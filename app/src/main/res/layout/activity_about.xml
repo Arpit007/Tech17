@@ -5,7 +5,7 @@
     android:id="@+id/activity_about"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.activity1.About">
+    tools:context="com.nitkkr.gawds.tech16.activity.About">
     <include
         layout="@layout/actionbar_back" android:id="@+id/temp_bar"
         android:layout_height="?actionBarSize" android:layout_width="match_parent"/>

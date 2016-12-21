@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
         <activity
-            android:name=".activity1.Splash"
+            android:name=".activity.Splash"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SplashScreenStyle">
@@ -26,78 +26,78 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity1.Login"
+            android:name=".activity.Login"
             android:label="@string/Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.Home"
+            android:name=".activity.Home"
             android:label="@string/Home"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.SignUp"
+            android:name=".activity.SignUp"
             android:label="Sign Up"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.Interests"
+            android:name=".activity.Interests"
             android:label="Interests"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.SearchPage"
+            android:name=".activity.SearchPage"
             android:label="Search"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.Event"
+            android:name=".activity.Event"
             android:label="Event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.CreateTeam"
+            android:name=".activity.CreateTeam"
             android:label="Create Team"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.ViewTeam"
+            android:name=".activity.ViewTeam"
             android:label="View Team"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.ViewUser"
+            android:name=".activity.ViewUser"
             android:label="User"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.EventListPage"
+            android:name=".activity.EventListPage"
             android:label="Event List"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.ListPage"
+            android:name=".activity.ListPage"
             android:label="List Page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.EditUser"
+            android:name=".activity.EditUser"
             android:label="Edit Details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.AvatarPicker"
+            android:name=".activity.AvatarPicker"
             android:label="Avatar"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.About"
+            android:name=".activity.About"
             android:label="About"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity1.Exhibition"
+            android:name=".activity.Exhibition"
             android:label="@string/Exhibition"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
