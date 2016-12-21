@@ -18,11 +18,11 @@
             android:name=".Activity.Splash"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/SplashScreenStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <categoryId android:name="android.intent.categoryId.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity

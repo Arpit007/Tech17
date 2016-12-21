@@ -259,7 +259,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		model.setListener(Event.this);
 
 		(( TextView)findViewById(R.id.Event_Name)).setText(model.getEventName());
-		(( TextView)findViewById(R.id.Event_Category)).setText(Database.database.getInterestDB().getInterest(model.getSociety()));
+		(( TextView)findViewById(R.id.Event_Category)).setText(Database.database.getInterestDB().getInterest(model.getSocietyId()));
 
 		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "am").replace("PM","pm");
 		(( TextView)findViewById(R.id.Event_Date)).setText(date);
