@@ -31,7 +31,7 @@ import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.src.PdfHelper;
+import com.nitkkr.gawds.tech16.src.PdfDownloadHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -174,16 +174,16 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			@Override
 			public void onClick(View view)
 			{
-				if(PdfHelper.getInstance().isPdfExisting(model.getPdfLink()))
+				if(PdfDownloadHelper.getInstance().isPdfExisting(model.getPdfLink()))
 				{
-					PdfHelper.getInstance().viewPdfIfExists(model.getPdfLink(),Event.this);
+					PdfDownloadHelper.getInstance().viewPdfIfExists(model.getPdfLink(),Event.this);
 				}
 				else
 				{
 					PdfButton.setText("Downloading");
 					PdfButton.setEnabled(false);
 
-					PdfHelper.getInstance().DownloadPdf(model.getPdfLink(), new PdfHelper.iCallback()
+					PdfDownloadHelper.getInstance().DownloadPdf(model.getPdfLink(), new PdfDownloadHelper.iCallback()
 					{
 						@Override
 						public void DownloadComplete(String url, ResponseStatus status)
@@ -292,7 +292,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else
 		{
-			PdfHelper.getInstance().removeListener(model.getPdfLink());
+			PdfDownloadHelper.getInstance().removeListener(model.getPdfLink());
 			if(ActivityHelper.revertToHomeIfLast(Event.this))
 				return;
 			super.onBackPressed();
@@ -321,12 +321,12 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		Button PdfButton=(Button)findViewById(R.id.Event_Pdf);
 
-		if(PdfHelper.getInstance().isPdfExisting(model.getPdfLink()))
+		if(PdfDownloadHelper.getInstance().isPdfExisting(model.getPdfLink()))
 		{
 			PdfButton.setText("View Pdf");
 			PdfButton.setEnabled(true);
 		}
-		else if (PdfHelper.getInstance().isPdfDownloading(model.getPdfLink()))
+		else if (PdfDownloadHelper.getInstance().isPdfDownloading(model.getPdfLink()))
 		{
 			PdfButton.setText("Downloading");
 			PdfButton.setEnabled(false);
@@ -337,8 +337,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			PdfButton.setEnabled(true);
 		}
 
-		(( TextView)findViewById(R.id.Event_Round)).setText(model.getCurrentRound());
-
+		//TODO:FIX
+		(( TextView)findViewById(R.id.Event_Round)).setText(String.valueOf(model.getCurrentRound()));
 		actionBar.setLabel(model.getEventName());
 
 		setCallbacks();

@@ -199,7 +199,7 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 			values.put(Coordinator_Mobile,coordinator.getMobile());
 			values.put(Coordinator_Designation,coordinator.getDesignation());
 
-			if(database.update(TABLENAME,values, Coordinator_Name + " = " + coordinator.getName() + " AND " + Event_ID + " = " + coordinator.getEventID(),null)<1)
+			if(database.update(TABLENAME,values, Coordinator_Name + " = \"" + coordinator.getName() + "\" AND " + Event_ID + " = " + coordinator.getEventID(),null)<1)
 			{
 				database.insert(DbConstants.Constants.getCoordinatorTableName(),null,values);
 			}

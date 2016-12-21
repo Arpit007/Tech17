@@ -26,6 +26,7 @@ import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.fetchData;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.SocietyModel;
 import com.nitkkr.gawds.tech16.src.CheckUpdate;
 import io.fabric.sdk.android.Fabric;
 import com.nitkkr.gawds.tech16.src.RateApp;
@@ -159,6 +160,13 @@ public class Splash extends AppCompatActivity
 	{
 		Database database=new Database(getApplicationContext());
 		Log.d("Instance: ",database.toString() +" Started");
+
+		/*================TODO:Patch Remove it Later===========================*/
+		SocietyModel model=new SocietyModel();
+		model.setID(1);
+		model.setName("Test Society");
+		Database.database.getSocietyDB().addOrUpdateSociety(model);
+		/*=================================================================*/
 
 		AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 

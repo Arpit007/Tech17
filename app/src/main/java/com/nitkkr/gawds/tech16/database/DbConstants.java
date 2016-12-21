@@ -49,7 +49,7 @@ public class DbConstants
 		EVENTS_TABLE_NAME="EventList";
 		EXHIBITION_TABLE_NAME="Exhibition";
 		NOTIFICATION_TABLE_NAME="NotificationList";
-		INTEREST_TABLE_NAME="Interests";
+		INTEREST_TABLE_NAME="Interest";
 		COORDINATOR_TABLE_NAME="Coordinator";
 		SOCIETY_TABLE_NAME="Society";
 	}
@@ -68,7 +68,7 @@ public class DbConstants
 		EVENTS_TABLE_NAME=preferences.getString("EventTableName","EventList");
 		EXHIBITION_TABLE_NAME=preferences.getString("ExhibitionTableName","Exhibition");
 		NOTIFICATION_TABLE_NAME=preferences.getString("NotificationTableName","NotificationList");
-		INTEREST_TABLE_NAME=preferences.getString("InterestTableName","Interests");
+		INTEREST_TABLE_NAME=preferences.getString("InterestTableName","Interest");
 		COORDINATOR_TABLE_NAME=preferences.getString("CoordinatorTableName","Coordinator");
 		SOCIETY_TABLE_NAME=preferences.getString("SocietyTableName","Society");
 	}

@@ -21,6 +21,7 @@ import com.nitkkr.gawds.tech16.R;
 
 import java.util.Date;
 
+import static android.app.PendingIntent.getActivity;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 
@@ -44,11 +45,12 @@ public class NotificationGenerator
 	{
 		return new NotificationCompat.Builder(context)
 				.setSmallIcon(IconID)
+				.setPriority(NotificationCompat.PRIORITY_MAX)
 				.setTicker(Ticker)
 				.setAutoCancel(true);
 	}
 
-	private void complexBuild(int IconID, String Label, String Ticker, String Message, iMessageAction action, RemoteViews view, Intent intent)
+	private void complexBuild(int IconID, String Label, String Ticker, String Message, RemoteViews view, Intent intent)
 	{
 		NotificationCompat.Builder builder=basicBuild(IconID,Label,Ticker,Message);
 
@@ -61,12 +63,12 @@ public class NotificationGenerator
 		{
 			builder = builder.setContentTitle(Label)
 					.setContentText(Message)
-					.setSmallIcon(R.mipmap.ic_launcher)
+					.setSmallIcon(IconID)
 					.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 					.setWhen(new Date().getTime());
 		}
 
-		PendingIntent pIntent = PendingIntent.getActivity(context, LastId, intent,
+		PendingIntent pIntent = getActivity(context, LastId, intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		builder.setContentIntent(pIntent);
 
@@ -81,7 +83,7 @@ public class NotificationGenerator
 		saveCache();
 	}
 
-	public void eventNotification(String Label, String Ticker, String Message, iMessageAction action, EventKey key)
+	public void eventNotification(String Label, String Ticker, String Message, EventKey key)
 	{
 		int IconID=0;
 
@@ -101,10 +103,10 @@ public class NotificationGenerator
 
 		intent.putExtras(bundle);
 
-		complexBuild(IconID,Label,Ticker,Message,action,view,intent);
+		complexBuild(IconID,Label,Ticker,Message,view,intent);
 	}
 
-	public void eventResultNotification(String Label, String Ticker, String Message,  iMessageAction action, EventKey key)
+	public void eventResultNotification(String Label, String Ticker, String Message, EventKey key)
 	{
 		int IconID=0;
 
@@ -119,10 +121,10 @@ public class NotificationGenerator
 
 		intent.putExtras(bundle);
 
-		complexBuild(IconID,Label,Ticker,Message,action,view,intent);
+		complexBuild(IconID,Label,Ticker,Message,view,intent);
 	}
 
-	public void inviteNotification(String Label, String Ticker, String Message, iMessageAction action)
+	public void inviteNotification(String Label, String Ticker, String Message)
 	{
 		int IconID=0;
 
@@ -134,10 +136,10 @@ public class NotificationGenerator
 
 		intent.putExtras(bundle);
 
-		complexBuild(IconID,Label,Ticker,Message,action,view,intent);
+		complexBuild(IconID,Label,Ticker,Message,view,intent);
 	}
 
-	public void simpleNotification(String Label, String Ticker, String Message, iMessageAction action)
+	public void simpleNotification(String Label, String Ticker, String Message)
 	{
 		int IconID=0;
 
@@ -147,7 +149,7 @@ public class NotificationGenerator
 		Intent intent=new Intent(context,Home.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-		complexBuild(IconID,Label,Ticker,Message,action,view,intent);
+		complexBuild(IconID,Label,Ticker,Message,view,intent);
 	}
 
 	public int pdfNotification(String Label, String Ticker, String Message)
@@ -157,25 +159,28 @@ public class NotificationGenerator
 		return LastId-1;
 	}
 
-	public void pdfNotification(int ID, String Label, String Ticker, String Message, PendingIntent pendingIntent, boolean cancelOnClick)
+	public void pdfNotification(int ID, String Label, String Ticker, String Message, Intent intent, boolean cancelOnClick)
 	{
 		NotificationCompat.Builder builder=basicBuild(R.drawable.ic_cloud_download,Label,Ticker,Message);
 
 		builder = builder.setContentTitle(Label)
 				.setContentText(Message)
 				.setSmallIcon(R.mipmap.ic_launcher)
-				.setAutoCancel(false)
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 				.setWhen(new Date().getTime());
 
-		if(pendingIntent!=null)
-				builder=builder.setContentIntent(pendingIntent);
-
-		Notification notification = builder.build();
-
 		if(cancelOnClick)
-			notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		else notification.flags |=NotificationCompat.FLAG_ONGOING_EVENT;
+			builder=builder.setAutoCancel(true);
+		else builder = builder.setAutoCancel(false)
+					.setOngoing(true);
+
+		if(intent!=null)
+		{
+			PendingIntent pIntent = PendingIntent.getActivity(context, ID, intent,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			builder = builder.setContentIntent(pIntent);
+		}
+		Notification notification = builder.build();
 
 		((NotificationManager) context.getSystemService(NOTIFICATION_SERVICE)).notify(ID, notification);
 	}

@@ -121,6 +121,8 @@ public class fetchData
 
                             if(code==200)
                             {
+                                Database.database.getInterestDB().resetTable();
+
                                 ArrayList<InterestModel> list=new ArrayList<>();
                                 for(int i=0;i<data.length();i++)
                                 {
@@ -436,7 +438,9 @@ public class fetchData
 
                             if (code == 200)
                             {
-                                ArrayList<EventModel> eventModels = new ArrayList<>();
+                                ArrayList<EventModel> eventModels = Database.database.getEventsDB().getAllEvents();
+                                int Size=eventModels.size();
+
                                 ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
 
                                 for (int i = 0; i < data.length(); i++)
@@ -444,7 +448,18 @@ public class fetchData
                                     EventModel eventModel = new EventModel();
                                     JSONObject jEvent = data.getJSONObject(i);
 
-                                    eventModel.setEventID(jEvent.getInt("Id"));
+                                    int ID=jEvent.getInt("Id"), index=-1;
+
+                                    for(int x=0;x<Size;x++)
+                                    {
+                                        if(eventModels.get(x).getEventID()==ID)
+                                        {
+                                            eventModel=eventModels.get(x);
+                                            index=x;
+                                            break;
+                                        }
+                                    }
+                                    eventModel.setEventID(ID);
                                     eventModel.setEventName(jEvent.getString("Name"));
                                     eventModel.setDescription(jEvent.getString("Description"));
                                     eventModel.setVenue(jEvent.getString("Venue"));
@@ -458,7 +473,8 @@ public class fetchData
                                     eventModel.setCategory(jEvent.getInt("CategoryId"));
                                     eventModel.setSociety(jEvent.getInt("SocietyId"));
 
-                                    eventModels.add(eventModel);
+                                    if(index==-1)
+                                        eventModels.add(eventModel);
 
                                     coordinators = jEvent.getJSONArray("Coordinators");
 
@@ -526,7 +542,7 @@ public class fetchData
 
                             if(code==200)
                             {
-                                EventModel eventModel=new EventModel();
+                                EventModel eventModel=Database.database.getEventsDB().getEvent(data.getInt("Id"));
                                 eventModel.setEventID(data.getInt("Id"));
                                 eventModel.setEventName(data.getString("Name"));
                                 eventModel.setDescription(data.getString("Description"));
@@ -548,14 +564,14 @@ public class fetchData
                             else
                             {
                                 if (callback!=null)
-                                    callback.onResponse(ResponseStatus.SUCCESS,new EventModel());
+                                    callback.onResponse(ResponseStatus.FAILED,new EventModel());
                             }
                         }
                         catch (JSONException e)
                         {
                             e.printStackTrace();
                             if (callback!=null)
-                                callback.onResponse(ResponseStatus.SUCCESS,new EventModel());
+                                callback.onResponse(ResponseStatus.FAILED,new EventModel());
                         }
                     }
                 },
@@ -564,7 +580,7 @@ public class fetchData
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         if (callback!=null)
-                            callback.onResponse(ResponseStatus.SUCCESS,new EventModel());
+                            callback.onResponse(ResponseStatus.FAILED,new EventModel());
                     }
                 });
 

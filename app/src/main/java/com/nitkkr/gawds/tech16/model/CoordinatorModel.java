@@ -14,7 +14,7 @@ public class CoordinatorModel implements Serializable
 {
 	private int EventID;
 	private String Name;
-	private String Email;
+	private String Email="info@techspardha.org";
 	private String Mobile;
 	private String Designation;
 

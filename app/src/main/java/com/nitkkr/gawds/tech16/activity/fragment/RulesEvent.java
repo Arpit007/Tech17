@@ -35,7 +35,8 @@ public class RulesEvent extends Fragment {
     {
         View view= inflater.inflate(R.layout.fragment_about,container,false);
 
-        ((TextView)view.findViewById(R.id.Event_Content)).setText(model.getRules());
+        if (model!=null)
+            ((TextView)view.findViewById(R.id.Event_Content)).setText(model.getRules());
 
         return view;
     }

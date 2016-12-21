@@ -58,12 +58,14 @@ public class ContactEvent extends Fragment
         mreRecyclerView.setAdapter(mCoordinatorAdapter);
 
         prepare_list();
+
         return rootView;
     }
 
     public void prepare_list()
     {
         coordinatorModelList= Database.database.getCoordinatorDB().getCoordinators(model);
+        mCoordinatorAdapter.setCoordinatorModelList(coordinatorModelList);
         mCoordinatorAdapter.notifyDataSetChanged();
     }
 }

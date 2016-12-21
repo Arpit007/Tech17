@@ -1,6 +1,5 @@
 package com.nitkkr.gawds.tech16.src;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,7 +28,7 @@ import static com.nitkkr.gawds.tech16.helper.ActivityHelper.getApplicationContex
  * Created by Home Laptop on 20-Dec-16.
  */
 
-public class PdfHelper
+public class PdfDownloadHelper
 {
 	class Holder
 	{
@@ -39,11 +38,11 @@ public class PdfHelper
 
 	HashMap<String, Holder> Downloading;
 
-	private static PdfHelper pdfHelper=new PdfHelper();
+	private static PdfDownloadHelper pdfHelper=new PdfDownloadHelper();
 
-	public static PdfHelper getInstance(){return pdfHelper;}
+	public static PdfDownloadHelper getInstance(){return pdfHelper;}
 
-	private PdfHelper(){
+	private PdfDownloadHelper(){
 		Downloading = new HashMap<>();
 	}
 
@@ -138,11 +137,8 @@ public class PdfHelper
 
 									Intent intent = Intent.createChooser(target, "Open File");
 
-									PendingIntent pIntent = PendingIntent.getActivity(context, holder1.ID, intent,
-											PendingIntent.FLAG_UPDATE_CURRENT);
-
 									NotificationGenerator generator1=new NotificationGenerator(context);
-									generator1.pdfNotification(holder1.ID,"Download Complete","Download Complte",getFileName(url)+" Download Successfully",pIntent,true);
+									generator1.pdfNotification(holder1.ID,"Download Complete","Download Complte",getFileName(url)+" Download Successfully",intent,true);
 
 									if (call != null)
 										call.DownloadComplete(url, ResponseStatus.SUCCESS);

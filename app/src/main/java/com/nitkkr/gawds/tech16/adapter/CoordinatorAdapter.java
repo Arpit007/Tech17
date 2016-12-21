@@ -37,6 +37,8 @@ public class CoordinatorAdapter extends RecyclerView.Adapter<CoordinatorAdapter.
 
     }
 
+    public void setCoordinatorModelList(List<CoordinatorModel> models){coordinatorModelList = models;}
+
     public CoordinatorAdapter(List<CoordinatorModel> coordinatorModelList) {
         this.coordinatorModelList = coordinatorModelList;
     }
