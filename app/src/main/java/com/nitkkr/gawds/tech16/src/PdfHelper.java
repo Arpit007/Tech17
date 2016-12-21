@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech16.src;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -36,8 +37,7 @@ public class PdfHelper
 		public iCallback callback;
 	}
 
-	/* TODO:Generate Notifications */
-	HashMap<String, iCallback> Downloading;
+	HashMap<String, Holder> Downloading;
 
 	private static PdfHelper pdfHelper=new PdfHelper();
 
@@ -87,7 +87,7 @@ public class PdfHelper
 		return Downloading.keySet().contains(getFileName(url));
 	}
 
-	public boolean DownloadPdf(final String url, final iCallback callback, Context context)
+	public boolean DownloadPdf(final String url, final iCallback callback, final Context context)
 	{
 		if(isPdfExisting(url))
 			return false;
@@ -98,7 +98,14 @@ public class PdfHelper
 			return false;
 		}
 
-		Downloading.put(getFileName(url),callback);
+
+		final Holder holder=new Holder();
+		holder.callback = callback;
+		NotificationGenerator generator= new NotificationGenerator(context);
+
+		holder.ID=generator.pdfNotification("Downloading Pdf","Downloading","Downloading " + getFileName(url));
+
+		Downloading.put(getFileName(url),holder);
 
 		InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url.toString(),
 				new Response.Listener<byte[]>()
@@ -119,14 +126,31 @@ public class PdfHelper
 
 								try
 								{
-									iCallback call = Downloading.get(getFileName(url));
+									Holder holder1=Downloading.get(getFileName(url));
+									iCallback call = holder1.callback;
 									Downloading.remove(getFileName(url));
+
+
+									File file = new File(getDataFolder(),getFileName(url));
+									Intent target = new Intent(Intent.ACTION_VIEW);
+									target.setDataAndType(Uri.fromFile(file),"application/pdf");
+									target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+									Intent intent = Intent.createChooser(target, "Open File");
+
+									PendingIntent pIntent = PendingIntent.getActivity(context, holder1.ID, intent,
+											PendingIntent.FLAG_UPDATE_CURRENT);
+
+									NotificationGenerator generator1=new NotificationGenerator(context);
+									generator1.pdfNotification(holder1.ID,"Download Complete","Download Complte",getFileName(url)+" Download Successfully",pIntent,true);
+
 									if (call != null)
 										call.DownloadComplete(url, ResponseStatus.SUCCESS);
 								}
 								catch (Exception e)
 								{
 									e.printStackTrace();
+									throw new Exception("Error");
 								}
 							}
 							else throw new Exception("No Response");
@@ -137,8 +161,13 @@ public class PdfHelper
 
 							try
 							{
-								iCallback call = Downloading.get(getFileName(url));
+								Holder holder1=Downloading.get(getFileName(url));
+								iCallback call = holder1.callback;
 								Downloading.remove(getFileName(url));
+
+								NotificationGenerator generator1=new NotificationGenerator(context);
+								generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",getFileName(url)+" Download Failed",null,true);
+
 								if (call != null)
 									call.DownloadComplete(url, ResponseStatus.FAILED);
 							}
@@ -161,7 +190,13 @@ public class PdfHelper
 
 						try
 						{
-							iCallback call = Downloading.get(getFileName(url));
+							Holder holder1=Downloading.get(getFileName(url));
+							iCallback call = holder1.callback;
+							Downloading.remove(getFileName(url));
+
+							NotificationGenerator generator1=new NotificationGenerator(context);
+							generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",getFileName(url)+" Download Failed",null,true);
+
 							Downloading.remove(getFileName(url));
 							if (call != null)
 								call.DownloadComplete(url, ResponseStatus.FAILED);

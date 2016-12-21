@@ -26,7 +26,7 @@ public class AllEventList extends Fragment
 {
 	View MyView;
 	ExpandableListView expListView;
-	HashMap<String, ArrayList<EventKey>> HashData;
+	HashMap<String, ArrayList<EventKey>> HashData = new HashMap<>();
 	AllEventListAdapter listAdapter;
 
 	@Override
@@ -42,8 +42,6 @@ public class AllEventList extends Fragment
 		MyView= inflater.inflate(R.layout.fragment_all_event_list, container, false);
 
 		expListView = (ExpandableListView) MyView.findViewById(R.id.all_event_list);
-
-		prepareListData();
 
 		final ListView listView=(ListView)MyView.findViewById(R.id.search_event_list);
 
@@ -107,6 +105,12 @@ public class AllEventList extends Fragment
 			}
 		});
 
+		if(Database.database.getEventsDB().getRowCount()==0)
+			MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
+		else MyView.findViewById(R.id.None).setVisibility(View.GONE);
+
+		prepareListData();
+
 		return MyView;
 	}
 
@@ -119,13 +123,18 @@ public class AllEventList extends Fragment
 		{
 			HashData.put(society.getName(),Database.database.getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID()));
 		}
+		listAdapter.setEvents(HashData);
+		listAdapter.notifyDataSetChanged();
 	}
 
 	public void SearchQuery(String Query)
 	{
 		if(Query.equals(""))
 		{
-			MyView.findViewById(R.id.None).setVisibility(View.GONE);
+			if(Database.database.getEventsDB().getRowCount()==0)
+				MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
+			else MyView.findViewById(R.id.None).setVisibility(View.GONE);
+
 			MyView.findViewById(R.id.all_event_list).setVisibility(View.VISIBLE);
 			MyView.findViewById(R.id.search_event_list).setVisibility(View.GONE);
 		}

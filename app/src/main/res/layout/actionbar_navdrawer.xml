@@ -56,7 +56,7 @@
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.SearchView
-            android:id="@+id/search"
+            android:id="@+id/search" android:background="@drawable/border_button"
             android:layout_toRightOf="@id/actionbar_back" android:layout_toEndOf="@id/actionbar_back"
             android:layout_centerVertical="true"
             android:layout_width="match_parent" android:layout_height="wrap_content"/>

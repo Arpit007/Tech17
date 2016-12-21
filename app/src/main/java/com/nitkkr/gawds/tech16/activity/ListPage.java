@@ -26,7 +26,7 @@ public class ListPage extends AppCompatActivity
 {
 	private Query query;
 	private ListView listView;
-	private ArrayList<EventKey> Data;
+	private ArrayList<EventKey> Data =new ArrayList<>();
 	private EventListAdapter listAdapter;
 	ActionBarSearch actionBarSearch;
 
@@ -59,7 +59,6 @@ public class ListPage extends AppCompatActivity
 
 		listView = (ListView) this.findViewById(R.id.event_list);
 
-		prepareListData();
 
 		listAdapter = new EventListAdapter(ListPage.this, Data);
 		listAdapter.registerDataSetObserver(new DataSetObserver()
@@ -115,6 +114,8 @@ public class ListPage extends AppCompatActivity
 
 			}
 		});
+
+		prepareListData();
 	}
 
 	void prepareListData()
@@ -132,6 +133,8 @@ public class ListPage extends AppCompatActivity
 		{
 			Data= Database.database.getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk + " = 1");
 		}
+		listAdapter.setEvents(Data);
+		listAdapter.notifyDataSetChanged();
 	}
 
 	@Override

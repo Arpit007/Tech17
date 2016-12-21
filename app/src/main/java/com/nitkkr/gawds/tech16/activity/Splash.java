@@ -58,59 +58,22 @@ public class Splash extends AppCompatActivity
 	{
 		public void run()
 		{
-			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
-
-			if(!ActivityHelper.isDebugMode(getApplicationContext()))
-			{
-				if (AppUserModel.MAIN_USER.isUserLoaded())
-				{
-					Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
-					Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
-				}
-			}
-			else
-			{
-				/*
-				Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler()
-				{
-					@Override
-					public void uncaughtException(Thread thread, Throwable throwable)
-					{
-						throwable.printStackTrace();
-					}
-				});*/
-			}
-
-			CheckUpdate.getInstance().checkForUpdate(getApplicationContext());
-
-			RateApp.getInstance().incrementAppStartCount(getApplicationContext());
-
-
 			SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
 			boolean Skip=preferences.getBoolean("Skip",false);
 
 			if(Skip)
 			{
 				startActivity(new Intent(Splash.this,Home.class));
-				f.fetch_events(getBaseContext());
-				f.getCategories(getBaseContext());
 			}
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
 				startActivity(new Intent(Splash.this,Login.class));
-				f.fetch_events(getBaseContext());
-				f.getCategories(getBaseContext());
-
 			}
 			//if  logged in
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
 				startActivity(new Intent(Splash.this,Home.class));
-				f.fetch_interests(getBaseContext());
-				f.fetch_events(getBaseContext());
 			}
 			else{
 				startActivity(new Intent(Splash.this,Login.class));
-				f.fetch_events(getBaseContext());
-				f.getCategories(getBaseContext());
 			}
 
 			finish();
@@ -148,13 +111,21 @@ public class Splash extends AppCompatActivity
 
 		runAnimationDown.start();
 		runAnimationUp.start();
-		splashTypewriter.animateText("        Techspardha");
+		splashTypewriter.animateText("      Techspardha 17");
 
-		if(!isReadStorageAllowed())
+		Thread thread=new Thread()
 		{
-			ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
-		}
-		else start_app();
+			@Override
+			public void run()
+			{
+				if(!isReadStorageAllowed())
+				{
+					ActivityCompat.requestPermissions(Splash.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
+				}
+				else start_app();
+			}
+		};
+		thread.start();
 	}
 
 	private boolean isReadStorageAllowed()
@@ -168,46 +139,82 @@ public class Splash extends AppCompatActivity
 
 	private void requestStoragePermission()
 	{
-		if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE))
+		final AlertDialog.Builder builder = new AlertDialog.Builder(Splash.this);
+		builder.setCancelable(false);
+		builder.setTitle("Permission Request");
+		builder.setMessage("SD Card Write Permission Needed for App's Functioning");
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
 		{
-			final AlertDialog.Builder builder = new AlertDialog.Builder(Splash.this);
-			builder.setCancelable(false);
-			builder.setTitle("Permission Request");
-			builder.setMessage("SD Card Write Permission Needed for App's Functioning");
-			builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i)
 			{
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i)
-				{
-					dialogInterface.dismiss();
-					secondPermissionRequest=true;
-					ActivityCompat.requestPermissions(Splash.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
-				}
-			});
-		}
+				dialogInterface.dismiss();
+				secondPermissionRequest = true;
+				ActivityCompat.requestPermissions(Splash.this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE_PERMISSION_CODE);
+			}
+		});
+		builder.create().show();
 	}
 
 	public void start_app()
 	{
-		if(!isReadStorageAllowed())
-		{
-			Toast.makeText(getApplicationContext(),"Failed to Get Write Permissions",Toast.LENGTH_LONG).show();
-			finish();
-			System.exit(-1);
-		}
-
 		Database database=new Database(getApplicationContext());
 		Log.d("Instance: ",database.toString() +" Started");
 
-		final Thread timerThread = new Thread()
-		{
-			public void run()
-			{
-				handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));
-			}
-		};
+		AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
-		timerThread.start();
+		if(!ActivityHelper.isDebugMode(getApplicationContext()))
+		{
+			if (AppUserModel.MAIN_USER.isUserLoaded())
+			{
+				Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
+				Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
+			}
+		}
+		else
+		{
+				/*
+				Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler()
+				{
+					@Override
+					public void uncaughtException(Thread thread, Throwable throwable)
+					{
+						throwable.printStackTrace();
+					}
+				});*/
+		}
+
+		CheckUpdate.getInstance().checkForUpdate(getApplicationContext());
+
+		RateApp.getInstance().incrementAppStartCount(getApplicationContext());
+
+		SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
+		boolean Skip=preferences.getBoolean("Skip",false);
+
+		if(Skip)
+		{
+			f.fetch_events(getBaseContext());
+			f.getCategories(getBaseContext());
+		}
+		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
+		{
+			f.fetch_events(getBaseContext());
+			f.getCategories(getBaseContext());
+
+		}
+		//if  logged in
+		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
+		{
+			f.fetch_interests(getBaseContext());
+			f.fetch_events(getBaseContext());
+		}
+		else
+		{
+			f.fetch_events(getBaseContext());
+			f.getCategories(getBaseContext());
+		}
+
+		handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));
 	}
 
 	@Override
@@ -220,6 +227,19 @@ public class Splash extends AppCompatActivity
 					start_app();
 				else if(!secondPermissionRequest)
 					requestStoragePermission();
+				else
+				{
+					Toast.makeText(getApplicationContext(),"Failed to Get Write Permissions.\nExiting...",Toast.LENGTH_LONG).show();
+					new Handler().postDelayed(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							finish();
+							System.exit(-1);
+						}
+					},getResources().getInteger(R.integer.AppCloseDuration));
+				}
 				break;
 		}
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);

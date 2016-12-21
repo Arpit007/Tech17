@@ -121,4 +121,13 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 	{
 		return Events;
 	}
+
+	public void setEvents(HashMap<String,ArrayList<EventKey>> events)
+	{
+		Events=new HashMap<>(events.size());
+		for(String Category: events.keySet())
+		{
+			Events.put(Category,new EventListAdapter(context,events.get(Category)));
+		}
+	}
 }

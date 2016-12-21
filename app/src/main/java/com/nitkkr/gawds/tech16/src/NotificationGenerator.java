@@ -150,14 +150,14 @@ public class NotificationGenerator
 		complexBuild(IconID,Label,Ticker,Message,action,view,intent);
 	}
 
-	public int pdfNotification(String Label, String Ticker, String Message, iMessageAction action)
+	public int pdfNotification(String Label, String Ticker, String Message)
 	{
-		pdfNotification(LastId,Label,Ticker,Message,action);
+		pdfNotification(LastId,Label,Ticker,Message,null,false);
 		saveCache();
 		return LastId-1;
 	}
 
-	public void pdfNotification(int ID, String Label, String Ticker, String Message, iMessageAction action)
+	public void pdfNotification(int ID, String Label, String Ticker, String Message, PendingIntent pendingIntent, boolean cancelOnClick)
 	{
 		NotificationCompat.Builder builder=basicBuild(R.drawable.ic_cloud_download,Label,Ticker,Message);
 
@@ -167,6 +167,17 @@ public class NotificationGenerator
 				.setAutoCancel(false)
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 				.setWhen(new Date().getTime());
+
+		if(pendingIntent!=null)
+				builder=builder.setContentIntent(pendingIntent);
+
+		Notification notification = builder.build();
+
+		if(cancelOnClick)
+			notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		else notification.flags |=NotificationCompat.FLAG_ONGOING_EVENT;
+
+		((NotificationManager) context.getSystemService(NOTIFICATION_SERVICE)).notify(ID, notification);
 	}
 
 	private void saveCache()

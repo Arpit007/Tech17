@@ -28,7 +28,7 @@ public class RegisteredEventList extends Fragment
 	}
 
 	private ListView listView;
-	private ArrayList<EventKey> listDataChild;
+	private ArrayList<EventKey> listDataChild = new ArrayList<>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -43,8 +43,6 @@ public class RegisteredEventList extends Fragment
 		final View view= inflater.inflate(R.layout.fragment_registered_event_list, container, false);
 
 		listView = (ListView) view.findViewById(R.id.registered_event_list);
-
-		prepareListData();
 
 		listAdapter = new EventListAdapter(view.getContext(), listDataChild);
 
@@ -77,11 +75,15 @@ public class RegisteredEventList extends Fragment
 			}
 		});
 
+		prepareListData();
+
 		return view;
 	}
 
 	void prepareListData()
 	{
 		listDataChild=Database.database.getEventsDB().getRegisteredEventKeys();
+		listAdapter.setEvents(listDataChild);
+		listAdapter.notifyDataSetChanged();
 	}
 }
