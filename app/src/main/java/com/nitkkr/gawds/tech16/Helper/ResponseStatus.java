@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Helper;
+package com.nitkkr.gawds.tech16.helper;
 
 /**
  * Created by Home Laptop on 08-Nov-16.

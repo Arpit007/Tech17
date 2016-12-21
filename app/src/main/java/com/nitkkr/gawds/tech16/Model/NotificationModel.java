@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Model;
+package com.nitkkr.gawds.tech16.model;
 
 import java.util.Date;
 

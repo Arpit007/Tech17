@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.app.NotificationManager;
 import android.content.DialogInterface;
@@ -16,19 +16,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.Activity.Fragment.AboutEvent;
-import com.nitkkr.gawds.tech16.Activity.Fragment.ContactEvent;
-import com.nitkkr.gawds.tech16.Activity.Fragment.Result_frag;
-import com.nitkkr.gawds.tech16.Activity.Fragment.RulesEvent;
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
-import com.nitkkr.gawds.tech16.Model.EventKey;
-import com.nitkkr.gawds.tech16.Model.EventModel;
+import com.nitkkr.gawds.tech16.activity.Fragment.AboutEvent;
+import com.nitkkr.gawds.tech16.activity.Fragment.ContactEvent;
+import com.nitkkr.gawds.tech16.activity.Fragment.Result_frag;
+import com.nitkkr.gawds.tech16.activity.Fragment.RulesEvent;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.helper.ActionBarBack;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.ResponseStatus;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
+import com.nitkkr.gawds.tech16.model.EventKey;
+import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.Src.PdfHelper;
+import com.nitkkr.gawds.tech16.src.PdfHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

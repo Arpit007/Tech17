@@ -1,15 +1,13 @@
-package com.nitkkr.gawds.tech16.Src;
+package com.nitkkr.gawds.tech16.src;
 
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.nitkkr.gawds.tech16.Model.MessageModel;
-import com.nitkkr.gawds.tech16.Model.iMessageAction;
+import com.nitkkr.gawds.tech16.model.MessageModel;
+import com.nitkkr.gawds.tech16.model.iMessageAction;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**

@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity.Fragment;
+package com.nitkkr.gawds.tech16.activity.Fragment;
 
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -11,13 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
-import com.nitkkr.gawds.tech16.Activity.Event;
-import com.nitkkr.gawds.tech16.Adapter.AllEventListAdapter;
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Database.DbConstants;
-import com.nitkkr.gawds.tech16.Helper.iActionBar;
-import com.nitkkr.gawds.tech16.Model.EventKey;
-import com.nitkkr.gawds.tech16.Model.SocietyModel;
+import com.nitkkr.gawds.tech16.activity.Event;
+import com.nitkkr.gawds.tech16.adapter.AllEventListAdapter;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.database.DbConstants;
+import com.nitkkr.gawds.tech16.model.EventKey;
+import com.nitkkr.gawds.tech16.model.SocietyModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;

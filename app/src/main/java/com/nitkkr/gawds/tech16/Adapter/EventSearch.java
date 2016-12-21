@@ -1,8 +1,8 @@
-package com.nitkkr.gawds.tech16.Adapter;
+package com.nitkkr.gawds.tech16.adapter;
 
 import android.widget.Filter;
 
-import com.nitkkr.gawds.tech16.Model.EventKey;
+import com.nitkkr.gawds.tech16.model.EventKey;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.API;
+package com.nitkkr.gawds.tech16.api;
 
 import java.io.Serializable;
 

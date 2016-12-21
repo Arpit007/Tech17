@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Database;
+package com.nitkkr.gawds.tech16.database;
 
 import android.database.sqlite.SQLiteDatabase;
 

@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Database;
+package com.nitkkr.gawds.tech16.database;
 
 /**
  * Created by Home Laptop on 20-Dec-16.

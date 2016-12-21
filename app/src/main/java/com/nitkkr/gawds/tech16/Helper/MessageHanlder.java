@@ -1,13 +1,13 @@
-package com.nitkkr.gawds.tech16.Helper;
+package com.nitkkr.gawds.tech16.helper;
 
 import android.content.Context;
 
-import com.nitkkr.gawds.tech16.Model.MessageModel;
-import com.nitkkr.gawds.tech16.Model.MessageType;
-import com.nitkkr.gawds.tech16.Src.MessageEvent;
-import com.nitkkr.gawds.tech16.Src.MessageInvite;
-import com.nitkkr.gawds.tech16.Src.MessageResult;
-import com.nitkkr.gawds.tech16.Src.MessageSimple;
+import com.nitkkr.gawds.tech16.model.MessageModel;
+import com.nitkkr.gawds.tech16.model.MessageType;
+import com.nitkkr.gawds.tech16.src.MessageEvent;
+import com.nitkkr.gawds.tech16.src.MessageInvite;
+import com.nitkkr.gawds.tech16.src.MessageResult;
+import com.nitkkr.gawds.tech16.src.MessageSimple;
 
 /**
  * Created by Home Laptop on 18-Nov-16.

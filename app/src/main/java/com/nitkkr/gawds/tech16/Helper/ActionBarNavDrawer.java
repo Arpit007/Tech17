@@ -1,46 +1,34 @@
-package com.nitkkr.gawds.tech16.Helper;
+package com.nitkkr.gawds.tech16.helper;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.system.Os;
-import android.util.Log;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nitkkr.gawds.tech16.API.Query;
-import com.nitkkr.gawds.tech16.Activity.About;
-import com.nitkkr.gawds.tech16.Activity.EventListPage;
-import com.nitkkr.gawds.tech16.Activity.Home;
-import com.nitkkr.gawds.tech16.Activity.Login;
-import com.nitkkr.gawds.tech16.Activity.SearchPage;
-import com.nitkkr.gawds.tech16.Activity.ViewUser;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.api.Query;
+import com.nitkkr.gawds.tech16.activity.About;
+import com.nitkkr.gawds.tech16.activity.EventListPage;
+import com.nitkkr.gawds.tech16.activity.Home;
+import com.nitkkr.gawds.tech16.activity.Login;
+import com.nitkkr.gawds.tech16.activity.SearchPage;
+import com.nitkkr.gawds.tech16.activity.ViewUser;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.Src.CircularTextView;
+import com.nitkkr.gawds.tech16.src.CircularTextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.nitkkr.gawds.tech16.Helper.ActivityHelper.startListActivity;
+import static com.nitkkr.gawds.tech16.helper.ActivityHelper.startListActivity;
 
 /**
  * Created by Home Laptop on 03-Nov-16.

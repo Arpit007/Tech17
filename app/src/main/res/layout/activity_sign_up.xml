@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/app_background"
                 android:orientation="vertical"
-                tools:context="com.nitkkr.gawds.tech16.Activity.SignUp">
+                tools:context="com.nitkkr.gawds.tech16.activity.SignUp">
 
 
     <ScrollView android:layout_width="match_parent"
@@ -31,7 +31,7 @@
     android:layout_toEndOf="@+id/view"
     android:layout_marginLeft="1dp"
     android:layout_marginTop="-5dp"/>
-    <com.nitkkr.gawds.tech16.Src.Typewriter
+    <com.nitkkr.gawds.tech16.src.Typewriter
         android:textSize="40sp" android:id="@+id/signup_label"
         android:layout_marginTop="13dp"
         android:text="    Sign Up"
@@ -175,11 +175,12 @@
     app:srcCompat="@drawable/right_arrow"
     android:id="@+id/imageView21"
     android:layout_alignTop="@+id/imageView20" android:layout_toStartOf="@+id/signup_Number"/>
-<Spinner
+<android.support.v7.widget.AppCompatSpinner
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:hint="Gender"
     android:ems="10"
+    android:backgroundTint="#ffffff"
     android:layout_marginLeft="10dp"
     android:layout_marginBottom="-10dp"
     android:id="@+id/signup_gender"
@@ -336,20 +337,20 @@
     app:srcCompat="@drawable/right_arrow"
     android:id="@+id/imageView33"
     android:layout_alignTop="@+id/imageView32" android:layout_toStartOf="@+id/signup_Roll"/>
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:inputType="textPersonName"
-    android:hint="Year"
-    android:ems="10"
-    android:layout_marginLeft="10dp"
-    android:id="@+id/signup_year"
-    android:textColor="@color/text_color_primary"
-
-    android:textColorHint="@color/text_color_primary"
-    android:layout_marginBottom="-20dp"
-   android:layout_alignBottom="@+id/imageView33" android:layout_alignParentEnd="true"
     android:layout_toEndOf="@+id/imageView24" android:layout_alignTop="@+id/imageView33"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/signup_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:popupBackground="@color/app_background"
+            android:textColor="@color/User_Image_Fill_Color"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_alignBottom="@+id/imageView33" android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/imageView24" android:layout_alignTop="@+id/imageView33"/>
 
 <ImageView
     android:layout_width="25dp"
@@ -392,10 +393,11 @@
             android:layout_alignBaseline="@+id/signup_Email"
             android:layout_alignBottom="@+id/signup_Email"
             android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/view2"/>
-        <Spinner
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/signup_Branch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:popupBackground="@color/app_background"

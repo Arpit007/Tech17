@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -30,11 +30,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.ResponseStatus;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.Src.Typewriter;
+import com.nitkkr.gawds.tech16.src.Typewriter;
 
 import android.view.animation.AnimationUtils;
 

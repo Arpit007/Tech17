@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,15 +8,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.Adapter.RegisterTeamAdapter;
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
-import com.nitkkr.gawds.tech16.Model.EventModel;
-import com.nitkkr.gawds.tech16.Model.TeamModel;
-import com.nitkkr.gawds.tech16.Model.UserModel;
+import com.nitkkr.gawds.tech16.adapter.RegisterTeamAdapter;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.helper.ActionBarBack;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.ResponseStatus;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
+import com.nitkkr.gawds.tech16.model.EventModel;
+import com.nitkkr.gawds.tech16.model.TeamModel;
+import com.nitkkr.gawds.tech16.model.UserModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;

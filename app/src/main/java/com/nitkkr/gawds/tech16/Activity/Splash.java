@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -21,15 +21,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.fetch_data;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.fetch_data;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.Src.CheckUpdate;
+import com.nitkkr.gawds.tech16.src.CheckUpdate;
 import io.fabric.sdk.android.Fabric;
-import com.nitkkr.gawds.tech16.Src.RateApp;
-import com.nitkkr.gawds.tech16.Src.Typewriter;
+import com.nitkkr.gawds.tech16.src.RateApp;
+import com.nitkkr.gawds.tech16.src.Typewriter;
 
 public class Splash extends AppCompatActivity
 {

@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Model;
+package com.nitkkr.gawds.tech16.model;
 
 import android.content.Context;
 import android.content.Intent;

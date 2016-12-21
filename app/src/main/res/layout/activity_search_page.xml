@@ -5,7 +5,7 @@
     android:id="@+id/activity_search_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.Activity.SearchPage">
+    tools:context="com.nitkkr.gawds.tech16.activity.SearchPage">
     <include
         layout="@layout/actionbar_search" android:id="@+id/temp_bar"
         android:layout_width="match_parent" android:layout_height="?actionBarSize"

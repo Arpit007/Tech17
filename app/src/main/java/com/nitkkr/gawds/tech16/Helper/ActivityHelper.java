@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Helper;
+package com.nitkkr.gawds.tech16.helper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,9 +8,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
-import com.nitkkr.gawds.tech16.API.Query;
-import com.nitkkr.gawds.tech16.Activity.Home;
-import com.nitkkr.gawds.tech16.Activity.ListPage;
+import com.nitkkr.gawds.tech16.api.Query;
+import com.nitkkr.gawds.tech16.activity.Home;
+import com.nitkkr.gawds.tech16.activity.ListPage;
 
 /**
  * Created by Home Laptop on 20-Nov-16.

@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.app.NotificationManager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Model.EventKey;
-import com.nitkkr.gawds.tech16.Model.ExhibitionModel;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.helper.ActionBarBack;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.model.EventKey;
+import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.text.SimpleDateFormat;

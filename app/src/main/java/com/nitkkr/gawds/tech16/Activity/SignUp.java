@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -31,10 +32,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
+import com.nitkkr.gawds.tech16.helper.ResponseStatus;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.Src.Typewriter;
+import com.nitkkr.gawds.tech16.src.Typewriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,11 +96,22 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		//TODO: Add Branches Data
 		String Branches[] = getResources().getStringArray(R.array.Branches);
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Branches);
-		( (Spinner) findViewById(R.id.signup_Branch) ).setAdapter(adapter);
+		AppCompatSpinner spinner=(AppCompatSpinner) findViewById(R.id.signup_Branch);
+		spinner.setAdapter(adapter);
+		spinner.setSelection(0);
 
 		String Gender[] = getResources().getStringArray(R.array.Gender);
 		ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Gender);
-		( (Spinner) findViewById(R.id.signup_gender) ).setAdapter(adapter2);
+		spinner=(AppCompatSpinner) findViewById(R.id.signup_gender);
+		spinner.setAdapter(adapter2);
+		spinner.setSelection(0);
+
+
+		String Year[] = getResources().getStringArray(R.array.Year);
+		ArrayAdapter<String> adapter3 = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Year);
+		spinner=(AppCompatSpinner) findViewById(R.id.signup_year);
+		spinner.setAdapter(adapter3);
+		spinner.setSelection(0);
 
 		Typewriter signupLabel=(Typewriter)findViewById(R.id.signup_label);
 		signupLabel.animateText("   Sign up");
@@ -333,7 +345,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		PhoneNumber=(( EditText)findViewById(R.id.signup_Number)).getText().toString();
 		Gender=((Spinner)findViewById(R.id.signup_gender)).getSelectedItem().toString();
 		Branch=((Spinner)findViewById(R.id.signup_Branch)).getSelectedItem().toString();
-		Year=(( EditText)findViewById(R.id.signup_year)).getText().toString();
+		Year=(( AppCompatSpinner)findViewById(R.id.signup_year)).getSelectedItem().toString();
 
 		//saving user data
 		AppUserModel.MAIN_USER.setName(personName);

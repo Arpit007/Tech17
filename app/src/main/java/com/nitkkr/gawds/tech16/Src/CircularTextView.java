@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Src;
+package com.nitkkr.gawds.tech16.src;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Src;
+package com.nitkkr.gawds.tech16.src;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -6,18 +6,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
-import com.nitkkr.gawds.tech16.Activity.Event;
-import com.nitkkr.gawds.tech16.Activity.Exhibition;
-import com.nitkkr.gawds.tech16.Activity.Home;
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Model.EventKey;
-import com.nitkkr.gawds.tech16.Model.iMessageAction;
+import com.nitkkr.gawds.tech16.activity.Event;
+import com.nitkkr.gawds.tech16.activity.Exhibition;
+import com.nitkkr.gawds.tech16.activity.Home;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.model.EventKey;
+import com.nitkkr.gawds.tech16.model.iMessageAction;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.Date;

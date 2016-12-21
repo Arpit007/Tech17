@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Adapter;
+package com.nitkkr.gawds.tech16.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.nitkkr.gawds.tech16.Model.EventKey;
+import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Adapter;
+package com.nitkkr.gawds.tech16.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;

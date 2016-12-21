@@ -8,7 +8,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.Activity.EditUser">
+    tools:context="com.nitkkr.gawds.tech16.activity.EditUser">
 
     <include
         layout="@layout/actionbar_donebutton" android:id="@+id/temp_bar"
@@ -26,12 +26,12 @@
     <RelativeLayout
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:background="@drawable/user_bk"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" android:id="@+id/temp_Layout"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
+        android:layout_centerHorizontal="true" android:id="@+id/temp_Layout"
+        android:layout_width="match_parent" android:layout_height="200dp">
 
-        <com.nitkkr.gawds.tech16.Src.CircularTextView
+        <com.nitkkr.gawds.tech16.src.CircularTextView
             android:id="@+id/view_user_Image_Letter" android:visibility="visible"
             android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"
@@ -45,9 +45,12 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/edit_user_Image"
-            android:layout_below="@id/view_user_Image_Letter" android:layout_alignRight="@id/view_user_Image_Letter"
+            android:tint="@color/app_background"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"/>
+            android:src="@drawable/ic_edit"
+            android:layout_marginLeft="-45dp"
+            android:layout_alignBottom="@+id/view_user_Image_Letter"
+            android:layout_toEndOf="@+id/view_user_Image_Letter"/>
 
 
     </RelativeLayout>
@@ -244,7 +247,7 @@
                 android:layout_marginLeft="11dp"
                 android:layout_marginStart="11dp"
                 />
-            <Spinner
+            <android.support.v7.widget.AppCompatSpinner
                 android:textSize="16sp"
                 android:id="@+id/user_Branch"
                 android:text="IT"
@@ -255,6 +258,48 @@
                 android:textColor="@color/text_color_primary"
                 android:backgroundTint="@color/neon_green"
                 android:layout_toRightOf="@+id/view25"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:background="@drawable/user_profile_textview"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/year"
+                android:padding="5dp"
+                android:backgroundTint="@color/neon_green"
+                android:id="@+id/year_view"/>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/neon_green"
+                android:id="@+id/view27"
+
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/year_view"
+                android:layout_toEndOf="@+id/year_view"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                />
+            <android.support.v7.widget.AppCompatSpinner
+                android:textSize="16sp"
+                android:id="@+id/user_Year"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:textAlignment="center"
+                android:textColor="@color/text_color_primary"
+                android:backgroundTint="@color/neon_green"
+                android:layout_toRightOf="@+id/view27"
                 android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>

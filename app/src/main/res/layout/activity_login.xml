@@ -12,7 +12,7 @@
     android:fontFamily="sans-serif-light"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@color/app_background"
-    tools:context="com.nitkkr.gawds.tech16.Activity.Login">
+    tools:context="com.nitkkr.gawds.tech16.activity.Login">
 
     <Button
         android:text="------     G+ Login"
@@ -101,7 +101,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/view3"/>
 
-    <com.nitkkr.gawds.tech16.Src.Typewriter
+    <com.nitkkr.gawds.tech16.src.Typewriter
         android:textSize="40sp" android:id="@+id/signup_label"
         android:layout_marginTop="41dp"
         android:text="    Login"

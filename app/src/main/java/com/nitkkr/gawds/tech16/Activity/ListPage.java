@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -10,14 +10,14 @@ import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.nitkkr.gawds.tech16.API.Query;
-import com.nitkkr.gawds.tech16.Adapter.EventListAdapter;
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Database.DbConstants;
-import com.nitkkr.gawds.tech16.Helper.ActionBarSearch;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.iActionBar;
-import com.nitkkr.gawds.tech16.Model.EventKey;
+import com.nitkkr.gawds.tech16.api.Query;
+import com.nitkkr.gawds.tech16.adapter.EventListAdapter;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.database.DbConstants;
+import com.nitkkr.gawds.tech16.helper.ActionBarSearch;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.iActionBar;
+import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;

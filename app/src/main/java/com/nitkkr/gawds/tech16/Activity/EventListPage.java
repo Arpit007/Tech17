@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 
 import android.support.design.widget.TabLayout;
@@ -6,10 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.nitkkr.gawds.tech16.Adapter.EventListPagerAdapter;
-import com.nitkkr.gawds.tech16.Helper.ActionBarNavDrawer;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.iActionBar;
+import com.nitkkr.gawds.tech16.adapter.EventListPagerAdapter;
+import com.nitkkr.gawds.tech16.helper.ActionBarNavDrawer;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
 
 public class EventListPage extends AppCompatActivity

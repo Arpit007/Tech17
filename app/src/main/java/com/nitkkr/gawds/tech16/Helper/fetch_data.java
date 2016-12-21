@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Helper;
+package com.nitkkr.gawds.tech16.helper;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,12 +10,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.nitkkr.gawds.tech16.Activity.Interests;
-import com.nitkkr.gawds.tech16.Activity.Login;
-import com.nitkkr.gawds.tech16.Activity.Splash;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
-import com.nitkkr.gawds.tech16.Model.EventModel;
-import com.nitkkr.gawds.tech16.Model.UserModel;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
+import com.nitkkr.gawds.tech16.model.EventModel;
+import com.nitkkr.gawds.tech16.model.UserModel;
 import com.nitkkr.gawds.tech16.R;
 
 import org.json.JSONArray;

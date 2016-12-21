@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Src;
+package com.nitkkr.gawds.tech16.src;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,11 +7,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.R;
-
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Home Laptop on 28-Nov-16.

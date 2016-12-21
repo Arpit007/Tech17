@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity.Fragment;
+package com.nitkkr.gawds.tech16.activity.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Model.CoordinatorModel;
-import com.nitkkr.gawds.tech16.Adapter.CoordinatorAdapter;
-import com.nitkkr.gawds.tech16.Model.EventModel;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.model.CoordinatorModel;
+import com.nitkkr.gawds.tech16.adapter.CoordinatorAdapter;
+import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;

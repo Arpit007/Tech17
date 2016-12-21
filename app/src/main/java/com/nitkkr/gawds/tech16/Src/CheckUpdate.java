@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Src;
+package com.nitkkr.gawds.tech16.src;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.R;
 
 import org.json.JSONObject;
@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.nitkkr.gawds.tech16.Helper.ActivityHelper.getApplicationContext;
+import static com.nitkkr.gawds.tech16.helper.ActivityHelper.getApplicationContext;
 
 /**
  * Created by Home Laptop on 18-Nov-16.

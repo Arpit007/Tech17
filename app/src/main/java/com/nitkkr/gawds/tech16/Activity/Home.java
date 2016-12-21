@@ -1,15 +1,15 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.Helper.ActionBarNavDrawer;
-import com.nitkkr.gawds.tech16.Helper.iActionBar;
+import com.nitkkr.gawds.tech16.helper.ActionBarNavDrawer;
+import com.nitkkr.gawds.tech16.helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.Src.CheckUpdate;
-import com.nitkkr.gawds.tech16.Src.RateApp;
+import com.nitkkr.gawds.tech16.src.CheckUpdate;
+import com.nitkkr.gawds.tech16.src.RateApp;
 
 public class Home extends AppCompatActivity
 {

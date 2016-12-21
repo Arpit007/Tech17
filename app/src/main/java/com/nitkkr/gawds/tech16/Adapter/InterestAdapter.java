@@ -1,7 +1,6 @@
-package com.nitkkr.gawds.tech16.Adapter;
+package com.nitkkr.gawds.tech16.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nitkkr.gawds.tech16.Database.Database;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
-import com.nitkkr.gawds.tech16.Model.InterestModel;
+import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Home Laptop on 03-Nov-16.

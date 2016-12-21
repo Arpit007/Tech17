@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Src;
+package com.nitkkr.gawds.tech16.src;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,15 +14,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Helper.ResponseStatus;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 
-import static com.nitkkr.gawds.tech16.Helper.ActivityHelper.getApplicationContext;
+import static com.nitkkr.gawds.tech16.helper.ActivityHelper.getApplicationContext;
 
 /**
  * Created by Home Laptop on 20-Dec-16.

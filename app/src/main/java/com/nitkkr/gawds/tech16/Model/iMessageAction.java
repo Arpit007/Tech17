@@ -1,8 +1,7 @@
-package com.nitkkr.gawds.tech16.Model;
+package com.nitkkr.gawds.tech16.model;
 
 import android.content.Context;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 

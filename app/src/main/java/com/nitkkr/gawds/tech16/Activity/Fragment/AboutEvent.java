@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity.Fragment;
+package com.nitkkr.gawds.tech16.activity.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.nitkkr.gawds.tech16.Model.EventModel;
+import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.R;
 
 /**

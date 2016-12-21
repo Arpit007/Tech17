@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Database;
+package com.nitkkr.gawds.tech16.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,10 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Model.EventKey;
-import com.nitkkr.gawds.tech16.Model.InterestModel;
-import com.nitkkr.gawds.tech16.Model.SocietyModel;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.model.SocietyModel;
 import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;

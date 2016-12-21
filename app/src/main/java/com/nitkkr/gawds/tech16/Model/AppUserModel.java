@@ -1,12 +1,12 @@
-package com.nitkkr.gawds.tech16.Model;
+package com.nitkkr.gawds.tech16.model;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.nitkkr.gawds.tech16.Activity.Login;
-import com.nitkkr.gawds.tech16.Database.Database;
+import com.nitkkr.gawds.tech16.activity.Login;
+import com.nitkkr.gawds.tech16.database.Database;
 
 import java.util.ArrayList;
 import java.util.Arrays;

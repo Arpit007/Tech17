@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Adapter;
+package com.nitkkr.gawds.tech16.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.nitkkr.gawds.tech16.Activity.SearchPage;
-import com.nitkkr.gawds.tech16.Helper.TeamMemberItemHolder;
-import com.nitkkr.gawds.tech16.Model.TeamModel;
+import com.nitkkr.gawds.tech16.activity.SearchPage;
+import com.nitkkr.gawds.tech16.helper.TeamMemberItemHolder;
+import com.nitkkr.gawds.tech16.model.TeamModel;
 import com.nitkkr.gawds.tech16.R;
 
 

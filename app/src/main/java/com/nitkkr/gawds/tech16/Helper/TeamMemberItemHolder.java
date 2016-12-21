@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Helper;
+package com.nitkkr.gawds.tech16.helper;
 
 import android.view.View;
 import android.widget.TextView;

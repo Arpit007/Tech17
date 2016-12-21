@@ -7,7 +7,7 @@
     android:id="@+id/activity_view_user"
      android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.Activity.ViewUser">
+    tools:context="com.nitkkr.gawds.tech16.activity.ViewUser">
 
     <include
         layout="@layout/actionbar_donebutton" android:id="@+id/temp_bar"
@@ -23,7 +23,7 @@
       android:id="@+id/temp_Layout"
         android:layout_width="match_parent" android:layout_height="200dp">
 
-        <com.nitkkr.gawds.tech16.Src.CircularTextView
+        <com.nitkkr.gawds.tech16.src.CircularTextView
             android:id="@+id/view_user_Image_Letter" android:visibility="visible"
             android:text="A" android:textSize="80sp"
             android:layout_marginTop="40dp"
@@ -258,6 +258,47 @@
                 android:textColor="@color/neon_green"
                 android:textAlignment="center"
                 android:layout_toRightOf="@+id/view25"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:background="@drawable/user_profile_textview"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/year"
+                android:padding="5dp"
+                android:backgroundTint="@color/neon_green"
+                android:id="@+id/year_view"/>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/neon_green"
+                android:id="@+id/view27"
+
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/year_view"
+                android:layout_toEndOf="@+id/year_view"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                />
+            <TextView
+                android:textSize="16sp"
+                android:id="@+id/user_Year" android:text="1st Year"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:textColor="@color/neon_green"
+                android:textAlignment="center"
+                android:layout_toRightOf="@+id/view27"
                 android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>

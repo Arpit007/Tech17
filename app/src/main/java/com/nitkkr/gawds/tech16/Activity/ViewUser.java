@@ -1,4 +1,4 @@
-package com.nitkkr.gawds.tech16.Activity;
+package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -6,17 +6,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nitkkr.gawds.tech16.Helper.ActionBarBack;
-import com.nitkkr.gawds.tech16.Helper.ActionBarDoneButton;
-import com.nitkkr.gawds.tech16.Helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.Model.AppUserModel;
-import com.nitkkr.gawds.tech16.Model.UserModel;
+import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
+import com.nitkkr.gawds.tech16.model.UserModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.Src.CircularTextView;
+import com.nitkkr.gawds.tech16.src.CircularTextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -65,6 +63,7 @@ public class ViewUser extends AppCompatActivity
 		(( TextView)findViewById(R.id.user_College)).setText(model.getCollege());
 		(( TextView)findViewById(R.id.user_Roll)).setText(model.getRoll());
 		(( TextView)findViewById(R.id.user_Branch)).setText(model.getBranch());
+		(( TextView)findViewById(R.id.user_Year)).setText(model.getYear());
 		(( TextView)findViewById(R.id.user_Number)).setText(model.getMobile());
 
 		if(model.getImageResource()!=null && model.isUseGoogleImage())
