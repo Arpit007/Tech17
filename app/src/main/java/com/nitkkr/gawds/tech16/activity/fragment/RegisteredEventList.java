@@ -82,7 +82,7 @@ public class RegisteredEventList extends Fragment
 
 	void prepareListData()
 	{
-		listDataChild=Database.database.getEventsDB().getRegisteredEventKeys();
+		listDataChild=Database.getInstance().getEventsDB().getRegisteredEventKeys();
 		listAdapter.setEvents(listDataChild);
 		listAdapter.notifyDataSetChanged();
 	}

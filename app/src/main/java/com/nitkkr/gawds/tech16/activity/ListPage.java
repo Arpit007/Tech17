@@ -127,11 +127,11 @@ public class ListPage extends AppCompatActivity
 		}
 		else if (query.getQueryTargetType() == Query.QueryTargetType.Exhibition)
 		{
-			Data= Database.database.getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk + " = 0");
+			Data= Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk + " = 0");
 		}
 		else if (query.getQueryTargetType() == Query.QueryTargetType.GuestTalk)
 		{
-			Data= Database.database.getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk + " = 1");
+			Data= Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk + " = 1");
 		}
 		listAdapter.setEvents(Data);
 		listAdapter.notifyDataSetChanged();

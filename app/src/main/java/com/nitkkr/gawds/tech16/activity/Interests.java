@@ -16,7 +16,7 @@ import com.nitkkr.gawds.tech16.adapter.InterestAdapter;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.helper.fetchData;
+import com.nitkkr.gawds.tech16.api.fetchDatax;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
@@ -83,7 +83,7 @@ public class Interests extends AppCompatActivity
 	public void sendInterests()
 	{
 		showProgressDialog("Uploading Information, Please Wait...");
-		fetchData.getInstance()
+		fetchDatax.getInstance()
 				.sendInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
 		{
 			@Override

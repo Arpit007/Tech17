@@ -107,7 +107,7 @@ public class AppUserModel extends UserModel implements Cloneable
 		editor.putBoolean("GoogleImage",isUseGoogleImage());
 		editor.putInt("ImageDrawableID",getImageId());
 
-		Database.database.getInterestDB().addOrUpdateInterest(Interests);
+		Database.getInstance().getInterestDB().addOrUpdateInterest(Interests);
 
 		return editor.commit();
 	}
@@ -127,7 +127,7 @@ public class AppUserModel extends UserModel implements Cloneable
 		setGender(preferences.getString("Gender",""));
 		setUseGoogleImage(preferences.getBoolean("GoogleImage",true));
 		setImageId(preferences.getInt("ImageDrawableID",-1));
-		Interests=Database.database.getInterestDB().getSelectedInterests();
+		Interests=Database.getInstance().getInterestDB().getSelectedInterests();
 	}
 
 	public void logoutUser(Context context) {
@@ -135,7 +135,7 @@ public class AppUserModel extends UserModel implements Cloneable
 		editor.clear();
 		editor.apply();
 
-		Database.database.ResetTables();
+		Database.getInstance().ResetTables();
 
 		setLoggedIn(false,context);
 		setSignedup(false,context);

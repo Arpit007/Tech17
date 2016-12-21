@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.helper.fetchData;
+import com.nitkkr.gawds.tech16.api.fetchDatax;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.model.SocietyModel;
@@ -165,7 +165,7 @@ public class Splash extends AppCompatActivity
 		SocietyModel model=new SocietyModel();
 		model.setID(1);
 		model.setName("Test Society");
-		Database.database.getSocietyDB().addOrUpdateSociety(model);
+		Database.getInstance().getSocietyDB().addOrUpdateSociety(model);
 		/*=================================================================*/
 
 		AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
@@ -200,24 +200,24 @@ public class Splash extends AppCompatActivity
 
 		if(Skip)
 		{
-			fetchData.getInstance().fetchAllEvents(getBaseContext());
-			fetchData.getInstance().fetchAllInterests(getBaseContext());
+			fetchDatax.getInstance().fetchAllEvents(getBaseContext());
+			fetchDatax.getInstance().fetchAllInterests(getBaseContext());
 		}
 		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
-			fetchData.getInstance().fetchAllEvents(getBaseContext());
-			fetchData.getInstance().fetchAllInterests(getBaseContext());
+			fetchDatax.getInstance().fetchAllEvents(getBaseContext());
+			fetchDatax.getInstance().fetchAllInterests(getBaseContext());
 		}
 		//if  logged in
 		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
 		{
-			fetchData.getInstance().fetchUserInterests(getBaseContext());
-			fetchData.getInstance().fetchAllEvents(getBaseContext());
+			fetchDatax.getInstance().fetchUserInterests(getBaseContext());
+			fetchDatax.getInstance().fetchAllEvents(getBaseContext());
 		}
 		else
 		{
-			fetchData.getInstance().fetchAllEvents(getBaseContext());
-			fetchData.getInstance().fetchAllInterests(getBaseContext());
+			fetchDatax.getInstance().fetchAllEvents(getBaseContext());
+			fetchDatax.getInstance().fetchAllInterests(getBaseContext());
 		}
 
 		handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));

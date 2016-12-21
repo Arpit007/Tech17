@@ -22,7 +22,7 @@ public class Database implements iDbRequest
 	private SocietyDB societyDB;
 	private EventsDB eventsDB;
 
-	public static Database database = null;
+	private static Database database = null;
 
 	public Database(Context context)
 	{
@@ -42,6 +42,8 @@ public class Database implements iDbRequest
 		notificationDB=new NotificationDB(context,Database.this);
 		coordinatorDB = new CoordinatorDB(context,Database.this);
 	}
+
+	public static Database getInstance(){if(database==null)database=new Database(ActivityHelper.getApplicationContext());return database;}
 
 	@Override
 	public SQLiteDatabase getDatabase()

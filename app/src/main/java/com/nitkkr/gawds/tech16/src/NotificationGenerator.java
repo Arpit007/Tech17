@@ -94,10 +94,7 @@ public class NotificationGenerator
 		bundle.putInt("NotificationID",LastId);
 		Intent intent;
 
-		if(Database.database==null)
-			Database.database=new Database(context);
-
-		if(key.getEventID()!= Database.database.getExhibitionDB().getExhibition(key.getEventID()).getEventID())
+		if(key.getEventID()!= Database.getInstance().getExhibitionDB().getExhibition(key.getEventID()).getEventID())
 			intent=new Intent(context, Event.class);
 		else intent=new Intent(context, Exhibition.class);
 

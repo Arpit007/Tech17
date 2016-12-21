@@ -25,7 +25,7 @@ public class InterestAdapter extends BaseAdapter
 
 	public InterestAdapter(Context context)
 	{
-		list= Database.database.getInterestDB().getAllInterests();
+		list= Database.getInstance().getInterestDB().getAllInterests();
 		this.context=context;
 	}
 

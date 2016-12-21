@@ -25,7 +25,7 @@ import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.helper.fetchData;
+import com.nitkkr.gawds.tech16.api.fetchDatax;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
@@ -99,7 +99,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 									progressDialog.setCancelable(false);
 									progressDialog.show();
 
-									fetchData.getInstance().registerSingleEvent(getApplicationContext(), String.valueOf(model.getEventID()), new iResponseCallback()
+									fetchDatax.getInstance().registerSingleEvent(getApplicationContext(), String.valueOf(model.getEventID()), new iResponseCallback()
 									{
 										@Override
 										public void onResponse(ResponseStatus status)
@@ -117,8 +117,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 													model.setRegistered(true);
 													model.setNotify(true);
-													Database.database.getEventsDB().addOrUpdateEvent(model);
-													Database.database.getNotificationDB().UpdateTable();
+													Database.getInstance().getEventsDB().addOrUpdateEvent(model);
+													Database.getInstance().getNotificationDB().UpdateTable();
 													model.callStatusListener();
 
 													break;
@@ -213,7 +213,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
 
 		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
-		model= Database.database.getEventsDB().getEvent(key);
+		model= Database.getInstance().getEventsDB().getEvent(key);
 
 		setupViewPager(viewPager,model);
 		tabLayout.setupWithViewPager(viewPager);
@@ -223,7 +223,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		if(PageID<tabLayout.getTabCount())
 			viewPager.setCurrentItem(PageID);
 
-		fetchData.getInstance().getEvent(getApplicationContext(), model.getEventID(), new iResponseCallback()
+		fetchDatax.getInstance().getEvent(getApplicationContext(), model.getEventID(), new iResponseCallback()
 		{
 			@Override
 			public void onResponse(ResponseStatus status)
@@ -236,7 +236,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				if (status == ResponseStatus.SUCCESS)
 				{
 					model = (EventModel) object;
-					Database.database.getEventsDB().addOrUpdateEvent(model);
+					Database.getInstance().getEventsDB().addOrUpdateEvent(model);
 					LoadEvent();
 				}
 			}
@@ -304,7 +304,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		model.setListener(Event.this);
 
 		(( TextView)findViewById(R.id.Event_Name)).setText(model.getEventName());
-		(( TextView)findViewById(R.id.Event_Category)).setText(Database.database.getInterestDB().getInterest(model.getSociety()));
+		(( TextView)findViewById(R.id.Event_Category)).setText(Database.getInstance().getInterestDB().getInterest(model.getSociety()));
 
 		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "am").replace("PM","pm");
 		(( TextView)findViewById(R.id.Event_Date)).setText(date);

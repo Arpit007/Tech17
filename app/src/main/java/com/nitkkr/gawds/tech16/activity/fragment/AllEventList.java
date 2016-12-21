@@ -105,7 +105,7 @@ public class AllEventList extends Fragment
 			}
 		});
 
-		if(Database.database.getEventsDB().getRowCount()==0)
+		if(Database.getInstance().getEventsDB().getRowCount()==0)
 			MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
 		else MyView.findViewById(R.id.None).setVisibility(View.GONE);
 
@@ -117,11 +117,11 @@ public class AllEventList extends Fragment
 	private void prepareListData()
 	{
 		HashData = new HashMap<>();
-		ArrayList<SocietyModel> societies= Database.database.getSocietyDB().getAllSocieties();
+		ArrayList<SocietyModel> societies= Database.getInstance().getSocietyDB().getAllSocieties();
 
 		for(SocietyModel society: societies)
 		{
-			HashData.put(society.getName(),Database.database.getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID()));
+			HashData.put(society.getName(),Database.getInstance().getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID()));
 		}
 		listAdapter.setEvents(HashData);
 		listAdapter.notifyDataSetChanged();
@@ -131,7 +131,7 @@ public class AllEventList extends Fragment
 	{
 		if(Query.equals(""))
 		{
-			if(Database.database.getEventsDB().getRowCount()==0)
+			if(Database.getInstance().getEventsDB().getRowCount()==0)
 				MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
 			else MyView.findViewById(R.id.None).setVisibility(View.GONE);
 

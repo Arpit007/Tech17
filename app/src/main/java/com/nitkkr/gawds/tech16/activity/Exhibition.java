@@ -48,15 +48,15 @@ public class Exhibition extends AppCompatActivity
 				{
 					fab.setText("Add to Wishlist");
 					model.setNotify(false);
-					Database.database.getExhibitionDB().addOrUpdateExhibition(model);
-					Database.database.getNotificationDB().UpdateTable();
+					Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
+					Database.getInstance().getNotificationDB().UpdateTable();
 				}
 				else
 				{
 					fab.setText("Wishlisted");
 					model.setNotify(true);
-					Database.database.getExhibitionDB().addOrUpdateExhibition(model);
-					Database.database.getNotificationDB().UpdateTable();
+					Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
+					Database.getInstance().getNotificationDB().UpdateTable();
 				}
 			}
 		});
@@ -64,7 +64,7 @@ public class Exhibition extends AppCompatActivity
 
 	private void LoadExhibition(EventKey key)
 	{
-		model = Database.database.getExhibitionDB().getExhibition(key);
+		model = Database.getInstance().getExhibitionDB().getExhibition(key);
 
 		(( TextView)findViewById(R.id.exhibition_Title)).setText(model.getEventName());
 		(( TextView)findViewById(R.id.exhibition_Author)).setText(model.getAuthor());
