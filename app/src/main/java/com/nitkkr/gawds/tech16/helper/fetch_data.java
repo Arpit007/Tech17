@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
@@ -69,6 +70,7 @@ public class fetch_data {
                                     interestModel.setInterest(data.getJSONObject(i).getString("Name"));
                                     list.add(interestModel);
                                 }
+                                Database.database.getInterestDB().addOrUpdateInterest(list);
                                 Log.v("DEBUG",data.toString());
 
                             }else{
@@ -93,9 +95,10 @@ public class fetch_data {
     }
 
 
+    //user Interests
     public  void fetch_interests(final Context context){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
-                context.getResources().getString(R.string.get_interests_list),
+                context.getResources().getString(R.string.get_interests_list)+"?token="+AppUserModel.MAIN_USER.getToken(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String res) {
@@ -109,13 +112,24 @@ public class fetch_data {
                             status=response.getJSONObject("status");
                             data=response.getJSONArray("data");
                             code=status.getInt("code");
-                            //message=status.getString("message");
 
                             if(code==200){
+
+                                ArrayList<InterestModel> list=new ArrayList<>();
+                                ArrayList<InterestModel> dblist=Database.database.getInterestDB().getAllInterests();
                                 //success
                                 for(int i=0;i<data.length();i++){
-
+                                    InterestModel interestModel=new InterestModel();
+                                    interestModel.setID(data.getJSONObject(i).getInt("Id"));
+                                    for(int j=0;j<dblist.size();j++){
+                                        if(dblist.get(j).getID()==interestModel.getID()){
+                                            interestModel.setInterest(dblist.get(j).getInterest());
+                                        }
+                                    }
+                                    interestModel.setSelected(true);
+                                    list.add(interestModel);
                                 }
+                                Database.database.getInterestDB().addOrUpdateInterest(list);
                                 Log.v("DEBUG",data.toString());
 
                             }else{

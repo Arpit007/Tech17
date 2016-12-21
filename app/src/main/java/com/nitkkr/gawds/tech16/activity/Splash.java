@@ -104,7 +104,7 @@ public class Splash extends AppCompatActivity
 			//if  logged in
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
 				startActivity(new Intent(Splash.this,Home.class));
-				//f.fetch_interests(getBaseContext());
+				f.fetch_interests(getBaseContext());
 				f.fetch_events(getBaseContext());
 			}
 			else{
