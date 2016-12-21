@@ -51,7 +51,9 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 		if(DbConstants.Constants==null)
 			DbConstants.Constants=new DbConstants(context);
 
-		onCreate(dbRequest.getDatabase());
+		SQLiteDatabase database=getWritableDatabase();
+		onCreate(database);
+		database.close();
 	}
 
 	@Override

@@ -6,7 +6,7 @@
     <integer name="DatabaseVersion">1</integer>
 
     <string name="Query_Create_EventsTable">
-        CREATE TABLE EventList
+        CREATE TABLE IF NOT EXISTS EventList
         (
             EVENT_ID INT PRIMARY KEY NOT NULL,
             EVENT_NAME VARCHAR(127) NOT NULL,
@@ -26,7 +26,7 @@
     </string>
 
     <string name="Query_Create_NotificationTable">
-        CREATE TABLE NotificationList
+        CREATE TABLE IF NOT EXISTS NotificationList
         (
             EVENT_ID INT PRIMARY KEY NOT NULL,
             EVENT_NAME VARCHAR(127),
@@ -36,7 +36,7 @@
     </string>
 
     <string name="Query_Create_InterestsTable">
-        CREATE TABLE Interest
+        CREATE TABLE IF NOT EXISTS Interest
         (
             ID INT PRIMARY KEY NOT NULL,
             _INTEREST VARCHAR(255) NOT NULL,
@@ -45,7 +45,7 @@
     </string>
 
     <string name="Query_Create_SocietyTable">
-        CREATE TABLE Society
+        CREATE TABLE IF NOT EXISTS Society
         (
             ID INT PRIMARY KEY,
             NAME VARCHAR(127)
@@ -53,7 +53,7 @@
     </string>
 
     <string name="Query_Create_ExhibitionTable">
-        CREATE TABLE Exhibition
+        CREATE TABLE IF NOT EXISTS Exhibition
         (
             EVENT_ID INT PRIMARY KEY NOT NULL,
             EVENT_NAME VARCHAR(127) NOT NULL,
@@ -69,7 +69,7 @@
     </string>
 
     <string name="Query_Create_CoordinatorTable">
-        CREATE TABLE Coordinator
+        CREATE TABLE IF NOT EXISTS Coordinator
         (
             NAME VARCHAR(255) NOT NULL,
             EVENT_ID INT DEFAULT 0,
@@ -80,6 +80,8 @@
     </string>
 
     <string name="Query_Update_NotificationList">
+        DROP TABLE IF EXISTS TempNL;
+
         CREATE TABLE TempNL AS SELECT * FROM NotificationList WHERE 0;
 
         INSERT INTO TempNL ( EVENT_ID, EVENT_NAME, _DATE)
@@ -94,8 +96,11 @@
 
         UPDATE TempNL
         SET GENERATED = (
-                            SELECT NL.GENERATED FROM NotificationList AS NL
-                            WHERE NL.EVENT_ID = TempNL.EVENT_ID);
+                            SELECT NL.GENERATED
+                            FROM NotificationList AS NL
+                            WHERE NL.EVENT_ID = TempNL.EVENT_ID
+                        );
+
         DROP TABLE NotificationList ;
 
         ALTER TABLE TempNL RENAME TO NotificationList;
