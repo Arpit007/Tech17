@@ -7,4 +7,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">?android:attr/colorForeground</item>
     </style>
+    <style name="NoActionBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>

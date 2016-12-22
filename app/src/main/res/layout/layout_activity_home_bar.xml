@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-
     tools:context="com.nitkkr.gawds.tech16.activity.Home">
 
     <include
@@ -65,9 +64,9 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:srcCompat="@drawable/suggestions"
-            android:id="@+id/imageView11"
-            android:layout_alignTop="@+id/imageView10"
-            android:layout_alignStart="@+id/imageView9"
+            android:id="@+id/interested_imgView"
+            android:layout_alignTop="@+id/wishlist_imgview"
+            android:layout_alignStart="@+id/noti_imgview"
             android:layout_alignEnd="@+id/textView20"/>
 
         <TextView
@@ -77,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView19"
-            android:layout_below="@+id/imageView10"
+            android:layout_below="@+id/wishlist_imgview"
             android:layout_alignStart="@+id/view7"
             android:layout_marginStart="12dp"
             android:layout_marginTop="20dp"
@@ -108,7 +107,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:srcCompat="@drawable/notification"
-            android:id="@+id/imageView9"
+            android:id="@+id/noti_imgview"
             android:layout_alignTop="@+id/view6"
             android:layout_alignEnd="@+id/textView18"
             android:layout_alignStart="@+id/textView18"/>
@@ -120,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView17"
-            android:layout_below="@+id/imageView8"
+            android:layout_below="@+id/Live_events_imgview"
             android:layout_alignStart="@+id/view7"
             android:layout_marginTop="17dp"
             android:layout_alignEnd="@+id/view7"/>
@@ -141,17 +140,17 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:srcCompat="@drawable/wishlist"
-            android:id="@+id/imageView10"
+            android:id="@+id/wishlist_imgview"
             android:layout_marginTop="51dp"
             android:layout_below="@+id/view8"
-            android:layout_alignStart="@+id/imageView8"
+            android:layout_alignStart="@+id/Live_events_imgview"
             android:layout_alignEnd="@+id/textView19"/>
 
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:srcCompat="@drawable/live_home2"
-            android:id="@+id/imageView8"
+            android:id="@+id/Live_events_imgview"
             android:layout_marginRight="10dp"
             android:layout_alignTop="@+id/view6"
             android:layout_alignStart="@+id/textView19"
