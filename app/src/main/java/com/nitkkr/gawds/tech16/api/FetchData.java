@@ -21,6 +21,7 @@ import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.SocietyModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,7 +133,7 @@ public class FetchData
                                 for(int i=0;i<data.length();i++)
                                 {
                                     InterestModel interestModel=new InterestModel();
-                                    interestModel.setID(data.getJSONObject(i).getInt("Id"));
+                                    interestModel.setID(data.getInt(i));
                                     interestModel.setInterest(Database.getInstance().getInterestDB().getInterest(interestModel));
                                     interestModel.setSelected(true);
                                     list.add(interestModel);
@@ -741,6 +742,7 @@ public class FetchData
                             {
                                 for(int i=0;i<data.length();i++){
                                     ExhibitionModel exhibitionModel=new ExhibitionModel();
+
                                     exhibitionModel.setEventID(data.getJSONObject(i).getInt("Id"));
                                     exhibitionModel.setEventDate(ExhibitionModel.parseDate(data.getJSONObject(i).getString("Start")));
                                     exhibitionModel.setEventEndDate(ExhibitionModel.parseDate(data.getJSONObject(i).getString("End")));
@@ -748,7 +750,9 @@ public class FetchData
                                     exhibitionModel.setDescription(data.getJSONObject(i).getString("Description"));
                                     exhibitionModel.setAuthor(data.getJSONObject(i).getString("GuestName"));
                                     exhibitionModel.setVenue(data.getJSONObject(i).getString("Venue"));
+                                    exhibitionModel.setGTalk(true);
                                     list.add(exhibitionModel);
+
                                 }
                                 Database.database.getExhibitionDB().addOrUpdateExhibition(list);
                             }
@@ -991,8 +995,7 @@ public class FetchData
     //get all societies
     public void getSocieties(final Context context)
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
-                +context.getResources().getString(R.string.getSocieties),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.getSocieties),
                 new Response.Listener<String>()
                 {
                     @Override
@@ -1008,18 +1011,127 @@ public class FetchData
                             data=response.getJSONArray("data");
                             String Name,Description;
                             int Id;
+                            ArrayList<SocietyModel> list=new ArrayList<>();
                             if(code==200)
                             {
                                 for(int i=0;i<data.length();i++){
 
-                                    Id=data.getJSONObject(i).getInt("Id");
-                                    Name=data.getJSONObject(i).getString("Name");
-                                    Description=data.getJSONObject(i).getString("Description");
-
+                                    SocietyModel societyModel=new SocietyModel();
+                                    societyModel.setID(data.getJSONObject(i).getInt("Id"));
+                                    societyModel.setName(data.getJSONObject(i).getString("Name"));
+                                    societyModel.setDescription(data.getJSONObject(i).getString("Description"));
+                                    list.add(societyModel);
                                 }
+                                Log.v("DEBUG",response.toString()+"             "+AppUserModel.MAIN_USER.getToken());
                             }
                             else
                             {
+                                //error
+                            }
+                            Database.database.getSocietyDB().addOrUpdateSocities(list);
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                        Log.v("DEBUG",error.toString());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    //get all live events
+    public void getLiveEvents(final Context context)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)
+                +context.getResources().getString(R.string.liveEvents),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data,coordinators;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            data=response.getJSONArray("data");
+                            if(code==200) {
+                                ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getAllEvents();
+                                int Size=eventModels.size();
+
+                                ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
+
+                                for (int i = 0; i < data.length(); i++)
+                                {
+                                    EventModel eventModel = new EventModel();
+                                    JSONObject jEvent = data.getJSONObject(i);
+
+                                    int ID=jEvent.getInt("Id"), index=-1;
+
+                                    for(int x=0;x<Size;x++)
+                                    {
+                                        if(eventModels.get(x).getEventID()==ID)
+                                        {
+                                            eventModel=eventModels.get(x);
+                                            index=x;
+                                            break;
+                                        }
+                                    }
+                                    eventModel.setEventID(ID);
+                                    eventModel.setEventName(jEvent.getString("Name"));
+                                    eventModel.setDescription(jEvent.getString("Description"));
+                                    eventModel.setVenue(jEvent.getString("Venue"));
+                                    eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
+                                    eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
+                                    eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                    eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
+                                    //eventModel.setStatus(jEvent.getString("Status"));
+                                    eventModel.setPdfLink(jEvent.getString("Pdf"));
+                                    eventModel.setRules(jEvent.getString("Rules"));
+                                    eventModel.setCategory(jEvent.getInt("CategoryId"));
+                                    eventModel.setSociety(jEvent.getInt("SocietyId"));
+
+                                    if(index==-1)
+                                        eventModels.add(eventModel);
+
+                                    coordinators = jEvent.getJSONArray("Coordinators");
+
+                                    for (int j = 0; j < coordinators.length(); j++)
+                                    {
+                                        JSONObject jCoordinator = coordinators.getJSONObject(j);
+                                        CoordinatorModel coordinatorModel = new CoordinatorModel();
+                                        coordinatorModel.setEventID(eventModel.getEventID());
+                                        coordinatorModel.setName(jCoordinator.getString("Name"));
+                                        coordinatorModel.setMobile(String.valueOf(jCoordinator.getInt("PhoneNo")));
+                                        coordinatorModel.setEmail(jCoordinator.getString("Email"));
+                                        coordinatorModel.setDesignation("Coordinator");
+                                        coordinatorModels.add(coordinatorModel);
+                                    }
+                                }
+
+                                Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
+                                Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
+
+                                FetchResponseHelper.getInstance().incrementResponseCount(null);
+                                Log.v("DEBUG", data.toString());
+
+                            }
+                            else
+                            {
+                                //error
                             }
 
                         }
@@ -1041,7 +1153,6 @@ public class FetchData
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
-
 
 }
 

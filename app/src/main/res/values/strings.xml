@@ -43,7 +43,8 @@
     <string name="getCategories">/api/categories</string>
     <string name="userWishlist">/api/wishlist</string>
     <string name="guestLectures">/api/guestlectures</string>
-    <string name="getSocieties">/api/user/societies</string>
+    <string name="getSocieties">/api/societies</string>
     <string name="title_activity_home_page">Home_page</string>
+    <string name="liveEvents">/api/events/live</string>
 
 </resources>
