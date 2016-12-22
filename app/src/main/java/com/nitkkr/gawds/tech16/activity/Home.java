@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.helper.ActionBarNavDrawer;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.src.CheckUpdate;
@@ -21,6 +22,8 @@ public class Home extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+		ActivityHelper.setStatusBarColor(this);
 
 		barNavDrawer = new ActionBarNavDrawer(this, new iActionBar()
 		{
@@ -39,9 +42,14 @@ public class Home extends AppCompatActivity
 
 
 		if(CheckUpdate.getInstance().isUpdateAvailable())
-			if(!CheckUpdate.getInstance().displayUpdate(Home.this))
-				if(RateApp.getInstance().isReadyForRating(Home.this))
+		{
+			if (!CheckUpdate.getInstance().displayUpdate(Home.this))
+				if (RateApp.getInstance().isReadyForRating(Home.this))
 					RateApp.getInstance().displayRating(Home.this);
+		}
+		else if (RateApp.getInstance().isReadyForRating(Home.this))
+				RateApp.getInstance().displayRating(Home.this);
+
 	}
 
 	@Override

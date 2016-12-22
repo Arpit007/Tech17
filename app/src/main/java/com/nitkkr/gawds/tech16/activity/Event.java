@@ -31,7 +31,7 @@ import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.src.PdfDownloadHelper;
+import com.nitkkr.gawds.tech16.src.PdfDownloader;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -174,16 +174,16 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			@Override
 			public void onClick(View view)
 			{
-				if(PdfDownloadHelper.getInstance().isPdfExisting(model.getPdfLink()))
+				if(PdfDownloader.getInstance().isPdfExisting(model.getPdfLink()))
 				{
-					PdfDownloadHelper.getInstance().viewPdfIfExists(model.getPdfLink(),Event.this);
+					PdfDownloader.getInstance().viewPdfIfExists(model.getPdfLink(),Event.this);
 				}
 				else
 				{
 					PdfButton.setText("Downloading");
 					PdfButton.setEnabled(false);
 
-					PdfDownloadHelper.getInstance().DownloadPdf(model.getPdfLink(), new PdfDownloadHelper.iCallback()
+					PdfDownloader.getInstance().DownloadPdf(model.getPdfLink(), new PdfDownloader.iCallback()
 					{
 						@Override
 						public void DownloadComplete(String url, ResponseStatus status)
@@ -204,6 +204,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event);
+
+		ActivityHelper.setStatusBarColor(this);
 
 		actionBar = new ActionBarBack(this);
 
@@ -292,7 +294,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else
 		{
-			PdfDownloadHelper.getInstance().removeListener(model.getPdfLink());
+			PdfDownloader.getInstance().removeListener(model.getPdfLink());
 			if(ActivityHelper.revertToHomeIfLast(Event.this))
 				return;
 			super.onBackPressed();
@@ -321,12 +323,12 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		Button PdfButton=(Button)findViewById(R.id.Event_Pdf);
 
-		if(PdfDownloadHelper.getInstance().isPdfExisting(model.getPdfLink()))
+		if(PdfDownloader.getInstance().isPdfExisting(model.getPdfLink()))
 		{
 			PdfButton.setText("View Pdf");
 			PdfButton.setEnabled(true);
 		}
-		else if (PdfDownloadHelper.getInstance().isPdfDownloading(model.getPdfLink()))
+		else if (PdfDownloader.getInstance().isPdfDownloading(model.getPdfLink()))
 		{
 			PdfButton.setText("Downloading");
 			PdfButton.setEnabled(false);

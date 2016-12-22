@@ -33,6 +33,8 @@ public class ViewTeam extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_team);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		barBack=new ActionBarBack(ViewTeam.this);
 		barBack.setLabel("");
 

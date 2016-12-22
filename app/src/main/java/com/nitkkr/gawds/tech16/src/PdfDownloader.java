@@ -28,7 +28,7 @@ import static com.nitkkr.gawds.tech16.helper.ActivityHelper.getApplicationContex
  * Created by Home Laptop on 20-Dec-16.
  */
 
-public class PdfDownloadHelper
+public class PdfDownloader
 {
 	class Holder
 	{
@@ -38,11 +38,11 @@ public class PdfDownloadHelper
 
 	HashMap<String, Holder> Downloading;
 
-	private static PdfDownloadHelper pdfHelper=new PdfDownloadHelper();
+	private static PdfDownloader pdfHelper=new PdfDownloader();
 
-	public static PdfDownloadHelper getInstance(){return pdfHelper;}
+	public static PdfDownloader getInstance(){return pdfHelper;}
 
-	private PdfDownloadHelper(){
+	private PdfDownloader(){
 		Downloading = new HashMap<>();
 	}
 
@@ -86,15 +86,17 @@ public class PdfDownloadHelper
 		return Downloading.keySet().contains(getFileName(url));
 	}
 
-	public boolean DownloadPdf(final String url, final iCallback callback, final Context context)
+	public void DownloadPdf(final String url, final iCallback callback, final Context context)
 	{
 		if(isPdfExisting(url))
-			return false;
+			if (callback != null)
+				callback.DownloadComplete(url, ResponseStatus.FAILED);
 
 		if(!ActivityHelper.isInternetConnected())
 		{
 			Toast.makeText(context, "No Internet Connection",Toast.LENGTH_SHORT).show();
-			return false;
+			if (callback != null)
+				callback.DownloadComplete(url, ResponseStatus.FAILED);
 		}
 
 
@@ -102,7 +104,7 @@ public class PdfDownloadHelper
 		holder.callback = callback;
 		NotificationGenerator generator= new NotificationGenerator(context);
 
-		holder.ID=generator.pdfNotification("Downloading Pdf","Downloading","Downloading " + getFileName(url));
+		holder.ID=generator.pdfNotification("Downloading Pdf","Downloading",getFileName(url));
 
 		Downloading.put(getFileName(url),holder);
 
@@ -138,7 +140,7 @@ public class PdfDownloadHelper
 									Intent intent = Intent.createChooser(target, "Open File");
 
 									NotificationGenerator generator1=new NotificationGenerator(context);
-									generator1.pdfNotification(holder1.ID,"Download Complete","Download Complte",getFileName(url)+" Download Successfully",intent,true);
+									generator1.pdfNotification(holder1.ID,"Download Complete","Download Complete",getFileName(url),intent,true);
 
 									if (call != null)
 										call.DownloadComplete(url, ResponseStatus.SUCCESS);
@@ -162,7 +164,7 @@ public class PdfDownloadHelper
 								Downloading.remove(getFileName(url));
 
 								NotificationGenerator generator1=new NotificationGenerator(context);
-								generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",getFileName(url)+" Download Failed",null,true);
+								generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",getFileName(url),null,true);
 
 								if (call != null)
 									call.DownloadComplete(url, ResponseStatus.FAILED);
@@ -191,7 +193,7 @@ public class PdfDownloadHelper
 							Downloading.remove(getFileName(url));
 
 							NotificationGenerator generator1=new NotificationGenerator(context);
-							generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",getFileName(url)+" Download Failed",null,true);
+							generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",getFileName(url),null,true);
 
 							Downloading.remove(getFileName(url));
 							if (call != null)
@@ -209,7 +211,6 @@ public class PdfDownloadHelper
 
 		RequestQueue mRequestQueue = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
 		mRequestQueue.add(request);
-		return true;
 	}
 
 	public void viewPdfIfExists(String url, Context context)

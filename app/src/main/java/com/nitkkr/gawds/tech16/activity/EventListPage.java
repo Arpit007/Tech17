@@ -23,6 +23,8 @@ public class EventListPage extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_list);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		barNavDrawer=new ActionBarNavDrawer(EventListPage.this, new iActionBar()
 		{
 			@Override

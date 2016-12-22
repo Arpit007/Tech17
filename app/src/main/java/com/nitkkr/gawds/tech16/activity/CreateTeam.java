@@ -33,6 +33,8 @@ public class CreateTeam extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_team);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		eventModel=( EventModel)getIntent().getExtras().getSerializable("Event");
 
 		ActionBarBack actionBarBack=new ActionBarBack(CreateTeam.this);

@@ -16,6 +16,8 @@ public class About extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		ActionBarBack actionBarBack=new ActionBarBack(About.this);
 		actionBarBack.setLabel("About");
 	}

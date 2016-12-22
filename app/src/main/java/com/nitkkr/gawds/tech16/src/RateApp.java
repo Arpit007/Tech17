@@ -85,8 +85,11 @@ public class RateApp
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i)
 			{
-				long MaxCount=preferences.getLong("MaxCount",context.getResources().getInteger(R.integer.AppStartCount));
-				MaxCount+=context.getResources().getInteger(R.integer.AppStartCount);
+
+				long AppStartCount=context.getResources().getInteger(R.integer.AppStartCount);
+				long AppCount=preferences.getLong("AppStartCount",0);
+
+				long MaxCount=(AppCount/AppStartCount + 1)*AppStartCount;
 
 				editor.putLong("MaxCount",MaxCount);
 				editor.apply();
