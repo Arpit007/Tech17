@@ -75,21 +75,6 @@
             android:layout_alignStart="@id/Event_Name"/>
 
         <TextView
-            android:visibility="visible"
-            android:background="@drawable/round_background"
-            android:id="@+id/Event_Round"
-            android:textSize="100sp"
-            android:layout_marginEnd="15dp"
-            android:gravity="center"
-            android:padding="3dp"
-            android:text="1"
-            android:textColor="#ffffff"
-            android:layout_alignTop="@id/Event_Name"
-            android:layout_alignParentEnd="true"
-            android:layout_width="120dp"
-            android:layout_height="120dp"/>
-
-        <TextView
             android:text="L Block"
             android:textColor="@color/text_color_primary"
             android:layout_width="wrap_content"
@@ -180,6 +165,19 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/Event_Register"/>
+        <TextView
+            android:visibility="visible"
+            android:background="@drawable/round_background"
+            android:id="@+id/Event_Round"
+            android:textSize="90sp"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="1"
+            android:textColor="#ffffff"
+            android:layout_width="120dp"
+            android:layout_height="120dp" android:layout_above="@+id/Event_Members"
+            android:layout_alignParentEnd="true"/>
 
 
     </RelativeLayout>
