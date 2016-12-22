@@ -56,57 +56,70 @@
         android:layout_below="@id/exhibition_Author"
         android:layout_alignParentStart="true"/>
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:srcCompat="@drawable/time"
-        android:layout_below="@id/exhibition_Image"
-        android:layout_alignStart="@id/exhibition_Author"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="11dp"
-        android:id="@+id/imageView7"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:id="@+id/wrapper"
+                  android:layout_margin="5dp"
+                  android:layout_below="@+id/exhibition_Image"
+                  android:orientation="horizontal"
+                  android:layout_height="wrap_content">
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/time"
+                android:layout_marginStart="13dp"
+                android:id="@+id/imageView7" android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+            <TextView
+                android:text="9:00 am, 20 Jan"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/text_color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/exhibition_Date"
+                android:layout_marginLeft="40dp"
+                android:layout_centerVertical="true" android:layout_toEndOf="@+id/imageView7"
+                android:layout_marginStart="13dp"/>
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:srcCompat="@drawable/venue"
-        android:layout_marginStart="33dp"
-        android:id="@+id/imageView6"
-        android:layout_alignTop="@id/imageView7"
-        android:layout_toEndOf="@id/exhibition_Author"/>
 
-    <TextView
-        android:text="9:00 am, 20 Jan"
-        android:padding="5dp"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:textColor="@color/text_color_primary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/exhibition_Date"
-        android:layout_marginLeft="10dp"
-        android:layout_toEndOf="@+id/imageView7"
-        android:layout_below="@+id/exhibition_Image"
-        android:layout_marginTop="7dp"
-        android:layout_alignBottom="@+id/exhibition_Venue"/>
+        </RelativeLayout>
 
-    <TextView
-        android:text="Senate"
-        android:padding="5dp"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_marginLeft="10dp"
-        android:textColor="@color/text_color_primary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/imageView6"
-        android:layout_marginTop="7dp"
-        android:id="@+id/exhibition_Venue"
-        android:layout_below="@+id/exhibition_Image"/>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/venue"
+                android:id="@+id/imageView6" android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+            <TextView
+                android:text="Senate"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/text_color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/exhibition_Venue" android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/imageView6"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_below="@+id/exhibition_Date"
+        android:layout_below="@+id/wrapper"
         android:layout_height="match_parent"
         android:layout_above="@+id/exhibition_notify">
     <TextView
