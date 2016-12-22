@@ -74,7 +74,9 @@ public class EditUser extends AppCompatActivity
 							public void onResponse(ResponseStatus status)
 							{
 								if(status==ResponseStatus.FAILED)
-									Toast.makeText(EditUser.this,"Failed to Update Interests",Toast.LENGTH_SHORT).show();
+									Toast.makeText(EditUser.this,"Failed to Update Interests",Toast.LENGTH_LONG).show();
+								else if (status==ResponseStatus.NONE)
+									Toast.makeText(EditUser.this,"Network Error",Toast.LENGTH_LONG).show();
 
 								EditUser.this.onResponse(PROFILE,status);
 							}
@@ -92,7 +94,9 @@ public class EditUser extends AppCompatActivity
 						public void onResponse(ResponseStatus status)
 						{
 							if(status==ResponseStatus.FAILED)
-								Toast.makeText(EditUser.this,"Failed to Update Profile",Toast.LENGTH_SHORT).show();
+								Toast.makeText(EditUser.this,"Failed to Update Profile",Toast.LENGTH_LONG).show();
+							else if(status==ResponseStatus.NONE)
+								Toast.makeText(EditUser.this,"Network Error",Toast.LENGTH_LONG).show();
 							EditUser.this.onResponse(PROFILE,status);
 						}
 

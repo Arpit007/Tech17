@@ -1,17 +1,22 @@
 package com.nitkkr.gawds.tech16.activity;
 
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.nitkkr.gawds.tech16.api.FetchData;
+import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
@@ -24,6 +29,7 @@ public class Exhibition extends AppCompatActivity
 {
 	ExhibitionModel model;
 	ActionBarBack actionBarBack;
+	ProgressDialog progressDialog=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,38 +42,120 @@ public class Exhibition extends AppCompatActivity
 
 		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(getIntent().getExtras().getInt("NotificationID"));
 
-		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
-		LoadExhibition(key);
+		final EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
+		model=Database.getInstance().getExhibitionDB().getExhibition(key);
+		LoadExhibition();
 
 		final Button fab = (Button) findViewById(R.id.exhibition_notify);
+
+		if(model.isGTalk())
+		{
+			FetchData.getInstance().getGTalk(getApplicationContext(), key, new iResponseCallback()
+			{
+				@Override
+				public void onResponse(ResponseStatus status)
+				{
+				}
+
+				@Override
+				public void onResponse(ResponseStatus status, Object object)
+				{
+					if (status == ResponseStatus.SUCCESS)
+					{
+						model = (ExhibitionModel) object;
+						Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
+						LoadExhibition();
+					}
+				}
+			});
+		}
+		else
+		{
+			//TODO:Get Exhibition
+		}
 
 		fab.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
 			{
+				if(!ActivityHelper.isInternetConnected())
+				{
+					Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
+					return;
+				}
+				progressDialog=new ProgressDialog(Exhibition.this);
+				progressDialog.setMessage("Updating Changes");
+				progressDialog.setIndeterminate(true);
+				progressDialog.show();
 				if(model.isNotify())
 				{
-					fab.setText("Add to Wishlist");
-					model.setNotify(false);
-					Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
-					Database.getInstance().getNotificationDB().UpdateTable();
+					FetchData.getInstance().removeFromWishlist(getApplicationContext(), key, new iResponseCallback()
+					{
+						@Override
+						public void onResponse(ResponseStatus status)
+						{
+							if(status==ResponseStatus.SUCCESS)
+							{
+								Toast.makeText(getApplicationContext(),"Removed Wishlist Successfully",Toast.LENGTH_LONG).show();
+								fab.setText("Add to Wishlist");
+								model.setNotify(false);
+								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
+								Database.getInstance().getNotificationDB().UpdateTable();
+							}
+							else if(status==ResponseStatus.FAILED)
+							{
+								Toast.makeText(getApplicationContext(),"Failed to Remove from Wishlist",Toast.LENGTH_LONG).show();
+							}
+							else Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
+							if(progressDialog!=null && progressDialog.isShowing())
+								progressDialog.dismiss();
+						}
+
+						@Override
+						public void onResponse(ResponseStatus status, Object object)
+						{
+							this.onResponse(status);
+						}
+					});
 				}
 				else
 				{
-					fab.setText("Wishlisted");
-					model.setNotify(true);
-					Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
-					Database.getInstance().getNotificationDB().UpdateTable();
+					FetchData.getInstance().addToWishlist(getApplicationContext(), key, new iResponseCallback()
+					{
+						@Override
+						public void onResponse(ResponseStatus status)
+						{
+							if(status==ResponseStatus.SUCCESS)
+							{
+								Toast.makeText(getApplicationContext(),"Added to Wishlist Successfully",Toast.LENGTH_LONG).show();
+								fab.setText("Wishlisted");
+								model.setNotify(true);
+								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
+								Database.getInstance().getNotificationDB().UpdateTable();
+							}
+							else if(status==ResponseStatus.FAILED)
+							{
+								Toast.makeText(getApplicationContext(),"Failed to Add to Wishlist",Toast.LENGTH_LONG).show();
+							}
+							else Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
+							if(progressDialog!=null && progressDialog.isShowing())
+								progressDialog.dismiss();
+						}
+
+						@Override
+						public void onResponse(ResponseStatus status, Object object)
+						{
+							this.onResponse(status);
+						}
+					});
 				}
 			}
 		});
 	}
 
-	private void LoadExhibition(EventKey key)
+	private void LoadExhibition()
 	{
-		model = Database.getInstance().getExhibitionDB().getExhibition(key);
-
 		(( TextView)findViewById(R.id.exhibition_Title)).setText(model.getEventName());
 		(( TextView)findViewById(R.id.exhibition_Author)).setText(model.getAuthor());
 
@@ -90,6 +178,9 @@ public class Exhibition extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		if(progressDialog!=null && progressDialog.isShowing())
+			return;
+
 		if(ActivityHelper.revertToHomeIfLast(Exhibition.this))
 			return;
 		super.onBackPressed();

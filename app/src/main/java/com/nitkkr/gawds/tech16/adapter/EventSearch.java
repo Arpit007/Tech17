@@ -2,6 +2,7 @@ package com.nitkkr.gawds.tech16.adapter;
 
 import android.widget.Filter;
 
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.EventKey;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class EventSearch extends Filter
 {
 	EventListAdapter adapter;
 	private ArrayList<EventKey> eventKeys;
+	private String Query="";
 
 	public EventSearch(EventListAdapter adapter)
 	{
@@ -24,6 +26,7 @@ public class EventSearch extends Filter
 	@Override
 	protected FilterResults performFiltering(CharSequence charSequence)
 	{
+		Query=charSequence.toString();
 		FilterResults filterResults = new FilterResults();
 
 		if (charSequence!=null && charSequence.length()>0)
@@ -55,5 +58,16 @@ public class EventSearch extends Filter
 	{
 		adapter.setEvents((ArrayList<EventKey>) filterResults.values);
 		adapter.notifyDataSetChanged();
+	}
+
+	public void updateList()
+	{
+		if(adapter.getNotify())
+			for(EventKey key:eventKeys)
+				key.setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(key).isNotify());
+		else for(EventKey key:eventKeys)
+			key.setNotify(Database.getInstance().getEventsDB().getEventKey(key).isNotify());
+		performFiltering(Query);
+		Query="";
 	}
 }

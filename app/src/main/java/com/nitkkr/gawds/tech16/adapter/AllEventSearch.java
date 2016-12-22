@@ -18,16 +18,18 @@ public class AllEventSearch extends Filter
 	private HashMap<String, EventListAdapter> Events;
 	private EventListAdapter adapter;
 	private ListView listView;
+	private String Query="";
 
 	public AllEventSearch(AllEventListAdapter adapter, Context context)
 	{
 		Events=adapter.getEvents();
-		this.adapter=new EventListAdapter(context,new ArrayList<EventKey>());
+		this.adapter=new EventListAdapter(context,new ArrayList<EventKey>(),false);
 	}
 
 	@Override
 	protected FilterResults performFiltering(CharSequence charSequence)
 	{
+		Query=charSequence.toString();
 		FilterResults results=new FilterResults();
 
 		ArrayList<EventKey> list=new ArrayList<>();
@@ -58,5 +60,13 @@ public class AllEventSearch extends Filter
 	{
 		listView=list;
 		listView.setAdapter(adapter);
+	}
+
+	public void updateList()
+	{
+		for(String Name: Events.keySet())
+		{
+			Events.get(Name).updateList();
+		}
 	}
 }

@@ -145,4 +145,11 @@ public class AllEventList extends Fragment
 			listAdapter.getFilter().filter(Query);
 		}
 	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		listAdapter.updateList();
+	}
 }

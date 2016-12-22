@@ -22,7 +22,7 @@ public class Database implements iDbRequest
 	private SocietyDB societyDB;
 	private EventsDB eventsDB;
 
-	public static Database database = null;
+	private static Database database = null;
 
 	public Database(Context context)
 	{

@@ -299,7 +299,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		EditText signup_name=(EditText) findViewById(R.id.signup_Name);
 		EditText signup_number=( (EditText) findViewById(R.id.signup_Number) );
 		EditText signup_Roll=( (EditText) findViewById(R.id.signup_Roll) );
-		EditText signup_year=( (EditText) findViewById(R.id.signup_year) );
+		AppCompatSpinner signup_year=( (AppCompatSpinner) findViewById(R.id.signup_year) );
 
 		if (( signup_name ).getText().toString().trim().equals(""))
 		{
@@ -326,9 +326,9 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			return false;
 		}
 
-		if ( signup_year.getText().toString().trim().equals("") )
+		if ( signup_year.getSelectedItem().toString().trim().equals("") )
 		{
-			signup_year.setError("required");
+			//signup_year.setError("required");
 			return false;
 		}
 

@@ -14,12 +14,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.nitkkr.gawds.tech16.database.Database;
+import com.nitkkr.gawds.tech16.database.DbConstants;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.CoordinatorModel;
+import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
+import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.SocietyModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -270,7 +274,9 @@ public class FetchData
                     {
                         error.printStackTrace();
                         if (callback!=null)
-                            callback.onResponse(ResponseStatus.FAILED);
+                            if(error instanceof TimeoutError || error instanceof NetworkError)
+                                callback.onResponse(ResponseStatus.NONE);
+                            else callback.onResponse(ResponseStatus.FAILED);
                     }
                 })
         {
@@ -393,8 +399,10 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
-                        if(callback!=null)
-                            callback.onResponse(ResponseStatus.FAILED);
+                        if (callback!=null)
+                            if(error instanceof TimeoutError || error instanceof NetworkError)
+                                callback.onResponse(ResponseStatus.NONE);
+                            else callback.onResponse(ResponseStatus.FAILED);
                     }
                 })
         {
@@ -693,7 +701,9 @@ public class FetchData
                     {
                         error.printStackTrace();
                         if (callback!=null)
-                            callback.onResponse(ResponseStatus.FAILED);
+                            if(error instanceof TimeoutError || error instanceof NetworkError)
+                                callback.onResponse(ResponseStatus.NONE);
+                            else callback.onResponse(ResponseStatus.FAILED);
                     }
                 })
         {
@@ -710,10 +720,10 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-
-    //fetch all guest lectures
-    public void getGuestLectures(final Context context)
+    public void fetchAllGTalks(final Context context)
     {
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures),
                 new Response.Listener<String>()
                 {
@@ -727,32 +737,52 @@ public class FetchData
                         {
                             response = new JSONObject(res);
                             code=response.getJSONObject("status").getInt("code");
-                            String Start,End,Photo,Description,GuestName,Venue;
-                            int Id;
                             data=response.getJSONArray("data");
                             if(code==200)
                             {
-                                for(int i=0;i<data.length();i++){
+                                ArrayList<ExhibitionModel> models=Database.getInstance().getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " = 1");
+                                int Size=models.size();
+                                for(int i=0;i<data.length();i++)
+                                {
+                                    ExhibitionModel model = new ExhibitionModel();
+                                    JSONObject object = data.getJSONObject(i);
 
-                                    Id=data.getJSONObject(i).getInt("Id");
-                                    Start=data.getJSONObject(i).getString("Start");
-                                    End=data.getJSONObject(i).getString("End");
-                                    Photo=data.getJSONObject(i).getString("Photo");
-                                    Description=data.getJSONObject(i).getString("Description");
-                                    GuestName=data.getJSONObject(i).getString("GuestName    ");
-                                    Venue=data.getJSONObject(i).getString("Venue");
+                                    int ID=object.getInt("Id"), index=-1;
 
+                                    for(int x=0;x<Size;x++)
+                                    {
+                                        if(models.get(x).getEventID()==ID)
+                                        {
+                                            model=models.get(x);
+                                            index=x;
+                                            break;
+                                        }
+                                    }
+
+                                    model.setEventID(object.getInt("Id"));
+                                    model.setEventDate(EventModel.parseDate(object.getString("Start")));
+                                    model.setEventEndDate(EventModel.parseDate(object.getString("End")));
+                                    model.setImage_URL(object.getString("Photo"));
+                                    model.setDescription(object.getString("Description"));
+                                    model.setAuthor(object.getString("GuestName"));
+                                    model.setVenue(object.getString("Venue"));
+                                    model.setGTalk(true);
+
+                                    if(index==-1)
+                                        models.add(model);
                                 }
+                                Database.getInstance().getExhibitionDB().addOrUpdateExhibition(models);
+                                FetchResponseHelper.getInstance().incrementResponseCount(null);
                             }
                             else
                             {
-                                //error
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
                             }
-
                         }
                         catch (JSONException e)
                         {
                             e.printStackTrace();
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
                         }
                     }
                 },
@@ -762,6 +792,7 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
                     }
                 });
 
@@ -770,11 +801,10 @@ public class FetchData
 
     }
 
-    //fetch single guest lectures
-    public void getSingleGuestLecture(final Context context,int lectureId)
+    public void getGTalk(final Context context, final EventKey key, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures)
-                +"/"+lectureId,
+                +"/"+key.getEventID(),
                 new Response.Listener<String>()
                 {
                     @Override
@@ -786,28 +816,36 @@ public class FetchData
                         try {
                             response = new JSONObject(res);
                             code = response.getJSONObject("status").getInt("code");
-                            String Start, End, Photo, Description, GuestName, Venue;
-                            int Id;
                             data = response.getJSONObject("data");
-                            if (code == 200) {
+                            if (code == 200)
+                            {
+                                ExhibitionModel model=Database.getInstance().getExhibitionDB().getExhibition(key);
 
-                                Id = data.getInt("Id");
-                                Start = data.getString("Start");
-                                End = data.getString("End");
-                                Photo = data.getString("Photo");
-                                Description = data.getString("Description");
-                                GuestName = data.getString("GuestName    ");
-                                Venue = data.getString("Venue");
+                                model.setEventID(data.getInt("Id"));
+                                model.setEventDate(EventModel.parseDate(data.getString("Start")));
+                                model.setEventEndDate(EventModel.parseDate(data.getString("End")));
+                                model.setImage_URL(data.getString("Photo"));
+                                model.setDescription(data.getString("Description"));
+                                model.setAuthor(data.getString("GuestName"));
+                                model.setVenue(data.getString("Venue"));
+                                model.setGTalk(true);
 
-                            } else {
-                                //error
+                                Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
+                                if (callback!=null)
+                                    callback.onResponse(ResponseStatus.SUCCESS);
+
                             }
-
-
+                            else
+                            {
+                                if(callback!=null)
+                                    callback.onResponse(ResponseStatus.FAILED);
+                            }
                         }
                         catch (JSONException e)
                         {
                             e.printStackTrace();
+                            if(callback!=null)
+                                callback.onResponse(ResponseStatus.FAILED);
                         }
                     }
                 },
@@ -817,12 +855,15 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
+                        if (callback!=null)
+                            if(error instanceof TimeoutError || error instanceof NetworkError)
+                                callback.onResponse(ResponseStatus.NONE);
+                            else callback.onResponse(ResponseStatus.FAILED);
                     }
                 });
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
-
     }
 
     //get user wishlist
@@ -875,18 +916,16 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-    //add to wishlist
-    public void addToWishlist(final Context context, final int lectureId)
+    public void addToWishlist(final Context context, final EventKey key, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
-                +"/"+lectureId,
+                +"/"+key.getEventID(),
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String res)
                     {
                         JSONObject response;
-                        String data;
                         int code;
                         try
                         {
@@ -894,18 +933,21 @@ public class FetchData
                             code=response.getJSONObject("status").getInt("code");
                             if(code==200)
                             {
-                                //example  "data": "Successfully added to wishlist"
-                                data=response.getString("data");
+                                if(callback!=null)
+                                    callback.onResponse(ResponseStatus.SUCCESS);
                             }
                             else
                             {
-                                //error
+                                if (callback!=null)
+                                    callback.onResponse(ResponseStatus.FAILED);
                             }
 
                         }
                         catch (JSONException e)
                         {
                             e.printStackTrace();
+                            if(callback!=null)
+                                callback.onResponse(ResponseStatus.FAILED);
                         }
                     }
                 },
@@ -915,13 +957,19 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
+                        if(callback!=null)
+                        {
+                            if (error instanceof TimeoutError || error instanceof NetworkError)
+                                callback.onResponse(ResponseStatus.NONE);
+                            else callback.onResponse(ResponseStatus.FAILED);
+                        }
                     }
                 }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
                 params.put("token",AppUserModel.MAIN_USER.getToken());
-                params.put("lectureId", String.valueOf(lectureId));
+                params.put("lectureId", String.valueOf(key.getEventID()));
                 return params;
             }
         };
@@ -930,18 +978,16 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-    //remove from wishlist
-    public void removeFromWishlist(final Context context, final int lectureId)
+    public void removeFromWishlist(final Context context, final EventKey key, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
-                +"/"+lectureId+"?token="+AppUserModel.MAIN_USER.getToken(),
+                +"/"+key.getEventID()+"?token="+AppUserModel.MAIN_USER.getToken(),
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String res)
                     {
                         JSONObject response;
-                        String data;
                         int code;
                         try
                         {
@@ -949,18 +995,20 @@ public class FetchData
                             code=response.getJSONObject("status").getInt("code");
                             if(code==200)
                             {
-                                //example  "data": "Unsubscribed from the requested Guest Lecture"
-                                data=response.getString("data");
+                                if(callback!=null)
+                                    callback.onResponse(ResponseStatus.SUCCESS);
                             }
                             else
                             {
-                                //error
+                                if (callback!=null)
+                                    callback.onResponse(ResponseStatus.FAILED);
                             }
-
                         }
                         catch (JSONException e)
                         {
                             e.printStackTrace();
+                            if (callback!=null)
+                                callback.onResponse(ResponseStatus.FAILED);
                         }
                     }
                 },
@@ -970,6 +1018,13 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
+
+                        if(callback!=null)
+                        {
+                            if (error instanceof TimeoutError || error instanceof NetworkError)
+                                callback.onResponse(ResponseStatus.NONE);
+                            else callback.onResponse(ResponseStatus.FAILED);
+                        }
                     }
                 });
 
@@ -977,12 +1032,11 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-
-    //get all societies
     public void getSocieties(final Context context)
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
-                +context.getResources().getString(R.string.getSocieties),
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.getSocieties),
                 new Response.Listener<String>()
                 {
                     @Override
@@ -996,26 +1050,28 @@ public class FetchData
                             response = new JSONObject(res);
                             code=response.getJSONObject("status").getInt("code");
                             data=response.getJSONArray("data");
-                            String Name,Description;
-                            int Id;
                             if(code==200)
                             {
-                                for(int i=0;i<data.length();i++){
-
-                                    Id=data.getJSONObject(i).getInt("Id");
-                                    Name=data.getJSONObject(i).getString("Name");
-                                    Description=data.getJSONObject(i).getString("Description");
-
+                                ArrayList<SocietyModel> models=new ArrayList<>();
+                                for(int i=0;i<data.length();i++)
+                                {
+                                    JSONObject object=data.getJSONObject(i);
+                                    SocietyModel model=new SocietyModel();
+                                    model.setName(object.getString("Name"));
+                                    model.setID(object.getInt("Id"));
+                                    models.add(model);
                                 }
+                                FetchResponseHelper.getInstance().incrementResponseCount(null);
                             }
                             else
                             {
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
                             }
-
                         }
                         catch (JSONException e)
                         {
                             e.printStackTrace();
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
                         }
                     }
                 },
@@ -1025,6 +1081,7 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
                     }
                 });
 

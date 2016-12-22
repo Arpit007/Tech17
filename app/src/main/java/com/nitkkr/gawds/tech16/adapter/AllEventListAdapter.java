@@ -30,7 +30,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 		Events=new HashMap<>(events.size());
 		for(String Category: events.keySet())
 		{
-			Events.put(Category,new EventListAdapter(context,events.get(Category)));
+			Events.put(Category,new EventListAdapter(context,events.get(Category),false));
 		}
 		Filter=new AllEventSearch(this, context);
 	}
@@ -127,7 +127,12 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 		Events=new HashMap<>(events.size());
 		for(String Category: events.keySet())
 		{
-			Events.put(Category,new EventListAdapter(context,events.get(Category)));
+			Events.put(Category,new EventListAdapter(context,events.get(Category),false));
 		}
+	}
+
+	public void updateList()
+	{
+		Filter.updateList();
 	}
 }

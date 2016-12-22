@@ -62,7 +62,9 @@ public class ListPage extends AppCompatActivity
 		listView = (ListView) this.findViewById(R.id.event_list);
 
 
-		listAdapter = new EventListAdapter(ListPage.this, Data);
+		if(query.getQueryTargetType()== Query.QueryTargetType.Informals)
+			listAdapter = new EventListAdapter(ListPage.this, Data,false);
+		else listAdapter = new EventListAdapter(ListPage.this, Data,true);
 		listAdapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
@@ -148,5 +150,12 @@ public class ListPage extends AppCompatActivity
 		}
 		else
 		super.onBackPressed();
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		listAdapter.updateList();
 	}
 }

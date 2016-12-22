@@ -44,7 +44,7 @@ public class RegisteredEventList extends Fragment
 
 		listView = (ListView) view.findViewById(R.id.registered_event_list);
 
-		listAdapter = new EventListAdapter(view.getContext(), listDataChild);
+		listAdapter = new EventListAdapter(view.getContext(), listDataChild,false);
 
 		listAdapter.registerDataSetObserver(new DataSetObserver()
 		{
@@ -85,5 +85,12 @@ public class RegisteredEventList extends Fragment
 		listDataChild=Database.getInstance().getEventsDB().getRegisteredEventKeys();
 		listAdapter.setEvents(listDataChild);
 		listAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		listAdapter.updateList();
 	}
 }

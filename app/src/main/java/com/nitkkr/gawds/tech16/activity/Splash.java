@@ -202,29 +202,14 @@ public class Splash extends AppCompatActivity
 
 		RateApp.getInstance().incrementAppStartCount(getApplicationContext());
 
-		SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
-		boolean Skip=preferences.getBoolean("Skip",false);
+		FetchData.getInstance().fetchAllEvents(getApplicationContext());
+		FetchData.getInstance().fetchAllInterests(getApplicationContext());
+		FetchData.getInstance().getSocieties(getApplicationContext());
+		FetchData.getInstance().fetchAllGTalks(getApplicationContext());
 
-		if(Skip)
-		{
-			FetchData.getInstance().fetchAllEvents(getBaseContext());
-			FetchData.getInstance().fetchAllInterests(getBaseContext());
-		}
-		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
-		{
-			FetchData.getInstance().fetchAllEvents(getBaseContext());
-			FetchData.getInstance().fetchAllInterests(getBaseContext());
-		}
-		//if  logged in
-		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
+		if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) || AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
 			FetchData.getInstance().fetchUserInterests(getBaseContext());
-			FetchData.getInstance().fetchAllEvents(getBaseContext());
-		}
-		else
-		{
-			FetchData.getInstance().fetchAllEvents(getBaseContext());
-			FetchData.getInstance().fetchAllInterests(getBaseContext());
 		}
 
 		handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));
