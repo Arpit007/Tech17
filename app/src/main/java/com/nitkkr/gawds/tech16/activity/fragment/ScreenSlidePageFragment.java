@@ -28,14 +28,15 @@ public class ScreenSlidePageFragment extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.slide_layout,container,false);
         ImageView img = (ImageView) root.findViewById(R.id.slide_image);
         TextView tvd = (TextView) root.findViewById(R.id.description);
         TextView tvh = (TextView) root.findViewById(R.id.slide_heading);
         img.setImageResource(images[val]);
 
-
         return root;
+
     }
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

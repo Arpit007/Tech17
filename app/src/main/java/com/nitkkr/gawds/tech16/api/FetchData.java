@@ -18,6 +18,7 @@ import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.CoordinatorModel;
 import com.nitkkr.gawds.tech16.model.EventModel;
+import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
 
@@ -36,6 +37,8 @@ import java.util.Map;
 public class FetchData
 {
     private FetchData(){}
+    //this is for exhibition , do not remove
+    private int category_id;
 
     private static FetchData f=new FetchData();
 
@@ -67,6 +70,7 @@ public class FetchData
                             InterestModel interestModel = new InterestModel();
                             interestModel.setID(data.getJSONObject(i).getInt("Id"));
                             interestModel.setInterest(data.getJSONObject(i).getString("Name"));
+                            //if(data.getJSONObject(i).getString().equals(""))
                             list.add(interestModel);
                         }
                         Database.getInstance().getInterestDB().addOrUpdateInterest(list);
@@ -714,6 +718,8 @@ public class FetchData
     //fetch all guest lectures
     public void getGuestLectures(final Context context)
     {
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures),
                 new Response.Listener<String>()
                 {
@@ -730,24 +736,27 @@ public class FetchData
                             String Start,End,Photo,Description,GuestName,Venue;
                             int Id;
                             data=response.getJSONArray("data");
+                            ArrayList<ExhibitionModel> list=new ArrayList<>();
                             if(code==200)
                             {
                                 for(int i=0;i<data.length();i++){
-
-                                    Id=data.getJSONObject(i).getInt("Id");
-                                    Start=data.getJSONObject(i).getString("Start");
-                                    End=data.getJSONObject(i).getString("End");
-                                    Photo=data.getJSONObject(i).getString("Photo");
-                                    Description=data.getJSONObject(i).getString("Description");
-                                    GuestName=data.getJSONObject(i).getString("GuestName    ");
-                                    Venue=data.getJSONObject(i).getString("Venue");
-
+                                    ExhibitionModel exhibitionModel=new ExhibitionModel();
+                                    exhibitionModel.setEventID(data.getJSONObject(i).getInt("Id"));
+                                    exhibitionModel.setEventDate(ExhibitionModel.parseDate(data.getJSONObject(i).getString("Start")));
+                                    exhibitionModel.setEventEndDate(ExhibitionModel.parseDate(data.getJSONObject(i).getString("End")));
+                                    exhibitionModel.setImage_URL(data.getJSONObject(i).getString("Photo"));
+                                    exhibitionModel.setDescription(data.getJSONObject(i).getString("Description"));
+                                    exhibitionModel.setAuthor(data.getJSONObject(i).getString("GuestName"));
+                                    exhibitionModel.setVenue(data.getJSONObject(i).getString("Venue"));
+                                    list.add(exhibitionModel);
                                 }
+                                Database.database.getExhibitionDB().addOrUpdateExhibition(list);
                             }
                             else
                             {
                                 //error
                             }
+                            Log.v("DEBUG",response.toString());
 
                         }
                         catch (JSONException e)
@@ -773,6 +782,7 @@ public class FetchData
     //fetch single guest lectures
     public void getSingleGuestLecture(final Context context,int lectureId)
     {
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures)
                 +"/"+lectureId,
                 new Response.Listener<String>()

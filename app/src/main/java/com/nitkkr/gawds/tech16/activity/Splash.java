@@ -118,7 +118,7 @@ public class Splash extends AppCompatActivity
 
 		runAnimationDown.start();
 		runAnimationUp.start();
-		splashTypewriter.animateText("      Techspardha 17");
+		splashTypewriter.animateText("      Techspardha");
 
 		Thread thread=new Thread()
 		{
@@ -207,24 +207,28 @@ public class Splash extends AppCompatActivity
 
 		if(Skip)
 		{
-			FetchData.getInstance().fetchAllEvents(getBaseContext());
 			FetchData.getInstance().fetchAllInterests(getBaseContext());
+			FetchData.getInstance().fetchAllEvents(getBaseContext());
+			FetchData.getInstance().getGuestLectures(getBaseContext());
 		}
 		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
-			FetchData.getInstance().fetchAllEvents(getBaseContext());
 			FetchData.getInstance().fetchAllInterests(getBaseContext());
+			FetchData.getInstance().fetchAllEvents(getBaseContext());
+			FetchData.getInstance().getGuestLectures(getBaseContext());
 		}
 		//if  logged in
 		else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
 		{
 			FetchData.getInstance().fetchUserInterests(getBaseContext());
 			FetchData.getInstance().fetchAllEvents(getBaseContext());
+			FetchData.getInstance().getGuestLectures(getBaseContext());
 		}
 		else
 		{
-			FetchData.getInstance().fetchAllEvents(getBaseContext());
 			FetchData.getInstance().fetchAllInterests(getBaseContext());
+			FetchData.getInstance().fetchAllEvents(getBaseContext());
+			FetchData.getInstance().getGuestLectures(getBaseContext());
 		}
 
 		handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));

@@ -21,4 +21,9 @@ public class ExhibitionModel extends BaseEventModel implements Serializable
 		Author=author;
 	}
 	public void setGTalk(boolean gTalk){GTalk=gTalk;}
+	public static long parseDate(String date)
+	{
+		//TODO: Implement
+		return 0;
+	}
 }
