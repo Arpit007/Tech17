@@ -373,6 +373,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 
 	public void addOrUpdateExhibition(ArrayList<ExhibitionModel> exhibitions)
 	{
+		Log.v("DEBUG","YES...............");
 		SQLiteDatabase database=dbRequest.getDatabase();
 
 		String TABLENAME=DbConstants.Constants.getExhibitionTableName();

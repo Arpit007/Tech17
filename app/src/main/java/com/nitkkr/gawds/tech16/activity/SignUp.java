@@ -328,7 +328,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		if ( signup_year.getSelectedItem().toString().trim().equals("") )
 		{
-			//signup_year.setError("required");
+			signup_year.setPrompt("required");
 			return false;
 		}
 

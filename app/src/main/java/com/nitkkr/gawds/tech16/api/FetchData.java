@@ -40,6 +40,8 @@ import java.util.Map;
 public class FetchData
 {
     private FetchData(){}
+    //this is for exhibition , do not remove
+    private int category_id;
 
     private static FetchData f=new FetchData();
 
@@ -1088,7 +1090,6 @@ public class FetchData
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
-
 
 }
 

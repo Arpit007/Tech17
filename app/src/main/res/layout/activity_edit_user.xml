@@ -80,8 +80,10 @@
                 android:layout_alignParentBottom="true"/>
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="2dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/neon_green"
                 android:id="@+id/view"
                 android:layout_alignParentTop="true"
@@ -225,14 +227,13 @@
             android:textAlignment="center"
             android:background="@drawable/user_profile_textview"
             android:layout_margin="5dp"
-            android:padding="10dp"
             android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="match_parent"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/branch"
-                android:padding="5dp"
+                android:layout_marginLeft="7dp"
                 android:backgroundTint="@color/neon_green"
                 android:id="@+id/branch_view"/>
             <View
@@ -240,7 +241,8 @@
                 android:layout_height="match_parent"
                 android:background="@color/neon_green"
                 android:id="@+id/view25"
-
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/branch_view"
                 android:layout_toEndOf="@+id/branch_view"
@@ -255,10 +257,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
-                android:textColor="@color/text_color_primary"
-                android:backgroundTint="@color/neon_green"
-                android:layout_toRightOf="@+id/view25"
-                android:layout_alignParentBottom="true"/>
+                android:textColor="@color/User_Image_Fill_Color"
+                android:backgroundTint="#fff"
+                android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/view25"/>
 
         </RelativeLayout>
 
@@ -268,14 +270,13 @@
             android:textAlignment="center"
             android:background="@drawable/user_profile_textview"
             android:layout_margin="5dp"
-            android:padding="10dp"
             android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="match_parent"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/year"
-                android:padding="5dp"
+                android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/neon_green"
                 android:id="@+id/year_view"/>
             <View
@@ -283,7 +284,8 @@
                 android:layout_height="match_parent"
                 android:background="@color/neon_green"
                 android:id="@+id/view27"
-
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/year_view"
                 android:layout_toEndOf="@+id/year_view"
@@ -297,10 +299,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
-                android:textColor="@color/text_color_primary"
-                android:backgroundTint="@color/neon_green"
-                android:layout_toRightOf="@+id/view27"
-                android:layout_alignParentBottom="true"/>
+                android:textColor="@color/User_Image_Fill_Color"
+                android:backgroundTint="@color/User_Image_Fill_Color"
+                android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/view27"/>
 
         </RelativeLayout>
 

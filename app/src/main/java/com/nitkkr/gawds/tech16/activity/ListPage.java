@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -137,6 +138,7 @@ public class ListPage extends AppCompatActivity
 		{
 			Data= Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk + " = 1");
 		}
+		Log.v("DEBUG",Data.toString());
 		listAdapter.setEvents(Data);
 		listAdapter.notifyDataSetChanged();
 	}
