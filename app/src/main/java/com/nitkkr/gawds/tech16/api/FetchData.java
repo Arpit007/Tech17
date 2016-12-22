@@ -486,7 +486,8 @@ public class FetchData
                                         coordinatorModel.setEventID(eventModel.getEventID());
                                         coordinatorModel.setName(jCoordinator.getString("Name"));
                                         coordinatorModel.setMobile(String.valueOf(jCoordinator.getInt("PhoneNo")));
-                                        //TODO:set email, designation too here
+                                        coordinatorModel.setEmail(jCoordinator.getString("Email"));
+                                        coordinatorModel.setDesignation("Coordinator");
                                         coordinatorModels.add(coordinatorModel);
                                     }
                                 }
@@ -709,7 +710,122 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-    //get wishlist
+
+    //fetch all guest lectures
+    public void getGuestLectures(final Context context)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            String Start,End,Photo,Description,GuestName,Venue;
+                            int Id;
+                            data=response.getJSONArray("data");
+                            if(code==200)
+                            {
+                                for(int i=0;i<data.length();i++){
+
+                                    Id=data.getJSONObject(i).getInt("Id");
+                                    Start=data.getJSONObject(i).getString("Start");
+                                    End=data.getJSONObject(i).getString("End");
+                                    Photo=data.getJSONObject(i).getString("Photo");
+                                    Description=data.getJSONObject(i).getString("Description");
+                                    GuestName=data.getJSONObject(i).getString("GuestName    ");
+                                    Venue=data.getJSONObject(i).getString("Venue");
+
+                                }
+                            }
+                            else
+                            {
+                                //error
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
+
+    //fetch single guest lectures
+    public void getSingleGuestLecture(final Context context,int lectureId)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures)
+                +"/"+lectureId,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONObject data;
+                        int code;
+                        try {
+                            response = new JSONObject(res);
+                            code = response.getJSONObject("status").getInt("code");
+                            String Start, End, Photo, Description, GuestName, Venue;
+                            int Id;
+                            data = response.getJSONObject("data");
+                            if (code == 200) {
+
+                                Id = data.getInt("Id");
+                                Start = data.getString("Start");
+                                End = data.getString("End");
+                                Photo = data.getString("Photo");
+                                Description = data.getString("Description");
+                                GuestName = data.getString("GuestName    ");
+                                Venue = data.getString("Venue");
+
+                            } else {
+                                //error
+                            }
+
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
+
+    //get user wishlist
     public void getUserWishlist(final Context context)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
@@ -839,6 +955,61 @@ public class FetchData
                             else
                             {
                                 //error
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+
+    //get all societies
+    public void getSocieties(final Context context)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
+                +context.getResources().getString(R.string.getSocieties),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            data=response.getJSONArray("data");
+                            String Name,Description;
+                            int Id;
+                            if(code==200)
+                            {
+                                for(int i=0;i<data.length();i++){
+
+                                    Id=data.getJSONObject(i).getInt("Id");
+                                    Name=data.getJSONObject(i).getString("Name");
+                                    Description=data.getJSONObject(i).getString("Description");
+                                    
+                                }
+                            }
+                            else
+                            {
                             }
 
                         }
