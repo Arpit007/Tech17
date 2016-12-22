@@ -19,14 +19,14 @@ import com.nitkkr.gawds.tech16.src.Typewriter;
 
 public class ScreenSlidePageFragment extends Fragment {
     int val;
-    public static int[] images = {/*image ids go here*/R.drawable.roll_no,R.drawable.round};
-    public static CharSequence[] headings = {/*text headings go here*/"heading 1", "heading 2"};
-    public static String[] descriptions = {/*text descriptions go here*/"lorem ipsum,dolor sit amet consectetur adipisci[ng] velit, sed", "[do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam"};
+    public static int[] images = {/*image ids go here*/R.drawable.about,R.drawable.events,R.drawable.guests,
+            R.drawable.exh,R.drawable.info};
+    public static CharSequence[] headings = {/*text headings go here*/"About", "Events","Guest Lectures",
+            "Events","Informals"};
+    public static String[] descriptions = {/*text descriptions go here*/"descriptive content for About",
+            "descriptive content for Events 1", "descriptive content for guest lectures",
+            "descriptive content for events 2", "descriptive content for Informals"};
 
-    /**
-     * the images here are applied directly
-     * TODO: use functions to load images
-     */
     public static ScreenSlidePageFragment init(int position) {
         ScreenSlidePageFragment f = new ScreenSlidePageFragment();
         Bundle args = new Bundle();
@@ -38,6 +38,7 @@ public class ScreenSlidePageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.slide_layout, container, false);
         ImageView img = (ImageView) root.findViewById(R.id.slide_image);
         TextView tvd = (TextView) root.findViewById(R.id.description);
@@ -45,10 +46,10 @@ public class ScreenSlidePageFragment extends Fragment {
         Typewriter tvh = (Typewriter) root.findViewById(R.id.slide_heading);
         tvh.setCharacterDelay(80);
         tvh.animateText("   " + headings[val]);
-        /**
-         * change the image loading here
-         */
-        img.setImageResource(images[val]);
+
+        tvd.setText(descriptions[val]);
+
+        img.setImageBitmap(App.decodeSampledBitmapFromResource(getResources(),images[val],100,100));
 
         return root;
     }

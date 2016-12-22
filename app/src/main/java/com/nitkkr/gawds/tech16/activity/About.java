@@ -20,7 +20,7 @@ public class About extends FragmentActivity {
 	private ViewPager mViewPager;
 	private PagerAdapter mViewPagerAdapter;
 	View view;
-	int[] indicators = {R.id.first,R.id.second,R.id.third,R.id.fourth,R.id.fifth,R.id.sixth,R.id.seventh,R.id.eighth};
+	int[] indicators = {R.id.first,R.id.second,R.id.third,R.id.fourth,R.id.fifth};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class About extends FragmentActivity {
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 				View circle;
 
-				for(int i=0;i<8;i++) {
+				for(int i=0;i<5;i++) {
 					if(i == (position)) {
 						circle = view.findViewById(indicators[position]).findViewById(R.id.indicator_item);
 						circle.setBackgroundResource(R.drawable.page_indicator_dot);
