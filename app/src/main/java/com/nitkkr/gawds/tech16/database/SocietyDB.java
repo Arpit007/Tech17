@@ -128,7 +128,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 					SocietyModel society=new SocietyModel();
 					society.setID(cursor.getInt(ColumnIndex[0]));
 					society.setName(cursor.getString(ColumnIndex[1]));
-					society.setName(cursor.getString(ColumnIndex[2]));
+					society.setDescription(cursor.getString(ColumnIndex[2]));
 					keys.add(society);
 				}
 				while (cursor.moveToNext());

@@ -362,7 +362,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else if(requestCode==AppUserModel.LOGIN_REQUEST_CODE)
 			{
-				if(requestCode==RESULT_OK)
+				if(resultCode==RESULT_OK)
 				{
 					AppUserModel.MAIN_USER.loadAppUser(Event.this);
 					findViewById(R.id.Event_Register).performClick();
