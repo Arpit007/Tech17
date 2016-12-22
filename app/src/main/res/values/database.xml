@@ -57,7 +57,7 @@
         CREATE TABLE IF NOT EXISTS Exhibition
         (
             EVENT_ID INT PRIMARY KEY NOT NULL,
-            EVENT_NAME VARCHAR(127) NOT NULL,
+            EVENT_NAME VARCHAR(127),
             NOTIFY INT DEFAULT 0,
             _DATE INT DEFAULT 0,
             VENUE VARCHAR(127),

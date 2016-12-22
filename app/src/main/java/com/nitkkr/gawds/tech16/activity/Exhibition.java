@@ -2,6 +2,7 @@ package com.nitkkr.gawds.tech16.activity;
 
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.R;
@@ -84,6 +86,13 @@ public class Exhibition extends AppCompatActivity
 					Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
 					return;
 				}
+
+				if (!AppUserModel.MAIN_USER.isUserLoggedIn(Exhibition.this))
+				{
+					AppUserModel.MAIN_USER.LoginUserNoHome(Exhibition.this,true);
+					return;
+				}
+
 				progressDialog=new ProgressDialog(Exhibition.this);
 				progressDialog.setMessage("Updating Changes");
 				progressDialog.setIndeterminate(true);
@@ -184,5 +193,20 @@ public class Exhibition extends AppCompatActivity
 		if(ActivityHelper.revertToHomeIfLast(Exhibition.this))
 			return;
 		super.onBackPressed();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if(requestCode==AppUserModel.LOGIN_REQUEST_CODE)
+		{
+			if(resultCode==RESULT_OK)
+			{
+				AppUserModel.MAIN_USER.loadAppUser(Exhibition.this);
+				findViewById(R.id.exhibition_notify).performClick();
+			}
+		}
+		else
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

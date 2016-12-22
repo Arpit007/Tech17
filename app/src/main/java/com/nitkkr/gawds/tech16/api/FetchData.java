@@ -1064,6 +1064,7 @@ public class FetchData
                                     model.setDescription(object.getString("Description"));
                                     models.add(model);
                                 }
+                                Database.getInstance().getSocietyDB().addOrUpdateSocities(models);
                                 FetchResponseHelper.getInstance().incrementResponseCount(null);
                             }
                             else
