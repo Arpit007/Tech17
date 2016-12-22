@@ -116,7 +116,8 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 			int[] ColumnIndex =
 					{
 							Columns.indexOf(DbConstants.SocietyNames.Id.Name()),
-							Columns.indexOf(DbConstants.SocietyNames.SocietyName.Name())
+							Columns.indexOf(DbConstants.SocietyNames.SocietyName.Name()),
+							Columns.indexOf(DbConstants.SocietyNames.Description.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -127,6 +128,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 					SocietyModel society=new SocietyModel();
 					society.setID(cursor.getInt(ColumnIndex[0]));
 					society.setName(cursor.getString(ColumnIndex[1]));
+					society.setName(cursor.getString(ColumnIndex[2]));
 					keys.add(society);
 				}
 				while (cursor.moveToNext());
@@ -179,7 +181,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 			int[] ColumnIndex =
 					{
 							Columns.indexOf(DbConstants.SocietyNames.Id.Name()),
-							Columns.indexOf(DbConstants.SocietyNames.SocietyName.Name())
+							Columns.indexOf(DbConstants.SocietyNames.SocietyName.Name()),
 					};
 
 			if (cursor.getCount() > 0)
@@ -226,6 +228,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 		ContentValues values=new ContentValues();
 		values.put(DbConstants.SocietyNames.Id.Name(),society.getID());
 		values.put(DbConstants.SocietyNames.SocietyName.Name(),society.getName());
+		values.put(DbConstants.SocietyNames.Description.Name(),society.getDescription());
 
 		if(database.update(DbConstants.Constants.getSocietyTableName(),values, DbConstants.SocietyNames.Id.Name() + " = " + society.getID(),null)<1)
 		{
@@ -246,12 +249,14 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 		String TABLENAME=DbConstants.Constants.getSocietyTableName();
 		String Society_Id=DbConstants.SocietyNames.Id.Name();
 		String Society_Name=DbConstants.SocietyNames.SocietyName.Name();
+		String Society_Desc=DbConstants.SocietyNames.Description.Name();
 
 		for(SocietyModel society : societies)
 		{
 			ContentValues values=new ContentValues();
 			values.put(Society_Id,society.getID());
 			values.put(Society_Name,society.getName());
+			values.put(Society_Desc,society.getDescription());
 
 			if(database.update(TABLENAME,values, Society_Id + " = " + society.getID(),null)<1)
 			{

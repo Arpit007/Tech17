@@ -240,7 +240,8 @@ public class DbConstants
 	public enum SocietyNames
 	{
 		Id("ID"),
-		SocietyName("NAME");
+		SocietyName("NAME"),
+		Description("DESCRIPTION");
 
 		private String Name;
 

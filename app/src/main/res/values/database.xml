@@ -48,7 +48,8 @@
         CREATE TABLE IF NOT EXISTS Society
         (
             ID INT PRIMARY KEY,
-            NAME VARCHAR(127)
+            NAME VARCHAR(127),
+            DESCRIPTION VARCHAR(127)
         );
     </string>
 

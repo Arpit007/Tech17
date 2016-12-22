@@ -1061,6 +1061,7 @@ public class FetchData
                                     SocietyModel model=new SocietyModel();
                                     model.setName(object.getString("Name"));
                                     model.setID(object.getInt("Id"));
+                                    model.setDescription(object.getString("Description"));
                                     models.add(model);
                                 }
                                 FetchResponseHelper.getInstance().incrementResponseCount(null);
