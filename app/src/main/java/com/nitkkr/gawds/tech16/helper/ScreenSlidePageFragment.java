@@ -19,9 +19,9 @@ import com.nitkkr.gawds.tech16.src.Typewriter;
 
 public class ScreenSlidePageFragment extends Fragment {
     int val;
-    public static int[] images = {/*image ids go here*/};
-    public static CharSequence[] headings = {/*text headings go here*/};
-    public static String[] descriptions = {/*text descriptions go here*/};
+    public static int[] images = {/*image ids go here*/R.drawable.roll_no,R.drawable.round};
+    public static CharSequence[] headings = {/*text headings go here*/"heading 1", "heading 2"};
+    public static String[] descriptions = {/*text descriptions go here*/"lorem ipsum,dolor sit amet consectetur adipisci[ng] velit, sed", "[do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam"};
 
     /**
      * the images here are applied directly
