@@ -36,6 +36,8 @@ public class ListPage extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_page);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		actionBarSearch=new ActionBarSearch(ListPage.this, new iActionBar()
 		{
 			@Override

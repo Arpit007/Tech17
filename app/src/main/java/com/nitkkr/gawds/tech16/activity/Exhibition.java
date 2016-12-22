@@ -30,6 +30,8 @@ public class Exhibition extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_exhibition);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		actionBarBack = new ActionBarBack(Exhibition.this);
 
 		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(getIntent().getExtras().getInt("NotificationID"));

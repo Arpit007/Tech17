@@ -50,6 +50,8 @@ public class EditUser extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_user);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		Initialise();
 
 		ActionBarDoneButton bar=new ActionBarDoneButton(EditUser.this, new View.OnClickListener()

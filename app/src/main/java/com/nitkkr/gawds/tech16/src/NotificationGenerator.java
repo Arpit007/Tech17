@@ -162,12 +162,12 @@ public class NotificationGenerator
 
 		builder = builder.setContentTitle(Label)
 				.setContentText(Message)
-				.setSmallIcon(R.mipmap.ic_launcher)
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 				.setWhen(new Date().getTime());
 
 		if(cancelOnClick)
-			builder=builder.setAutoCancel(true);
+			builder=builder.setAutoCancel(true)
+							.setPriority(Notification.PRIORITY_HIGH);
 		else builder = builder.setAutoCancel(false)
 					.setOngoing(true);
 
@@ -179,14 +179,21 @@ public class NotificationGenerator
 		}
 		Notification notification = builder.build();
 
+		if (cancelOnClick)
+		{
+			notification.defaults |= Notification.DEFAULT_LIGHTS;
+			notification.defaults |= Notification.DEFAULT_SOUND;
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
+
 		((NotificationManager) context.getSystemService(NOTIFICATION_SERVICE)).notify(ID, notification);
 	}
 
 	private void saveCache()
 	{
 		SharedPreferences.Editor editor=context.getSharedPreferences("Generator",Context.MODE_PRIVATE).edit();
+		LastId++;
 		editor.putInt("LastId",LastId);
 		editor.apply();
-		LastId++;
 	}
 }

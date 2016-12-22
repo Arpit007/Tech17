@@ -21,6 +21,8 @@ public class AvatarPicker extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_avatar_picker);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		ActionBarBack barBack=new ActionBarBack(AvatarPicker.this);
 		barBack.setLabel("Select an Avatar");
 

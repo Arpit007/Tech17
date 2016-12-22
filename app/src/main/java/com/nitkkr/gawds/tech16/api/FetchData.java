@@ -485,7 +485,7 @@ public class FetchData
                                         CoordinatorModel coordinatorModel = new CoordinatorModel();
                                         coordinatorModel.setEventID(eventModel.getEventID());
                                         coordinatorModel.setName(jCoordinator.getString("Name"));
-                                        coordinatorModel.setMobile(jCoordinator.getInt("PhoneNo") + "");
+                                        coordinatorModel.setMobile(String.valueOf(jCoordinator.getLong("PhoneNo")));
                                         //TODO:set email, designation too here
                                         coordinatorModels.add(coordinatorModel);
                                     }

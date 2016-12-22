@@ -81,6 +81,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ActivityHelper.setStatusBarColor(this);
+
         Typewriter login_type=(Typewriter)findViewById(R.id.signup_label);
         login_type.animateText("    Login");
         login_type.setCharacterDelay(80);

@@ -34,6 +34,8 @@ public class Interests extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_interests);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		ListView listView = (ListView) findViewById(R.id.interest_list);
 		adapter = new InterestAdapter(getBaseContext());
 

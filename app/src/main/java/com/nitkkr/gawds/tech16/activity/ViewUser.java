@@ -29,6 +29,8 @@ public class ViewUser extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_user);
 
+		ActivityHelper.setStatusBarColor(this);
+
 		model=(UserModel)getIntent().getExtras().getSerializable("User");
 
 

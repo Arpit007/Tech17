@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 
 public class SearchPage extends AppCompatActivity
 {
@@ -13,6 +14,8 @@ public class SearchPage extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_page);
+
+		ActivityHelper.setStatusBarColor(this);
 
 		String DataType=getIntent().getStringExtra("Data_Type");
 		/*
