@@ -135,7 +135,7 @@ public class FetchData
                                 for(int i=0;i<data.length();i++)
                                 {
                                     InterestModel interestModel=new InterestModel();
-                                    interestModel.setID(data.getJSONObject(i).getInt("Id"));
+                                    interestModel.setID(data.getInt(i));
                                     interestModel.setInterest(Database.getInstance().getInterestDB().getInterest(interestModel));
                                     interestModel.setSelected(true);
                                     list.add(interestModel);

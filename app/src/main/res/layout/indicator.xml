@@ -27,20 +27,5 @@
              android:layout_weight="1"
              android:layout_height="match_parent"
              android:id="@+id/fifth"/>
-    <include layout="@layout/indicator_item"
-             android:layout_width="0dp"
-             android:layout_weight="1"
-             android:layout_height="match_parent"
-             android:id="@+id/sixth"/>
-    <include layout="@layout/indicator_item"
-             android:layout_width="0dp"
-             android:layout_weight="1"
-             android:layout_height="match_parent"
-             android:id="@+id/seventh"/>
-    <include layout="@layout/indicator_item"
-             android:layout_width="0dp"
-             android:layout_weight="1"
-             android:layout_height="match_parent"
-             android:id="@+id/eighth"/>
 
 </LinearLayout>
