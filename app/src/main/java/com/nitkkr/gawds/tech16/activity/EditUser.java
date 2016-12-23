@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
@@ -132,7 +133,7 @@ public class EditUser extends AppCompatActivity
 				inflater.inflate(R.menu.image_menu, popup.getMenu());
 
 				if(AppUserModel.MAIN_USER.getImageResource().equals(""))
-					popup.getMenu().findItem(0).setVisible(false);
+					popup.getMenu().getItem(0).setVisible(false);
 
 				popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 				{
@@ -143,6 +144,7 @@ public class EditUser extends AppCompatActivity
 						{
 							case R.id.google_Image:
 								AppUserModel.MAIN_USER.setUseGoogleImage(true);
+								setImage();
 								break;
 
 							case R.id.avatar:
@@ -153,6 +155,7 @@ public class EditUser extends AppCompatActivity
 							case R.id.alphabet:
 								AppUserModel.MAIN_USER.setUseGoogleImage(false);
 								AppUserModel.MAIN_USER.setImageId(-1);
+								setImage();
 								break;
 						}
 						return false;
@@ -223,7 +226,7 @@ public class EditUser extends AppCompatActivity
 			CircleImageView view=(CircleImageView)findViewById(R.id.view_user_Image);
 			view.setVisibility(View.VISIBLE);
 
-			Glide.with(EditUser.this).load(AppUserModel.MAIN_USER.getImageResource()).thumbnail(0.5f).centerCrop().into(view);
+			Glide.with(EditUser.this).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
 
 			findViewById(R.id.view_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}

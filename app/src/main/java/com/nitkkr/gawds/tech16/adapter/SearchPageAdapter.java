@@ -61,7 +61,6 @@ public class SearchPageAdapter extends BaseAdapter
 			switch (holder.type)
 			{
 				case Event:
-					//TODO:Check for Informal
 				case Informals:	holder.key.setNotify(Database.getInstance().getEventsDB().getEventKey(holder.key.getEventID()).isNotify());break;
 				case GuestTalk:
 				case Exhibition: holder.key.setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(holder.key.getEventID()).isNotify());break;

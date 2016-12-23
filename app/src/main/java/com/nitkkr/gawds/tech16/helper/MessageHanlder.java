@@ -18,7 +18,6 @@ public class MessageHanlder
 	public void DispatchMessage(String message, Context context)
 	{
 		MessageModel formattedMessage=getFormattedMessage(message);
-		//TODO:Set Model Fields here=======================
 
 		switch(formattedMessage.getType())
 		{
@@ -39,7 +38,6 @@ public class MessageHanlder
 
 	public MessageType getMessageType(String message)
 	{
-		//TODO: Implement
 		return MessageType.EVENT;
 	}
 

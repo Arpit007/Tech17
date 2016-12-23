@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
 import com.android.volley.Request;
@@ -13,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.R;
 
@@ -103,7 +105,20 @@ public class CheckUpdate
 			});
 			builder.setTitle("Update");
 			builder.setMessage(R.string.Update);
-			builder.create().show();
+			final AlertDialog alertDialog = builder.create();
+			alertDialog.setOnShowListener(
+					new DialogInterface.OnShowListener()
+					{
+						@Override
+						public void onShow(DialogInterface arg0)
+						{
+
+							alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(context,R.color.button_color));
+							alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
+							alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
+						}
+					});
+			alertDialog.show();
 		}
 		return true;
 	}
@@ -144,7 +159,6 @@ public class CheckUpdate
 				}
 				finally
 				{
-					//TODO:Put Global Service Context
 					SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
 					editor.putBoolean("Update", UpdateAvailable);
 					editor.apply();
@@ -156,8 +170,6 @@ public class CheckUpdate
 			public void onErrorResponse(VolleyError error)
 			{
 				UpdateAvailable=false;
-
-				//TODO:Put Global Service Context
 				SharedPreferences.Editor editor= getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
 				editor.putBoolean("Update",UpdateAvailable);
 				editor.apply();

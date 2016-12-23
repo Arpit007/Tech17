@@ -72,13 +72,42 @@
     android:layout_alignParentTop="true"
     android:layout_alignStart="@+id/view3"/>
 
+        <RelativeLayout android:layout_below="@id/signup_label"
+                        android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true" android:id="@+id/temp_Layout"
+            android:layout_width="match_parent" android:layout_height="200dp">
+
+            <com.nitkkr.gawds.tech16.src.CircularTextView
+                android:id="@+id/signup_user_Image_Letter" android:visibility="visible"
+                android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
+                android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+                android:layout_width="150dp" android:layout_height="150dp"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                app:border_color="@color/text_color_primary" app:border_width="@dimen/User_Image_Border_Width"
+                android:id="@+id/signup_user_Image" android:src="@drawable/avatar_1"
+                android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                android:layout_width="150dp" android:layout_height="150dp"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/signup_user_Image_Button"
+                android:tint="@color/app_background"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:layout_marginLeft="-45dp"
+                android:layout_alignBottom="@+id/signup_user_Image_Letter"
+                android:layout_toEndOf="@+id/signup_user_Image_Letter"/>
+
+
+        </RelativeLayout>
+
 <ImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
     android:layout_marginLeft="15dp"
     android:backgroundTint="@color/app_background"
-    app:srcCompat="@drawable/right_arrow" android:layout_below="@+id/signup_label"
+    app:srcCompat="@drawable/right_arrow" android:layout_below="@+id/temp_Layout"
     android:layout_toStartOf="@+id/textView4"
     android:layout_marginTop="30dp" android:id="@+id/imageView15"/>
 <ImageView

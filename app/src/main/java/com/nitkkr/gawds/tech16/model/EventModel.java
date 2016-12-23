@@ -89,7 +89,6 @@ public class EventModel extends BaseEventModel implements Serializable
 
 	public static long parseDate(String date)
 	{
-		//TODO: Implement
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
 		Date parsed_date=new Date();
 		try {

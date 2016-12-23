@@ -5,6 +5,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <com.nitkkr.gawds.tech16.src.CircularTextView
+        android:id="@+id/circ_view"
+        android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+        android:layout_width="150dp" android:layout_height="150dp"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
         app:border_color="@color/User_Image_Border_Color" app:border_width="@dimen/User_Image_Border_Width"
         android:id="@+id/avatar_image" android:src="@drawable/avatar_1"

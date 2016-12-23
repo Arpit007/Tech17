@@ -109,7 +109,6 @@ public class NotificationGenerator
 
 		RemoteViews view=new RemoteViews(context.getPackageName(),R.layout.layout_notification_event);
 
-		//TODO:Implement
 		Bundle bundle=new Bundle();
 		bundle.putSerializable("Event",key);
 		bundle.putInt("NotificationID",LastId);
@@ -127,7 +126,6 @@ public class NotificationGenerator
 
 		RemoteViews view=new RemoteViews(context.getPackageName(),R.layout.layout_notification_event);
 
-		//TODO:Implement
 		Bundle bundle=new Bundle();
 		Intent intent=new Intent(context, Event.class);
 
@@ -142,7 +140,6 @@ public class NotificationGenerator
 
 		RemoteViews view=new RemoteViews(context.getPackageName(),R.layout.layout_notification_event);
 
-		//TODO:Implement
 		Intent intent=new Intent(context,Home.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

@@ -2,13 +2,21 @@ package com.nitkkr.gawds.tech16.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.PopupMenu;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -26,6 +34,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -36,6 +46,7 @@ import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.src.CircularTextView;
 import com.nitkkr.gawds.tech16.src.Typewriter;
 
 import org.json.JSONException;
@@ -43,6 +54,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
 {
@@ -61,6 +74,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		}
 	};
 
+	private PopupMenu popup;
+	private final int AVATAR=234;
 	boolean Processing, Verified = false;
 	private  String TAG="DEBUG";
 	private static final int RC_SIGN_IN = 007;
@@ -77,6 +92,16 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
+
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+		if(!AppUserModel.MAIN_USER.isUserLoggedIn(this))
+		{
+			AppUserModel.MAIN_USER.setUseGoogleImage(false);
+			AppUserModel.MAIN_USER.setImageId(0);
+		}
+
+		setImage();
 
 		ActivityHelper.setStatusBarColor(this);
 
@@ -126,6 +151,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		 email=AppUserModel.MAIN_USER.getEmail();
 		 personPhotoUrl=AppUserModel.MAIN_USER.getImageResource();
 
+
+
 		EditText name_editText; Button email_button;
 		if(!personName.equals("")){
 			name_editText=( EditText)findViewById(R.id.signup_Name);
@@ -136,6 +163,79 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			email_button.setText(email);
 		}
 
+		(( EditText)findViewById(R.id.signup_Name)).addTextChangedListener(new TextWatcher()
+		{
+			@Override
+			public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+			{
+			}
+
+			@Override
+			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+			{
+				if(popup!=null)
+				{
+					if (charSequence.equals(""))
+						popup.getMenu().getItem(2).setVisible(false);
+					else popup.getMenu().getItem(2).setVisible(true);
+
+					if(!AppUserModel.MAIN_USER.isUseGoogleImage() && AppUserModel.MAIN_USER.getImageId()==-1)
+						setImage();
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable editable)
+			{
+			}
+		});
+
+		findViewById(R.id.signup_user_Image_Button).setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				popup = new PopupMenu(SignUp.this, view);
+				MenuInflater inflater = popup.getMenuInflater();
+				inflater.inflate(R.menu.image_menu, popup.getMenu());
+
+				if(email.equals(""))
+					popup.getMenu().getItem(0).setVisible(false);
+				else popup.getMenu().getItem(0).setVisible(true);
+
+				if (personName.equals(""))
+					popup.getMenu().getItem(2).setVisible(false);
+				else popup.getMenu().getItem(2).setVisible(true);
+
+				popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+				{
+					@Override
+					public boolean onMenuItemClick(MenuItem item)
+					{
+						switch (item.getItemId())
+						{
+							case R.id.google_Image:
+								AppUserModel.MAIN_USER.setUseGoogleImage(true);
+								setImage();
+								break;
+
+							case R.id.avatar:
+								Intent intent=new Intent(SignUp.this,AvatarPicker.class);
+								startActivityForResult(intent,AVATAR);
+								break;
+
+							case R.id.alphabet:
+								AppUserModel.MAIN_USER.setUseGoogleImage(false);
+								AppUserModel.MAIN_USER.setImageId(-1);
+								setImage();
+								break;
+						}
+						return false;
+					}
+				});
+				popup.show();
+			}
+		});
 
 
 		Button google_signIn_btn=(Button)findViewById(R.id.signup_Email);
@@ -190,6 +290,16 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				handleSignInResult(result);
 			}
 		}
+
+		if(resultCode==RESULT_OK)
+		{
+			int ID = data.getIntExtra("ID", -1);
+			AppUserModel.MAIN_USER.setImageId(ID);
+
+			AppUserModel.MAIN_USER.setUseGoogleImage(( ID == -1 ));
+
+			setImage();
+		}
 	}
 	private void handleSignInResult(GoogleSignInResult result) {
 
@@ -207,6 +317,17 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			Log.e(TAG, "Name: " + personName + ", email: " + email
 					+ ", Image: " + personPhotoUrl+" token :"+token_user);
 
+
+			if(popup!=null)
+			{
+				if (email.equals(""))
+					popup.getMenu().getItem(0).setVisible(false);
+				else popup.getMenu().getItem(0).setVisible(true);
+
+				if (personName.equals(""))
+					popup.getMenu().getItem(2).setVisible(false);
+				else popup.getMenu().getItem(2).setVisible(true);
+			}
 			sendToken();
 		} else {
 			// Signed out, show unauthenticated UI.
@@ -293,6 +414,51 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		requestQueue.add(stringRequest);
 	}
 
+
+	private void setImage()
+	{
+		if(AppUserModel.MAIN_USER.getImageResource()!=null && AppUserModel.MAIN_USER.isUseGoogleImage())
+		{
+			CircleImageView view=(CircleImageView)findViewById(R.id.signup_user_Image);
+			view.setVisibility(View.VISIBLE);
+
+			Glide.with(SignUp.this).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
+
+			findViewById(R.id.signup_user_Image_Letter).setVisibility(View.INVISIBLE);
+		}
+		else if(AppUserModel.MAIN_USER.getImageId()!=-1)
+		{
+			CircleImageView view=(CircleImageView)findViewById(R.id.signup_user_Image);
+			view.setVisibility(View.VISIBLE);
+
+			TypedArray array=getResources().obtainTypedArray(R.array.Avatar);
+			view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageId(),0));
+			array.recycle();
+
+			CircularTextView circularTextView=(CircularTextView)findViewById(R.id.signup_user_Image_Letter);
+			circularTextView.setVisibility(View.VISIBLE);
+			circularTextView.setText("");
+			circularTextView.setFillColor(ContextCompat.getColor(this,R.color.User_Image_Fill_Color));
+		}
+		else
+		{
+			CircularTextView view=(CircularTextView)findViewById(R.id.signup_user_Image_Letter);
+
+			view.setText(AppUserModel.MAIN_USER.getName().toUpperCase().charAt(0));
+			view.setVisibility(View.VISIBLE);
+
+			TypedArray array=getResources().obtainTypedArray(R.array.Flat_Colors);
+
+			int colorPos=(AppUserModel.MAIN_USER.getName().toLowerCase().charAt(0)-'a')%array.length();
+
+			view.setFillColor(array.getColor(colorPos,0));
+			view.setBorderColor(ContextCompat.getColor(this,R.color.text_color_primary));
+
+			array.recycle();
+
+			findViewById(R.id.signup_user_Image).setVisibility(View.INVISIBLE);
+		}
+	}
 
 	boolean Check()
 	{
@@ -500,6 +666,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			if (mProgressDialog!=null && mProgressDialog.isShowing())
 				return;
 
+			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
+
 			super.onBackPressed();
 		}
 	}
@@ -529,6 +697,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			mProgressDialog.hide();
 		}
 	}
+
 
 
 }

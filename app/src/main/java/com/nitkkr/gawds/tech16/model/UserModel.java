@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class UserModel implements iUserModel, Serializable
 {
-	private String Name;
+	private String Name="";
 	private String Email;
 	private String Roll;
 	private String College;

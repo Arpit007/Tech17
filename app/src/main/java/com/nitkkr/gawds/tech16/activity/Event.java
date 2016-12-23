@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -150,6 +151,18 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 							builder.setMessage("Are you sure, you want to Register for " + model.getEventName() + "?");
 							builder.setTitle("Register Event");
 							alertDialog = builder.create();
+							alertDialog.setOnShowListener(
+									new DialogInterface.OnShowListener()
+									{
+										@Override
+										public void onShow(DialogInterface arg0)
+										{
+
+											alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(Event.this,R.color.button_color));
+											alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(Event.this,R.color.button_color));
+											alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(Event.this,R.color.button_color));
+										}
+									});
 							alertDialog.show();
 						}
 						else
@@ -380,6 +393,5 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	public void EventStatusChanged(EventStatus status)
 	{
 		LoadEvent();
-		//TODO: Event Status
 	}
 }

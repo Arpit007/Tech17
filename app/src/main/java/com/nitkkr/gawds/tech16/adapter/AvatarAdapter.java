@@ -2,12 +2,14 @@ package com.nitkkr.gawds.tech16.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.src.CircularTextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -54,6 +56,9 @@ public class AvatarAdapter extends BaseAdapter
 		}
 		CircleImageView CircleImageView=( CircleImageView)view.findViewById(R.id.avatar_image);
 		CircleImageView.setImageResource(array.getResourceId(i,0));
+
+		CircularTextView circularTextView=(CircularTextView)view.findViewById(R.id.circ_view);
+		circularTextView.setFillColor(ContextCompat.getColor(context,R.color.User_Image_Fill_Color));
 
 		return view;
 	}

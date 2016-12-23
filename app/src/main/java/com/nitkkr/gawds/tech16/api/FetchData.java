@@ -42,8 +42,6 @@ import java.util.Map;
 public class FetchData
 {
     private FetchData(){}
-    //this is for exhibition , do not remove
-    private int category_id;
 
     private static FetchData f=new FetchData();
 
@@ -431,7 +429,6 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-    //TODO: DEPRECIATE, Global Search Needed here
     public void searchFor(final Context context, String search_this, final ArrayList<EventModel> result)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
@@ -461,8 +458,7 @@ public class FetchData
                                     eventModel.setEventEndDate(EventModel.parseDate(data.getJSONObject(i).getString("End")));
                                     eventModel.setCurrentRound(Integer.valueOf(data.getJSONObject(i).getString("CurrentRound")));
                                     eventModel.setMaxUsers(data.getJSONObject(i).getInt("MaxContestants"));
-                                    //TODO:Fix
-                                    //eventModel.setStatus(data.getJSONObject(i).getString("Status"));
+                                    eventModel.setStatus(EventStatus.Parse(data.getJSONObject(i).getString("Status")));
                                     eventModel.setPdfLink(data.getJSONObject(i).getString("Pdf"));
                                     eventModel.setCategory(data.getJSONObject(i).getInt("CategoryId"));
                                     eventModel. setSociety(data.getJSONObject(i).getInt("SocietyId"));

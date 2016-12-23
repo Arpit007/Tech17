@@ -27,8 +27,7 @@ public class About extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 
-		//ActionBarBack actionBarBack=new ActionBarBack();
-		//actionBarBack.setLabel("About");
+		ActivityHelper.setStatusBarColor(About.this);
 
 		mViewPager = (ViewPager) findViewById(R.id.view_pager);
 		mViewPager.setOffscreenPageLimit(0);

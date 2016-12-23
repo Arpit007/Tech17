@@ -154,7 +154,20 @@ public class Splash extends AppCompatActivity
 				ActivityCompat.requestPermissions(Splash.this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE_PERMISSION_CODE);
 			}
 		});
-		builder.create().show();
+		final AlertDialog alertDialog = builder.create();
+		alertDialog.setOnShowListener(
+			new DialogInterface.OnShowListener()
+			{
+				@Override
+				public void onShow(DialogInterface arg0)
+				{
+
+					alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(Splash.this,R.color.button_color));
+					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(Splash.this,R.color.button_color));
+					alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(Splash.this,R.color.button_color));
+				}
+			});
+		alertDialog.show();
 	}
 
 	public void start_app()

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
@@ -73,7 +74,7 @@ public class ViewUser extends AppCompatActivity
 			CircleImageView view=(CircleImageView)findViewById(R.id.view_user_Image);
 			view.setVisibility(View.VISIBLE);
 
-			Glide.with(ViewUser.this).load(model.getImageResource()).thumbnail(0.5f).centerCrop().into(view);
+			Glide.with(ViewUser.this).load(model.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
 
 			findViewById(R.id.view_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}

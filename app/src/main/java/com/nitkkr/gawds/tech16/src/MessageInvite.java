@@ -3,8 +3,11 @@ package com.nitkkr.gawds.tech16.src;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
+import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.model.MessageModel;
 import com.nitkkr.gawds.tech16.model.iMessageAction;
 
@@ -17,7 +20,7 @@ import org.json.JSONObject;
 public class MessageInvite implements iMessageAction
 {
 	@Override
-	public void performAction(MessageModel model, Context context)
+	public void performAction(MessageModel model, final Context context)
 	{
 		JSONObject object=getObject(model);
 
@@ -65,7 +68,19 @@ public class MessageInvite implements iMessageAction
 				//Implement
 			}
 		});
+		final AlertDialog alertDialog=builder.create();
+		alertDialog.setOnShowListener(
+				new DialogInterface.OnShowListener()
+				{
+					@Override
+					public void onShow(DialogInterface arg0)
+					{
 
+						alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(context, R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
+					}
+				});
 	}
 
 	@Override

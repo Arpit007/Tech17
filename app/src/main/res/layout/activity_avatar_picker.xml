@@ -5,6 +5,7 @@
     android:id="@+id/activity_avatar_picker"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     tools:context="com.nitkkr.gawds.tech16.activity.AvatarPicker">
     <include
         layout="@layout/actionbar_back" android:id="@id/temp_bar"
