@@ -133,7 +133,7 @@ public class AppUserModel extends UserModel implements Cloneable
 	public void logoutUser(Context context) {
 		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
 		editor.clear();
-		editor.apply();
+		editor.commit();
 
 		Database.getInstance().ResetTables();
 
@@ -151,12 +151,12 @@ public class AppUserModel extends UserModel implements Cloneable
 	public void setLoggedIn(boolean val,Context context){
 		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
 		editor.putBoolean("loggedIn",val);
-		editor.apply();
+		editor.commit();
 	}
 	public void setSignedup(boolean val,Context context){
 		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
 		editor.putBoolean("signedup",val);
-		editor.apply();
+		editor.commit();
 	}
 
 	public boolean isUserLoggedIn(Context context){

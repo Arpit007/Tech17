@@ -32,6 +32,7 @@
     android:layout_toEndOf="@+id/view"
     android:layout_marginLeft="1dp"
     android:layout_marginTop="-5dp"/>
+
     <com.nitkkr.gawds.tech16.src.Typewriter
         android:textSize="38sp" android:id="@+id/signup_label"
         android:layout_marginTop="13dp"

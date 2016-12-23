@@ -24,14 +24,15 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="176dp"
         android:id="@+id/upper_splash"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="45dp"
         android:layout_marginEnd="30dp"/>
     <View
         android:layout_width="280dp"
         android:layout_height="5dp"
         android:background="#ffffff"
         android:id="@+id/lower_splash"
-        android:layout_alignTop="@+id/upper_splash" android:layout_alignStart="@+id/upper_splash"/>
+        android:layout_alignTop="@+id/upper_splash"
+        android:layout_alignStart="@+id/upper_splash"/>
     <com.nitkkr.gawds.tech16.src.Typewriter
         android:text="      Techspardha'17"
         android:id="@+id/splash_text"

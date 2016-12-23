@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -171,6 +172,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
 		runAnimationUp.start();
 		runAnimationDown.start();
+
 
 	}
 	private void signIn() {
