@@ -8,15 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.adapter.EventListAdapter;
+import com.nitkkr.gawds.tech16.api.FetchData;
+import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarSearch;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
+import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.helper.iActionBar;
 import com.nitkkr.gawds.tech16.model.EventKey;
-import com.nitkkr.gawds.tech16.model.ExhibitionModel;
+import com.nitkkr.gawds.tech16.model.EventModel;
 
 import java.util.ArrayList;
 
@@ -154,18 +158,88 @@ public class DashboardPage extends AppCompatActivity
 
     private void loadLiveEvents()
     {
-        ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
+        final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
         dialog.setIndeterminate(true);
+        dialog.setMessage("Fetching Data");
+        dialog.show();
+
+        FetchData.getInstance().getLiveEvents(getBaseContext(), new iResponseCallback()
+        {
+            @Override
+            public void onResponse(ResponseStatus status)
+            {
+                this.onResponse(status,null);
+            }
+
+            @Override
+            public void onResponse(ResponseStatus status, Object object)
+            {
+                if(status==ResponseStatus.SUCCESS && object!=null)
+                {
+                    ArrayList<EventModel> models=(ArrayList<EventModel>)object;
+                    ArrayList<EventKey> keys=new ArrayList<>(models.size());
+
+                    for(EventModel model:models)
+                        keys.add(model);
+                    eventAdapter.setEvents(keys);
+                }
+                else if(status==ResponseStatus.NONE)
+                {
+                    Toast.makeText(getBaseContext(),"Network Error",Toast.LENGTH_LONG).show();
+                }
+                else Toast.makeText(getBaseContext(),"Failed to Fetch Live Events",Toast.LENGTH_LONG).show();
+                eventAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+
         eventAdapter.notifyDataSetChanged();
     }
+
     private void loadNotificationEvents()
     {
 
     }
     private void loadInterestedEvents()
     {
+        final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
+        dialog.setIndeterminate(true);
+        dialog.setMessage("Fetching Data");
+        dialog.show();
+
+        FetchData.getInstance().fetchInterestedEvents(getBaseContext(), new iResponseCallback()
+        {
+            @Override
+            public void onResponse(ResponseStatus status)
+            {
+                this.onResponse(status,null);
+            }
+
+            @Override
+            public void onResponse(ResponseStatus status, Object object)
+            {
+                if(status==ResponseStatus.SUCCESS && object!=null)
+                {
+                    ArrayList<EventModel> models=(ArrayList<EventModel>)object;
+                    ArrayList<EventKey> keys=new ArrayList<>(models.size());
+
+                    for(EventModel model:models)
+                        keys.add(model);
+                    eventAdapter.setEvents(keys);
+                }
+                else if(status==ResponseStatus.NONE)
+                {
+                    Toast.makeText(getBaseContext(),"Network Error",Toast.LENGTH_LONG).show();
+                }
+                else Toast.makeText(getBaseContext(),"Failed to Interested Events",Toast.LENGTH_LONG).show();
+                eventAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+
         eventAdapter.notifyDataSetChanged();
     }
+
     private void loadWishlistEvents()
     {
         eventAdapter.setEvents(Database.getInstance().getExhibitionDB().getRegisteredExhibitionKeys());

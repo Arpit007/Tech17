@@ -21,7 +21,8 @@
             PDF VARCHAR(255),
             REGISTERED INT DEFAULT 0,
             SOCIETY INT DEFAULT 0,
-            CATEGORY INT DEFAULT 0
+            CATEGORY INT DEFAULT 0,
+            INFORMAL INT DEFAULT 0
         );
     </string>
 

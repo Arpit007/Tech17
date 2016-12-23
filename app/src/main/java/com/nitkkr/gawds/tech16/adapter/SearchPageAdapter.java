@@ -100,7 +100,7 @@ public class SearchPageAdapter extends BaseAdapter
 	{
 		this.ID = ID;
 		SearchPageFilter.Holder holder=Keys.get(ID);
-		if(holder.type== EventTargetType.Event)
+		if(holder.type== EventTargetType.Event || holder.type==EventTargetType.Informals)
 		{
 			Bundle bundle=new Bundle();
 			bundle.putSerializable("Event",holder.key);
@@ -115,10 +115,6 @@ public class SearchPageAdapter extends BaseAdapter
 			Intent intent=new Intent(context, Exhibition.class);
 			intent.putExtras(bundle);
 			context.startActivity(intent);
-		}
-		else if(holder.type==EventTargetType.Informals)
-		{
-			//TODO:Write
 		}
 	}
 

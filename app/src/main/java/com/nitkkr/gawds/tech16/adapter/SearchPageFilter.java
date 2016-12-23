@@ -2,7 +2,6 @@ package com.nitkkr.gawds.tech16.adapter;
 
 import android.widget.Filter;
 
-import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.api.EventTargetType;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.database.DbConstants;
@@ -39,7 +38,6 @@ public class SearchPageFilter extends Filter
 			Keys=new ArrayList<>();
 		else
 		{
-			//TODO:Set for informals
 			String Query=charSequence.toString().toLowerCase();
 			ArrayList<EventKey> events= Database.getInstance().getEventsDB().getEventKeys(DbConstants.EventNames.EventName.Name() + " LIKE \"%" + Query + "%\"");
 			ArrayList<EventKey> gtalk=Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.EventName.Name() + " LIKE \"%" + Query + "%\" AND "

@@ -27,6 +27,7 @@ public class EventModel extends BaseEventModel implements Serializable
 	private int Society;
 	private int Category;
 
+	private boolean Informal = false;
 	private boolean Registered = false;
 	private EventStatus status= EventStatus.None;
 	private ArrayList<RoundResultModel> Result;
@@ -72,8 +73,10 @@ public class EventModel extends BaseEventModel implements Serializable
 	public void setResult(ArrayList<RoundResultModel> result){Result=result;}
 	public void setParticipants(ArrayList<iUserModel> participants){Participants=participants;}
 	public void setRegistered(boolean registered){Registered=registered;}
+	public void setInformal(boolean informal){this.Informal=informal;}
 
 	public boolean isRegistered(){return Registered;}
+	public boolean isInformal(){return Informal;}
 	public boolean isParticipantCountOK(){return (Participants.size()>=MinUsers && Participants.size()<=MaxUsers);}
 	public boolean isSingleEvent()
 	{

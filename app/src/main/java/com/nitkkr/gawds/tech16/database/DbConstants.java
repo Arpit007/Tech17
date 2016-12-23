@@ -189,7 +189,8 @@ public class DbConstants
 		Pdf("PDF"),
 		Registered("REGISTERED"),
 		Society("SOCIETY"),
-		Category("CATEGORY");
+		Category("CATEGORY"),
+		Informal("INFORMAL");
 
 		private String Name;
 

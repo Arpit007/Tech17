@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
@@ -103,7 +104,8 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 							Columns.indexOf(DbConstants.EventNames.Pdf.Name()),
 							Columns.indexOf(DbConstants.EventNames.Registered.Name()),
 							Columns.indexOf(DbConstants.EventNames.Society.Name()),
-							Columns.indexOf(DbConstants.EventNames.Category.Name())
+							Columns.indexOf(DbConstants.EventNames.Category.Name()),
+							Columns.indexOf(DbConstants.EventNames.Informal.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -127,6 +129,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 					event.setRegistered(cursor.getInt(ColumnIndex[11])!=0);
 					event.setSociety(cursor.getInt(ColumnIndex[12]));
 					event.setCategory(cursor.getInt(ColumnIndex[13]));
+					event.setInformal(cursor.getInt(ColumnIndex[14])!=0);
 
 					keys.add(event);
 				}
@@ -175,7 +178,8 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 							Columns.indexOf(DbConstants.EventNames.Pdf.Name()),
 							Columns.indexOf(DbConstants.EventNames.Registered.Name()),
 							Columns.indexOf(DbConstants.EventNames.Society.Name()),
-							Columns.indexOf(DbConstants.EventNames.Category.Name())
+							Columns.indexOf(DbConstants.EventNames.Category.Name()),
+							Columns.indexOf(DbConstants.EventNames.Informal.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -196,6 +200,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 				event.setRegistered(cursor.getInt(ColumnIndex[11])!=0);
 				event.setSociety(cursor.getInt(ColumnIndex[12]));
 				event.setCategory(cursor.getInt(ColumnIndex[13]));
+				event.setInformal(cursor.getInt(ColumnIndex[14])!=0);
 			}
 		}
 		catch (Exception e)
@@ -219,12 +224,12 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 
 	public ArrayList<EventModel> getAllEvents()
 	{
-		return getEvents("");
+		return getEvents(DbConstants.EventNames.Informal.Name() + " = 0");
 	}
 
 	public ArrayList<EventModel> getRegisteredEvents()
 	{
-		return getEvents(DbConstants.EventNames.Registered.Name() + " = 1");
+		return getEvents(DbConstants.EventNames.Registered.Name() + " = 1 AND " + DbConstants.EventNames.Informal.Name() + " = 0");
 	}
 
 	public EventKey getEventKey(EventKey key)
@@ -340,12 +345,12 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 
 	public ArrayList<EventKey> getRegisteredEventKeys()
 	{
-		return getEventKeys(DbConstants.EventNames.Registered.Name() + " = 1");
+		return getEventKeys(DbConstants.EventNames.Registered.Name() + " = 1 AND " + DbConstants.EventNames.Informal.Name() + " = 0");
 	}
 
 	public ArrayList<EventKey> getAllEventKeys()
 	{
-		return getEventKeys("");
+		return getEventKeys(DbConstants.EventNames.Informal.Name() + " = 0");
 	}
 
 	public void deleteEvent(EventKey key)
@@ -386,6 +391,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 		values.put(DbConstants.EventNames.Registered.Name(),event.isRegistered());
 		values.put(DbConstants.EventNames.Society.Name(),event.getSociety());
 		values.put(DbConstants.EventNames.Category.Name(),event.getCategory());
+		values.put(DbConstants.EventNames.Informal.Name(),event.isInformal());
 
 		if(database.update(DbConstants.Constants.getEventsTableName(),values, DbConstants.EventNames.EventID.Name() + " = "+event.getEventID(),null)<1)
 		{
@@ -419,6 +425,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 		String Event_Registered= DbConstants.EventNames.Registered.Name();
 		String Event_Society= DbConstants.EventNames.Society.Name();
 		String Event_Category= DbConstants.EventNames.Category.Name();
+		String Event_Informal=DbConstants.EventNames.Informal.Name();
 
 		for(EventModel event : events)
 		{
@@ -438,6 +445,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 			values.put(Event_Registered,event.isRegistered());
 			values.put(Event_Society,event.getSociety());
 			values.put(Event_Category,event.getCategory());
+			values.put(Event_Informal,event.isInformal());
 
 			if(database.update(TABLENAME,values,Event_ID + " = "+event.getEventID(),null)<1)
 			{
@@ -451,4 +459,10 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getEventsTableName());
 	}
+
+	public ArrayList<EventKey> getAllInformalKeys()
+	{
+		return getEventKeys(DbConstants.EventNames.Informal.Name() + " = 1");
+	}
+
 }

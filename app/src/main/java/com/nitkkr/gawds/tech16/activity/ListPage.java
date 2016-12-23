@@ -98,6 +98,7 @@ public class ListPage extends AppCompatActivity
 
 				switch (query.getQueryTargetType())
 				{
+					case Event:
 					case Informals:
 						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
 						intent=new Intent(view.getContext(), Event.class);
@@ -124,7 +125,7 @@ public class ListPage extends AppCompatActivity
 		Data = new ArrayList<>();
 		if (query.getQueryTargetType() == EventTargetType.Informals)
 		{
-			//===================TODO: IMPLEMENT=================
+			Data = Database.getInstance().getEventsDB().getAllInformalKeys();
 		}
 		else if (query.getQueryTargetType() == EventTargetType.Exhibition)
 		{
