@@ -103,7 +103,7 @@ public class Splash extends AppCompatActivity
 
 		splashTypewriter = (Typewriter) findViewById(R.id.splash_text);
 		splashTypewriter.setText("");
-		splashTypewriter.setCharacterDelay(80);
+		splashTypewriter.setCharacterDelay(70);
 
 		slidedown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
 		slideup=AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
@@ -112,7 +112,7 @@ public class Splash extends AppCompatActivity
 
 		runAnimationDown.start();
 		runAnimationUp.start();
-		splashTypewriter.animateText("      Techspardha'17");
+		splashTypewriter.animateText("     Techspardha'17");
 
 		Thread thread=new Thread()
 		{

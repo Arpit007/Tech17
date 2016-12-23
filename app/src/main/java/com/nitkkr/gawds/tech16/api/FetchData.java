@@ -279,6 +279,7 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
+                        Log.v("DEBUG",error.toString());
                         if(callback!=null)
                             if(error instanceof TimeoutError || error instanceof NetworkError)
                                 callback.onResponse(ResponseStatus.NONE);
@@ -601,6 +602,7 @@ public class FetchData
                                     if(index==-1)
                                         models.add(model);
                                 }
+                                Log.v("DEBUG","GUSTO TALK"+data.toString());
                                 Database.getInstance().getExhibitionDB().addOrUpdateExhibition(models);
                                 FetchResponseHelper.getInstance().incrementResponseCount(null);
                             }
@@ -1474,6 +1476,8 @@ public class FetchData
                             data = response.getJSONArray("data");
                             code = response.getJSONObject("status").getInt("code");
 
+                            Log.v("DEBUG","FULL EVENT DATA"+response.toString());
+
                             if (code == 200)
                             {
                                 ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getEvents("");
@@ -1507,13 +1511,17 @@ public class FetchData
                                             }
                                         }
 
-                                        model.setEventName(object.getString("GuestName"));
+                                        model.setEventName(object.getString("Name"));
                                         model.setEventID(object.getInt("Id"));
                                         model.setEventDate(EventModel.parseDate(object.getString("Start")));
                                         model.setEventEndDate(EventModel.parseDate(object.getString("End")));
-                                        model.setImage_URL(object.getString("Photo"));
+                                        //TODO:uncomment this when backend is ready
+                                        //model.setImage_URL(object.getString("Photo"));
+                                        model.setImage_URL("https://postimg.org/image/u3jm7403d/");
                                         model.setDescription(object.getString("Description"));
-                                        model.setAuthor(object.getString("GuestName"));
+                                        //TODO:their should be no guestName in exhibition,change it to Company,Team Coming to display in exhibition
+                                        //model.setAuthor(object.getString("GuestName"));
+                                        model.setAuthor(object.getString("Name"));
                                         model.setVenue(object.getString("Venue"));
                                         model.setGTalk(false);
 
@@ -1578,7 +1586,6 @@ public class FetchData
                                 Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
 
                                 FetchResponseHelper.getInstance().incrementResponseCount(null);
-                                Log.v("DEBUG", data.toString());
                             }
                             else
                             {

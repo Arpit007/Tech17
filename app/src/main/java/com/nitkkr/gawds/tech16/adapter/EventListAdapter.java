@@ -91,7 +91,7 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 
 		if (((EventKey)getItem(i)).isNotify())
 		{
-			Star.setImageResource(R.drawable.icon_unstarred);
+			Star.setImageResource(R.drawable.icon_starred);
 			Star.setVisibility(View.VISIBLE);
 		}
 		else

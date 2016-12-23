@@ -272,6 +272,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		runAnimationUp.start();
 		runAnimationDown.start();
 
+
 	}
 	private void signIn() {
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
