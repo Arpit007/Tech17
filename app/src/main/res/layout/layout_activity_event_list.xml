@@ -19,6 +19,7 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/neon_green"
             app:tabSelectedTextColor="@color/text_color_primary"
             app:tabTextColor="@color/light_grey"
             android:background="@color/tab_layout_bk_event"
