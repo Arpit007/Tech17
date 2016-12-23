@@ -316,12 +316,6 @@ public class ActionBarNavDrawer
 		this.openNewSearchPage = openNewSearchPage;
 	}
 
-	public void setSearchHint(String hint)
-	{
-		SearchView searchView=(SearchView)activity.findViewById(R.id.search);
-		searchView.setQueryHint(hint);
-	}
-
 	private boolean backPressed()
 	{
 		if(activity.findViewById(R.id.search_bar).getVisibility()==View.VISIBLE)

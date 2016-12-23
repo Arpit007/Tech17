@@ -73,7 +73,7 @@ public class Interests extends AppCompatActivity
 				}
 				else
 				{
-					Toast.makeText(getBaseContext(), "Select minimum 1 Interest", Toast.LENGTH_LONG).show();
+					Toast.makeText(getBaseContext(), "Select minimum 1 Interest", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

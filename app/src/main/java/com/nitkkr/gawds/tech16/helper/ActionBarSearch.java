@@ -86,4 +86,9 @@ public class ActionBarSearch
 		else
 		return true;
 	}
+
+	public void setSearchButtonVisibility(int visibility)
+	{
+		activity.findViewById(R.id.actionbar_search).setVisibility(visibility);
+	}
 }

@@ -20,7 +20,7 @@
     <View
         android:layout_width="280dp"
         android:layout_height="5dp"
-        android:background="#fff"
+        android:background="#ffffff"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="176dp"
         android:id="@+id/upper_splash"
@@ -29,7 +29,7 @@
     <View
         android:layout_width="280dp"
         android:layout_height="5dp"
-        android:background="#fff"
+        android:background="#ffffff"
         android:id="@+id/lower_splash"
         android:layout_alignTop="@+id/upper_splash" android:layout_alignStart="@+id/upper_splash"/>
     <com.nitkkr.gawds.tech16.src.Typewriter

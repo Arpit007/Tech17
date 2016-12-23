@@ -58,8 +58,6 @@ public class ListPage extends AppCompatActivity
 		this.query=(Query) getIntent().getExtras().getSerializable("Query");
 
 		actionBarSearch.setLabel(Label);
-		actionBarSearch.setSearchHint(Label);
-
 
 		listView = (ListView) this.findViewById(R.id.event_list);
 
@@ -107,11 +105,6 @@ public class ListPage extends AppCompatActivity
 						view.getContext().startActivity(intent);
 						break;
 					case Exhibition:
-						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
-						intent=new Intent(view.getContext(), Exhibition.class);
-						intent.putExtras(bundle);
-						ListPage.this.startActivity(intent);
-						break;
 					case GuestTalk:
 						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
 						intent=new Intent(view.getContext(), Exhibition.class);

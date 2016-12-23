@@ -67,41 +67,25 @@ public class InterestAdapter extends BaseAdapter
 
 	public void onItemClick(View view, int Position)
 	{
-		list.get(Position).setSelected(!list.get(Position).isSelected());
+		list.get(Position).setSelected(!(list.get(Position).isSelected()));
 		if(list.get(Position).isSelected())
 		{
-			((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
-		}else
+			((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
+		}
+		else
 		{
-			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
+			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
 		}
 	}
 
 	public boolean isDone()
 	{
-		int length=list.size();
-		for(int x=0;x<length;x++)
-			if(list.get(x).isSelected())
-				return true;
-		return false;
-	}
-
-	public String getInterestsString()
-	{
-		//TODO:Set Token
-		String Token=",";
-		StringBuilder stringBuilder=new StringBuilder("");
-		int length=list.size();
-		for(int x=0;x<length;x++)
+		for(InterestModel model: list)
 		{
-			if (list.get(x).isSelected())
-			{
-				if (stringBuilder.toString().equals(""))
-					stringBuilder.append(list.get(x).getID());
-				else ( stringBuilder.append(Token) ).append(list.get(x).getID());
-			}
+			if (model.isSelected())
+				return true;
 		}
-		return stringBuilder.toString();
+		return false;
 	}
 
 	public ArrayList<InterestModel> getFinalList(){return list;}

@@ -30,6 +30,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
@@ -385,6 +386,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 AppUserModel.MAIN_USER.setLoggedIn(true,getBaseContext());
                 Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
 
+                FetchData.getInstance().fetchUserInterests(getApplicationContext());
 
                 if(!ActivityHelper.isDebugMode(getApplicationContext()))
                 {

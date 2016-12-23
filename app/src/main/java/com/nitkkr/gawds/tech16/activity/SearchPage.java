@@ -78,7 +78,7 @@ public class SearchPage extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(!actionBarSearch.backPressed())
+		if(actionBarSearch.backPressed())
 		{
 			if(ActivityHelper.revertToHomeIfLast(SearchPage.this))
 				return;

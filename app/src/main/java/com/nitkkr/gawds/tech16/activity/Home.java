@@ -1,19 +1,21 @@
 package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
-import android.media.Image;
+import android.graphics.Color;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.src.CheckUpdate;
 import com.nitkkr.gawds.tech16.src.RateApp;
 
@@ -54,18 +56,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		}
 		else if (RateApp.getInstance().isReadyForRating(Home.this))
 				RateApp.getInstance().displayRating(Home.this);
-
-		ImageView live_imagView=(ImageView) findViewById(R.id.Live_events_imgview);
-		ImageView interested_imgView=(ImageView) findViewById(R.id.interested_imgView);
-		ImageView wishlist_imgView=(ImageView) findViewById(R.id.wishlist_imgview);
-		ImageView notifications_imgView=(ImageView) findViewById(R.id.noti_imgview);
-
-		live_imagView.setOnClickListener(this);
-		interested_imgView.setOnClickListener(this);
-		wishlist_imgView.setOnClickListener(this);
-		notifications_imgView.setOnClickListener(this);
-
-
 	}
 
 	@Override
@@ -94,27 +84,45 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v)
+	{
 		int id=v.getId();
-		Bundle bundle=new Bundle();
-		switch (id){
-			case R.id.Live_events_imgview:
-				bundle.putString("Event","Live_Event");
+		DashboardPage.Page page = DashboardPage.Page.Live;
+		switch (id)
+		{
+			case R.id.LiveEvents:
+				page = DashboardPage.Page.Live;
 				break;
-			case R.id.wishlist_imgview:
-				bundle.putString("Event","Wishlist_Event");
+			case R.id.NotificationEvents:
+				page = DashboardPage.Page.Notification;
 				break;
-			case R.id.interested_imgView:
-				bundle.putString("Event","Interested_Event");
+			case R.id.WishlistEvents:
+				page = DashboardPage.Page.Wishlist;
 				break;
-			case R.id.noti_imgview:
-				bundle.putString("Event","Notification_Event");
+			case R.id.InterestedEvents:
+				page = DashboardPage.Page.Interest;
 				break;
-
 		}
 
-		Intent intent=new Intent(Home.this,Home_page.class);
-		intent.putExtras(bundle);
-		startActivity(intent);
+		if(AppUserModel.MAIN_USER.isUserLoggedIn(Home.this) || page== DashboardPage.Page.Live)
+		{
+			Intent intent = new Intent(Home.this, DashboardPage.class);
+			intent.putExtra("Navigation", page.value);
+			startActivity(intent);
+		}
+		else
+		{
+			Snackbar.make(findViewById(android.R.id.content), "Login to Access this Feature", Snackbar.LENGTH_LONG)
+				.setAction("Login", new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View view)
+					{
+						AppUserModel.MAIN_USER.LoginUserNoHome(Home.this,false);
+					}
+				})
+				.setActionTextColor(ContextCompat.getColor(Home.this,R.color.neon_green))
+				.show();
+		}
 	}
 }

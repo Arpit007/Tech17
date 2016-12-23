@@ -40,7 +40,6 @@ public class EventListPage extends AppCompatActivity
 		},R.id.nav_events);
 
 		barNavDrawer.setLabel("Events");
-		barNavDrawer.setSearchHint("Events");
 
 		TabLayout tabLayout = (TabLayout) findViewById(R.id.event_list_tab);
 		tabLayout.addTab(tabLayout.newTab().setText(R.string.Event_list_Tab_1));

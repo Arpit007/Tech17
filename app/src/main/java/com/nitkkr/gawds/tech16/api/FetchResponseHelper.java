@@ -57,7 +57,7 @@ public class FetchResponseHelper
 
 		if(!ActivityHelper.isInternetConnected() && isAnyError() && Database.getInstance().getEventsDB().getRowCount()==0)
 		{
-			Toast.makeText(context,"App First Run Needs Network Access\nPlease Restart with Network Connection\nExiting...",Toast.LENGTH_LONG).show();
+			Toast.makeText(context,"First Run: Restart with Network Connection\nExiting...",Toast.LENGTH_LONG).show();
 			new Handler().postDelayed(new Runnable()
 			{
 				@Override
@@ -65,7 +65,7 @@ public class FetchResponseHelper
 				{
 					System.exit(-1);
 				}
-			},context.getResources().getInteger(R.integer.AppCloseDuration));
+			},context.getResources().getInteger(R.integer.AutoCloseDuration));
 			return;
 		}
 
