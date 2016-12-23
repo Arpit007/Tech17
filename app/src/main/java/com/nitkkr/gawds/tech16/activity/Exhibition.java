@@ -3,6 +3,8 @@ package com.nitkkr.gawds.tech16.activity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -89,7 +91,17 @@ public class Exhibition extends AppCompatActivity
 
 				if (!AppUserModel.MAIN_USER.isUserLoggedIn(Exhibition.this))
 				{
-					AppUserModel.MAIN_USER.LoginUserNoHome(Exhibition.this,true);
+					Snackbar.make(findViewById(android.R.id.content), "Login Required", Snackbar.LENGTH_SHORT)
+							.setAction("Login", new View.OnClickListener()
+							{
+								@Override
+								public void onClick(View view)
+								{
+									AppUserModel.MAIN_USER.LoginUserNoHome(Exhibition.this,false);
+								}
+							})
+							.setActionTextColor(ContextCompat.getColor(Exhibition.this,R.color.neon_green))
+							.show();
 					return;
 				}
 

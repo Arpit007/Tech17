@@ -26,5 +26,12 @@
              android:layout_centerHorizontal="true"
              android:layout_alignParentBottom="true"
              android:layout_marginBottom="10dp"/>
+    <Button
+        android:visibility="invisible"
+        android:text="Login" android:id="@+id/Login_Button"
+        android:background="@drawable/border_button"
+        android:textColor="@color/text_color_primary"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true" android:layout_above="@id/page_indicator"/>
 
 </RelativeLayout>

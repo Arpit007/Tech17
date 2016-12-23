@@ -1,5 +1,7 @@
 package com.nitkkr.gawds.tech16.activity;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
@@ -17,6 +20,7 @@ import com.nitkkr.gawds.tech16.helper.SlideTransformer;
 
 public class About extends FragmentActivity {
 
+	private boolean isLogin=false, LastReached=false, Exit=false;
 	private ViewPager mViewPager;
 	private PagerAdapter mViewPagerAdapter;
 	View view;
@@ -26,6 +30,8 @@ public class About extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
+
+		isLogin=getIntent().getBooleanExtra("Login",false);
 
 		ActivityHelper.setStatusBarColor(About.this);
 
@@ -40,7 +46,8 @@ public class About extends FragmentActivity {
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 				View circle;
 
-				for(int i=0;i<5;i++) {
+				for(int i=0;i<5;i++)
+				{
 					if(i == (position)) {
 						circle = view.findViewById(indicators[position]).findViewById(R.id.indicator_item);
 						circle.setBackgroundResource(R.drawable.page_indicator_dot);
@@ -48,6 +55,11 @@ public class About extends FragmentActivity {
 						circle = view.findViewById(indicators[i]).findViewById(R.id.indicator_item);
 						circle.setBackgroundResource(R.drawable.indicator_dot_not_selected);
 					}
+				}
+				if(position==4 && isLogin)
+				{
+					LastReached=true;
+					findViewById(R.id.Login_Button).setVisibility(View.VISIBLE);
 				}
 			}
 
@@ -59,6 +71,16 @@ public class About extends FragmentActivity {
 			@Override
 			public void onPageScrollStateChanged(int state) {
 
+			}
+		});
+
+		findViewById(R.id.Login_Button).setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				startActivity(new Intent(About.this,Login.class));
+				finish();
 			}
 		});
 	}
@@ -81,7 +103,36 @@ public class About extends FragmentActivity {
 	}
 
 	@Override
-	public void onBackPressed()	{
+	public void onBackPressed()
+	{
+		if(isLogin)
+		{
+			if(Exit)
+			{
+				finish();
+				System.exit(-1);
+			}
+			if(LastReached)
+			{
+				startActivity(new Intent(About.this, Login.class));
+				finish();
+			}
+			else
+			{
+				Exit=true;
+				Toast.makeText(About.this,"Press Back Again to Exit",Toast.LENGTH_SHORT).show();
+				new Handler().postDelayed(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						Exit=false;
+					}
+				},2000);
+			}
+			return;
+		}
+
 		if(ActivityHelper.revertToHomeIfLast(About.this))
 			return;
 		super.onBackPressed();

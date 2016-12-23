@@ -41,7 +41,7 @@ import static com.nitkkr.gawds.tech16.helper.ActivityHelper.startListActivity;
 
 public class ActionBarNavDrawer
 {
-
+	private NavigationView navigationView=null;
 	private iActionBar barNavDrawer;
 	private AppCompatActivity activity;
 	private boolean openNewSearchPage=false;
@@ -141,7 +141,7 @@ public class ActionBarNavDrawer
 		this.activity = activity;
 		barNavDrawer=drawer;
 
-		NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
+		navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
 		{
 			@Override
@@ -157,9 +157,8 @@ public class ActionBarNavDrawer
 			@Override
 			public void onClick(View view)
 			{
+				setImage();
 				DrawerLayout drawerx = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-
-				NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
 				navigationView.setCheckedItem(pageNavID);
 
 				if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
@@ -226,70 +225,7 @@ public class ActionBarNavDrawer
 			}
 		});
 
-		if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
-		{
-			if(!AppUserModel.MAIN_USER.getImageResource().equals("") && AppUserModel.MAIN_USER.isUseGoogleImage())
-			{
-				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
-				view.setVisibility(View.VISIBLE);
-
-                Glide.with(activity).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
-
-				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter).setVisibility(View.INVISIBLE);
-			}
-			else if(AppUserModel.MAIN_USER.getImageId()!=-1)
-			{
-				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
-				view.setVisibility(View.VISIBLE);
-
-				TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
-				view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageId(),0));
-				array.recycle();
-
-				CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
-				circularTextView.setVisibility(View.VISIBLE);
-				circularTextView.setText("");
-				circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
-			}
-			else
-			{
-				CircularTextView view=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
-
-				view.setText(AppUserModel.MAIN_USER.getName().toUpperCase().charAt(0));
-				view.setVisibility(View.VISIBLE);
-
-				TypedArray array=activity.getResources().obtainTypedArray(R.array.Flat_Colors);
-
-				int colorPos=(AppUserModel.MAIN_USER.getName().toLowerCase().charAt(0)-'a')%array.length();
-
-				view.setFillColor(array.getColor(colorPos,0));
-				view.setBorderColor(ContextCompat.getColor(activity,R.color.User_Image_Border_Color));
-
-				array.recycle();
-
-				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setVisibility(View.GONE);
-			}
-
-			TextView textView=(TextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name);
-			textView.setVisibility(View.VISIBLE);
-			textView.setText(AppUserModel.MAIN_USER.getName());
-		}
-		else
-		{
-			CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
-			view.setVisibility(View.VISIBLE);
-
-			TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
-			view.setImageResource(array.getResourceId(0,R.drawable.avatar_1));
-			array.recycle();
-
-			CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
-			circularTextView.setText("");
-			circularTextView.setVisibility(View.VISIBLE);
-			circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
-
-			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.GONE);
-		}
+		setImage();
 
 		navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setOnClickListener(new View.OnClickListener()
 		{
@@ -347,5 +283,73 @@ public class ActionBarNavDrawer
 		}
 		else
 			return true;
+	}
+
+	public void setImage()
+	{
+		if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
+		{
+			if(!AppUserModel.MAIN_USER.getImageResource().equals("") && AppUserModel.MAIN_USER.isUseGoogleImage())
+			{
+				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
+				view.setVisibility(View.VISIBLE);
+
+				Glide.with(activity).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
+
+				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter).setVisibility(View.INVISIBLE);
+			}
+			else if(AppUserModel.MAIN_USER.getImageId()!=-1)
+			{
+				CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
+				view.setVisibility(View.VISIBLE);
+
+				TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
+				view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageId(),0));
+				array.recycle();
+
+				CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
+				circularTextView.setVisibility(View.VISIBLE);
+				circularTextView.setText("");
+				circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
+			}
+			else
+			{
+				CircularTextView view=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
+
+				view.setText(AppUserModel.MAIN_USER.getName().toUpperCase().charAt(0));
+				view.setVisibility(View.VISIBLE);
+
+				TypedArray array=activity.getResources().obtainTypedArray(R.array.Flat_Colors);
+
+				int colorPos=(AppUserModel.MAIN_USER.getName().toLowerCase().charAt(0)-'a')%array.length();
+
+				view.setFillColor(array.getColor(colorPos,0));
+				view.setBorderColor(ContextCompat.getColor(activity,R.color.User_Image_Border_Color));
+
+				array.recycle();
+
+				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setVisibility(View.GONE);
+			}
+
+			TextView textView=(TextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name);
+			textView.setVisibility(View.VISIBLE);
+			textView.setText(AppUserModel.MAIN_USER.getName());
+		}
+		else
+		{
+			CircleImageView view=(CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
+			view.setVisibility(View.VISIBLE);
+
+			TypedArray array=activity.getResources().obtainTypedArray(R.array.Avatar);
+			view.setImageResource(array.getResourceId(0,R.drawable.avatar_1));
+			array.recycle();
+
+			CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
+			circularTextView.setText("");
+			circularTextView.setVisibility(View.VISIBLE);
+			circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
+
+			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.GONE);
+		}
 	}
 }

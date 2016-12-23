@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -176,7 +177,17 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 					}
 					else
 					{
-						AppUserModel.MAIN_USER.LoginUserNoHome(Event.this,true);
+						Snackbar.make(findViewById(android.R.id.content), "Login Required", Snackbar.LENGTH_SHORT)
+								.setAction("Login", new View.OnClickListener()
+								{
+									@Override
+									public void onClick(View view)
+									{
+										AppUserModel.MAIN_USER.LoginUserNoHome(Event.this,false);
+									}
+								})
+								.setActionTextColor(ContextCompat.getColor(Event.this,R.color.neon_green))
+								.show();
 					}
 				}
 			});

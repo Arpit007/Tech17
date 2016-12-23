@@ -28,7 +28,7 @@
     <color name="User_Image_Border_Color">#ffffff</color>
     <color name="action_bar_color">#000000</color>
     <color name="light_grey">#DCDCDC</color>
-    <color name="User_Image_Fill_Color">#5bffffff</color>
+    <color name="User_Image_Fill_Color">#50ffffff</color>
     <color name="event_bk">#212025</color>
     <color name="tab_layout_bk_event">#2A2B2F</color>
     <color name="event_round_primary_color">#CE3331</color>

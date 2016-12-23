@@ -74,7 +74,7 @@
     android:layout_alignStart="@+id/view3"/>
 
         <RelativeLayout android:layout_below="@id/signup_label"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true" android:id="@+id/temp_Layout"
             android:layout_width="match_parent" android:layout_height="200dp">
 
@@ -110,7 +110,7 @@
     android:backgroundTint="@color/app_background"
     app:srcCompat="@drawable/right_arrow" android:layout_below="@+id/temp_Layout"
     android:layout_toStartOf="@+id/textView4"
-    android:layout_marginTop="30dp" android:id="@+id/imageView15"/>
+    android:layout_marginTop="15dp" android:id="@+id/imageView15"/>
 <ImageView
     android:layout_width="25dp"
     android:layout_height="25dp"

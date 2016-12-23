@@ -71,8 +71,11 @@ public class Splash extends AppCompatActivity
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
 				startActivity(new Intent(Splash.this,Home.class));
 			}
-			else{
-				startActivity(new Intent(Splash.this,Login.class));
+			else
+			{
+				Intent intent=new Intent(Splash.this,About.class);
+				intent.putExtra("Login",true);
+				startActivity(intent);
 			}
 
 			finish();
