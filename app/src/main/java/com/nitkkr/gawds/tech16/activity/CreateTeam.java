@@ -45,6 +45,7 @@ public class CreateTeam extends AppCompatActivity
 
 		model=new TeamModel();
 		ArrayList<UserModel> userModels=new ArrayList<>();
+
 		userModels.add(AppUserModel.MAIN_USER);
 		model.setMembers(userModels);
 
@@ -87,6 +88,11 @@ public class CreateTeam extends AppCompatActivity
 
 	public void Register(View view)
 	{
+		if(!ActivityHelper.isInternetConnected())
+		{
+			Toast.makeText(this,"No Network Connection",Toast.LENGTH_SHORT).show();
+			return;
+		}
 		ResponseStatus status = ResponseStatus.NONE;
 		//TODO:--Register Team----------
 		switch (status)
@@ -108,10 +114,8 @@ public class CreateTeam extends AppCompatActivity
 
 				finish();
 				break;
-			case OTHER:
-				Toast.makeText(CreateTeam.this, "----------------------Message--------------------", Toast.LENGTH_LONG).show();
-				break;
 			default:
+				Toast.makeText(CreateTeam.this, "----------------------Message--------------------", Toast.LENGTH_LONG).show();
 				break;
 		}
 	}

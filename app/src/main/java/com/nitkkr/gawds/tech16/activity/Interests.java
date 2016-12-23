@@ -153,10 +153,8 @@ public class Interests extends AppCompatActivity
 			case FAILED:
 				Toast.makeText(Interests.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
 				break;
-			case OTHER:
-				Toast.makeText(Interests.this,"Network error",Toast.LENGTH_LONG).show();
-				break;
 			default:
+				Toast.makeText(Interests.this,"Network error",Toast.LENGTH_LONG).show();
 				break;
 		}
 	}

@@ -85,7 +85,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				@Override
 				public void onClick(View view)
 				{
-					if(true)//AppUserModel.MAIN_USER.isUserLoggedIn(Event.this))
+					if(AppUserModel.MAIN_USER.isUserLoggedIn(Event.this))
 					{
 						if (model.isSingleEvent())
 						{
