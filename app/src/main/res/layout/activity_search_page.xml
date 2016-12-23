@@ -5,6 +5,7 @@
     android:id="@+id/activity_search_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     tools:context="com.nitkkr.gawds.tech16.activity.SearchPage">
     <include
         layout="@layout/actionbar_search" android:id="@+id/temp_bar"
@@ -26,10 +27,20 @@
             android:layout_marginTop="29dp" android:id="@+id/progressBar"
             android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
 
-        <ListView android:layout_width="match_parent"
-                  android:layout_height="match_parent">
 
-        </ListView>
+        <ListView
+            android:id="@+id/event_list"
+            android:layout_width="match_parent"
+            android:divider="@color/neon_green"
+            android:dividerHeight="0.5dp"
+            android:footerDividersEnabled="true"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/None" android:visibility="invisible"
+            android:text="@string/No_Data" android:textColor="@color/text_color_primary"
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 

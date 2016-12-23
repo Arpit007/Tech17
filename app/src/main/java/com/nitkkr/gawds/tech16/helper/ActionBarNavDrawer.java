@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.nitkkr.gawds.tech16.api.EventTargetType;
 import com.nitkkr.gawds.tech16.api.Query;
 import com.nitkkr.gawds.tech16.activity.About;
 import com.nitkkr.gawds.tech16.activity.EventListPage;
@@ -74,17 +75,17 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.nav_gusto_talks)
 		{
-			Query query=new Query(null, Query.QueryType.SQl, Query.QueryTargetType.GuestTalk);
+			Query query=new Query(null, Query.QueryType.SQl, EventTargetType.GuestTalk);
 			startListActivity(activity,activity.getString(R.string.Guest_Talks),query);
 		}
 		else if (id == R.id.nav_informals)
 		{
-			Query query=new Query(null, Query.QueryType.SQl, Query.QueryTargetType.Informals);
+			Query query=new Query(null, Query.QueryType.SQl, EventTargetType.Informals);
 			startListActivity(activity,activity.getString(R.string.Informals),query);
 		}
 		else if (id == R.id.nav_exhibitions)
 		{
-			Query query=new Query(null, Query.QueryType.SQl, Query.QueryTargetType.Exhibition);
+			Query query=new Query(null, Query.QueryType.SQl, EventTargetType.Exhibition);
 			startListActivity(activity,activity.getString(R.string.Exhibition),query);
 		}
 		else if (id == R.id.nav_About)

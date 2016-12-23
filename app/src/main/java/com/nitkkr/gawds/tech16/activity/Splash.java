@@ -168,13 +168,6 @@ public class Splash extends AppCompatActivity
 		Database database=new Database(getApplicationContext());
 		Log.d("Instance: ",database.toString() +" Started");
 
-		/*================TODO:Patch Remove it Later===========================*/
-		SocietyModel model=new SocietyModel();
-		model.setID(1);
-		model.setName("Test Society");
-		Database.getInstance().getSocietyDB().addOrUpdateSociety(model);
-		/*=================================================================*/
-
 		AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
 		if(!ActivityHelper.isDebugMode(getApplicationContext()))

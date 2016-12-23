@@ -1,11 +1,14 @@
 package com.nitkkr.gawds.tech16.api;
 
 import android.content.Context;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 
 
@@ -49,8 +52,23 @@ public class FetchResponseHelper
 
 	public boolean isAnyError(){ return  error!=null;}
 
-	public void DisplayError(Context context)
+	public void DisplayError(final Context context)
 	{
+
+		if(!ActivityHelper.isInternetConnected() && isAnyError() && Database.getInstance().getEventsDB().getRowCount()==0)
+		{
+			Toast.makeText(context,"App First Run Needs Network Access\nPlease Restart with Network Connection\nExiting...",Toast.LENGTH_LONG).show();
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					System.exit(-1);
+				}
+			},context.getResources().getInteger(R.integer.AppCloseDuration));
+			return;
+		}
+
 		if (isAnyError())
 		{
 			if(error instanceof TimeoutError || error instanceof NetworkError)

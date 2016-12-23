@@ -14,15 +14,6 @@ import java.util.Locale;
 
 public class EventModel extends BaseEventModel implements Serializable
 {
-	public enum EventStatus {
-		None,
-		Upcoming,
-		RoundOver,
-		Live,
-		Over,
-		Delayed,
-		Pause
-	}
 
 
 	public interface EventStatusListener {
@@ -105,28 +96,5 @@ public class EventModel extends BaseEventModel implements Serializable
 		}
 		return parsed_date.getTime();
 
-	}
-
-	//TODO: Implement or Depreciate
-	public void setRoundLive() {
-		if (CurrentRound == 0)
-		{
-			CurrentRound = 1;
-		}
-		if (status == EventModel.EventStatus.Over)
-		{
-			CurrentRound++;
-		}
-		status = EventModel.EventStatus.Live;
-	}
-	public void setRoundOver()	{
-		status = EventStatus.Over;
-	}
-	public void setNextRound() {
-		if (status == EventStatus.Over)
-		{
-			CurrentRound++;
-			status = EventStatus.Upcoming;
-		}
 	}
 }

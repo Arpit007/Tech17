@@ -14,6 +14,7 @@ import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
+import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.model.TeamModel;
 import com.nitkkr.gawds.tech16.model.UserModel;
@@ -35,7 +36,8 @@ public class CreateTeam extends AppCompatActivity
 
 		ActivityHelper.setStatusBarColor(this);
 
-		eventModel=( EventModel)getIntent().getExtras().getSerializable("Event");
+		EventKey key=( EventKey) getIntent().getExtras().getSerializable("Event");
+		eventModel=Database.getInstance().getEventsDB().getEvent(key);
 
 		ActionBarBack actionBarBack=new ActionBarBack(CreateTeam.this);
 		actionBarBack.setLabel("Create Team");

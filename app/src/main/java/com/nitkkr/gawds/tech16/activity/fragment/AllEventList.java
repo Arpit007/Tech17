@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.adapter.AllEventListAdapter;
+import com.nitkkr.gawds.tech16.adapter.EventListAdapter;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.database.DbConstants;
 import com.nitkkr.gawds.tech16.model.EventKey;
@@ -66,6 +67,9 @@ public class AllEventList extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
+				EventListAdapter adapter=(EventListAdapter)listView.getAdapter();
+				adapter.onClick(((EventKey)adapter.getItem(i)).getEventID());
+
 				Bundle bundle=new Bundle();
 				bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
 				Intent intent=new Intent(view.getContext(), Event.class);
@@ -95,6 +99,8 @@ public class AllEventList extends Fragment
 			@Override
 			public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l)
 			{
+				listAdapter.onClick(i,i1);
+
 				Bundle bundle=new Bundle();
 				bundle.putSerializable("Event",(EventKey)(listAdapter.getChild(i,i1)));
 
@@ -144,12 +150,5 @@ public class AllEventList extends Fragment
 			MyView.findViewById(R.id.search_event_list).setVisibility(View.VISIBLE);
 			listAdapter.getFilter().filter(Query);
 		}
-	}
-
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		listAdapter.updateList();
 	}
 }

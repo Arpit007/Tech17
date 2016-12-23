@@ -13,9 +13,10 @@ import java.util.ArrayList;
 
 public class EventSearch extends Filter
 {
-	EventListAdapter adapter;
+	private EventListAdapter adapter;
 	private ArrayList<EventKey> eventKeys;
-	private String Query="";
+	private boolean isExhibition=false;
+	private int clickedEventId=-1;
 
 	public EventSearch(EventListAdapter adapter)
 	{
@@ -26,7 +27,6 @@ public class EventSearch extends Filter
 	@Override
 	protected FilterResults performFiltering(CharSequence charSequence)
 	{
-		Query=charSequence.toString();
 		FilterResults filterResults = new FilterResults();
 
 		if (charSequence!=null && charSequence.length()>0)
@@ -35,6 +35,13 @@ public class EventSearch extends Filter
 
 			for (EventKey model : eventKeys)
 			{
+				if (model.getEventID()==clickedEventId)
+				{
+					if(isExhibition)
+						model.setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(clickedEventId).isNotify());
+					else model.setNotify(Database.getInstance().getEventsDB().getEventKey(clickedEventId).isNotify());
+					clickedEventId=-1;
+				}
 				if (model.getEventName().toLowerCase().contains(charSequence.toString().toLowerCase()))
 				{
 					tempList.add(model);
@@ -56,18 +63,15 @@ public class EventSearch extends Filter
 	@Override
 	protected void publishResults(CharSequence charSequence, FilterResults filterResults)
 	{
-		adapter.setEvents((ArrayList<EventKey>) filterResults.values);
+		adapter.setEventsByfilter((ArrayList<EventKey>) filterResults.values);
 		adapter.notifyDataSetChanged();
 	}
 
-	public void updateList()
+	public void onClick(int Event_ID, boolean isExhibition)
 	{
-		if(adapter.getNotify())
-			for(EventKey key:eventKeys)
-				key.setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(key).isNotify());
-		else for(EventKey key:eventKeys)
-			key.setNotify(Database.getInstance().getEventsDB().getEventKey(key).isNotify());
-		performFiltering(Query);
-		Query="";
+		this.clickedEventId=Event_ID;
+		this.isExhibition=isExhibition;
 	}
+
+	public void setEventKeys(ArrayList<EventKey> keys){eventKeys = keys;}
 }

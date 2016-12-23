@@ -14,18 +14,12 @@ public class Query implements Serializable
 		SQl,
 		Web
 	}
-	public enum QueryTargetType
-	{
-		Informals,
-		GuestTalk,
-		Exhibition
-	}
 
 	private String query;
 	private QueryType queryType;
-	private QueryTargetType targetType;
+	private EventTargetType targetType;
 
-	public Query(String query, QueryType queryType, QueryTargetType queryTargetType)
+	public Query(String query, QueryType queryType, EventTargetType queryTargetType)
 	{
 		this.query=query;
 		this.queryType=queryType;
@@ -40,7 +34,7 @@ public class Query implements Serializable
 	{
 		return query;
 	}
-	public QueryTargetType getQueryTargetType(){return targetType;}
+	public EventTargetType getQueryTargetType(){return targetType;}
 
 	public void setQueryType(QueryType queryType)
 	{
@@ -50,5 +44,5 @@ public class Query implements Serializable
 	{
 		this.query = query;
 	}
-	public void setQueryTargetType(QueryTargetType targetType){this.targetType=targetType;}
+	public void setQueryTargetType(EventTargetType targetType){this.targetType=targetType;}
 }

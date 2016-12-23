@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.iActionBar;
@@ -53,7 +54,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		}
 		else if (RateApp.getInstance().isReadyForRating(Home.this))
 				RateApp.getInstance().displayRating(Home.this);
-
 
 		ImageView live_imagView=(ImageView) findViewById(R.id.Live_events_imgview);
 		ImageView interested_imgView=(ImageView) findViewById(R.id.interested_imgView);

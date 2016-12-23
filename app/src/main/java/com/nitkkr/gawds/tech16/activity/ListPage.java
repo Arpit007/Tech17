@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.nitkkr.gawds.tech16.api.EventTargetType;
 import com.nitkkr.gawds.tech16.api.Query;
 import com.nitkkr.gawds.tech16.adapter.EventListAdapter;
 import com.nitkkr.gawds.tech16.database.Database;
@@ -63,7 +64,7 @@ public class ListPage extends AppCompatActivity
 		listView = (ListView) this.findViewById(R.id.event_list);
 
 
-		if(query.getQueryTargetType()== Query.QueryTargetType.Informals)
+		if(query.getQueryTargetType()== EventTargetType.Informals)
 			listAdapter = new EventListAdapter(ListPage.this, Data,false);
 		else listAdapter = new EventListAdapter(ListPage.this, Data,true);
 		listAdapter.registerDataSetObserver(new DataSetObserver()
@@ -87,6 +88,8 @@ public class ListPage extends AppCompatActivity
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
+				listAdapter.onClick(((EventKey)listAdapter.getItem(i)).getEventID());
+
 				Intent intent;
 				Bundle bundle=new Bundle();
 
@@ -126,15 +129,15 @@ public class ListPage extends AppCompatActivity
 	void prepareListData()
 	{
 		Data = new ArrayList<>();
-		if (query.getQueryTargetType() == Query.QueryTargetType.Informals)
+		if (query.getQueryTargetType() == EventTargetType.Informals)
 		{
 			//===================TODO: IMPLEMENT=================
 		}
-		else if (query.getQueryTargetType() == Query.QueryTargetType.Exhibition)
+		else if (query.getQueryTargetType() == EventTargetType.Exhibition)
 		{
 			Data= Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
 		}
-		else if (query.getQueryTargetType() == Query.QueryTargetType.GuestTalk)
+		else if (query.getQueryTargetType() == EventTargetType.GuestTalk)
 		{
 			Data= Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 1");
 		}
@@ -152,12 +155,5 @@ public class ListPage extends AppCompatActivity
 		}
 		else
 		super.onBackPressed();
-	}
-
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		listAdapter.updateList();
 	}
 }

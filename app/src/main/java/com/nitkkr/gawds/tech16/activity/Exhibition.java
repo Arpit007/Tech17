@@ -170,7 +170,7 @@ public class Exhibition extends AppCompatActivity
 
 		Glide.with(Exhibition.this).load(model.getImage_URL()).thumbnail(0.5f).centerCrop().into(( ImageView)findViewById(R.id.exhibition_Image));
 
-		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "am").replace("PM","pm");
+		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "Am").replace("PM","Pm");
 		(( TextView)findViewById(R.id.exhibition_Date)).setText(date);
 
 		(( TextView)findViewById(R.id.exhibition_Venue)).setText(model.getVenue());

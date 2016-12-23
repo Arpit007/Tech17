@@ -31,6 +31,7 @@ import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.EventStatus;
 import com.nitkkr.gawds.tech16.src.PdfDownloader;
 
 import java.text.SimpleDateFormat;
@@ -66,7 +67,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 					{
 						Intent intent=new Intent(Event.this,ViewTeam.class);
 						Bundle bundle=new Bundle();
-						bundle.putSerializable("Event",model);
+						bundle.putSerializable("Event",(EventKey)model);
 						intent.putExtras(bundle);
 						startActivity(intent);
 					}
@@ -306,9 +307,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		model.setListener(Event.this);
 
 		(( TextView)findViewById(R.id.Event_Name)).setText(model.getEventName());
-		(( TextView)findViewById(R.id.Event_Category)).setText(Database.getInstance().getInterestDB().getInterest(model.getSociety()));
+		(( TextView)findViewById(R.id.Event_Category)).setText(Database.getInstance().getInterestDB().getInterest(model.getCategory()));
 
-		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "am").replace("PM","pm");
+		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "Am").replace("PM","Pm");
 		(( TextView)findViewById(R.id.Event_Date)).setText(date);
 
 		(( TextView)findViewById(R.id.Event_Venue)).setText(model.getVenue());
@@ -339,7 +340,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			PdfButton.setEnabled(true);
 		}
 
-		//TODO:FIX
+		if(model.getEventStatus()==EventStatus.None)
+			(( TextView)findViewById(R.id.Event_Round)).setText("ROUND");
+		else (( TextView)findViewById(R.id.Event_Round)).setText(model.getEventStatus().name());
 		(( TextView)findViewById(R.id.Event_Round)).setText(String.valueOf(model.getCurrentRound()));
 		actionBar.setLabel(model.getEventName());
 
@@ -356,7 +359,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				if(data.getBooleanExtra("Register",false))
 				{
 					Toast.makeText(Event.this,"Registered Successfully",Toast.LENGTH_LONG).show();
-					EventStatusChanged(EventModel.EventStatus.None);
+					EventStatusChanged(EventStatus.None);
 				}
 			}
 		}
@@ -374,7 +377,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	}
 
 	@Override
-	public void EventStatusChanged(EventModel.EventStatus status)
+	public void EventStatusChanged(EventStatus status)
 	{
 		LoadEvent();
 		//TODO: Event Status

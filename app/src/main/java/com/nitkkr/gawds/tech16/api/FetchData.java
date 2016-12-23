@@ -20,6 +20,7 @@ import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.CoordinatorModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
+import com.nitkkr.gawds.tech16.model.EventStatus;
 import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
@@ -563,8 +564,7 @@ public class FetchData
                                 eventModel.setEventEndDate(EventModel.parseDate(data.getString("End")));
                                 eventModel.setCurrentRound(Integer.valueOf(data.getString("CurrentRound")));
                                 eventModel.setMaxUsers(data.getInt("MaxContestants"));
-                                //TODO:FIX
-                                //eventModel.setStatus(data.getString("Status"));
+                                eventModel.setStatus(EventStatus.Parse(data.getString("Status")));
                                 eventModel.setPdfLink(data.getString("Pdf"));
                                 eventModel.setCategory(data.getInt("CategoryId"));
                                 eventModel. setSociety(data.getInt("SocietyId"));
@@ -761,6 +761,7 @@ public class FetchData
                                         }
                                     }
 
+                                    model.setEventName(object.getString("GuestName"));
                                     model.setEventID(object.getInt("Id"));
                                     model.setEventDate(EventModel.parseDate(object.getString("Start")));
                                     model.setEventEndDate(EventModel.parseDate(object.getString("End")));
@@ -824,6 +825,7 @@ public class FetchData
                                 ExhibitionModel model=Database.getInstance().getExhibitionDB().getExhibition(key);
 
                                 model.setEventID(data.getInt("Id"));
+                                model.setEventName(data.getString("GuestName"));
                                 model.setEventDate(EventModel.parseDate(data.getString("Start")));
                                 model.setEventEndDate(EventModel.parseDate(data.getString("End")));
                                 model.setImage_URL(data.getString("Photo"));

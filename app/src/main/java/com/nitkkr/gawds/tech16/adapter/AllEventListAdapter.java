@@ -129,10 +129,12 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 		{
 			Events.put(Category,new EventListAdapter(context,events.get(Category),false));
 		}
+		Filter.setEvents(Events);
 	}
 
-	public void updateList()
+	public void onClick(int Group, int Child)
 	{
-		Filter.updateList();
+		EventListAdapter adapter=this.Events.get((String)getGroup(Group));
+		adapter.onClick(((EventKey)adapter.getItem(Child)).getEventID());
 	}
 }

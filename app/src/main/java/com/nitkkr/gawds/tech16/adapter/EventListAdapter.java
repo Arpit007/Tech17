@@ -31,6 +31,7 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 	private Context context;
 	private EventSearch eventSearch;
 	private boolean Notify;
+	private int EventID=-1;
 
 	public EventListAdapter(Context context, ArrayList<EventKey> events, final boolean Notify)
 	{
@@ -39,6 +40,15 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 		this.Events = events;
 
 		eventSearch=new EventSearch(this);
+
+		this.registerDataSetObserver(new DataSetObserver()
+		{
+			@Override
+			public void onChanged()
+			{
+				EventID=-1;
+			}
+		});
 	}
 
 	@Override
@@ -69,29 +79,24 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 			view = inflater.inflate(R.layout.layout_event_list_item, null);
 		}
 
+		if (Events.get(i).getEventID()==EventID)
+		{
+			if(!Notify)
+				Events.get(i).setNotify(Database.getInstance().getEventsDB().getEventKey(EventID).isNotify());
+			else Events.get(i).setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(EventID).isNotify());
+			EventID=-1;
+		}
+
 		ImageView Star=(ImageView) view.findViewById(R.id.Event_Star);
 
-		if(!Notify)
+		if (((EventKey)getItem(i)).isNotify())
 		{
-			if(Database.getInstance().getEventsDB().getEvent(Events.get(i)).isNotify())
-			{
-				Star.setImageResource(R.drawable.icon_starred);
-				Star.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				Star.setImageResource(R.drawable.icon_unstarred);
-				Star.setVisibility(View.INVISIBLE);
-			}
+			Star.setImageResource(R.drawable.icon_unstarred);
+			Star.setVisibility(View.VISIBLE);
 		}
 		else
 		{
-			Star.setVisibility(View.VISIBLE);
-			final ExhibitionModel model= Database.getInstance().getExhibitionDB().getExhibition(Events.get(i));
-
-			if(model.isNotify())
-				Star.setImageResource(R.drawable.icon_starred);
-			else Star.setImageResource(R.drawable.icon_unstarred);
+			Star.setVisibility(View.INVISIBLE);
 		}
 
 		TextView txtListChild = (TextView) view.findViewById(R.id.event_list_item_label);
@@ -101,16 +106,24 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 
 	public ArrayList<EventKey> getEvents(){return Events;}
 
-	public void setEvents(ArrayList<EventKey> models){
-		Events = models;}
+	public void setEvents(ArrayList<EventKey> models)
+	{
+		Events = models;
+		eventSearch.setEventKeys(Events);
+	}
+
+	public void setEventsByfilter(ArrayList<EventKey> models)
+	{
+		Events = models;
+	}
 
 	public EventSearch getFilter(){return eventSearch;}
 
-	public void updateList()
-	{
-		eventSearch.updateList();
-	}
-
 	public boolean getNotify(){return Notify;}
 
+	public void onClick(int EventID)
+	{
+		this.EventID=EventID;
+		eventSearch.onClick(EventID,Notify);
+	}
 }

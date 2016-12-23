@@ -67,6 +67,9 @@ public class RegisteredEventList extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
+
+				listAdapter.onClick(((EventKey)listAdapter.getItem(i)).getEventID());
+
 				Bundle bundle=new Bundle();
 				bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
 				Intent intent=new Intent(view.getContext(), Event.class);
@@ -85,12 +88,5 @@ public class RegisteredEventList extends Fragment
 		listDataChild=Database.getInstance().getEventsDB().getRegisteredEventKeys();
 		listAdapter.setEvents(listDataChild);
 		listAdapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		listAdapter.updateList();
 	}
 }

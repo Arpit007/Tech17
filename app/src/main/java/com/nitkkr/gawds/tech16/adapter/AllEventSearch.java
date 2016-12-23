@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Filter;
 import android.widget.ListView;
 
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.EventKey;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class AllEventSearch extends Filter
 	private HashMap<String, EventListAdapter> Events;
 	private EventListAdapter adapter;
 	private ListView listView;
-	private String Query="";
+	private int EventID=-1;
 
 	public AllEventSearch(AllEventListAdapter adapter, Context context)
 	{
@@ -29,7 +30,6 @@ public class AllEventSearch extends Filter
 	@Override
 	protected FilterResults performFiltering(CharSequence charSequence)
 	{
-		Query=charSequence.toString();
 		FilterResults results=new FilterResults();
 
 		ArrayList<EventKey> list=new ArrayList<>();
@@ -38,6 +38,11 @@ public class AllEventSearch extends Filter
 		{
 			for(EventKey key: Events.get(Label).getEvents())
 			{
+				if (key.getEventID()==EventID)
+				{
+					key.setNotify(Database.getInstance().getEventsDB().getEventKey(EventID).isNotify());
+					EventID=-1;
+				}
 				if(key.getEventName().toLowerCase().contains(charSequence.toString().toLowerCase()))
 					list.add(key);
 			}
@@ -62,11 +67,14 @@ public class AllEventSearch extends Filter
 		listView.setAdapter(adapter);
 	}
 
-	public void updateList()
+	public void onClick(int EventID)
 	{
-		for(String Name: Events.keySet())
-		{
-			Events.get(Name).updateList();
-		}
+		this.EventID = EventID;
 	}
+
+	public void setEvents(HashMap<String, EventListAdapter> lists)
+	{
+		Events=lists;
+	}
+
 }
