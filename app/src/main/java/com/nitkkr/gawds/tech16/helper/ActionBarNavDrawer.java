@@ -152,25 +152,40 @@ public class ActionBarNavDrawer
 		});
 
 		navigationView.setCheckedItem(pageNavID);
+
+		DrawerLayout drawerx = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+		drawerx.addDrawerListener(new DrawerLayout.DrawerListener()
+		{
+			@Override
+			public void onDrawerSlide(View drawerView, float slideOffset)
+			{
+			}
+
+			@Override
+			public void onDrawerOpened(View drawerView)
+			{
+				Refresh();
+			}
+
+			@Override
+			public void onDrawerClosed(View drawerView)
+			{
+			}
+
+			@Override
+			public void onDrawerStateChanged(int newState)
+			{
+			}
+		});
+
 		activity.findViewById(R.id.actionbar_navButton).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
 			{
-				setImage();
+				Refresh();
 				DrawerLayout drawerx = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 				navigationView.setCheckedItem(pageNavID);
-
-				if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
-				{
-					navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
-					navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
-				}
-				else
-				{
-					navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
-					navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
-				}
 				drawerx.openDrawer(GravityCompat.START);
 
 				barNavDrawer.NavButtonClicked();
@@ -285,7 +300,7 @@ public class ActionBarNavDrawer
 			return true;
 	}
 
-	public void setImage()
+	private void setImage()
 	{
 		if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
 		{
@@ -352,4 +367,21 @@ public class ActionBarNavDrawer
 			navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name).setVisibility(View.GONE);
 		}
 	}
+
+	private void Refresh()
+	{
+		setImage();
+
+		if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
+		{
+			navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+			navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
+		}
+		else
+		{
+			navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+			navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+		}
+	}
+
 }
