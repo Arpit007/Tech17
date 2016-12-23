@@ -36,7 +36,7 @@
     <com.nitkkr.gawds.tech16.src.Typewriter
         android:text="      Techspardha'17"
         android:id="@+id/splash_text"
-        android:textSize="38sp"
+        android:textSize="35sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

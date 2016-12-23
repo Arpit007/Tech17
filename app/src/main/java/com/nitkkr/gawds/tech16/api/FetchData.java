@@ -704,7 +704,7 @@ public class FetchData
         FetchResponseHelper.getInstance().incrementRequestCount();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
-                +"?token"+AppUserModel.MAIN_USER.getToken(),
+                +"?token="+AppUserModel.MAIN_USER.getToken(),
                 new Response.Listener<String>()
                 {
                     @Override

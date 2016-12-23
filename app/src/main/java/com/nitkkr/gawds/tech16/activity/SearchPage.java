@@ -65,8 +65,7 @@ public class SearchPage extends AppCompatActivity
 				SearchPage.this.Query = Query;
 				findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 				adapter.getFilter().filter(Query);
-				if(!Query.isEmpty())
-					findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+				findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
 			}
 		});
 		actionBarSearch.setLabel(getResources().getString(R.string.FestName));
