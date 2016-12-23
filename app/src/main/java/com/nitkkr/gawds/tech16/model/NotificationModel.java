@@ -11,14 +11,7 @@ public class NotificationModel extends EventKey
 	private boolean generated=false;
 	private long date;
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
+	//TODO:implement message later
 	private String message;
 
 	public void setGenerated(boolean generated){this.generated = generated;}

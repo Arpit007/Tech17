@@ -25,11 +25,11 @@ public class ScreenSlidePageFragment extends Fragment {
             R.drawable.exh,R.drawable.info};
     public static CharSequence[] headings = {"About TS'17", "Events","Gusto Talk",
             "Exhibitions and Tech-Expo","Informals"};
-    public static String[] descriptions = {"Come with techspardha as we launch for our latest adventure",
-            "Along the way we will come across some exciting events",
-            "Some experts will also join us and deliver their expertise",
-            "We will come across some mind blowing and extraordinary XYZ",
-            "descriptive content for Informals"};
+    public static String[] descriptions = {" Fasten your seatbelts as we launch into the universe of Techspardha.",
+            " A plethora of events awaits you in this journey.",
+            " Learn from the best of the best through our guest lectures.",
+            " See the brightest innovations of modern world in the exhibitions.",
+            " We have made this journey as much fun as possible. Come, meet us at informalz."};
 
     public static ScreenSlidePageFragment init(int position) {
         ScreenSlidePageFragment f = new ScreenSlidePageFragment();
