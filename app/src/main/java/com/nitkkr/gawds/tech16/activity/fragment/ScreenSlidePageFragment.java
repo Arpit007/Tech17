@@ -23,13 +23,13 @@ public class ScreenSlidePageFragment extends Fragment {
     int val;
     public static int[] images = {/*image ids go here*/R.drawable.about,R.drawable.events,R.drawable.guests,
             R.drawable.exh,R.drawable.info};
-    public static CharSequence[] headings = {"About TS'17", "Events","Guest Lectures",
-            "Events","Informals"};
-    public static String[] descriptions = {"Techspardha is the Techno-managerial festival of NIT Kurukshetra which started in 1995 as" +
-            "“Technospect” (later changed to Literati).",
-            "descriptive content for Events 1", "With immense pleasure techsaprdha’17 presents, guest lecture series of different scholars in the field"
-            + "of literature, technology and many others.",
-            "descriptive content for events 2", "descriptive content for Informals"};
+    public static CharSequence[] headings = {"About TS'17", "Events","Gusto Talk",
+            "Exhibitions and Tech-Expo","Informals"};
+    public static String[] descriptions = {"Come with techspardha as we launch for our latest adventure",
+            "Along the way we will come across some exciting events",
+            "Some experts will also join us and deliver their expertise",
+            "We will come across some mind blowing and extraordinary XYZ",
+            "descriptive content for Informals"};
 
     public static ScreenSlidePageFragment init(int position) {
         ScreenSlidePageFragment f = new ScreenSlidePageFragment();
@@ -55,7 +55,6 @@ public class ScreenSlidePageFragment extends Fragment {
         tvd.setText(descriptions[val]);
 
         img.setImageBitmap(App.decodeSampledBitmapFromResource(getResources(),images[val],500,500));
-        //img.setImageDrawable(getResources().getDrawable(images[val]));
 
         return root;
     }

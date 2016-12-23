@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.database.DbConstants;
+import com.nitkkr.gawds.tech16.helper.App;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.CoordinatorModel;
@@ -24,6 +25,7 @@ import com.nitkkr.gawds.tech16.model.EventStatus;
 import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.NotificationModel;
 import com.nitkkr.gawds.tech16.model.SocietyModel;
 
 import org.json.JSONArray;
@@ -1095,6 +1097,132 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
+    //get all notifications
+    public void getNotifications(final Context context)
+    {
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
+                context.getResources().getString(R.string.GetNotification)+"?token="+ AppUserModel.MAIN_USER.getToken(),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            data=response.getJSONArray("data");
+                            if(code==200)
+                            {
+                                ArrayList<NotificationModel> models=new ArrayList<>();
+                                for(int i=0;i<data.length();i++)
+                                {
+                                    //Status 0 for read and 1 for unread
+
+                                    JSONObject object=data.getJSONObject(i);
+                                    int Id=object.getInt("Id");
+                                    int status=object.getInt("status");
+
+                                    JSONObject NotificationObject=object.getJSONObject("Notification");
+                                    String Message=NotificationObject.getString("Message");
+                                    int EventId=NotificationObject.getInt("EventId");
+                                }
+                            }
+                            else
+                            {
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    //change Notification Status
+    public void changeNotificationStatus(final Context context, final int NotificationId,final int status, final iResponseCallback callback)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+
+                context.getResources().getString(R.string.GetNotification),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            //Status 0 for read and 1 for unread
+                            if(code==200)
+                            {
+                                if(callback!=null)
+                                    callback.onResponse(ResponseStatus.SUCCESS);
+                            }
+                            else
+                            {
+                                if (callback!=null)
+                                    callback.onResponse(ResponseStatus.FAILED);
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                            if(callback!=null)
+                                callback.onResponse(ResponseStatus.FAILED);
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                        if(callback!=null)
+                        {
+                            if (error instanceof TimeoutError || error instanceof NetworkError)
+                                callback.onResponse(ResponseStatus.NONE);
+                            else callback.onResponse(ResponseStatus.FAILED);
+                        }
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("token",AppUserModel.MAIN_USER.getToken());
+                params.put("notificationId", String.valueOf(NotificationId));
+                params.put("status", String.valueOf(status));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
 }
 
 

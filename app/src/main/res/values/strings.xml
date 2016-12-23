@@ -46,5 +46,6 @@
     <string name="getSocieties">/api/societies</string>
     <string name="title_activity_home_page">Home_page</string>
     <string name="liveEvents">/api/events/live</string>
+    <string name="GetNotification">/api/user/me/notifications</string>
 
 </resources>
