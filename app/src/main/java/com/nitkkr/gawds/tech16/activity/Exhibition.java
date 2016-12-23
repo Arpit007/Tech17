@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.database.Database;
@@ -180,7 +181,7 @@ public class Exhibition extends AppCompatActivity
 		(( TextView)findViewById(R.id.exhibition_Title)).setText(model.getEventName());
 		(( TextView)findViewById(R.id.exhibition_Author)).setText(model.getAuthor());
 
-		Glide.with(Exhibition.this).load(model.getImage_URL()).thumbnail(0.5f).centerCrop().into(( ImageView)findViewById(R.id.exhibition_Image));
+		Glide.with(Exhibition.this).load(model.getImage_URL()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(( ImageView)findViewById(R.id.exhibition_Image));
 
 		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "Am").replace("PM","Pm");
 		(( TextView)findViewById(R.id.exhibition_Date)).setText(date);
