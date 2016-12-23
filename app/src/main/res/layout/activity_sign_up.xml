@@ -79,6 +79,7 @@
             android:layout_width="match_parent" android:layout_height="200dp">
 
             <com.nitkkr.gawds.tech16.src.CircularTextView
+                android:textColor="@color/text_color_primary"
                 android:id="@+id/signup_user_Image_Letter" android:visibility="visible"
                 android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
                 android:layout_centerHorizontal="true" android:layout_centerVertical="true"
@@ -122,7 +123,7 @@
 <EditText
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:inputType="textPersonName"
+    android:inputType="textCapWords"
     android:hint="Name"
     android:textColorHint="@color/text_color_primary"
     android:textColor="@color/text_color_primary"

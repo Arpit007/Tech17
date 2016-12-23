@@ -37,7 +37,7 @@ public class CreateTeam extends AppCompatActivity
 
 		ActivityHelper.setStatusBarColor(this);
 
-		EventKey key=( EventKey) getIntent().getExtras().getSerializable("Event");
+		EventKey key=( EventKey) getIntent().getSerializableExtra("Event");
 		eventModel=Database.getInstance().getEventsDB().getEvent(key);
 
 		ActionBarBack actionBarBack=new ActionBarBack(CreateTeam.this);

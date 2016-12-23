@@ -47,7 +47,7 @@
 
 
     <array name="Flat_Colors">
-        <item>@color/c1</item>
+        <item>@color/c13</item>
         <item>@color/c2</item>
         <item>@color/c3</item>
         <item>@color/c4</item>
@@ -59,10 +59,8 @@
         <item>@color/c10</item>
         <item>@color/c11</item>
         <item>@color/c12</item>
-        <item>@color/c1</item>
         <item>@color/c14</item>
         <item>@color/c15</item>
-        <item>@color/c16</item>
     </array>
 
     <array name="Avatar">

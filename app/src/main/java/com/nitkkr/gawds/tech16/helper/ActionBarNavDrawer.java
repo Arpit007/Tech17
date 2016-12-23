@@ -331,14 +331,22 @@ public class ActionBarNavDrawer
 			{
 				CircularTextView view=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
 
-				view.setText(AppUserModel.MAIN_USER.getName().toUpperCase().charAt(0));
+				if(AppUserModel.MAIN_USER.getName().isEmpty())
+					view.setText("#");
+				else view.setText(String.valueOf(AppUserModel.MAIN_USER.getName().trim().toUpperCase().charAt(0)));
+
 				view.setVisibility(View.VISIBLE);
 
 				TypedArray array=activity.getResources().obtainTypedArray(R.array.Flat_Colors);
 
-				int colorPos=(AppUserModel.MAIN_USER.getName().toLowerCase().charAt(0)-'a')%array.length();
+				int colorPos;
+
+				if(AppUserModel.MAIN_USER.getName().isEmpty())
+					colorPos=Math.abs(('#'-'a'))%array.length();
+				else colorPos = Math.abs(AppUserModel.MAIN_USER.getName().trim().toLowerCase().charAt(0)-'a')%array.length();
 
 				view.setFillColor(array.getColor(colorPos,0));
+				view.setBorderWidth(2);
 				view.setBorderColor(ContextCompat.getColor(activity,R.color.User_Image_Border_Color));
 
 				array.recycle();
