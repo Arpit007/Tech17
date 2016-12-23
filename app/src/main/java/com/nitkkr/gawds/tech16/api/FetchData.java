@@ -13,10 +13,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.nitkkr.gawds.tech16.activity.Exhibition;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.database.DbConstants;
-import com.nitkkr.gawds.tech16.helper.App;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.CoordinatorModel;
@@ -50,66 +48,6 @@ public class FetchData
     private static FetchData f=new FetchData();
 
     public static FetchData getInstance(){return f;}
-
-    public  void fetchAllInterests(final Context context)
-    {
-        FetchResponseHelper.getInstance().incrementRequestCount();
-
-        String Url = context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.getCategories);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String res)
-            {
-                JSONObject response;
-                JSONArray data;
-                int code;
-                try
-                {
-                    response = new JSONObject(res);
-                    data = response.getJSONArray("data");
-                    code = response.getJSONObject("status").getInt("code");
-                    ArrayList<InterestModel> list = new ArrayList<>();
-                    if (code == 200)
-                    {
-                        for (int i = 0; i < data.length(); i++)
-                        {
-                            InterestModel interestModel = new InterestModel();
-                            interestModel.setID(data.getJSONObject(i).getInt("Id"));
-                            interestModel.setInterest(data.getJSONObject(i).getString("Name"));
-                            list.add(interestModel);
-                        }
-                        Database.getInstance().getInterestDB().addOrUpdateInterest(list);
-                        Log.v("DEBUG", data.toString());
-                        FetchResponseHelper.getInstance().incrementResponseCount(null);
-                    }
-                    else
-                    {
-                        Log.d("Fetch:\t","Failed fetching All Interests");
-                        FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                    }
-                }
-                catch (JSONException e)
-                {
-                    Log.d("Fetch:\t", "Failed Fetching Interests");
-                    FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                    e.printStackTrace();
-                }
-            }
-        },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        FetchResponseHelper.getInstance().incrementResponseCount(error);
-                        error.printStackTrace();
-                    }
-                });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-    }
 
     public  void fetchUserInterests(final Context context)
     {
@@ -424,116 +362,6 @@ public class FetchData
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-    }
-
-    public void fetchAllEvents(final Context context)
-    {
-        FetchResponseHelper.getInstance().incrementRequestCount();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-                context.getResources().getString(R.string.get_events_list),
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String res)
-                    {
-
-                        JSONObject response;
-                        JSONArray data, coordinators;
-                        int code;
-
-                        try
-                        {
-                            response = new JSONObject(res);
-                            data = response.getJSONArray("data");
-                            code = response.getJSONObject("status").getInt("code");
-
-                            if (code == 200)
-                            {
-                                ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getAllEvents();
-                                int Size=eventModels.size();
-
-                                ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
-
-                                for (int i = 0; i < data.length(); i++)
-                                {
-                                    EventModel eventModel = new EventModel();
-                                    JSONObject jEvent = data.getJSONObject(i);
-
-                                    int ID=jEvent.getInt("Id"), index=-1;
-
-                                    for(int x=0;x<Size;x++)
-                                    {
-                                        if(eventModels.get(x).getEventID()==ID)
-                                        {
-                                            eventModel=eventModels.get(x);
-                                            index=x;
-                                            break;
-                                        }
-                                    }
-                                    eventModel.setEventID(ID);
-                                    eventModel.setEventName(jEvent.getString("Name"));
-                                    eventModel.setDescription(jEvent.getString("Description"));
-                                    eventModel.setVenue(jEvent.getString("Venue"));
-                                    eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
-                                    eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
-                                    eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
-                                    eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
-                                    eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status")));
-                                    eventModel.setPdfLink(jEvent.getString("Pdf"));
-                                    eventModel.setRules(jEvent.getString("Rules"));
-                                    eventModel.setCategory(jEvent.getInt("CategoryId"));
-                                    eventModel.setSociety(jEvent.getInt("SocietyId"));
-
-                                    if(index==-1)
-                                        eventModels.add(eventModel);
-
-                                    coordinators = jEvent.getJSONArray("Coordinators");
-
-                                    for (int j = 0; j < coordinators.length(); j++)
-                                    {
-                                        JSONObject jCoordinator = coordinators.getJSONObject(j);
-                                        CoordinatorModel coordinatorModel = new CoordinatorModel();
-                                        coordinatorModel.setEventID(eventModel.getEventID());
-                                        coordinatorModel.setName(jCoordinator.getString("Name"));
-                                        coordinatorModel.setMobile(String.valueOf(jCoordinator.getLong("PhoneNo")));
-                                        coordinatorModel.setEmail(jCoordinator.getString("Email"));
-                                        coordinatorModel.setDesignation("Coordinator");
-                                        coordinatorModels.add(coordinatorModel);
-                                    }
-                                }
-
-                                Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
-                                Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
-
-                                FetchResponseHelper.getInstance().incrementResponseCount(null);
-                                Log.v("DEBUG", data.toString());
-                            }
-                            else
-                            {
-                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                            }
-                        }
-                        catch (JSONException e)
-                        {
-                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        FetchResponseHelper.getInstance().incrementResponseCount(error);
-                        error.printStackTrace();
-                    }
-                });
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
@@ -1414,68 +1242,6 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-    //TODO:add this function in splash screen instead of getSocieties and getEvents
-    //for informalz and exhibitions
-    public  void getCategoriesWithEvents(final Context context)
-    {
-        FetchResponseHelper.getInstance().incrementRequestCount();
-        String Url = context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.getCategories);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String res)
-            {
-                JSONObject response;
-                JSONArray data;
-                int code;
-                try
-                {
-                    response = new JSONObject(res);
-                    data = response.getJSONArray("data");
-                    code = response.getJSONObject("status").getInt("code");
-                    ArrayList<InterestModel> list = new ArrayList<>();
-                    if (code == 200)
-                    {
-                        for (int i = 0; i < data.length(); i++)
-                        {
-                            InterestModel interestModel = new InterestModel();
-                            interestModel.setID(data.getJSONObject(i).getInt("Id"));
-                            interestModel.setInterest(data.getJSONObject(i).getString("Name"));
-                            list.add(interestModel);
-                        }
-                        Database.getInstance().getInterestDB().addOrUpdateInterest(list);
-                        Log.v("DEBUG", data.toString());
-                        FetchResponseHelper.getInstance().incrementResponseCount(null);
-                        getEventByCategory(context,list);
-                    }
-                    else
-                    {
-                        Log.d("Fetch:\t","Failed fetching All Interests");
-                        FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                    }
-                }
-                catch (JSONException e)
-                {
-                    Log.d("Fetch:\t", "Failed Fetching Interests");
-                    FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                    e.printStackTrace();
-                }
-            }
-        },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        FetchResponseHelper.getInstance().incrementResponseCount(error);
-                        error.printStackTrace();
-                    }
-                });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-    }
-
     public void getEventByCategory(final Context context, final ArrayList<InterestModel> list){
         FetchResponseHelper.getInstance().incrementRequestCount();
 
@@ -1632,7 +1398,7 @@ public class FetchData
     }
 
 
-    public  void tempfetchAll(final Context context)
+    public  void fetchAll(final Context context)
     {
         FetchResponseHelper.getInstance().incrementRequestCount();
 
@@ -1662,7 +1428,7 @@ public class FetchData
                         }
                         Database.getInstance().getInterestDB().addOrUpdateInterest(list);
                         Log.v("DEBUG", data.toString());
-                        FetchData.getInstance().tempFetchData(context);
+                        FetchData.getInstance().fetchData(context);
                     }
                     else
                     {
@@ -1692,7 +1458,7 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-    private void tempFetchData(final Context context)
+    private void fetchData(final Context context)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
                 context.getResources().getString(R.string.get_events_list),
