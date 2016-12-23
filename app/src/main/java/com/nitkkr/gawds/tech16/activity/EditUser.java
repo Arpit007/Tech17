@@ -106,26 +106,6 @@ public class EditUser extends AppCompatActivity
 							this.onResponse(status);
 						}
 					});
-
-					//TODO: Send info
-					ResponseStatus status= ResponseStatus.SUCCESS;
-					switch (status)
-					{
-						case SUCCESS:
-							model.saveAppUser(EditUser.this);
-							AppUserModel.MAIN_USER=model;
-							finish();
-							//When finished, check if View User Changes Itself
-							break;
-						case FAILED:
-							Toast.makeText(EditUser.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
-							break;
-						case OTHER:
-							Toast.makeText(EditUser.this,"----------------message-------------------",Toast.LENGTH_LONG).show();
-							break;
-						default:
-							break;
-					}
 				}
 			}
 		});
@@ -211,10 +191,9 @@ public class EditUser extends AppCompatActivity
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode==RESULT_OK)
+		if(requestCode==INTEREST)
 		{
-			if(resultCode==INTEREST)
+			if(resultCode==RESULT_OK)
 			{
 				interestChanged=true;
 				model.setInterests((ArrayList<InterestModel>)data.getSerializableExtra("Interests"));
@@ -222,15 +201,19 @@ public class EditUser extends AppCompatActivity
 		}
 		else if(requestCode==AVATAR)
 		{
-			int ID=data.getIntExtra("ID",-1);
-			AppUserModel.MAIN_USER.setImageId(ID);
+			if(resultCode==RESULT_OK)
+			{
+				int ID = data.getIntExtra("ID", -1);
+				AppUserModel.MAIN_USER.setImageId(ID);
 
-			AppUserModel.MAIN_USER.setUseGoogleImage((ID==-1));
+				AppUserModel.MAIN_USER.setUseGoogleImage(( ID == -1 ));
 
-			AppUserModel.MAIN_USER.saveAppUser(EditUser.this);
+				AppUserModel.MAIN_USER.saveAppUser(EditUser.this);
 
-			setImage();
+				setImage();
+			}
 		}
+		else super.onActivityResult(requestCode,resultCode,data);
 	}
 
 	private void setImage()
@@ -341,7 +324,7 @@ public class EditUser extends AppCompatActivity
 			profileSuccess=false;
 			interestSuccess=false;
 			interestChanged=false;
-			Toast.makeText(getApplicationContext(),"Changes Updated Successfuully",Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(),"Changes Updated Successfully",Toast.LENGTH_LONG).show();
 			new Handler().postDelayed(new Runnable()
 			{
 				@Override

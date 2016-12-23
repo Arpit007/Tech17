@@ -387,6 +387,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
 
                 FetchData.getInstance().fetchUserInterests(getApplicationContext());
+                FetchData.getInstance().fetchUserWishlist(getApplicationContext());
 
                 if(!ActivityHelper.isDebugMode(getApplicationContext()))
                 {
@@ -395,14 +396,14 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 }
                 Log.v("login","Successful login");
 
-                //if(getIntent().getBooleanExtra("Start_Home",true))
+                if(getIntent().getBooleanExtra("Start_Home",true))
                     startActivity(new Intent(Login.this, Home.class));
-//                else
-//                {
-//                    Intent intent=new Intent();
-//                    intent.putExtra("Logged_In",true);
-//                    setResult(RESULT_OK,intent);
-//                }
+                else
+                {
+                    Intent intent=new Intent();
+                    intent.putExtra("Logged_In",true);
+                    setResult(RESULT_OK,intent);
+                }
                 finish();
                 break;
             case SIGNUP:

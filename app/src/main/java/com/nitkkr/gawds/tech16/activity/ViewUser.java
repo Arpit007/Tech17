@@ -20,7 +20,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewUser extends AppCompatActivity
 {
-
+	private final int EDIT=10;
 	UserModel model;
 
 	@Override
@@ -40,7 +40,7 @@ public class ViewUser extends AppCompatActivity
 			public void onClick(View view)
 			{
 				Intent intent=new Intent(ViewUser.this,EditUser.class);
-				startActivity(intent);
+				startActivityForResult(intent, EDIT);
 			}
 		});
 		bar.setLabel(model.getName());
@@ -117,5 +117,16 @@ public class ViewUser extends AppCompatActivity
 		if(ActivityHelper.revertToHomeIfLast(ViewUser.this))
 			return;
 		super.onBackPressed();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if(requestCode==EDIT)
+		{
+			model=AppUserModel.MAIN_USER;
+			setUpContent();
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

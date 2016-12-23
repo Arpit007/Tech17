@@ -203,6 +203,7 @@ public class Splash extends AppCompatActivity
 		if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) || AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
 			FetchData.getInstance().fetchUserInterests(getBaseContext());
+			FetchData.getInstance().fetchUserWishlist(getBaseContext());
 		}
 
 		handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));

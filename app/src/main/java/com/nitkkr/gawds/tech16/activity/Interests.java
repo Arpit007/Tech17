@@ -91,8 +91,29 @@ public class Interests extends AppCompatActivity
 			@Override
 			public void onResponse(ResponseStatus status)
 			{
-				hideProgressDialog();
-				serverResponse(status);
+				if(status==ResponseStatus.SUCCESS)
+				{
+					FetchData.getInstance().deleteInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
+					{
+						@Override
+						public void onResponse(ResponseStatus status)
+						{
+							hideProgressDialog();
+							serverResponse(status);
+						}
+
+						@Override
+						public void onResponse(ResponseStatus status, Object object)
+						{
+							this.onResponse(status);
+						}
+					});
+				}
+				else
+				{
+					hideProgressDialog();
+					serverResponse(status);
+				}
 			}
 
 			@Override

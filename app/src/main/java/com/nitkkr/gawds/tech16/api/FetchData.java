@@ -870,9 +870,10 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-    //get user wishlist
-    public void getUserWishlist(final Context context)
+    public void fetchUserWishlist(final Context context)
     {
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
                 +"?token"+AppUserModel.MAIN_USER.getToken(),
                 new Response.Listener<String>()
@@ -887,23 +888,28 @@ public class FetchData
                         {
                             response = new JSONObject(res);
                             code=response.getJSONObject("status").getInt("code");
-                            //TODO:make a wishlist model
-                            //ArrayList<>
                             if(code==200)
                             {
+                                Database.getInstance().getExhibitionDB().resetTable();
                                 data=response.getJSONArray("data");
-                                for(int i=0;i<data.length();i++){
-                                    int lecture_id=data.getInt(i);
+                                for(int i=0;i<data.length();i++)
+                                {
+                                    ExhibitionModel key=Database.getInstance().getExhibitionDB().getExhibition(data.getInt(i));
+                                    key.setNotify(true);
+                                    Database.getInstance().getExhibitionDB().addOrUpdateExhibition(key);
                                 }
+                                Database.getInstance().getNotificationDB().UpdateTable();
+                                FetchResponseHelper.getInstance().incrementResponseCount(null);
                             }
                             else
                             {
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
                             }
-
                         }
                         catch (JSONException e)
                         {
                             e.printStackTrace();
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
                         }
                     }
                 },
@@ -913,6 +919,7 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
                      }
                 });
 
