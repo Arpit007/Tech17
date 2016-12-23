@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/slide_image"
+        android:scaleType="centerCrop"
        />
 
     <RelativeLayout
@@ -32,10 +33,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="DESCRIPTION"
-            android:textSize="17sp"
+            android:textAlignment="center"
+            android:padding="10dp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif"
             android:textColor="@color/text_color_primary"
             android:id="@+id/description"
+            android:textStyle="bold"
             android:layout_marginBottom="44dp"
             android:layout_alignParentBottom="true" android:layout_alignParentStart="true"/>
 

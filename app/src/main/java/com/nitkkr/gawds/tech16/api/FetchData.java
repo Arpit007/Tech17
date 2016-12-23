@@ -13,8 +13,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.nitkkr.gawds.tech16.activity.Exhibition;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.database.DbConstants;
+import com.nitkkr.gawds.tech16.helper.App;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.CoordinatorModel;
@@ -24,6 +26,7 @@ import com.nitkkr.gawds.tech16.model.EventStatus;
 import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.NotificationModel;
 import com.nitkkr.gawds.tech16.model.SocietyModel;
 
 import org.json.JSONArray;
@@ -804,6 +807,7 @@ public class FetchData
 
     }
 
+    //get GuestTalks
     public void getGTalk(final Context context, final EventKey key, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures)
@@ -927,6 +931,7 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
+    //AddToWishlist
     public void addToWishlist(final Context context, final EventKey key, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
@@ -989,6 +994,7 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
+    //Remove FRom Wishlist
     public void removeFromWishlist(final Context context, final EventKey key, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.userWishlist)
@@ -1043,6 +1049,7 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
+    //Get Societies
     public void getSocieties(final Context context)
     {
         FetchResponseHelper.getInstance().incrementRequestCount();
@@ -1102,6 +1109,565 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
+    //get all notifications
+    public void getNotifications(final Context context)
+    {
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
+                context.getResources().getString(R.string.GetNotification)+"?token="+ AppUserModel.MAIN_USER.getToken(),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            data=response.getJSONArray("data");
+                            if(code==200)
+                            {
+                                ArrayList<NotificationModel> models=new ArrayList<>();
+                                for(int i=0;i<data.length();i++)
+                                {
+                                    //Status 0 for read and 1 for unread
+
+                                    JSONObject object=data.getJSONObject(i);
+                                    int Id=object.getInt("Id");
+                                    int status=object.getInt("status");
+
+                                    JSONObject NotificationObject=object.getJSONObject("Notification");
+                                    String Message=NotificationObject.getString("Message");
+                                    int EventId=NotificationObject.getInt("EventId");
+                                }
+                            }
+                            else
+                            {
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    //change Notification Status
+    public void changeNotificationStatus(final Context context, final int NotificationId,final int status, final iResponseCallback callback)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+
+                context.getResources().getString(R.string.GetNotification),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            //Status 0 for read and 1 for unread
+                            if(code==200)
+                            {
+                                if(callback!=null)
+                                    callback.onResponse(ResponseStatus.SUCCESS);
+                            }
+                            else
+                            {
+                                if (callback!=null)
+                                    callback.onResponse(ResponseStatus.FAILED);
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                            if(callback!=null)
+                                callback.onResponse(ResponseStatus.FAILED);
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                        if(callback!=null)
+                        {
+                            if (error instanceof TimeoutError || error instanceof NetworkError)
+                                callback.onResponse(ResponseStatus.NONE);
+                            else callback.onResponse(ResponseStatus.FAILED);
+                        }
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("token",AppUserModel.MAIN_USER.getToken());
+                params.put("notificationId", String.valueOf(NotificationId));
+                params.put("status", String.valueOf(status));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    //get Live Events
+    public void getLiveEvents(final Context context)
+    {
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
+                context.getResources().getString(R.string.liveEvents),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data,coordinators;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            data = response.getJSONArray("data");
+                            code = response.getJSONObject("status").getInt("code");
+
+                            if (code == 200)
+                            {
+                                ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getAllEvents();
+                                int Size=eventModels.size();
+
+                                ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
+
+                                for (int i = 0; i < data.length(); i++)
+                                {
+                                    EventModel eventModel = new EventModel();
+                                    JSONObject jEvent = data.getJSONObject(i);
+
+                                    int ID=jEvent.getInt("Id"), index=-1;
+
+                                    for(int x=0;x<Size;x++)
+                                    {
+                                        if(eventModels.get(x).getEventID()==ID)
+                                        {
+                                            eventModel=eventModels.get(x);
+                                            index=x;
+                                            break;
+                                        }
+                                    }
+                                    eventModel.setEventID(ID);
+                                    eventModel.setEventName(jEvent.getString("Name"));
+                                    eventModel.setDescription(jEvent.getString("Description"));
+                                    eventModel.setVenue(jEvent.getString("Venue"));
+                                    eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
+                                    eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
+                                    eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                    eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
+                                    //eventModel.setStatus(jEvent.getString("Status"));
+                                    eventModel.setPdfLink(jEvent.getString("Pdf"));
+                                    eventModel.setRules(jEvent.getString("Rules"));
+                                    eventModel.setCategory(jEvent.getInt("CategoryId"));
+                                    eventModel.setSociety(jEvent.getInt("SocietyId"));
+
+                                    if(index==-1)
+                                        eventModels.add(eventModel);
+
+                                    coordinators = jEvent.getJSONArray("Coordinators");
+
+                                    for (int j = 0; j < coordinators.length(); j++)
+                                    {
+                                        JSONObject jCoordinator = coordinators.getJSONObject(j);
+                                        CoordinatorModel coordinatorModel = new CoordinatorModel();
+                                        coordinatorModel.setEventID(eventModel.getEventID());
+                                        coordinatorModel.setName(jCoordinator.getString("Name"));
+                                        coordinatorModel.setMobile(String.valueOf(jCoordinator.getLong("PhoneNo")));
+                                        coordinatorModel.setEmail(jCoordinator.getString("Email"));
+                                        coordinatorModel.setDesignation("Coordinator");
+                                        coordinatorModels.add(coordinatorModel);
+                                    }
+                                }
+
+                                //Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
+                                //Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
+
+                                FetchResponseHelper.getInstance().incrementResponseCount(null);
+                                Log.v("DEBUG", data.toString());
+                            }
+                            else
+                            {
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    //get Interested Events or suggested Events
+    public void getInterestedEvents(final Context context)
+    {
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
+                context.getResources().getString(R.string.interestedEvents)+"?token="+AppUserModel.MAIN_USER.getToken(),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data,coordinators;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            data = response.getJSONArray("data");
+                            code = response.getJSONObject("status").getInt("code");
+
+                            if (code == 200)
+                            {
+                                ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getAllEvents();
+                                int Size=eventModels.size();
+
+                                ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
+
+                                for (int i = 0; i < data.length(); i++)
+                                {
+                                    EventModel eventModel = new EventModel();
+                                    JSONObject jEvent = data.getJSONObject(i);
+
+                                    int ID=jEvent.getInt("Id"), index=-1;
+
+                                    for(int x=0;x<Size;x++)
+                                    {
+                                        if(eventModels.get(x).getEventID()==ID)
+                                        {
+                                            eventModel=eventModels.get(x);
+                                            index=x;
+                                            break;
+                                        }
+                                    }
+                                    eventModel.setEventID(ID);
+                                    eventModel.setEventName(jEvent.getString("Name"));
+                                    eventModel.setDescription(jEvent.getString("Description"));
+                                    eventModel.setVenue(jEvent.getString("Venue"));
+                                    eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
+                                    eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
+                                    eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                    eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
+                                    //eventModel.setStatus(jEvent.getString("Status"));
+                                    eventModel.setPdfLink(jEvent.getString("Pdf"));
+                                    eventModel.setRules(jEvent.getString("Rules"));
+                                    eventModel.setCategory(jEvent.getInt("CategoryId"));
+                                    eventModel.setSociety(jEvent.getInt("SocietyId"));
+
+                                    if(index==-1)
+                                        eventModels.add(eventModel);
+
+                                    coordinators = jEvent.getJSONArray("Coordinators");
+
+                                    for (int j = 0; j < coordinators.length(); j++)
+                                    {
+                                        JSONObject jCoordinator = coordinators.getJSONObject(j);
+                                        CoordinatorModel coordinatorModel = new CoordinatorModel();
+                                        coordinatorModel.setEventID(eventModel.getEventID());
+                                        coordinatorModel.setName(jCoordinator.getString("Name"));
+                                        coordinatorModel.setMobile(String.valueOf(jCoordinator.getLong("PhoneNo")));
+                                        coordinatorModel.setEmail(jCoordinator.getString("Email"));
+                                        coordinatorModel.setDesignation("Coordinator");
+                                        coordinatorModels.add(coordinatorModel);
+                                    }
+                                }
+
+                                //Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
+                                //Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
+
+                                FetchResponseHelper.getInstance().incrementResponseCount(null);
+                                Log.v("DEBUG", data.toString());
+                            }
+                            else
+                            {
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    //TODO:add this function in splash screen instead of getSocieties and getEvents
+    //for informalz and exhibitions
+    public  void getCategoriesWithEvents(final Context context)
+    {
+        FetchResponseHelper.getInstance().incrementRequestCount();
+        String Url = context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.getCategories);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String res)
+            {
+                JSONObject response;
+                JSONArray data;
+                int code;
+                try
+                {
+                    response = new JSONObject(res);
+                    data = response.getJSONArray("data");
+                    code = response.getJSONObject("status").getInt("code");
+                    ArrayList<InterestModel> list = new ArrayList<>();
+                    if (code == 200)
+                    {
+                        for (int i = 0; i < data.length(); i++)
+                        {
+                            InterestModel interestModel = new InterestModel();
+                            interestModel.setID(data.getJSONObject(i).getInt("Id"));
+                            interestModel.setInterest(data.getJSONObject(i).getString("Name"));
+                            list.add(interestModel);
+                        }
+                        Database.getInstance().getInterestDB().addOrUpdateInterest(list);
+                        Log.v("DEBUG", data.toString());
+                        FetchResponseHelper.getInstance().incrementResponseCount(null);
+                        getEventByCategory(context,list);
+                    }
+                    else
+                    {
+                        Log.d("Fetch:\t","Failed fetching All Interests");
+                        FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                    }
+                }
+                catch (JSONException e)
+                {
+                    Log.d("Fetch:\t", "Failed Fetching Interests");
+                    FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
+                        error.printStackTrace();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    public void getEventByCategory(final Context context, final ArrayList<InterestModel> list){
+        FetchResponseHelper.getInstance().incrementRequestCount();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
+                context.getResources().getString(R.string.get_events_list),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+
+                        JSONObject response;
+                        JSONArray data, coordinators;
+                        int code;
+
+                        try
+                        {
+                            response = new JSONObject(res);
+                            data = response.getJSONArray("data");
+                            code = response.getJSONObject("status").getInt("code");
+
+                            if (code == 200)
+                            {
+                             //   ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getAllEvents();
+                               // int Size=eventModels.size();
+
+                                ArrayList<EventModel> eventList=new ArrayList<>();
+                                ArrayList<ExhibitionModel> exhibitionList=new ArrayList<>();
+                                ArrayList<ExhibitionModel> informalzList=new ArrayList<>();
+
+                                ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
+
+                                for (int i = 0; i < data.length(); i++)
+                                {
+
+                                    JSONObject jEvent = data.getJSONObject(i);
+
+                                    int ID=jEvent.getInt("Id"), index=-1;
+
+//                                    for(int x=0;x<Size;x++)
+//                                    {
+//                                        if(eventModels.get(x).getEventID()==ID)
+//                                        {
+//                                            eventModel=eventModels.get(x);
+//                                            index=x;
+//                                            break;
+//                                        }
+//                                    }
+                                    int CategoryId=jEvent.getInt("CategoryId");
+
+                                    boolean isEvent=true,isInformal=false;
+                                    for(int j=0;j<list.size();j++){
+
+                                        if(CategoryId==list.get(j).getID() && list.get(j).getInterest().equals("Informals")){
+                                            isEvent=false;
+                                            isInformal=true;
+                                            break;
+
+                                        }else if(CategoryId==list.get(j).getID() && list.get(j).getInterest().equals("Exhibition")) {
+                                            isEvent=false;
+                                            break;
+                                        }
+                                    }
+
+                                    if(isEvent){
+                                        EventModel eventModel = new EventModel();
+                                        eventModel.setEventID(ID);
+                                        eventModel.setEventName(jEvent.getString("Name"));
+                                        eventModel.setDescription(jEvent.getString("Description"));
+                                        eventModel.setVenue(jEvent.getString("Venue"));
+                                        eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
+                                        eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
+                                        eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                        eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
+                                        //eventModel.setStatus(jEvent.getString("Status"));
+                                        eventModel.setPdfLink(jEvent.getString("Pdf"));
+                                        eventModel.setRules(jEvent.getString("Rules"));
+                                        eventModel.setCategory(jEvent.getInt("CategoryId"));
+                                        eventModel.setSociety(jEvent.getInt("SocietyId"));
+
+                                        coordinators = jEvent.getJSONArray("Coordinators");
+
+                                        for (int z = 0; z < coordinators.length(); z++)
+                                        {
+                                            JSONObject jCoordinator = coordinators.getJSONObject(z);
+                                            CoordinatorModel coordinatorModel = new CoordinatorModel();
+                                            coordinatorModel.setEventID(eventModel.getEventID());
+                                            coordinatorModel.setName(jCoordinator.getString("Name"));
+                                            coordinatorModel.setMobile(String.valueOf(jCoordinator.getLong("PhoneNo")));
+                                            coordinatorModel.setEmail(jCoordinator.getString("Email"));
+                                            coordinatorModel.setDesignation("Coordinator");
+                                            coordinatorModels.add(coordinatorModel);
+                                        }
+                                        eventList.add(eventModel);
+                                        //add to event db
+                                    }else{
+                                        ExhibitionModel model=new ExhibitionModel();
+                                        model.setEventID(jEvent.getInt("Id"));
+                                        model.setEventName(jEvent.getString("GuestName"));
+                                        model.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
+                                        model.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
+                                        model.setImage_URL(jEvent.getString("Photo"));
+                                        model.setDescription(jEvent.getString("Description"));
+                                        model.setAuthor(jEvent.getString("GuestName"));
+                                        model.setVenue(jEvent.getString("Venue"));
+                                        model.setGTalk(false);
+                                        //add to exhibitiondb or informaldb
+                                        if(isInformal){
+                                            informalzList.add(model);
+                                        }else{
+                                            exhibitionList.add(model);
+                                        }
+                                    }
+
+
+
+//                                    if(index==-1)
+//                                        eventModels.add(eventModel);
+
+
+                                }
+
+                               // Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
+                                //Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
+
+                                FetchResponseHelper.getInstance().incrementResponseCount(null);
+                                Log.v("DEBUG", data.toString());
+                            }
+                            else
+                            {
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
+                        error.printStackTrace();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
 }
 
 

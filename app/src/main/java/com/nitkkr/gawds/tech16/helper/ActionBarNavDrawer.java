@@ -1,7 +1,10 @@
 package com.nitkkr.gawds.tech16.helper;
 
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -109,6 +112,22 @@ public class ActionBarNavDrawer
 			intent=new Intent(activity,Login.class);
 			intent.putExtra("Start_Home",false);
 			activity.startActivity(intent);
+		}
+		else if(id==R.id.link)
+		{
+			String url = "http://techspardha.org/";
+			try {
+				Intent i = new Intent("android.intent.action.MAIN");
+				i.setComponent(ComponentName.unflattenFromString("com.android.chrome/com.android.chrome.Main"));
+				i.addCategory("android.intent.category.LAUNCHER");
+				i.setData(Uri.parse(url));
+				activity.startActivity(i);
+			}
+			catch(ActivityNotFoundException e) {
+				// Chrome is not installed
+				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+				activity.startActivity(i);
+			}
 		}
 
 		DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
