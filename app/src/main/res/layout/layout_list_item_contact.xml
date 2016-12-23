@@ -44,6 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
+
+                    android:padding="5dp"
                     android:id="@+id/Coordinator_Number"
                     android:layout_alignTop="@+id/imageView12"
                     android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/imageView12"/>
@@ -53,10 +55,13 @@
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_weight="1"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="10dp"
                             android:layout_height="match_parent">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginTop="4dp"
                     app:srcCompat="@drawable/email_coordinator"
                     android:id="@+id/imageView13"
                     android:layout_alignTop="@+id/Coordinator_Email"
@@ -68,7 +73,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="17dp"
-                    android:id="@+id/Coordinator_Email" android:layout_centerVertical="true"
+                    android:ellipsize="end"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:maxLines="1"
+                    android:id="@+id/Coordinator_Email"
+                    android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/imageView13"/>
 
             </RelativeLayout>
