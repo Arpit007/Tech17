@@ -312,6 +312,7 @@ public class ActionBarNavDrawer
 				Glide.with(activity).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
 
 				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter).setVisibility(View.INVISIBLE);
+				navigationView.getHeaderView(0).findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 			}
 			else if(AppUserModel.MAIN_USER.getImageId()!=-1)
 			{
@@ -323,8 +324,9 @@ public class ActionBarNavDrawer
 				array.recycle();
 
 				CircularTextView circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter);
+				circularTextView.setVisibility(View.INVISIBLE);
+				circularTextView=(CircularTextView)navigationView.getHeaderView(0).findViewById(R.id.temp_user_Image_Letter);
 				circularTextView.setVisibility(View.VISIBLE);
-				circularTextView.setText("");
 				circularTextView.setFillColor(ContextCompat.getColor(activity,R.color.User_Image_Fill_Color));
 			}
 			else
@@ -351,7 +353,8 @@ public class ActionBarNavDrawer
 
 				array.recycle();
 
-				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setVisibility(View.GONE);
+				navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setVisibility(View.INVISIBLE);
+				navigationView.getHeaderView(0).findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 			}
 
 			TextView textView=(TextView)navigationView.getHeaderView(0).findViewById(R.id.nav_User_Name);
