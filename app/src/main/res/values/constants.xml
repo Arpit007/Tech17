@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="SplashDuration">3000</integer>
+    <integer name="SplashDuration">3500</integer>
     <integer name="AutoCloseDuration">2000</integer>
     <integer name="AppCloseDuration">4000</integer>
     <integer name="WarningDuration">4000</integer>

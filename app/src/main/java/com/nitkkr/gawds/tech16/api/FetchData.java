@@ -910,6 +910,7 @@ public class FetchData
                             data=response.getJSONArray("data");
                             if(code==200)
                             {
+                                Database.getInstance().getSocietyDB().clearTable();
                                 ArrayList<SocietyModel> models=new ArrayList<>();
                                 for(int i=0;i<data.length();i++)
                                 {
@@ -1394,7 +1395,7 @@ public class FetchData
                                     }
                                     else
                                     {
-                                        isInformal=Category.equals("informals");
+                                        isInformal=(Category.equals("informals") || Category.equals("informalz"));
 
                                         ID=jEvent.getInt("Id");
                                         index=-1;

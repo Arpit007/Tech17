@@ -96,8 +96,6 @@ public class Splash extends AppCompatActivity
 
 		ActivityHelper.setCreateAnimation(this);
 
-		//overridePendingTransition(R.anim.anim_right_in,R.anim.anim_left_out);
-
 		if(!ActivityHelper.isDebugMode(getApplicationContext()))
 		{
 			Fabric.with(this, new Crashlytics());
@@ -122,10 +120,6 @@ public class Splash extends AppCompatActivity
 		imageSLideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.image_slide_up);
 		ts_logo.startAnimation(imageSLideUp);
 
-		runAnimationDown.start();
-		runAnimationUp.start();
-		splashTypewriter.animateText("      Techspardha' 17");
-
 		Thread thread=new Thread()
 		{
 			@Override
@@ -138,9 +132,11 @@ public class Splash extends AppCompatActivity
 				else start_app();
 			}
 		};
-
 		thread.start();
 
+		runAnimationDown.start();
+		runAnimationUp.start();
+		splashTypewriter.animateText("      Techspardha' 17");
 	}
 
 	private boolean isReadStorageAllowed()
@@ -188,7 +184,6 @@ public class Splash extends AppCompatActivity
 	{
 		Database database=new Database(getApplicationContext());
 		Log.d("Instance: ",database.toString() +" Started");
-
 		AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
 		if(!ActivityHelper.isDebugMode(getApplicationContext()))
