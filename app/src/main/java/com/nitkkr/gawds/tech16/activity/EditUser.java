@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.PopupMenu;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -174,6 +176,26 @@ public class EditUser extends AppCompatActivity
 		(( TextView)findViewById(R.id.user_Roll)).setText(AppUserModel.MAIN_USER.getRoll());
 		(( EditText)findViewById(R.id.user_Number)).setText(AppUserModel.MAIN_USER.getMobile());
 
+		((EditText)findViewById(R.id.user_Name)).addTextChangedListener(new TextWatcher()
+		{
+			@Override
+			public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+			{
+			}
+
+			@Override
+			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+			{
+				if(!AppUserModel.MAIN_USER.isUseGoogleImage() &&  AppUserModel.MAIN_USER.getImageId()==-1)
+					setImage();
+			}
+
+			@Override
+			public void afterTextChanged(Editable editable)
+			{
+			}
+		});
+
 		String Branches[] = getResources().getStringArray(R.array.Branches);
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Branches);
 		AppCompatSpinner spinner = (AppCompatSpinner) findViewById(R.id.user_Branch);
@@ -248,14 +270,24 @@ public class EditUser extends AppCompatActivity
 		{
 			CircularTextView view=(CircularTextView)findViewById(R.id.view_user_Image_Letter);
 
-			view.setText(AppUserModel.MAIN_USER.getName().toUpperCase().charAt(0));
+			String Text=((EditText)findViewById(R.id.user_Name)).getText().toString().trim();
+
+			if(Text.isEmpty())
+				view.setText("#");
+			else view.setText(String.valueOf(Text.toUpperCase().charAt(0)));
+
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array=getResources().obtainTypedArray(R.array.Flat_Colors);
 
-			int colorPos=(AppUserModel.MAIN_USER.getName().toLowerCase().charAt(0)-'a')%array.length();
+			int colorPos;
+
+			if(Text.isEmpty())
+				colorPos=Math.abs(('#'-'a'))%array.length();
+			else colorPos = Math.abs(Text.toLowerCase().charAt(0)-'a')%array.length();
 
 			view.setFillColor(array.getColor(colorPos,0));
+			view.setBorderWidth(2);
 			view.setBorderColor(ContextCompat.getColor(this,R.color.User_Image_Border_Color));
 
 			array.recycle();

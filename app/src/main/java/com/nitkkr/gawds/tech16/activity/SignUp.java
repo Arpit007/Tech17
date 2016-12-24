@@ -173,15 +173,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			@Override
 			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
 			{
-				if(popup!=null)
-				{
-					if (charSequence.equals(""))
-						popup.getMenu().getItem(2).setVisible(false);
-					else popup.getMenu().getItem(2).setVisible(true);
-
-					if(!AppUserModel.MAIN_USER.isUseGoogleImage() && AppUserModel.MAIN_USER.getImageId()==-1)
-						setImage();
-				}
+				if(!AppUserModel.MAIN_USER.isUseGoogleImage() && AppUserModel.MAIN_USER.getImageId()==-1)
+					setImage();
 			}
 
 			@Override
@@ -202,10 +195,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				if(email.equals(""))
 					popup.getMenu().getItem(0).setVisible(false);
 				else popup.getMenu().getItem(0).setVisible(true);
-
-				if (personName.equals(""))
-					popup.getMenu().getItem(2).setVisible(false);
-				else popup.getMenu().getItem(2).setVisible(true);
 
 				popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 				{
@@ -309,12 +298,15 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			// Signed in successfully, show authenticated UI.
 			GoogleSignInAccount acct = result.getSignInAccount();
 
-			Log.v(TAG, "display name: " + acct.getDisplayName());
+			if(acct!=null)
+			{
+				Log.v(TAG, "display name: " + acct.getDisplayName());
 
-			personName = acct.getDisplayName();
-			personPhotoUrl = acct.getPhotoUrl().toString();
-			email = acct.getEmail();
-			token_user=acct.getIdToken().toString();
+				personName = acct.getDisplayName();
+				personPhotoUrl = acct.getPhotoUrl().toString();
+				email = acct.getEmail();
+				token_user = acct.getIdToken();
+			}
 			Log.e(TAG, "Name: " + personName + ", email: " + email
 					+ ", Image: " + personPhotoUrl+" token :"+token_user);
 
@@ -324,10 +316,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				if (email.equals(""))
 					popup.getMenu().getItem(0).setVisible(false);
 				else popup.getMenu().getItem(0).setVisible(true);
-
-				if (personName.equals(""))
-					popup.getMenu().getItem(2).setVisible(false);
-				else popup.getMenu().getItem(2).setVisible(true);
 			}
 			sendToken();
 		} else {
@@ -404,7 +392,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				}){
 			@Override
 			protected Map<String,String> getParams(){
-				Map<String,String> params = new HashMap<String, String>();
+				Map<String,String> params = new HashMap<>();
 				params.put("idToken",token_user);
 				return params;
 			}
@@ -445,14 +433,24 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		{
 			CircularTextView view=(CircularTextView)findViewById(R.id.signup_user_Image_Letter);
 
-			view.setText(AppUserModel.MAIN_USER.getName().toUpperCase().charAt(0));
+			String Text=(( EditText)findViewById(R.id.signup_Name)).getText().toString().trim();
+
+			if (Text.isEmpty())
+				view.setText("#");
+			else view.setText(String.valueOf(Text.toUpperCase().charAt(0)));
+
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array=getResources().obtainTypedArray(R.array.Flat_Colors);
 
-			int colorPos=(AppUserModel.MAIN_USER.getName().toLowerCase().charAt(0)-'a')%array.length();
+			int colorPos;
+
+			if(Text.isEmpty())
+				colorPos=Math.abs(('#'-'a'))%array.length();
+			else colorPos = Math.abs((Text.toLowerCase().charAt(0)-'a'))%array.length();
 
 			view.setFillColor(array.getColor(colorPos,0));
+			view.setBorderWidth(2);
 			view.setBorderColor(ContextCompat.getColor(this,R.color.text_color_primary));
 
 			array.recycle();
@@ -588,7 +586,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				}){
 			@Override
 			protected Map<String,String> getParams(){
-				Map<String,String> params = new HashMap<String, String>();
+				Map<String,String> params = new HashMap<>();
 				params.put("token",token_recieved);
 				params.put("name",personName);
 				params.put("rollNo",RollNo);
@@ -634,7 +632,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 
 	}
-	public void SignUp(View view)
+	public void SignUpButton(View view)
 	{
 
 		if (Check() && !( (String) ( (Button) findViewById(R.id.signup_Email) ).getText() ).trim().equals(""))

@@ -9,7 +9,6 @@ import com.nitkkr.gawds.tech16.activity.Login;
 import com.nitkkr.gawds.tech16.database.Database;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Home Laptop on 07-Nov-16.

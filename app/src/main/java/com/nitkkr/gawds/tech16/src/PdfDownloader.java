@@ -108,7 +108,7 @@ public class PdfDownloader
 
 		Downloading.put(getFileName(url),holder);
 
-		InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url.toString(),
+		InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url,
 				new Response.Listener<byte[]>()
 				{
 					@Override

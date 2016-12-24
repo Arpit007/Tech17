@@ -9,7 +9,6 @@
     tools:context="com.nitkkr.gawds.tech16.activity.Splash"
     android:backgroundTint="@color/app_background"
     android:background="@color/app_background">
-    tools:context="com.nitkkr.gawds.tech16.Activity.Splash">
       <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"

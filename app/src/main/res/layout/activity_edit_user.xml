@@ -32,6 +32,7 @@
         android:layout_width="match_parent" android:layout_height="200dp">
 
         <com.nitkkr.gawds.tech16.src.CircularTextView
+            android:textColor="@color/text_color_primary"
             android:id="@+id/view_user_Image_Letter" android:visibility="visible"
             android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"
@@ -48,7 +49,7 @@
             android:tint="@color/app_background"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
-            android:layout_marginLeft="-45dp"
+            android:layout_marginStart="-45dp"
             android:layout_alignBottom="@+id/view_user_Image_Letter"
             android:layout_toEndOf="@+id/view_user_Image_Letter"/>
 
@@ -74,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="center"
-
+                android:hint="Name"
                 android:textColor="@color/neon_green"
                 android:layout_toEndOf="@+id/view"
                 android:layout_alignParentBottom="true"/>
@@ -88,7 +89,7 @@
                 android:id="@+id/view"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/name_view"
-                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
                 />
 
             <ImageView
@@ -139,7 +140,7 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/text_color_primary"
                 android:textAlignment="center"
-                android:layout_toRightOf="@+id/view22"
+                android:layout_toEndOf="@+id/view22"
                 android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>
@@ -178,7 +179,7 @@
                 android:textAlignment="center"
 
                 android:textColor="@color/text_color_primary"
-                android:layout_toRightOf="@+id/view23"
+                android:layout_toEndOf="@+id/view23"
                 android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>
@@ -207,7 +208,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/roll_no_view"
                 android:layout_toEndOf="@+id/roll_no_view"
-                android:layout_marginLeft="11dp"
                 android:layout_marginStart="11dp"
                 />
             <TextView
@@ -216,7 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="center"
-                android:layout_toRightOf="@+id/view24"
+                android:layout_toEndOf="@+id/view24"
                 android:textColor="@color/text_color_primary"
                 android:layout_alignParentBottom="true"/>
 
@@ -233,7 +233,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@drawable/branch"
-                android:layout_marginLeft="7dp"
+                android:layout_marginStart="7dp"
                 android:backgroundTint="@color/neon_green"
                 android:id="@+id/branch_view"/>
             <View
@@ -255,7 +255,7 @@
                 android:text="IT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:textAlignment="center"
                 android:textColor="@color/User_Image_Fill_Color"
                 android:backgroundTint="#fff"
@@ -276,7 +276,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@drawable/year"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:backgroundTint="@color/neon_green"
                 android:id="@+id/year_view"/>
             <View
@@ -297,7 +297,7 @@
                 android:id="@+id/user_Year"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:textAlignment="center"
                 android:textColor="@color/User_Image_Fill_Color"
                 android:backgroundTint="@color/User_Image_Fill_Color"
@@ -341,6 +341,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="center"
+                android:inputType="phone"
                 android:layout_alignParentTop="true"
                 android:textColor="@color/neon_green"
                 android:layout_toEndOf="@+id/view26"/>

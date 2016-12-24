@@ -10,14 +10,9 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nitkkr.gawds.tech16.activity.Event;
-import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.database.Database;
-import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.model.EventModel;
-import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 
 import java.util.ArrayList;
 

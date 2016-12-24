@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.android.volley.NetworkError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 

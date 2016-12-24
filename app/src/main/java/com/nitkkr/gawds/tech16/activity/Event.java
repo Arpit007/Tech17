@@ -44,6 +44,7 @@ import java.util.Locale;
 public class Event extends AppCompatActivity implements EventModel.EventStatusListener
 {
 	private final int REGISTER=100;
+	private EventKey key;
 	private EventModel model;
 	private ActionBarBack actionBar;
 	private AlertDialog alertDialog;
@@ -69,7 +70,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 					{
 						Intent intent=new Intent(Event.this,ViewTeam.class);
 						Bundle bundle=new Bundle();
-						bundle.putSerializable("Event",(EventKey)model);
+						bundle.putSerializable("Event",key);
 						intent.putExtras(bundle);
 						startActivity(intent);
 					}
@@ -170,9 +171,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 						{
 							Intent intent = new Intent(Event.this, CreateTeam.class);
 							Bundle bundle=new Bundle();
-							bundle.putSerializable("Event",model);
+							bundle.putSerializable("Event",key);
 							intent.putExtras(bundle);
-							startActivityForResult(new Intent(Event.this, CreateTeam.class), REGISTER);
+							startActivityForResult(intent, REGISTER);
 						}
 					}
 					else
@@ -239,7 +240,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		TabLayout tabLayout=(TabLayout)findViewById(R.id.event_tab_layout);
 		ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
 
-		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
+		key = (EventKey) getIntent().getExtras().getSerializable("Event");
 		model= Database.getInstance().getEventsDB().getEvent(key);
 
 		setupViewPager(viewPager,model);

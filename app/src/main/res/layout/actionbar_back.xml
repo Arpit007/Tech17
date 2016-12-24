@@ -4,7 +4,7 @@
                 android:background="@color/action_bar_color"
               android:layout_height="match_parent">
     <ImageButton
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true" android:id="@+id/actionbar_back"
         android:src="@drawable/icon_back"
         android:padding="10dp"
@@ -13,7 +13,7 @@
 
     <ImageButton
         android:layout_centerVertical="true" android:id="@+id/temp_Button"
-        android:layout_alignParentRight="true" android:visibility="invisible"
+        android:layout_alignParentEnd="true" android:visibility="invisible"
         android:padding="10dp"
         android:src="@drawable/icon_back" android:background="#00000000"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -24,7 +24,7 @@
         android:textColor="@color/text_color_primary"
         android:textAlignment="center" android:layout_centerVertical="true"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/temp_Button" android:layout_toStartOf="@id/temp_Button"
-        android:layout_toRightOf="@+id/actionbar_back" android:layout_toEndOf="@+id/actionbar_back"/>
+        android:layout_toStartOf="@id/temp_Button"
+        android:layout_toEndOf="@+id/actionbar_back"/>
 
 </RelativeLayout>

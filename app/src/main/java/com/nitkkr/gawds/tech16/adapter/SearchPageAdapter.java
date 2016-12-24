@@ -13,10 +13,8 @@ import android.widget.TextView;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.activity.Exhibition;
-import com.nitkkr.gawds.tech16.activity.ListPage;
 import com.nitkkr.gawds.tech16.api.EventTargetType;
 import com.nitkkr.gawds.tech16.database.Database;
-import com.nitkkr.gawds.tech16.model.EventKey;
 
 import java.util.ArrayList;
 

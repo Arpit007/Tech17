@@ -96,14 +96,21 @@ public class ViewUser extends AppCompatActivity
 		{
 			CircularTextView view=(CircularTextView)findViewById(R.id.view_user_Image_Letter);
 
-			view.setText(model.getName().toUpperCase().charAt(0));
+			if(model.getName().isEmpty())
+				view.setText("#");
+			else view.setText(String.valueOf(model.getName().trim().toUpperCase().charAt(0)));
+
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array=getResources().obtainTypedArray(R.array.Flat_Colors);
 
-			int colorPos=(model.getName().toLowerCase().charAt(0)-'a')%array.length();
+			int colorPos;
+			if(model.getName().isEmpty())
+				colorPos=Math.abs(('#'-'a'))%array.length();
+			else colorPos = Math.abs(model.getName().trim().toLowerCase().charAt(0)-'a')%array.length();
 
 			view.setFillColor(array.getColor(colorPos,0));
+			view.setBorderWidth(2);
 			view.setBorderColor(ContextCompat.getColor(this,R.color.User_Image_Border_Color));
 
 			array.recycle();

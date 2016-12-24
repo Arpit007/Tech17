@@ -11,9 +11,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.adapter.RegisterTeamAdapter;
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
+import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.model.TeamModel;
 import com.nitkkr.gawds.tech16.R;
@@ -38,7 +40,8 @@ public class ViewTeam extends AppCompatActivity
 		barBack=new ActionBarBack(ViewTeam.this);
 		barBack.setLabel("");
 
-		model=(EventModel)getIntent().getExtras().getSerializable("Event");
+		EventKey key=(EventKey) getIntent().getExtras().getSerializable("Event");
+		model= Database.getInstance().getEventsDB().getEvent(key);
 
 		progressDialog=new ProgressDialog(ViewTeam.this);
 		progressDialog.setMessage("Loading, Please Wait");

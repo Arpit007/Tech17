@@ -142,10 +142,13 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
 
             //Log.v(TAG, "display name: " + acct.getDisplayName());
 
-            personName = acct.getDisplayName();
-            personPhotoUrl = acct.getPhotoUrl().toString();
-            email = acct.getEmail();
-            token_user=acct.getIdToken().toString();
+            if(acct!=null)
+            {
+                personName = acct.getDisplayName();
+                personPhotoUrl = acct.getPhotoUrl().toString();
+                email = acct.getEmail();
+                token_user = acct.getIdToken();
+            }
 //            Log.e(TAG, "Name: " + personName + ", email: " + email
 //                    + ", Image: " + personPhotoUrl+" token :"+token_user);
 
@@ -228,7 +231,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 }){
             @Override
             protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
+                Map<String,String> params = new HashMap<>();
                 params.put("idToken",token_user);
                 return params;
             }
@@ -322,7 +325,7 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                         JSONObject response= null,status=null;
                         JSONArray data;
                         String message,RollNo,PhoneNumber,Branch,Year,College,Gender;
-                        ArrayList<String> interests=new ArrayList<String>();
+                        ArrayList<String> interests=new ArrayList<>();
                         int code;
                         try {
                             response = new JSONObject(res);

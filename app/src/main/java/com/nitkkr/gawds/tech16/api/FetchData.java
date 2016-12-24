@@ -225,7 +225,7 @@ public class FetchData
             @Override
             protected Map<String,String> getParams()
             {
-                Map<String,String> params = new HashMap<String, String>();
+                Map<String,String> params = new HashMap<>();
                 params.put("token",AppUserModel.MAIN_USER.getToken());
                 params.put("name",main_user.getName());
                 params.put("rollNo",main_user.getRoll());

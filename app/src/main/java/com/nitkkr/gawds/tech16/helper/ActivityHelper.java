@@ -15,7 +15,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.activity.Splash;
 import com.nitkkr.gawds.tech16.api.Query;
 import com.nitkkr.gawds.tech16.activity.Home;
 import com.nitkkr.gawds.tech16.activity.ListPage;

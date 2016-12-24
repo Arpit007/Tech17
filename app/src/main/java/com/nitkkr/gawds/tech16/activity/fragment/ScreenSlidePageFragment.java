@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.helper.App;
-import com.nitkkr.gawds.tech16.src.Typewriter;
 
 /**
  * Created by Dell on 22-Dec-16.
