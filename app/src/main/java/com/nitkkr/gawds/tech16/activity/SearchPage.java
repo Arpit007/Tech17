@@ -26,6 +26,8 @@ public class SearchPage extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_page);
 
+		ActivityHelper.setCreateAnimation(this);
+
 		ActivityHelper.setStatusBarColor(this);
 
 		listView=(ListView)findViewById(R.id.event_list);
@@ -79,6 +81,8 @@ public class SearchPage extends AppCompatActivity
 	{
 		if(actionBarSearch.backPressed())
 		{
+			ActivityHelper.setExitAnimation(this);
+
 			if(ActivityHelper.revertToHomeIfLast(SearchPage.this))
 				return;
 

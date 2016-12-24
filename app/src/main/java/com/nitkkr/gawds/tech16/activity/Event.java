@@ -230,7 +230,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		actionBar = new ActionBarBack(this);
@@ -320,6 +320,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else
 		{
+			ActivityHelper.setExitAnimation(this);
 			PdfDownloader.getInstance().removeListener(model.getPdfLink());
 			if(ActivityHelper.revertToHomeIfLast(Event.this))
 				return;

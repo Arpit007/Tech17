@@ -2,15 +2,16 @@ package com.nitkkr.gawds.tech16.helper;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.transition.Slide;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -61,7 +62,6 @@ public class ActivityHelper
 	public static void revertToHome(Activity activity)
 	{
 		Intent intent=new Intent(activity,Home.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		activity.startActivity(intent);
 		activity.finish();
 	}
@@ -88,5 +88,14 @@ public class ActivityHelper
 		ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 		return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+	}
+
+	public static  void setCreateAnimation(Activity activity)
+	{
+		activity.overridePendingTransition(R.anim.anim_right_in,R.anim.anim_none);
+	}
+	public static  void setExitAnimation(Activity activity)
+	{
+		activity.overridePendingTransition(R.anim.anim_none,R.anim.anim_right_out);
 	}
 }

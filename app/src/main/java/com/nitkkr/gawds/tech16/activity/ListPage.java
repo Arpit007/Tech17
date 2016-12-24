@@ -37,7 +37,7 @@ public class ListPage extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_page);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		actionBarSearch=new ActionBarSearch(ListPage.this, new iActionBar()
@@ -145,9 +145,15 @@ public class ListPage extends AppCompatActivity
 	{
 		if(!actionBarSearch.backPressed())
 		{
+			ActivityHelper.setExitAnimation(this);
+
 			ActivityHelper.revertToHomeIfLast(ListPage.this);
 		}
 		else
-		super.onBackPressed();
+		{
+			ActivityHelper.setExitAnimation(this);
+
+			super.onBackPressed();
+		}
 	}
 }

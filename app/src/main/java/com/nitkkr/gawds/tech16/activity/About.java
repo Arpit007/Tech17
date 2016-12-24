@@ -30,6 +30,8 @@ public class About extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 
+		ActivityHelper.setCreateAnimation(this);
+
 		isLogin=getIntent().getBooleanExtra("Login",false);
 
 		ActivityHelper.setStatusBarColor(About.this);
@@ -131,6 +133,8 @@ public class About extends FragmentActivity {
 			}
 			return;
 		}
+
+		ActivityHelper.setExitAnimation(this);
 
 		if(ActivityHelper.revertToHomeIfLast(About.this))
 			return;

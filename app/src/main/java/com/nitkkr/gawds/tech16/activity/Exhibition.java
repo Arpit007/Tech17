@@ -40,7 +40,7 @@ public class Exhibition extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_exhibition);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		actionBarBack = new ActionBarBack(Exhibition.this);
@@ -202,6 +202,8 @@ public class Exhibition extends AppCompatActivity
 	{
 		if(progressDialog!=null && progressDialog.isShowing())
 			return;
+
+		ActivityHelper.setExitAnimation(this);
 
 		if(ActivityHelper.revertToHomeIfLast(Exhibition.this))
 			return;

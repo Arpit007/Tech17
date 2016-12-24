@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech16.helper;
 
+import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -73,7 +74,6 @@ public class ActionBarNavDrawer
 			}
 
 			intent=new Intent(activity,EventListPage.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			activity.startActivity(intent);
 			activity.finish();
 		}
@@ -204,6 +204,7 @@ public class ActionBarNavDrawer
 					Intent intent=new Intent(activity, SearchPage.class);
 					intent.putExtra("Data_Type","All");
 					activity.startActivity(new Intent(activity, SearchPage.class));
+					ActivityHelper.setCreateAnimation(activity);
 				}
 				else
 				{

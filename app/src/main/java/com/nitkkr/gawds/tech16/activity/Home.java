@@ -27,6 +27,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		ActivityHelper.setCreateAnimation(this);
 
 		ActivityHelper.setStatusBarColor(this);
 
@@ -76,6 +77,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 			}
 			else
 			{
+				ActivityHelper.setExitAnimation(this);
+
 				super.onBackPressed();
 			}
 		}

@@ -22,7 +22,7 @@ public class EventListPage extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_list);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		barNavDrawer=new ActionBarNavDrawer(EventListPage.this, new iActionBar()
@@ -75,6 +75,8 @@ public class EventListPage extends AppCompatActivity
 	{
 		if(!barNavDrawer.onBackPressed())
 		{
+			ActivityHelper.setExitAnimation(this);
+
 			if(ActivityHelper.revertToHomeIfLast(EventListPage.this))
 				return;
 

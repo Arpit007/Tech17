@@ -20,7 +20,7 @@ public class AvatarPicker extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_avatar_picker);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		ActionBarBack barBack=new ActionBarBack(AvatarPicker.this);
@@ -35,6 +35,7 @@ public class AvatarPicker extends AppCompatActivity
 				Intent intent=new Intent();
 				intent.putExtra("ID",i);
 				setResult(RESULT_OK,intent);
+				ActivityHelper.setExitAnimation(AvatarPicker.this);
 				finish();
 			}
 		});
@@ -44,6 +45,7 @@ public class AvatarPicker extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		ActivityHelper.setExitAnimation(this);
 		if(ActivityHelper.revertToHomeIfLast(AvatarPicker.this))
 			return;
 		super.onBackPressed();

@@ -53,7 +53,7 @@ public class EditUser extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_user);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		Initialise();
@@ -330,6 +330,7 @@ public class EditUser extends AppCompatActivity
 		if(progressDialog!=null && progressDialog.isShowing())
 			return;
 
+		ActivityHelper.setExitAnimation(this);
 		if(ActivityHelper.revertToHomeIfLast(EditUser.this))
 			return;
 		super.onBackPressed();
@@ -376,6 +377,7 @@ public class EditUser extends AppCompatActivity
 				@Override
 				public void run()
 				{
+					ActivityHelper.setExitAnimation(EditUser.this);
 					EditUser.this.finish();
 				}
 			},getResources().getInteger(R.integer.AutoCloseDuration));

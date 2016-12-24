@@ -29,7 +29,7 @@ public class ViewUser extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_user);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		model=(UserModel)getIntent().getExtras().getSerializable("User");
@@ -125,6 +125,8 @@ public class ViewUser extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		ActivityHelper.setExitAnimation(this);
+
 		if(ActivityHelper.revertToHomeIfLast(ViewUser.this))
 			return;
 		super.onBackPressed();

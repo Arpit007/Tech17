@@ -33,7 +33,7 @@ public class Interests extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_interests);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		ListView listView = (ListView) findViewById(R.id.interest_list);
@@ -67,6 +67,9 @@ public class Interests extends AppCompatActivity
 						bundle.putSerializable("Interests",adapter.getFinalList());
 						data.putExtras(bundle);
 						setResult(RESULT_OK,data);
+
+						ActivityHelper.setExitAnimation(Interests.this);
+
 						finish();
 					}
 					else sendInterests();
@@ -147,6 +150,7 @@ public class Interests extends AppCompatActivity
 					Intent intent=new Intent();
 					intent.putExtra("Logged_In",true);
 					setResult(RESULT_OK,intent);
+					ActivityHelper.setExitAnimation(this);
 				}
 				finish();
 				break;
@@ -181,6 +185,8 @@ public class Interests extends AppCompatActivity
 	{
 		if (mProgressDialog!=null && mProgressDialog.isShowing())
 			return;
+		ActivityHelper.setExitAnimation(this);
+
 		super.onBackPressed();
 	}
 }

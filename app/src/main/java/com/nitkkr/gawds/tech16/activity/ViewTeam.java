@@ -34,7 +34,7 @@ public class ViewTeam extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_team);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		barBack=new ActionBarBack(ViewTeam.this);
@@ -64,6 +64,8 @@ public class ViewTeam extends AppCompatActivity
 					@Override
 					public void run()
 					{
+						ActivityHelper.setExitAnimation(ViewTeam.this);
+
 						finish();
 					}
 				},getResources().getInteger(R.integer.AutoCloseDuration));
@@ -75,6 +77,8 @@ public class ViewTeam extends AppCompatActivity
 					@Override
 					public void run()
 					{
+						ActivityHelper.setExitAnimation(ViewTeam.this);
+
 						finish();
 					}
 				},getResources().getInteger(R.integer.AutoCloseDuration));
@@ -109,6 +113,8 @@ public class ViewTeam extends AppCompatActivity
 	{
 		if(progressDialog!=null && progressDialog.isShowing())
 			return;
+
+		ActivityHelper.setExitAnimation(this);
 
 		if(ActivityHelper.revertToHomeIfLast(ViewTeam.this))
 			return;

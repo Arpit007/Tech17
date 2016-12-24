@@ -57,7 +57,7 @@ public class DashboardPage extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
+        ActivityHelper.setCreateAnimation(this);
         ActivityHelper.setStatusBarColor(DashboardPage.this);
 
         barBack=new ActionBarSearch(DashboardPage.this, new iActionBar()
@@ -78,6 +78,7 @@ public class DashboardPage extends AppCompatActivity
         int ID=getIntent().getIntExtra("Navigation",-1);
         if(ID==-1)
         {
+            ActivityHelper.setExitAnimation(this);
             finish();
             return;
         }
@@ -251,6 +252,7 @@ public class DashboardPage extends AppCompatActivity
     {
         if(barBack.backPressed())
         {
+            ActivityHelper.setExitAnimation(this);
             super.onBackPressed();
         }
     }

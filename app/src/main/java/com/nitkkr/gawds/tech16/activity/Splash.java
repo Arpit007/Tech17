@@ -78,6 +78,8 @@ public class Splash extends AppCompatActivity
 				startActivity(intent);
 			}
 
+			ActivityHelper.setExitAnimation(Splash.this);
+
 			finish();
 		}
 	};
@@ -90,6 +92,10 @@ public class Splash extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 
 		ActivityHelper.setApplictionContext(getApplicationContext());
+
+		ActivityHelper.setCreateAnimation(this);
+
+		//overridePendingTransition(R.anim.anim_right_in,R.anim.anim_left_out);
 
 		if(!ActivityHelper.isDebugMode(getApplicationContext()))
 		{

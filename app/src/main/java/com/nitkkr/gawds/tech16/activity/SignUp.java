@@ -3,7 +3,6 @@ package com.nitkkr.gawds.tech16.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -93,7 +92,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
-
+		ActivityHelper.setCreateAnimation(this);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 		if(!AppUserModel.MAIN_USER.isUserLoggedIn(this))
@@ -672,6 +671,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		{
 			if (mProgressDialog!=null && mProgressDialog.isShowing())
 				return;
+
+			ActivityHelper.setExitAnimation(this);
 
 			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 

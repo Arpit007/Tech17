@@ -34,7 +34,7 @@ public class CreateTeam extends AppCompatActivity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_team);
-
+		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
 		EventKey key=( EventKey) getIntent().getSerializableExtra("Event");
@@ -111,7 +111,7 @@ public class CreateTeam extends AppCompatActivity
 				Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
 				Database.getInstance().getNotificationDB().UpdateTable();
 				eventModel.callStatusListener();
-
+				ActivityHelper.setExitAnimation(this);
 				finish();
 				break;
 			default:
@@ -123,6 +123,7 @@ public class CreateTeam extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		ActivityHelper.setExitAnimation(this);
 		if(ActivityHelper.revertToHomeIfLast(CreateTeam.this))
 			return;
 		super.onBackPressed();
