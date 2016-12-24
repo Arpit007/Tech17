@@ -1,11 +1,13 @@
 package com.nitkkr.gawds.tech16.activity.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.model.EventModel;
@@ -35,8 +37,15 @@ public class AboutEvent extends Fragment
     {
         View view= inflater.inflate(R.layout.fragment_about,container,false);
 
-        (( TextView)view.findViewById(R.id.Event_Content)).setText(model.getDescription());
-
+        WebView webView=(WebView)view.findViewById(R.id.Event_Content);
+        String text = "<html><head>"
+                + "<style type=\"text/css\">body{color: #fff; }"
+                + "</style></head>"
+                + "<body>"
+                + model.getDescription()
+                + "</body></html>";
+        webView.loadDataWithBaseURL(null,text,"text/html","utf-8",null);
+        webView.setBackgroundColor(Color.TRANSPARENT);
         return view;
     }
 }

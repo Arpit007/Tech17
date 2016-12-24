@@ -5,7 +5,7 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <WebView
         android:id="@+id/Event_Content"
         android:text=""
         android:textColor="@color/text_color_primary"
