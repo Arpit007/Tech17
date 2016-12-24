@@ -78,8 +78,9 @@ public class ActivityHelper
 
 	public static boolean isDebugMode(Context context)
 	{
-		int appFlags=context.getApplicationInfo().flags;
-		return (appFlags & ApplicationInfo.FLAG_DEBUGGABLE)!=0;
+		//int appFlags=context.getApplicationInfo().flags;
+		//return (appFlags & ApplicationInfo.FLAG_DEBUGGABLE)!=0;
+		return false;
 	}
 
 	public static boolean isInternetConnected()

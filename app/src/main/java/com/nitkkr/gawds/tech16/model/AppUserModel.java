@@ -38,12 +38,20 @@ public class AppUserModel extends UserModel implements Cloneable
 
 	public String selectedInterestsToString()
 	{
-		StringBuilder stringBuilder=new StringBuilder("[");
-
+		ArrayList<InterestModel> models=new ArrayList<>();
 		for(InterestModel model:Interests)
 		{
 			if(model.isSelected())
-				stringBuilder.append(",").append(model.getID());
+				models.add(model);
+		}
+		if (models.size()==0)
+			return "";
+
+		StringBuilder stringBuilder=new StringBuilder("[");
+
+		for(InterestModel model:models)
+		{
+			stringBuilder.append(",").append(model.getID());
 		}
 
 		stringBuilder.append("]");
@@ -54,12 +62,23 @@ public class AppUserModel extends UserModel implements Cloneable
 
 	public String unSelectedInterestsToString()
 	{
-		StringBuilder stringBuilder=new StringBuilder("[");
+
+		ArrayList<InterestModel> models=new ArrayList<>();
 
 		for(InterestModel model:Interests)
 		{
-			if(!model.isSelected())
-				stringBuilder.append(",").append(model.getID());
+			if(!model.isSelected() && Database.getInstance().getInterestDB().getInterestModel(model.getID()).isSelected())
+				models.add(model);
+		}
+
+		if (models.size()==0)
+			return "";
+
+		StringBuilder stringBuilder=new StringBuilder("[");
+
+		for(InterestModel model:models)
+		{
+			stringBuilder.append(",").append(model.getID());
 		}
 
 		stringBuilder.append("]");
