@@ -335,6 +335,7 @@ public class FetchData
 
                             if(response.getJSONObject("status").getInt("code")==200)
                             {
+                                Log.v("DEBUG",response.toString());
                                 if(callback!=null)
                                     callback.onResponse(ResponseStatus.SUCCESS);
                             }
@@ -358,6 +359,7 @@ public class FetchData
                     public void onErrorResponse(VolleyError error)
                     {
                         error.printStackTrace();
+                        Log.v("DEBUG",error.toString());
                         if (callback!=null)
                             if(error instanceof TimeoutError || error instanceof NetworkError)
                                 callback.onResponse(ResponseStatus.NONE);
@@ -1256,160 +1258,6 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-    public void getEventByCategory(final Context context, final ArrayList<InterestModel> list){
-        FetchResponseHelper.getInstance().incrementRequestCount();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-                context.getResources().getString(R.string.get_events_list),
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String res)
-                    {
-
-                        JSONObject response;
-                        JSONArray data, coordinators;
-                        int code;
-
-                        try
-                        {
-                            response = new JSONObject(res);
-                            data = response.getJSONArray("data");
-                            code = response.getJSONObject("status").getInt("code");
-
-                            if (code == 200)
-                            {
-                             //   ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getAllEvents();
-                               // int Size=eventModels.size();
-
-                                ArrayList<EventModel> eventList=new ArrayList<>();
-                                ArrayList<ExhibitionModel> exhibitionList=new ArrayList<>();
-                                ArrayList<ExhibitionModel> informalzList=new ArrayList<>();
-
-                                ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
-
-                                for (int i = 0; i < data.length(); i++)
-                                {
-
-                                    JSONObject jEvent = data.getJSONObject(i);
-
-                                    int ID=jEvent.getInt("Id"), index=-1;
-
-//                                    for(int x=0;x<Size;x++)
-//                                    {
-//                                        if(eventModels.get(x).getEventID()==ID)
-//                                        {
-//                                            eventModel=eventModels.get(x);
-//                                            index=x;
-//                                            break;
-//                                        }
-//                                    }
-                                    int CategoryId=jEvent.getInt("CategoryId");
-
-                                    boolean isEvent=true,isInformal=false;
-                                    for(int j=0;j<list.size();j++){
-
-                                        if(CategoryId==list.get(j).getID() && list.get(j).getInterest().equals("Informals")){
-                                            isEvent=false;
-                                            isInformal=true;
-                                            break;
-
-                                        }else if(CategoryId==list.get(j).getID() && list.get(j).getInterest().equals("Exhibition")) {
-                                            isEvent=false;
-                                            break;
-                                        }
-                                    }
-
-                                    if(isEvent){
-                                        EventModel eventModel = new EventModel();
-                                        eventModel.setEventID(ID);
-                                        eventModel.setEventName(jEvent.getString("Name"));
-                                        eventModel.setDescription(jEvent.getString("Description"));
-                                        eventModel.setVenue(jEvent.getString("Venue"));
-                                        eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
-                                        eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
-                                        eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
-                                        eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
-                                        //eventModel.setStatus(jEvent.getString("Status"));
-                                        eventModel.setPdfLink(jEvent.getString("Pdf"));
-                                        eventModel.setRules(jEvent.getString("Rules"));
-                                        eventModel.setCategory(jEvent.getInt("CategoryId"));
-                                        eventModel.setSociety(jEvent.getInt("SocietyId"));
-
-                                        coordinators = jEvent.getJSONArray("Coordinators");
-
-                                        for (int z = 0; z < coordinators.length(); z++)
-                                        {
-                                            JSONObject jCoordinator = coordinators.getJSONObject(z);
-                                            CoordinatorModel coordinatorModel = new CoordinatorModel();
-                                            coordinatorModel.setEventID(eventModel.getEventID());
-                                            coordinatorModel.setName(jCoordinator.getString("Name"));
-                                            coordinatorModel.setMobile(String.valueOf(jCoordinator.getLong("PhoneNo")));
-                                            coordinatorModel.setEmail(jCoordinator.getString("Email"));
-                                            coordinatorModel.setDesignation("Coordinator");
-                                            coordinatorModels.add(coordinatorModel);
-                                        }
-                                        eventList.add(eventModel);
-                                        //add to event db
-                                    }else{
-                                        ExhibitionModel model=new ExhibitionModel();
-                                        model.setEventID(jEvent.getInt("Id"));
-                                        model.setEventName(jEvent.getString("GuestName"));
-                                        model.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
-                                        model.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
-                                        model.setImage_URL(jEvent.getString("Photo"));
-                                        model.setDescription(jEvent.getString("Description"));
-                                        model.setAuthor(jEvent.getString("GuestName"));
-                                        model.setVenue(jEvent.getString("Venue"));
-                                        model.setGTalk(false);
-                                        //add to exhibitiondb or informaldb
-                                        if(isInformal){
-                                            informalzList.add(model);
-                                        }else{
-                                            exhibitionList.add(model);
-                                        }
-                                    }
-
-
-
-//                                    if(index==-1)
-//                                        eventModels.add(eventModel);
-
-
-                                }
-
-                               // Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
-                                //Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
-
-                                FetchResponseHelper.getInstance().incrementResponseCount(null);
-                                Log.v("DEBUG", data.toString());
-                            }
-                            else
-                            {
-                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                            }
-                        }
-                        catch (JSONException e)
-                        {
-                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        FetchResponseHelper.getInstance().incrementResponseCount(error);
-                        error.printStackTrace();
-                    }
-                });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-    }
 
 
     public  void fetchAll(final Context context)

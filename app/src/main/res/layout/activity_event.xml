@@ -126,7 +126,6 @@
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="45dp"
             >
 
         <android.support.design.widget.TabLayout
@@ -166,12 +165,11 @@
             android:layout_height="110dp"
             android:layout_above="@+id/Event_Members" android:layout_alignParentEnd="true"/>
         <LinearLayout android:layout_width="match_parent"
-                      android:orientation="horizontal"
-                      android:id="@+id/button_Wrap"
-                      android:layout_height="100dp"
-                      android:layout_alignTop="@+id/about_container"
-                      android:layout_alignParentStart="true"
-                      android:layout_marginTop="268dp">
+                          android:orientation="horizontal"
+                          android:id="@+id/button_Wrap"
+                          android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:layout_alignParentStart="true">
 
 
             <Button
@@ -182,7 +180,7 @@
                 android:textColor="@color/text_color_primary"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-               />
+            />
             <Button
                 android:text="Register" android:id="@+id/Event_Register"
                 android:background="@drawable/border_button"
