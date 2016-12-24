@@ -117,20 +117,10 @@ public class ActionBarNavDrawer
 		else if (id == R.id.link)
 		{
 			String url = "http://techspardha.org/";
-			try
-			{
-				Intent i = new Intent("android.intent.action.MAIN");
-				i.setComponent(ComponentName.unflattenFromString("com.android.chrome/com.android.chrome.Main"));
-				i.addCategory("android.intent.category.LAUNCHER");
-				i.setData(Uri.parse(url));
-				activity.startActivity(i);
-			}
-			catch (ActivityNotFoundException e)
-			{
-				// Chrome is not installed
-				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-				activity.startActivity(i);
-			}
+			Intent i = new Intent(Intent.ACTION_VIEW);
+			i.setData(Uri.parse(url));
+			activity.startActivity(i);
+
 		}
 	}
 

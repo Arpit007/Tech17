@@ -105,20 +105,13 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         RelativeLayout rl=(RelativeLayout) findViewById(R.id.activity_login);
 
 
-//        Bitmap bk=App.decodeSampledBitmapFromResource(getResources(),R.drawable.login_bk3,300,300);
-//        Drawable bd=new BitmapDrawable(getResources(),bk);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//            rl.setBackground(bd);
-//        }else{
-//            rl.setBackgroundDrawable(bd);
-//        }
-
         lower = findViewById(R.id.view2);
         upper = findViewById(R.id.view3);
         slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
         slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
         runAnimationUp.start();
         runAnimationDown.start();
+
     }
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
