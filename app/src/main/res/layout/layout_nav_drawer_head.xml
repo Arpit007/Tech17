@@ -25,6 +25,12 @@
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"
             android:layout_width="match_parent" android:layout_height="match_parent"/>
 
+        <com.nitkkr.gawds.tech16.src.CircularTextView
+            android:id="@+id/temp_user_Image_Letter" android:visibility="invisible"
+            android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+            android:layout_width="match_parent" android:layout_height="match_parent"/>
+
         <de.hdodenhof.circleimageview.CircleImageView
             app:border_color="@color/User_Image_Border_Color" app:border_width="@dimen/User_Image_Border_Width"
             android:id="@+id/nav_User_Image" android:src="@drawable/avatar_1"

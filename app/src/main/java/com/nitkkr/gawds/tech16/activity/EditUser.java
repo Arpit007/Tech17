@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -64,6 +65,12 @@ public class EditUser extends AppCompatActivity
 			{
 				if(Check())
 				{
+					if(!ActivityHelper.isInternetConnected())
+					{
+						Snackbar.make(findViewById(android.R.id.content), "No Network Connection", Snackbar.LENGTH_SHORT).show();
+						return;
+					}
+
 					progressDialog=new ProgressDialog(EditUser.this);
 					progressDialog.setMessage("Uploading Changes...");
 					progressDialog.setCancelable(false);
@@ -76,11 +83,6 @@ public class EditUser extends AppCompatActivity
 							@Override
 							public void onResponse(ResponseStatus status)
 							{
-								if(status==ResponseStatus.FAILED)
-									Toast.makeText(EditUser.this,"Failed to Update Interests",Toast.LENGTH_LONG).show();
-								else if (status==ResponseStatus.NONE)
-									Toast.makeText(EditUser.this,"Network Error",Toast.LENGTH_LONG).show();
-
 								EditUser.this.onResponse(PROFILE,status);
 							}
 
@@ -90,16 +92,13 @@ public class EditUser extends AppCompatActivity
 								this.onResponse(status);
 							}
 						});
+					else EditUser.this.onResponse(PROFILE,ResponseStatus.SUCCESS);
 
 					FetchData.getInstance().updateUserDetails(getApplicationContext(), model, new iResponseCallback()
 					{
 						@Override
 						public void onResponse(ResponseStatus status)
 						{
-							if(status==ResponseStatus.FAILED)
-								Toast.makeText(EditUser.this,"Failed to Update Profile",Toast.LENGTH_LONG).show();
-							else if(status==ResponseStatus.NONE)
-								Toast.makeText(EditUser.this,"Network Error",Toast.LENGTH_LONG).show();
 							EditUser.this.onResponse(PROFILE,status);
 						}
 
@@ -146,6 +145,8 @@ public class EditUser extends AppCompatActivity
 						{
 							case R.id.google_Image:
 								AppUserModel.MAIN_USER.setUseGoogleImage(true);
+								AppUserModel.MAIN_USER.setImageId(-1);
+								AppUserModel.MAIN_USER.saveAppUser(getApplicationContext());
 								setImage();
 								break;
 
@@ -157,6 +158,7 @@ public class EditUser extends AppCompatActivity
 							case R.id.alphabet:
 								AppUserModel.MAIN_USER.setUseGoogleImage(false);
 								AppUserModel.MAIN_USER.setImageId(-1);
+								AppUserModel.MAIN_USER.saveAppUser(getApplicationContext());
 								setImage();
 								break;
 						}
@@ -251,6 +253,7 @@ public class EditUser extends AppCompatActivity
 			Glide.with(EditUser.this).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
 
 			findViewById(R.id.view_user_Image_Letter).setVisibility(View.INVISIBLE);
+			findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}
 		else if(AppUserModel.MAIN_USER.getImageId()!=-1)
 		{
@@ -262,8 +265,9 @@ public class EditUser extends AppCompatActivity
 			array.recycle();
 
 			CircularTextView circularTextView=(CircularTextView)findViewById(R.id.view_user_Image_Letter);
+			circularTextView.setVisibility(View.INVISIBLE);
+			circularTextView=(CircularTextView)findViewById(R.id.temp_user_Image_Letter);
 			circularTextView.setVisibility(View.VISIBLE);
-			circularTextView.setText("");
 			circularTextView.setFillColor(ContextCompat.getColor(this,R.color.User_Image_Fill_Color));
 		}
 		else
@@ -292,6 +296,7 @@ public class EditUser extends AppCompatActivity
 
 			array.recycle();
 
+			findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 			findViewById(R.id.view_user_Image).setVisibility(View.INVISIBLE);
 		}
 	}
@@ -343,6 +348,12 @@ public class EditUser extends AppCompatActivity
 		{
 			if (progressDialog!=null)
 				progressDialog.dismiss();
+
+			if(!(profileSuccess && interestSuccess))
+			{
+				Toast.makeText(getApplicationContext(),"Update Failed",Toast.LENGTH_LONG).show();
+				return;
+			}
 
 			if(!interestChanged || !interestSuccess)
 				model.setInterests(AppUserModel.MAIN_USER.getInterests());

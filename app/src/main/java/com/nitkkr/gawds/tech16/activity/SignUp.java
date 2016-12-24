@@ -3,6 +3,7 @@ package com.nitkkr.gawds.tech16.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -205,6 +206,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 						{
 							case R.id.google_Image:
 								AppUserModel.MAIN_USER.setUseGoogleImage(true);
+								AppUserModel.MAIN_USER.setImageId(-1);
 								setImage();
 								break;
 
@@ -283,12 +285,15 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		if(resultCode==RESULT_OK)
 		{
-			int ID = data.getIntExtra("ID", -1);
-			AppUserModel.MAIN_USER.setImageId(ID);
+			if(requestCode==AVATAR)
+			{
+				int ID = data.getIntExtra("ID", -1);
+				AppUserModel.MAIN_USER.setImageId(ID);
 
-			AppUserModel.MAIN_USER.setUseGoogleImage(( ID == -1 ));
+				AppUserModel.MAIN_USER.setUseGoogleImage(( ID == -1 ));
 
-			setImage();
+				setImage();
+			}
 		}
 	}
 	private void handleSignInResult(GoogleSignInResult result) {
@@ -414,6 +419,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			Glide.with(SignUp.this).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
 
 			findViewById(R.id.signup_user_Image_Letter).setVisibility(View.INVISIBLE);
+			findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}
 		else if(AppUserModel.MAIN_USER.getImageId()!=-1)
 		{
@@ -425,8 +431,9 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			array.recycle();
 
 			CircularTextView circularTextView=(CircularTextView)findViewById(R.id.signup_user_Image_Letter);
+			circularTextView.setVisibility(View.INVISIBLE);
+			circularTextView=(CircularTextView)findViewById(R.id.temp_user_Image_Letter);
 			circularTextView.setVisibility(View.VISIBLE);
-			circularTextView.setText("");
 			circularTextView.setFillColor(ContextCompat.getColor(this,R.color.User_Image_Fill_Color));
 		}
 		else
@@ -456,6 +463,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			array.recycle();
 
 			findViewById(R.id.signup_user_Image).setVisibility(View.INVISIBLE);
+			findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}
 	}
 

@@ -84,6 +84,13 @@
                 android:layout_centerHorizontal="true" android:layout_centerVertical="true"
                 android:layout_width="150dp" android:layout_height="150dp"/>
 
+            <com.nitkkr.gawds.tech16.src.CircularTextView
+                android:id="@+id/temp_user_Image_Letter" android:visibility="invisible"
+                android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
+                android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+                android:layout_width="150dp" android:layout_height="150dp"/>
+
+
             <de.hdodenhof.circleimageview.CircleImageView
                 app:border_color="@color/text_color_primary" app:border_width="@dimen/User_Image_Border_Width"
                 android:id="@+id/signup_user_Image" android:src="@drawable/avatar_1"
@@ -441,7 +448,6 @@
             android:layout_marginStart="1dp"
             android:layout_marginEnd="5dp"
             android:background="@drawable/border_button"
-            android:onClick="Authenticate"
             android:text="Select Email"
             android:ellipsize="end"
             android:layout_marginTop="30dp"

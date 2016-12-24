@@ -77,6 +77,7 @@ public class ViewUser extends AppCompatActivity
 			Glide.with(ViewUser.this).load(model.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
 
 			findViewById(R.id.view_user_Image_Letter).setVisibility(View.INVISIBLE);
+			findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}
 		else if(model.getImageId()!=-1)
 		{
@@ -88,8 +89,9 @@ public class ViewUser extends AppCompatActivity
 			array.recycle();
 
 			CircularTextView circularTextView=(CircularTextView)findViewById(R.id.view_user_Image_Letter);
+			circularTextView.setVisibility(View.INVISIBLE);
+			circularTextView=(CircularTextView)findViewById(R.id.temp_user_Image_Letter);
 			circularTextView.setVisibility(View.VISIBLE);
-			circularTextView.setText("");
 			circularTextView.setFillColor(ContextCompat.getColor(this,R.color.User_Image_Fill_Color));
 		}
 		else
@@ -116,6 +118,7 @@ public class ViewUser extends AppCompatActivity
 			array.recycle();
 
 			findViewById(R.id.view_user_Image).setVisibility(View.GONE);
+			findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}
 	}
 
