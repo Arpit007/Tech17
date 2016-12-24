@@ -223,12 +223,12 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 
 	public ArrayList<EventModel> getAllEvents()
 	{
-		return getEvents(DbConstants.EventNames.Informal.Name() + " = 0");
+		return getEvents("");
 	}
 
 	public ArrayList<EventModel> getRegisteredEvents()
 	{
-		return getEvents(DbConstants.EventNames.Registered.Name() + " = 1 AND " + DbConstants.EventNames.Informal.Name() + " = 0");
+		return getEvents(DbConstants.EventNames.Registered.Name() + " = 1");
 	}
 
 	public EventKey getEventKey(EventKey key)
@@ -344,12 +344,12 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 
 	public ArrayList<EventKey> getRegisteredEventKeys()
 	{
-		return getEventKeys(DbConstants.EventNames.Registered.Name() + " = 1 AND " + DbConstants.EventNames.Informal.Name() + " = 0");
+		return getEventKeys(DbConstants.EventNames.Registered.Name() + " = 1");
 	}
 
 	public ArrayList<EventKey> getAllEventKeys()
 	{
-		return getEventKeys(DbConstants.EventNames.Informal.Name() + " = 0");
+		return getEventKeys("");
 	}
 
 	public void deleteEvent(EventKey key)

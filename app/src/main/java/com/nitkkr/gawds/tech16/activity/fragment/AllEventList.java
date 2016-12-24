@@ -127,8 +127,7 @@ public class AllEventList extends Fragment
 
 		for(SocietyModel society: societies)
 		{
-			HashData.put(society.getName(),Database.getInstance().getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID() +
-					" AND " + DbConstants.EventNames.Informal.Name() + " = 0"));
+			HashData.put(society.getName(),Database.getInstance().getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID()));
 		}
 		listAdapter.setEvents(HashData);
 		listAdapter.notifyDataSetChanged();

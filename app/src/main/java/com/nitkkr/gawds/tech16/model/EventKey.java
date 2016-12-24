@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class EventKey implements Serializable
 {
-	private String Name;
+	private String Name="";
 	private int EventID;
 	private boolean Notify;
 	private int Society=0;

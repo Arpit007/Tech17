@@ -7,8 +7,8 @@ package com.nitkkr.gawds.tech16.model;
 public class SocietyModel
 {
 	private int ID;
-	private String Name;
-	private String Description;
+	private String Name="";
+	private String Description="";
 
 
 

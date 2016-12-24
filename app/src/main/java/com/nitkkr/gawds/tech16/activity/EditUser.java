@@ -377,6 +377,7 @@ public class EditUser extends AppCompatActivity
 				public void run()
 				{
 					EditUser.this.finish();
+					ActivityHelper.revertToHome(EditUser.this);
 					ActivityHelper.setExitAnimation(EditUser.this);
 				}
 			},getResources().getInteger(R.integer.AutoCloseDuration));

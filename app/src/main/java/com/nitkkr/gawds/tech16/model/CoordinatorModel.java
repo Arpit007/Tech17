@@ -13,10 +13,10 @@ import java.io.Serializable;
 public class CoordinatorModel implements Serializable
 {
 	private int EventID;
-	private String Name;
+	private String Name="";
 	private String Email="info@techspardha.org";
-	private String Mobile;
-	private String Designation;
+	private String Mobile="";
+	private String Designation="";
 
 	public String getName() {return Name;}
 	public String getEmail(){return Email;}
