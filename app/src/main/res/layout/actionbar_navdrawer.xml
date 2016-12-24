@@ -17,7 +17,8 @@
             android:id="@+id/actionbar_navButton"
             android:src="@drawable/icon_navigator"
             android:background="@color/action_bar_color"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
         <ImageButton

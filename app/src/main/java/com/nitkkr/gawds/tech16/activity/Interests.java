@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -95,11 +96,13 @@ public class Interests extends AppCompatActivity
 			{
 				if(status==ResponseStatus.SUCCESS)
 				{
+					Log.v("DEBUG","Interests send "+adapter.getFinalList().toString());
 					FetchData.getInstance().deleteInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
 					{
 						@Override
 						public void onResponse(ResponseStatus status)
 						{
+							Log.v("DEBUG","Interests deleted "+adapter.getFinalList().toString());
 							hideProgressDialog();
 							serverResponse(status);
 						}
@@ -115,6 +118,7 @@ public class Interests extends AppCompatActivity
 				}
 				else
 				{
+					Log.v("DEBUG","Interests send failed"+adapter.getFinalList().toString());
 					hideProgressDialog();
 					serverResponse(status);
 				}
