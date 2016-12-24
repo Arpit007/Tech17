@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.transition.Slide;
@@ -30,19 +31,25 @@ public class ActivityHelper
 
 	public static void setStatusBarColor(Activity activity)
 	{
-		setStatusBarColor(R.color.status_bar_color,activity);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+			setStatusBarColor(R.color.status_bar_color, activity);
+		}
 	}
 
 	public static void setStatusBarColor(int statusBarColorID, Activity activity)
 	{
-		Window window = activity.getWindow();
-		window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-		//window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-		window.setStatusBarColor(ContextCompat.getColor(activity, statusBarColorID));
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-		Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ts_logo2);
-		ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription("Techspardha", bm, ContextCompat.getColor(activity, R.color.pin_screen_color));
-		activity.setTaskDescription(taskDescription);
+			Window window = activity.getWindow();
+			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+			//window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			window.setStatusBarColor(ContextCompat.getColor(activity, statusBarColorID));
+
+			Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ts_logo2);
+			ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription("Techspardha", bm, ContextCompat.getColor(activity, R.color.pin_screen_color));
+			activity.setTaskDescription(taskDescription);
+		}
 	}
 
 	public static Context getApplicationContext(){return context;}

@@ -20,7 +20,7 @@ public class EventModel extends BaseEventModel implements Serializable
 		void EventStatusChanged(EventStatus status);
 	}
 
-	private String Rules;
+	private String Rules="";
 	private int MinUsers = 1;
 	private int MaxUsers = 1;
 	private int CurrentRound = 0;

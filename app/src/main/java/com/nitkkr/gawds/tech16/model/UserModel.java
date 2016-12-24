@@ -9,15 +9,15 @@ import java.io.Serializable;
 public class UserModel implements iUserModel, Serializable
 {
 	private String Name="";
-	private String Email;
-	private String Roll;
-	private String College;
-	private String Mobile;
-	private String Branch;
+	private String Email="";
+	private String Roll="";
+	private String College="";
+	private String Mobile="";
+	private String Branch="";
 	private String imageResourceURL=null;
-	private String token;
-	private String Gender;
-	private String year;
+	private String token="";
+	private String Gender="";
+	private String year="";
 	private int ImageId=-1;
 	private boolean useGoogleImage=true;
 

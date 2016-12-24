@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -82,8 +83,10 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ActivityHelper.setCreateAnimation(this);
-        ActivityHelper.setStatusBarColor(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+            ActivityHelper.setStatusBarColor(this);
+        }
         Typewriter login_type=(Typewriter)findViewById(R.id.signup_label);
         login_type.animateText("    Login");
         login_type.setCharacterDelay(80);

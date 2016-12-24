@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -34,8 +35,10 @@ public class About extends FragmentActivity {
 
 		isLogin=getIntent().getBooleanExtra("Login",false);
 
-		ActivityHelper.setStatusBarColor(About.this);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+			ActivityHelper.setStatusBarColor(About.this);
+		}
 		mViewPager = (ViewPager) findViewById(R.id.view_pager);
 		mViewPager.setOffscreenPageLimit(0);
 		view = findViewById(R.id.page_indicator);

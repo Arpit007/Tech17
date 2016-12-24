@@ -6,7 +6,7 @@ package com.nitkkr.gawds.tech16.model;
 
 public class MessageModel
 {
-	private String Text;
+	private String Text="";
 	private int ID;
 	private MessageType type;
 	//Other Required Fields
