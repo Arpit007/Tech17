@@ -15,8 +15,7 @@
     <FrameLayout
         android:id="@+id/your_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:layout_above="@+id/page_indicator"
-        android:layout_below="@+id/temp_bar">
+        android:layout_height="match_parent" android:layout_above="@+id/page_indicator">
     </FrameLayout>
 
     <include layout="@layout/indicator"

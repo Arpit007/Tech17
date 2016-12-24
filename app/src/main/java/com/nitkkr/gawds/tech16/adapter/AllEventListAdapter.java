@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.model.EventKey;
@@ -38,7 +39,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 	@Override
 	public Object getChild(int i, int i1)
 	{
-		return this.Events.get((String)getGroup(i)).getItem(i1);
+		return this.Events.get(getGroup(i).toString()).getItem(i1);
 	}
 
 	@Override
@@ -50,7 +51,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 	@Override
 	public int getChildrenCount(int i)
 	{
-		return this.Events.get((String)getGroup(i)).getCount();
+		return this.Events.get(getGroup(i).toString()).getCount();
 	}
 
 	@Override
@@ -93,6 +94,9 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 			view = layoutInflater.inflate(R.layout.layout_event_list_head, null);
 		}
 
+		if(isExpanded)
+			(( ImageView)view.findViewById(R.id.Drop)).setImageResource(R.drawable.list_expand);
+		else (( ImageView)view.findViewById(R.id.Drop)).setImageResource(R.drawable.list_collapse);
 
 		TextView lblListHeader = (TextView) view.findViewById(R.id.event_list_head_label);
 		lblListHeader.setText(headerTitle);
@@ -103,7 +107,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 	@Override
 	public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup)
 	{
-		return this.Events.get((String)getGroup(i)).getView(i1,view,viewGroup);
+		return this.Events.get(getGroup(i).toString()).getView(i1,view,viewGroup);
 	}
 
 	@Override
@@ -134,7 +138,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 
 	public void onClick(int Group, int Child)
 	{
-		EventListAdapter adapter=this.Events.get((String)getGroup(Group));
+		EventListAdapter adapter=this.Events.get(getGroup(Group).toString());
 		adapter.onClick(((EventKey)adapter.getItem(Child)).getEventID());
 	}
 }

@@ -8,7 +8,7 @@
     android:background="@color/app_background"
     tools:context="com.nitkkr.gawds.tech16.activity.AvatarPicker">
     <include
-        layout="@layout/actionbar_back" android:id="@id/temp_bar"
+        layout="@layout/actionbar_back" android:id="@+id/temp_bar"
         android:layout_width="match_parent" android:layout_height="?actionBarSize"/>
 
     <GridView

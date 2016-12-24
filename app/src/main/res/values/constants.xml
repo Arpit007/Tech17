@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/tools">
+<resources>
     <integer name="SplashDuration">3000</integer>
     <integer name="AutoCloseDuration">2000</integer>
     <integer name="AppCloseDuration">4000</integer>

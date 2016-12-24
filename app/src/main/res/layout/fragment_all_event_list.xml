@@ -19,7 +19,6 @@
          android:layout_width="match_parent"
         android:padding="10dp"
         android:childDivider="@color/neon_green"
-        android:groupIndicator="@drawable/custom_expandable"
         android:layout_height="match_parent"/>
 
     <ListView

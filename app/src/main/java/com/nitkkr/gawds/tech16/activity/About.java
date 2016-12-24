@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.activity.fragment.ScreenSlidePageFragment;
@@ -41,7 +40,7 @@ public class About extends FragmentActivity {
 		mViewPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
 		mViewPager.setAdapter(mViewPagerAdapter);
 		mViewPager.setPageTransformer(true,new SlideTransformer());
-		mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 				View circle;

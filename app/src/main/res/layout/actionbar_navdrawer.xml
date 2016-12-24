@@ -24,7 +24,6 @@
             android:id="@+id/actionbar_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="#00000000"
@@ -38,8 +37,8 @@
             android:text="Activity Label" android:textSize="20sp"
             android:textAlignment="center" android:layout_centerVertical="true"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/actionbar_navButton" android:layout_toEndOf="@id/actionbar_navButton"
-            android:layout_toLeftOf="@id/actionbar_search" android:layout_toStartOf="@id/actionbar_search"/>
+            android:layout_toEndOf="@id/actionbar_navButton"
+            android:layout_toStartOf="@id/actionbar_search"/>
 
     </RelativeLayout>
 
@@ -57,7 +56,7 @@
 
         <android.support.v7.widget.SearchView
             android:id="@+id/search" android:background="@drawable/border_button"
-            android:layout_toRightOf="@id/actionbar_back" android:layout_toEndOf="@id/actionbar_back"
+            android:layout_toEndOf="@id/actionbar_back"
             android:layout_centerVertical="true"
             android:layout_width="match_parent" android:layout_height="wrap_content"/>
 

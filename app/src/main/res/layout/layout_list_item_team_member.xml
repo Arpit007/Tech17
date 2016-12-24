@@ -19,7 +19,7 @@
             android:layout_alignParentEnd="true"/>
 
         <TextView
-            android:layout_toLeftOf="@id/team_member_Close"
+            android:layout_toStartOf="@id/team_member_Close"
             android:textStyle="bold" android:id="@+id/team_member_Name"
             android:text="Name" android:textSize="25sp"
             android:textColor="@color/text_color_primary"

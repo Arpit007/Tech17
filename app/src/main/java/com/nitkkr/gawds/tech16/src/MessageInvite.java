@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.model.MessageModel;
 import com.nitkkr.gawds.tech16.model.iMessageAction;
 

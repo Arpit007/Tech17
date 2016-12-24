@@ -46,12 +46,9 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
         }
     }
 
-    public boolean isConnected() {
-        if (mGoogleApiClient != null) {
-            return mGoogleApiClient.isConnected();
-        } else {
-            return false;
-        }
+    public boolean isConnected()
+    {
+        return mGoogleApiClient != null && mGoogleApiClient.isConnected();
     }
 
     private void buildGoogleApiClient() {

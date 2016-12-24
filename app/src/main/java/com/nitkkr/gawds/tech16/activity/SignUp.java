@@ -298,12 +298,15 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			// Signed in successfully, show authenticated UI.
 			GoogleSignInAccount acct = result.getSignInAccount();
 
-			Log.v(TAG, "display name: " + acct.getDisplayName());
+			if(acct!=null)
+			{
+				Log.v(TAG, "display name: " + acct.getDisplayName());
 
-			personName = acct.getDisplayName();
-			personPhotoUrl = acct.getPhotoUrl().toString();
-			email = acct.getEmail();
-			token_user=acct.getIdToken().toString();
+				personName = acct.getDisplayName();
+				personPhotoUrl = acct.getPhotoUrl().toString();
+				email = acct.getEmail();
+				token_user = acct.getIdToken();
+			}
 			Log.e(TAG, "Name: " + personName + ", email: " + email
 					+ ", Image: " + personPhotoUrl+" token :"+token_user);
 
@@ -389,7 +392,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				}){
 			@Override
 			protected Map<String,String> getParams(){
-				Map<String,String> params = new HashMap<String, String>();
+				Map<String,String> params = new HashMap<>();
 				params.put("idToken",token_user);
 				return params;
 			}
@@ -583,7 +586,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				}){
 			@Override
 			protected Map<String,String> getParams(){
-				Map<String,String> params = new HashMap<String, String>();
+				Map<String,String> params = new HashMap<>();
 				params.put("token",token_recieved);
 				params.put("name",personName);
 				params.put("rollNo",RollNo);
@@ -629,7 +632,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 
 	}
-	public void SignUp(View view)
+	public void SignUpButton(View view)
 	{
 
 		if (Check() && !( (String) ( (Button) findViewById(R.id.signup_Email) ).getText() ).trim().equals(""))

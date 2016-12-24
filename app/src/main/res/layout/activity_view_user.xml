@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_view_user"
@@ -134,7 +133,7 @@
 
                 android:textColor="@color/neon_green"
                 android:textAlignment="center"
-                android:layout_toRightOf="@+id/view22"
+                android:layout_toEndOf="@+id/view22"
                 android:layout_alignParentBottom="true"/>
 
             </RelativeLayout>
@@ -175,7 +174,7 @@
                 android:textAlignment="center"
 
                 android:textColor="@color/neon_green"
-                android:layout_toRightOf="@+id/view23"
+                android:layout_toEndOf="@+id/view23"
                 android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>
@@ -214,7 +213,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="center"
-                android:layout_toRightOf="@+id/view24"
+                android:layout_toEndOf="@+id/view24"
 
                 android:textColor="@color/neon_green"
                 android:layout_alignParentBottom="true"/>
@@ -258,7 +257,7 @@
 
                 android:textColor="@color/neon_green"
                 android:textAlignment="center"
-                android:layout_toRightOf="@+id/view25"
+                android:layout_toEndOf="@+id/view25"
                 android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>

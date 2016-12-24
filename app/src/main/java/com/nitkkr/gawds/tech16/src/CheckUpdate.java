@@ -14,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.R;
 
@@ -74,7 +73,7 @@ public class CheckUpdate
 					calendar.add(Calendar.HOUR,context.getResources().getInteger(R.integer.AfterUpdateHours));
 
 					UpdateAvailable=false;
-					editor.putBoolean("Update",UpdateAvailable);
+					editor.putBoolean("Update",false);
 
 					editor.putLong("Update_Date",calendar.getTime().getTime());
 					editor.apply();
@@ -96,7 +95,7 @@ public class CheckUpdate
 					calendar.add(Calendar.HOUR,context.getResources().getInteger(R.integer.LaterUpdateHours));
 
 					UpdateAvailable=true;
-					editor.putBoolean("Update",UpdateAvailable);
+					editor.putBoolean("Update",true);
 					editor.putLong("Update_Date",calendar.getTime().getTime());
 					editor.apply();
 

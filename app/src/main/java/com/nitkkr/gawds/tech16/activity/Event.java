@@ -70,7 +70,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 					{
 						Intent intent=new Intent(Event.this,ViewTeam.class);
 						Bundle bundle=new Bundle();
-						bundle.putSerializable("Event",(EventKey)model);
+						bundle.putSerializable("Event",key);
 						intent.putExtras(bundle);
 						startActivity(intent);
 					}
