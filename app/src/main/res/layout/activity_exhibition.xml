@@ -76,12 +76,11 @@
                 android:text="9:00 am, 20 Jan"
                 android:padding="5dp"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/text_color_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/exhibition_Date"
-                android:layout_marginLeft="40dp"
                 android:layout_centerVertical="true" android:layout_toEndOf="@+id/imageView7"
                 android:layout_marginStart="13dp"/>
 
@@ -103,7 +102,7 @@
                 android:text="Senate"
                 android:padding="5dp"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_marginStart="10dp"
                 android:textColor="@color/text_color_primary"
                 android:layout_width="wrap_content"
