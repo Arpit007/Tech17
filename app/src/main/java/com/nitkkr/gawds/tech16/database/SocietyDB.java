@@ -292,11 +292,4 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getSocietyTableName() + ";";
 		dbRequest.getDatabase().rawQuery(Query,null);
 	}
-
-	public void clearTable()
-	{
-		String Query="DELETE FROM " + DbConstants.Constants.getSocietyTableName() + ";";
-		Log.d("Query: ",Query);
-		dbRequest.getDatabase().rawQuery(Query,null);
-	}
 }

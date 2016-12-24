@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class TeamModel implements iUserModel, Serializable
 {
 	private String TeamName="";
-	private ArrayList<UserModel> Members;
+	private ArrayList<UserModel> Members=new ArrayList<>();
 
 	public String getTeamName(){return TeamName;}
 	public ArrayList<UserModel> getMembers(){return Members;}

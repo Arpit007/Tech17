@@ -386,7 +386,7 @@ public class FetchData
 
     public void getEvent(final Context context, int eventId, final iResponseCallback callback)
     {
-       StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+
                 context.getResources().getString(R.string.getEvent)+eventId,
                 new Response.Listener<String>() {
                     @Override
@@ -410,7 +410,14 @@ public class FetchData
                                 eventModel.setVenue(data.getString("Venue"));
                                 eventModel.setEventDate(EventModel.parseDate(data.getString("Start")));
                                 eventModel.setEventEndDate(EventModel.parseDate(data.getString("End")));
-                                eventModel.setCurrentRound(Integer.valueOf(data.getString("CurrentRound")));
+                                try
+                                {
+                                    eventModel.setCurrentRound(Integer.valueOf(data.getString("CurrentRound")));
+                                }
+                                catch (Exception e)
+                                {
+                                    eventModel.setCurrentRound(0);
+                                }
                                 eventModel.setMaxUsers(data.getInt("MaxContestants"));
                                 eventModel.setStatus(EventStatus.Parse(data.getString("Status")));
                                 eventModel.setPdfLink(data.getString("Pdf"));
@@ -475,7 +482,14 @@ public class FetchData
                                     eventModel.setVenue(data.getJSONObject(i).getString("Venue"));
                                     eventModel.setEventDate(EventModel.parseDate(data.getJSONObject(i).getString("Start")));
                                     eventModel.setEventEndDate(EventModel.parseDate(data.getJSONObject(i).getString("End")));
-                                    eventModel.setCurrentRound(Integer.valueOf(data.getJSONObject(i).getString("CurrentRound")));
+                                    try
+                                    {
+                                        eventModel.setCurrentRound(Integer.valueOf(data.getJSONObject(i).getString("CurrentRound")));
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        eventModel.setCurrentRound(0);
+                                    }
                                     eventModel.setMaxUsers(data.getJSONObject(i).getInt("MaxContestants"));
                                     eventModel.setStatus(EventStatus.Parse(data.getJSONObject(i).getString("Status")));
                                     eventModel.setPdfLink(data.getJSONObject(i).getString("Pdf"));
@@ -509,7 +523,7 @@ public class FetchData
     public void registerSingleEvent(final Context context, String eventId, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+
-              "api/event/"+eventId+"/register" ,
+                "api/event/"+eventId+"/register" ,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -767,7 +781,7 @@ public class FetchData
                     {
                         error.printStackTrace();
                         FetchResponseHelper.getInstance().incrementResponseCount(error);
-                     }
+                    }
                 });
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -910,7 +924,6 @@ public class FetchData
                             data=response.getJSONArray("data");
                             if(code==200)
                             {
-                                Database.getInstance().getSocietyDB().clearTable();
                                 ArrayList<SocietyModel> models=new ArrayList<>();
                                 for(int i=0;i<data.length();i++)
                                 {
@@ -1122,7 +1135,14 @@ public class FetchData
                                     eventModel.setVenue(jEvent.getString("Venue"));
                                     eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
                                     eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
-                                    eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                    try
+                                    {
+                                        eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        eventModel.setCurrentRound(0);
+                                    }
                                     eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
                                     eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status")));
                                     eventModel.setPdfLink(jEvent.getString("Pdf"));
@@ -1188,19 +1208,54 @@ public class FetchData
 
                             if (code == 200)
                             {
+                                ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getAllEvents();
+                                int Size=eventModels.size();
 
                                 for (int i = 0; i < data.length(); i++)
                                 {
-                                   JSONObject Jobj=data.getJSONObject(i);
-                                   String Name=Jobj.getString("Name");
-                                    int Id=Jobj.getInt("Id");
-                                    String CategoryId=Jobj.getString("CategoryId");
+                                    EventModel eventModel = new EventModel();
+                                    JSONObject jEvent = data.getJSONObject(i);
+
+                                    int ID=jEvent.getInt("Id"), index=-1;
+
+                                    for(int x=0;x<Size;x++)
+                                    {
+                                        if(eventModels.get(x).getEventID()==ID)
+                                        {
+                                            eventModel=eventModels.get(x);
+                                            index=x;
+                                            break;
+                                        }
+                                    }
+                                    eventModel.setEventID(ID);
+                                    eventModel.setEventName(jEvent.getString("Name"));
+                                    eventModel.setDescription(jEvent.getString("Description"));
+                                    eventModel.setVenue(jEvent.getString("Venue"));
+                                    eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
+                                    eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
+                                    try
+                                    {
+                                        eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        eventModel.setCurrentRound(0);
+                                    }
+                                    eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
+                                    eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status")));
+                                    eventModel.setPdfLink(jEvent.getString("Pdf"));
+                                    eventModel.setRules(jEvent.getString("Rules"));
+                                    eventModel.setCategory(jEvent.getInt("CategoryId"));
+                                    eventModel.setSociety(jEvent.getInt("SocietyId"));
+
+                                    if(index==-1)
+                                        eventModels.add(eventModel);
                                 }
 
-//                                Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
-//                                Log.v("DEBUG", data.toString());
-//                                if(callback!=null)
-//                                    callback.onResponse(ResponseStatus.SUCCESS,eventModels);
+                                Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
+                                Log.v("DEBUG", data.toString());
+                                if(callback!=null)
+                                    callback.onResponse(ResponseStatus.SUCCESS,eventModels);
                             }
                             else
                             {
@@ -1231,8 +1286,6 @@ public class FetchData
         requestQueue.add(stringRequest);
     }
 
-
-
     public  void fetchAll(final Context context)
     {
         FetchResponseHelper.getInstance().incrementRequestCount();
@@ -1251,14 +1304,15 @@ public class FetchData
                     response = new JSONObject(res);
                     data = response.getJSONArray("data");
                     code = response.getJSONObject("status").getInt("code");
-                    ArrayList<InterestModel> list = new ArrayList<>();
+                    ArrayList<InterestModel> list = Database.getInstance().getInterestDB().getAllInterests();
                     if (code == 200)
                     {
                         for (int i = 0; i < data.length(); i++)
                         {
-                            InterestModel interestModel = new InterestModel();
-                            interestModel.setID(data.getJSONObject(i).getInt("Id"));
-                            interestModel.setInterest(data.getJSONObject(i).getString("Name"));
+                            JSONObject object=data.getJSONObject(i);
+                            InterestModel interestModel = Database.getInstance().getInterestDB().getInterestModel(object.getInt("Id"));
+                            interestModel.setID(object.getInt("Id"));
+                            interestModel.setInterest(object.getString("Name"));
                             list.add(interestModel);
                         }
                         Database.getInstance().getInterestDB().addOrUpdateInterest(list);
@@ -1363,12 +1417,14 @@ public class FetchData
                                     }
                                     else
                                     {
-                                        isInformal=(Category.equals("informals") || Category.equals("informalz"));
+                                        Category = Database.getInstance().getSocietyDB().getSocietyName(jEvent.getInt("SocietyId")).toLowerCase();
+                                        String Temp1=Database.getInstance().getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
+                                        isInformal = ( Category.equals("informals") || Category.equals("informalz") || Temp1.equals("informals") || Temp1.equals("informalz"));
 
-                                        ID=jEvent.getInt("Id");
-                                        index=-1;
+                                        ID = jEvent.getInt("Id");
+                                        index = -1;
 
-                                        EventModel eventModel=new EventModel();
+                                        EventModel eventModel = new EventModel();
 
                                         for (int x = 0; x < evSize; x++)
                                         {
@@ -1387,7 +1443,14 @@ public class FetchData
                                         eventModel.setVenue(jEvent.getString("Venue"));
                                         eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
                                         eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
-                                        eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                        try
+                                        {
+                                            eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            eventModel.setCurrentRound(0);
+                                        }
                                         eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
                                         eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status")));
                                         eventModel.setPdfLink(jEvent.getString("Pdf"));
