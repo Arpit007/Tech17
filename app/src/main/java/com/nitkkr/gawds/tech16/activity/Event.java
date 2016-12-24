@@ -108,7 +108,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 										@Override
 										public void onResponse(ResponseStatus status)
 										{
-											if(progressDialog!=null && progressDialog.isShowing())
+											if(progressDialog!=null)
 												progressDialog.dismiss();
 
 											switch (status)
@@ -124,12 +124,10 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 													Database.getInstance().getEventsDB().addOrUpdateEvent(model);
 													Database.getInstance().getNotificationDB().UpdateTable();
 													model.callStatusListener();
-
-													break;
-												case OTHER:
-													Toast.makeText(Event.this, "Network Error", Toast.LENGTH_LONG).show();
+													LoadEvent();
 													break;
 												default:
+													Toast.makeText(Event.this, "Network Error", Toast.LENGTH_LONG).show();
 													break;
 											}
 										}
@@ -169,11 +167,14 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 						}
 						else
 						{
-							Intent intent = new Intent(Event.this, CreateTeam.class);
+							/*TODO:Remove on Update*/
+							ActivityHelper.comingSoonSnackBar(Event.this);
+
+							/*Intent intent = new Intent(Event.this, CreateTeam.class);
 							Bundle bundle=new Bundle();
 							bundle.putSerializable("Event",key);
 							intent.putExtras(bundle);
-							startActivityForResult(intent, REGISTER);
+							startActivityForResult(intent, REGISTER);*/
 						}
 					}
 					else
@@ -385,6 +386,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				{
 					Toast.makeText(Event.this,"Registered Successfully",Toast.LENGTH_LONG).show();
 					EventStatusChanged(EventStatus.None);
+					LoadEvent();
 				}
 			}
 		}

@@ -124,7 +124,7 @@ public class Splash extends AppCompatActivity
 
 		runAnimationDown.start();
 		runAnimationUp.start();
-		splashTypewriter.animateText("      Techspardha '17");
+		splashTypewriter.animateText("      Techspardha' 17");
 
 		Thread thread=new Thread()
 		{

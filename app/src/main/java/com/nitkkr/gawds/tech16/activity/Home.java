@@ -110,6 +110,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 				break;
 		}
 
+		if(page== DashboardPage.Page.Notification)
+		{
+			ActivityHelper.comingSoonSnackBar(Home.this);
+			return;
+		}
+
 		if(AppUserModel.MAIN_USER.isUserLoggedIn(Home.this) || page== DashboardPage.Page.Live)
 		{
 			Intent intent = new Intent(Home.this, DashboardPage.class);

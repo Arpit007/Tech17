@@ -83,7 +83,7 @@ public class EditUser extends AppCompatActivity
 							@Override
 							public void onResponse(ResponseStatus status)
 							{
-								EditUser.this.onResponse(PROFILE,status);
+								EditUser.this.onResponse(INTEREST,status);
 							}
 
 							@Override
@@ -92,7 +92,7 @@ public class EditUser extends AppCompatActivity
 								this.onResponse(status);
 							}
 						});
-					else EditUser.this.onResponse(PROFILE,ResponseStatus.SUCCESS);
+					else EditUser.this.onResponse(INTEREST,ResponseStatus.SUCCESS);
 
 					FetchData.getInstance().updateUserDetails(getApplicationContext(), model, new iResponseCallback()
 					{
@@ -344,7 +344,7 @@ public class EditUser extends AppCompatActivity
 		if(ID==INTEREST)
 			interestSuccess = status==ResponseStatus.SUCCESS;
 
-		if(ResponseCount==2)
+		if(ResponseCount>=2)
 		{
 			if (progressDialog!=null)
 				progressDialog.dismiss();
