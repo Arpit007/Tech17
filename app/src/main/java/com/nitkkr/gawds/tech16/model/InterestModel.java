@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class InterestModel implements Serializable
 {
 	private int ID;
-	private String Interest;
+	private String Interest="";
 	private boolean Selected = false;
 
 	public int getID(){return ID;}

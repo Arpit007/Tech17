@@ -332,7 +332,9 @@ public class EditUser extends AppCompatActivity
 
 		if(ActivityHelper.revertToHomeIfLast(EditUser.this))
 			return;
+
 		super.onBackPressed();
+
 	}
 
 	private void onResponse(int ID, ResponseStatus status)
@@ -381,4 +383,5 @@ public class EditUser extends AppCompatActivity
 			},getResources().getInteger(R.integer.AutoCloseDuration));
 		}
 	}
+
 }

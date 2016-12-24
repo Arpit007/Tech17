@@ -107,7 +107,9 @@ public class Interests extends AppCompatActivity
 						{
 							this.onResponse(status);
 						}
-					});
+
+					}
+					);
 				}
 				else
 				{

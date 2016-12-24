@@ -11,10 +11,10 @@ public class BaseEventModel extends EventKey implements Serializable
 {
 	private long EventDate;
 	private long EventEndDate;
-	private String Venue;
-	private String Description;
-	private String Image_URL;
-	private String PdfLink;
+	private String Venue="";
+	private String Description="";
+	private String Image_URL="";
+	private String PdfLink="";
 
 	public long getEventDate(){return EventDate;}
 	public long getEventEndDate(){return EventEndDate;}

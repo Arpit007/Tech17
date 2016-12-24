@@ -12,7 +12,7 @@ public class NotificationModel extends EventKey
 	private long date;
 
 	//TODO:implement message later
-	private String message;
+	private String message="";
 
 	public void setGenerated(boolean generated){this.generated = generated;}
 	public void setDate(long date){this.date = date;}

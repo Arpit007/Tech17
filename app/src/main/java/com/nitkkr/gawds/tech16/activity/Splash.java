@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -67,6 +68,7 @@ public class Splash extends AppCompatActivity
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
 				startActivity(new Intent(Splash.this,Login.class));
 			}
+
 			//if  logged in
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
 				startActivity(new Intent(Splash.this,Home.class));
@@ -96,9 +98,10 @@ public class Splash extends AppCompatActivity
 			Fabric.with(this, new Crashlytics());
 		}
 
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-		ActivityHelper.setStatusBarColor(R.color.app_background,this);
-
+			ActivityHelper.setStatusBarColor(R.color.app_background, this);
+		}
 		setContentView(R.layout.activity_splash);
 
 		ts_logo = (ImageView) findViewById(R.id.ts_logo);
@@ -116,7 +119,7 @@ public class Splash extends AppCompatActivity
 
 		runAnimationDown.start();
 		runAnimationUp.start();
-		splashTypewriter.animateText("      Techspardha' 17");
+		splashTypewriter.animateText("      Techspardha '17");
 
 		Thread thread=new Thread()
 		{
@@ -130,7 +133,9 @@ public class Splash extends AppCompatActivity
 				else start_app();
 			}
 		};
+
 		thread.start();
+
 	}
 
 	private boolean isReadStorageAllowed()

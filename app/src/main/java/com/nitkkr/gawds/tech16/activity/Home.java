@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -28,8 +29,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		ActivityHelper.setStatusBarColor(this);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+			ActivityHelper.setStatusBarColor(this);
+		}
 		barNavDrawer = new ActionBarNavDrawer(this, new iActionBar()
 		{
 			@Override
