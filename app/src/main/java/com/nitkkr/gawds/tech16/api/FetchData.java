@@ -613,7 +613,7 @@ public class FetchData
                                     model.setEventEndDate(EventModel.parseDate(object.getString("End")));
                                     model.setImage_URL(object.getString("Photo"));
                                     model.setDescription(object.getString("Description"));
-                                    model.setAuthor(object.getString("GuestName"));
+                                    model.setAuthor(object.getString("Designation"));
                                     model.setVenue(object.getString("Venue"));
                                     model.setGTalk(true);
 
@@ -1379,13 +1379,9 @@ public class FetchData
                                         model.setEventID(object.getInt("Id"));
                                         model.setEventDate(EventModel.parseDate(object.getString("Start")));
                                         model.setEventEndDate(EventModel.parseDate(object.getString("End")));
-                                        //TODO:uncomment this when backend is ready
-                                        //model.setImage_URL(object.getString("Photo"));
-                                        model.setImage_URL("https://postimg.org/image/u3jm7403d/");
+                                        model.setImage_URL(object.getString("Image"));
                                         model.setDescription(object.getString("Description"));
-                                        //TODO:their should be no guestName in exhibition,change it to Company,Team Coming to display in exhibition
-                                        //model.setAuthor(object.getString("GuestName"));
-                                        model.setAuthor(object.getString("Name"));
+                                        model.setAuthor("");
                                         model.setVenue(object.getString("Venue"));
                                         model.setGTalk(false);
 
