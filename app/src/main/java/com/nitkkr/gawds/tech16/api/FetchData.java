@@ -523,7 +523,7 @@ public class FetchData
     public void registerSingleEvent(final Context context, String eventId, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+
-                "api/event/"+eventId+"/register" ,
+                "/api/event/"+eventId+"/register" ,
                 new Response.Listener<String>()
                 {
                     @Override
