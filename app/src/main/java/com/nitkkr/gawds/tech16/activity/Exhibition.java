@@ -203,11 +203,11 @@ public class Exhibition extends AppCompatActivity
 		if(progressDialog!=null && progressDialog.isShowing())
 			return;
 
-		ActivityHelper.setExitAnimation(this);
 
-		if(ActivityHelper.revertToHomeIfLast(Exhibition.this))
-			return;
-		super.onBackPressed();
+		if(ActivityHelper.revertToHomeIfLast(Exhibition.this));
+		else super.onBackPressed();
+
+		ActivityHelper.setExitAnimation(this);
 	}
 
 	@Override

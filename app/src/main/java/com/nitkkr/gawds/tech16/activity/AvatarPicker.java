@@ -45,9 +45,8 @@ public class AvatarPicker extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		if(ActivityHelper.revertToHomeIfLast(AvatarPicker.this));
+		else super.onBackPressed();
 		ActivityHelper.setExitAnimation(this);
-		if(ActivityHelper.revertToHomeIfLast(AvatarPicker.this))
-			return;
-		super.onBackPressed();
 	}
 }

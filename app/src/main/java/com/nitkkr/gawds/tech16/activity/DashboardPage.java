@@ -78,8 +78,8 @@ public class DashboardPage extends AppCompatActivity
         int ID=getIntent().getIntExtra("Navigation",-1);
         if(ID==-1)
         {
-            ActivityHelper.setExitAnimation(this);
             finish();
+            ActivityHelper.setExitAnimation(this);
             return;
         }
 
@@ -252,8 +252,8 @@ public class DashboardPage extends AppCompatActivity
     {
         if(barBack.backPressed())
         {
-            ActivityHelper.setExitAnimation(this);
             super.onBackPressed();
+            ActivityHelper.setExitAnimation(this);
         }
     }
 }

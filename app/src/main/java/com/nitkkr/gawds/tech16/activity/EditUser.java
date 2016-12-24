@@ -330,10 +330,9 @@ public class EditUser extends AppCompatActivity
 		if(progressDialog!=null && progressDialog.isShowing())
 			return;
 
+		if(ActivityHelper.revertToHomeIfLast(EditUser.this));
+			else super.onBackPressed();
 		ActivityHelper.setExitAnimation(this);
-		if(ActivityHelper.revertToHomeIfLast(EditUser.this))
-			return;
-		super.onBackPressed();
 	}
 
 	private void onResponse(int ID, ResponseStatus status)
@@ -377,8 +376,8 @@ public class EditUser extends AppCompatActivity
 				@Override
 				public void run()
 				{
-					ActivityHelper.setExitAnimation(EditUser.this);
 					EditUser.this.finish();
+					ActivityHelper.setExitAnimation(EditUser.this);
 				}
 			},getResources().getInteger(R.integer.AutoCloseDuration));
 		}

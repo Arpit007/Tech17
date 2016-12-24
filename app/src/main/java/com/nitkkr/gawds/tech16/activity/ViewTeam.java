@@ -64,9 +64,9 @@ public class ViewTeam extends AppCompatActivity
 					@Override
 					public void run()
 					{
-						ActivityHelper.setExitAnimation(ViewTeam.this);
 
 						finish();
+						ActivityHelper.setExitAnimation(ViewTeam.this);
 					}
 				},getResources().getInteger(R.integer.AutoCloseDuration));
 				break;
@@ -77,9 +77,9 @@ public class ViewTeam extends AppCompatActivity
 					@Override
 					public void run()
 					{
-						ActivityHelper.setExitAnimation(ViewTeam.this);
 
 						finish();
+						ActivityHelper.setExitAnimation(ViewTeam.this);
 					}
 				},getResources().getInteger(R.integer.AutoCloseDuration));
 				break;
@@ -114,10 +114,9 @@ public class ViewTeam extends AppCompatActivity
 		if(progressDialog!=null && progressDialog.isShowing())
 			return;
 
-		ActivityHelper.setExitAnimation(this);
 
-		if(ActivityHelper.revertToHomeIfLast(ViewTeam.this))
-			return;
-		super.onBackPressed();
+		if(ActivityHelper.revertToHomeIfLast(ViewTeam.this));
+			else super.onBackPressed();
+		ActivityHelper.setExitAnimation(this);
 	}
 }

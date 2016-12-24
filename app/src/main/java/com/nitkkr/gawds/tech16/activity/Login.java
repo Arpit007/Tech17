@@ -407,9 +407,9 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                     intent.putExtra("Logged_In",true);
                     setResult(RESULT_OK,intent);
                 }
-                ActivityHelper.setExitAnimation(this);
 
                 finish();
+                ActivityHelper.setExitAnimation(this);
                 break;
             case SIGNUP:
                 AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
@@ -417,9 +417,8 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
                 intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
                 startActivity(intent);
 
-                ActivityHelper.setExitAnimation(this);
-
                 finish();
+                ActivityHelper.setExitAnimation(this);
                 break;
             default:
                 break;
@@ -487,11 +486,11 @@ public class Login extends AppCompatActivity  implements View.OnClickListener,Go
         editor.apply();
 
         AppUserModel.MAIN_USER.logoutUser(getBaseContext());
-        ActivityHelper.setExitAnimation(this);
 
         if(getIntent().getBooleanExtra("Start_Home",true) || isTaskRoot())
             startActivity(new Intent(Login.this, Home.class));
         finish();
+        ActivityHelper.setExitAnimation(this);
     }
 
     @Override

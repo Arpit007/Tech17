@@ -125,11 +125,10 @@ public class ViewUser extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		ActivityHelper.setExitAnimation(this);
 
-		if(ActivityHelper.revertToHomeIfLast(ViewUser.this))
-			return;
-		super.onBackPressed();
+		if(ActivityHelper.revertToHomeIfLast(ViewUser.this));
+		else super.onBackPressed();
+		ActivityHelper.setExitAnimation(this);
 	}
 
 	@Override

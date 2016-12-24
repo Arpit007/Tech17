@@ -68,9 +68,8 @@ public class Interests extends AppCompatActivity
 						data.putExtras(bundle);
 						setResult(RESULT_OK,data);
 
-						ActivityHelper.setExitAnimation(Interests.this);
-
 						finish();
+						ActivityHelper.setExitAnimation(Interests.this);
 					}
 					else sendInterests();
 				}
@@ -144,15 +143,18 @@ public class Interests extends AppCompatActivity
 					Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
 				}
 				if(getIntent().getExtras().getBoolean("Start_Home",true))
+				{
 					startActivity(new Intent(Interests.this, Home.class));
+					finish();
+				}
 				else
 				{
 					Intent intent=new Intent();
 					intent.putExtra("Logged_In",true);
 					setResult(RESULT_OK,intent);
+					finish();
 					ActivityHelper.setExitAnimation(this);
 				}
-				finish();
 				break;
 			case FAILED:
 				Toast.makeText(Interests.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
@@ -185,8 +187,8 @@ public class Interests extends AppCompatActivity
 	{
 		if (mProgressDialog!=null && mProgressDialog.isShowing())
 			return;
-		ActivityHelper.setExitAnimation(this);
 
 		super.onBackPressed();
+		ActivityHelper.setExitAnimation(this);
 	}
 }

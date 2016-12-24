@@ -78,9 +78,8 @@ public class Splash extends AppCompatActivity
 				startActivity(intent);
 			}
 
-			ActivityHelper.setExitAnimation(Splash.this);
-
 			finish();
+			ActivityHelper.setExitAnimation(Splash.this);
 		}
 	};
 

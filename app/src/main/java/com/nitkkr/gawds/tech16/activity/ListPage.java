@@ -145,15 +145,13 @@ public class ListPage extends AppCompatActivity
 	{
 		if(!actionBarSearch.backPressed())
 		{
-			ActivityHelper.setExitAnimation(this);
-
 			ActivityHelper.revertToHomeIfLast(ListPage.this);
+			ActivityHelper.setExitAnimation(this);
 		}
 		else
 		{
-			ActivityHelper.setExitAnimation(this);
-
 			super.onBackPressed();
+			ActivityHelper.setExitAnimation(this);
 		}
 	}
 }

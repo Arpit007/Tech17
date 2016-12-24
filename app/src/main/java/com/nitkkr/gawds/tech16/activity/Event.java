@@ -320,11 +320,10 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else
 		{
-			ActivityHelper.setExitAnimation(this);
 			PdfDownloader.getInstance().removeListener(model.getPdfLink());
-			if(ActivityHelper.revertToHomeIfLast(Event.this))
-				return;
-			super.onBackPressed();
+			if(ActivityHelper.revertToHomeIfLast(Event.this));
+			else super.onBackPressed();
+			ActivityHelper.setExitAnimation(this);
 		}
 	}
 

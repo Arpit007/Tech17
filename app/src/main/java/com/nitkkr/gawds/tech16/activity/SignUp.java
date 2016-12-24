@@ -672,11 +672,11 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			if (mProgressDialog!=null && mProgressDialog.isShowing())
 				return;
 
-			ActivityHelper.setExitAnimation(this);
 
 			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
 			super.onBackPressed();
+			ActivityHelper.setExitAnimation(this);
 		}
 	}
 

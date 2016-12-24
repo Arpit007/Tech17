@@ -111,8 +111,8 @@ public class CreateTeam extends AppCompatActivity
 				Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
 				Database.getInstance().getNotificationDB().UpdateTable();
 				eventModel.callStatusListener();
-				ActivityHelper.setExitAnimation(this);
 				finish();
+				ActivityHelper.setExitAnimation(this);
 				break;
 			default:
 				Toast.makeText(CreateTeam.this, "----------------------Message--------------------", Toast.LENGTH_LONG).show();
@@ -123,9 +123,8 @@ public class CreateTeam extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		if(ActivityHelper.revertToHomeIfLast(CreateTeam.this));
+			else super.onBackPressed();
 		ActivityHelper.setExitAnimation(this);
-		if(ActivityHelper.revertToHomeIfLast(CreateTeam.this))
-			return;
-		super.onBackPressed();
 	}
 }

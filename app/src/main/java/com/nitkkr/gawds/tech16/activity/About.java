@@ -134,10 +134,9 @@ public class About extends FragmentActivity {
 			return;
 		}
 
-		ActivityHelper.setExitAnimation(this);
+		if(ActivityHelper.revertToHomeIfLast(About.this));
+		else super.onBackPressed();
 
-		if(ActivityHelper.revertToHomeIfLast(About.this))
-			return;
-		super.onBackPressed();
+		ActivityHelper.setExitAnimation(this);
 	}
 }

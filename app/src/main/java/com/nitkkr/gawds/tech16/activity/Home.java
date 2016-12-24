@@ -27,7 +27,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-		ActivityHelper.setCreateAnimation(this);
+
+		if(getIntent().getBooleanExtra("AnimStart",true))
+			ActivityHelper.setCreateAnimation(this);
+		else overridePendingTransition(R.anim.anim_left_in,R.anim.anim_none);
 
 		ActivityHelper.setStatusBarColor(this);
 
@@ -77,9 +80,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 			}
 			else
 			{
-				ActivityHelper.setExitAnimation(this);
-
 				super.onBackPressed();
+				ActivityHelper.setExitAnimation(this);
 			}
 		}
 	}

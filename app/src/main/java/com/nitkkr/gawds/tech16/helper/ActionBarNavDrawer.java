@@ -1,12 +1,12 @@
 package com.nitkkr.gawds.tech16.helper;
 
-import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -46,94 +46,92 @@ public class ActionBarNavDrawer
 	private iActionBar barNavDrawer;
 	private AppCompatActivity activity;
 	private boolean openNewSearchPage=false;
+	private int ID=-1;
 
-	private boolean NavigationItemSelected(MenuItem item)
+	private void NavigationItemSelected()
 	{
-		// Handle navigation view item clicks here.
-		int id = item.getItemId();
+		int id=ID;
+		ID=-1;
 		Intent intent;
 
 		if (id == R.id.nav_home)
 		{
-			if(activity instanceof Home)
+			if (activity instanceof Home)
 			{
 				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 				drawer.closeDrawer(GravityCompat.START);
-				return true;
+				return;
 			}
 
 			ActivityHelper.revertToHome(activity);
 		}
 		else if (id == R.id.nav_events)
 		{
-			if(activity instanceof EventListPage)
+			if (activity instanceof EventListPage)
 			{
 				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 				drawer.closeDrawer(GravityCompat.START);
-				return true;
+				return;
 			}
 
-			intent=new Intent(activity,EventListPage.class);
+			intent = new Intent(activity, EventListPage.class);
 			activity.startActivity(intent);
 			activity.finish();
 		}
 		else if (id == R.id.nav_gusto_talks)
 		{
-			Query query=new Query(null, Query.QueryType.SQl, EventTargetType.GuestTalk);
-			startListActivity(activity,activity.getString(R.string.Guest_Talks),query);
+			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.GuestTalk);
+			startListActivity(activity, activity.getString(R.string.Guest_Talks), query);
 		}
 		else if (id == R.id.nav_informals)
 		{
-			Query query=new Query(null, Query.QueryType.SQl, EventTargetType.Informals);
-			startListActivity(activity,activity.getString(R.string.Informals),query);
+			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Informals);
+			startListActivity(activity, activity.getString(R.string.Informals), query);
 		}
 		else if (id == R.id.nav_exhibitions)
 		{
-			Query query=new Query(null, Query.QueryType.SQl, EventTargetType.Exhibition);
-			startListActivity(activity,activity.getString(R.string.Exhibition),query);
+			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Exhibition);
+			startListActivity(activity, activity.getString(R.string.Exhibition), query);
 		}
 		else if (id == R.id.nav_About)
 		{
-			intent=new Intent(activity, About.class);
+			intent = new Intent(activity, About.class);
 			activity.startActivity(intent);
 		}
 		else if (id == R.id.nav_logout)
 		{
 			AppUserModel.MAIN_USER.logoutUser(activity);
 
-			intent=new Intent(activity,Login.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			intent = new Intent(activity, Login.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			activity.startActivity(intent);
 			activity.finish();
 
 		}
-		else if(id==R.id.nav_login)
+		else if (id == R.id.nav_login)
 		{
-			intent=new Intent(activity,Login.class);
-			intent.putExtra("Start_Home",false);
+			intent = new Intent(activity, Login.class);
+			intent.putExtra("Start_Home", false);
 			activity.startActivity(intent);
 		}
-		else if(id==R.id.link)
+		else if (id == R.id.link)
 		{
 			String url = "http://techspardha.org/";
-			try {
+			try
+			{
 				Intent i = new Intent("android.intent.action.MAIN");
 				i.setComponent(ComponentName.unflattenFromString("com.android.chrome/com.android.chrome.Main"));
 				i.addCategory("android.intent.category.LAUNCHER");
 				i.setData(Uri.parse(url));
 				activity.startActivity(i);
 			}
-			catch(ActivityNotFoundException e) {
+			catch (ActivityNotFoundException e)
+			{
 				// Chrome is not installed
 				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 				activity.startActivity(i);
 			}
 		}
-
-		DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-		drawer.closeDrawer(GravityCompat.START);
-
-		return true;
 	}
 
 	public ActionBarNavDrawer(final AppCompatActivity activity, iActionBar drawer, final int pageNavID)
@@ -147,7 +145,10 @@ public class ActionBarNavDrawer
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem item)
 			{
-				return NavigationItemSelected(item);
+				ID=item.getItemId();
+				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+				drawer.closeDrawer(GravityCompat.START);
+				return true;
 			}
 		});
 
@@ -170,6 +171,8 @@ public class ActionBarNavDrawer
 			@Override
 			public void onDrawerClosed(View drawerView)
 			{
+				if(ID!=-1)
+					NavigationItemSelected();
 			}
 
 			@Override

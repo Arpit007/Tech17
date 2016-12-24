@@ -81,12 +81,9 @@ public class SearchPage extends AppCompatActivity
 	{
 		if(actionBarSearch.backPressed())
 		{
+			if(ActivityHelper.revertToHomeIfLast(SearchPage.this));
+			else super.onBackPressed();
 			ActivityHelper.setExitAnimation(this);
-
-			if(ActivityHelper.revertToHomeIfLast(SearchPage.this))
-				return;
-
-			super.onBackPressed();
 		}
 	}
 }

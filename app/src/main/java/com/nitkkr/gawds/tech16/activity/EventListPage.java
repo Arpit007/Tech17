@@ -75,12 +75,10 @@ public class EventListPage extends AppCompatActivity
 	{
 		if(!barNavDrawer.onBackPressed())
 		{
+
+			if(ActivityHelper.revertToHomeIfLast(EventListPage.this));
+				else super.onBackPressed();
 			ActivityHelper.setExitAnimation(this);
-
-			if(ActivityHelper.revertToHomeIfLast(EventListPage.this))
-				return;
-
-			super.onBackPressed();
 		}
 	}
 }

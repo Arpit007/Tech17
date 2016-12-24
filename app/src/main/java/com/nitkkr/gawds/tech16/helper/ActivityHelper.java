@@ -62,8 +62,10 @@ public class ActivityHelper
 	public static void revertToHome(Activity activity)
 	{
 		Intent intent=new Intent(activity,Home.class);
+		intent.putExtra("AnimStart",false);
 		activity.startActivity(intent);
 		activity.finish();
+		activity.overridePendingTransition(R.anim.anim_none,R.anim.anim_none);
 	}
 
 	public static void startListActivity(Activity activity, String Label, Query query)
