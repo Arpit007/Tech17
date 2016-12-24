@@ -243,6 +243,15 @@ public class FetchData
 
     public void sendInterests(final Context context, final ArrayList<InterestModel> models, final AppUserModel model, final iResponseCallback callback)
     {
+        AppUserModel temp=new AppUserModel();
+        temp.setInterests(models);
+        final String Query=temp.selectedInterestsToString();
+        if(Query.equals(""))
+        {
+            if(callback!=null)
+                callback.onResponse(ResponseStatus.SUCCESS);
+            return;
+        }
         StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+
                 context.getResources().getString(R.string.get_user_interests_url),
                 new Response.Listener<String>() {
@@ -290,12 +299,10 @@ public class FetchData
             @Override
             protected Map<String,String> getParams()
             {
-                AppUserModel temp=new AppUserModel();
-                temp.setInterests(models);
 
                 Map<String,String> params = new HashMap<>();
                 params.put("token",model.getToken());
-                params.put("interests",temp.selectedInterestsToString());
+                params.put("interests",Query);
                 return params;
             }
         };
@@ -306,6 +313,15 @@ public class FetchData
 
     public void deleteInterests(final Context context, final ArrayList<InterestModel> models, final AppUserModel model, final iResponseCallback callback)
     {
+        AppUserModel temp=new AppUserModel();
+        temp.setInterests(models);
+        final String Query=temp.unSelectedInterestsToString();
+        if(Query.equals(""))
+        {
+            if(callback!=null)
+                callback.onResponse(ResponseStatus.SUCCESS);
+            return;
+        }
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url)+
                 context.getResources().getString(R.string.get_user_interests_url),
                 new Response.Listener<String>() {
@@ -357,7 +373,7 @@ public class FetchData
 
                 Map<String,String> params = new HashMap<>();
                 params.put("token",model.getToken());
-                params.put("interests",temp.unSelectedInterestsToString());
+                params.put("interests",Query);
                 return params;
             }
         };

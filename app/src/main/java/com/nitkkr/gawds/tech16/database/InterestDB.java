@@ -103,6 +103,48 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 		return Name;
 	}
 
+	public InterestModel getInterestModel(int ID)
+	{
+		String Query = "SELECT * FROM " + DbConstants.Constants.getInterestTableName() + " WHERE " + DbConstants.InterestNames.Id.Name() + " = " + ID + ";";
+		Log.d("Query:\t",Query);
+
+		InterestModel interest=new InterestModel();
+
+		Cursor cursor = null;
+		try
+		{
+			cursor = dbRequest.getDatabase().rawQuery(Query, null);
+
+			List<String> Columns = Arrays.asList(cursor.getColumnNames());
+			int[] ColumnIndex =
+					{
+							Columns.indexOf(DbConstants.InterestNames.Interest.Name()),
+							Columns.indexOf(DbConstants.InterestNames.Selected.Name()),
+							Columns.indexOf(DbConstants.InterestNames.Id.Name())
+					};
+
+			if (cursor.getCount() > 0)
+			{
+				cursor.moveToFirst();
+				interest.setInterest(cursor.getString(ColumnIndex[0]));
+				interest.setSelected(cursor.getInt(ColumnIndex[1])!=0);
+				interest.setID(cursor.getInt(ColumnIndex[2]));
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (cursor != null)
+			{
+				cursor.close();
+			}
+		}
+		return interest;
+	}
+
 	public ArrayList<InterestModel> getInterests(String Clause)
 	{
 		ArrayList<InterestModel> keys = new ArrayList<>();

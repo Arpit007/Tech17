@@ -96,6 +96,7 @@ public class Splash extends AppCompatActivity
 			Fabric.with(this, new Crashlytics());
 		}
 
+
 		ActivityHelper.setStatusBarColor(R.color.app_background,this);
 
 		setContentView(R.layout.activity_splash);
