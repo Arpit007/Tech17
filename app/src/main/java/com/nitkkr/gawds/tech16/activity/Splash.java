@@ -224,7 +224,7 @@ public class Splash extends AppCompatActivity
 		FetchData.getInstance().getSocieties(getApplicationContext());
 		FetchData.getInstance().fetchAllGTalks(getApplicationContext());
 
-		if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) || AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
+		if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
 			FetchData.getInstance().fetchUserInterests(getBaseContext());
 			FetchData.getInstance().fetchUserWishlist(getBaseContext());
