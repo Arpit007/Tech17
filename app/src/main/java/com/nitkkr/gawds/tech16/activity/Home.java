@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech16.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.iActionBar;
@@ -135,6 +137,20 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 				})
 				.setActionTextColor(ContextCompat.getColor(Home.this,R.color.neon_green))
 				.show();
+		}
+	}
+
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		boolean Skip=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).getBoolean("Skip",false);
+
+		if(!Skip && Database.getInstance().getInterestDB().getSelectedInterests().size()<=0)
+		{
+			startActivity(new Intent(this,Interests.class));
+			finish();
+			ActivityHelper.setExitAnimation(this);
 		}
 	}
 }

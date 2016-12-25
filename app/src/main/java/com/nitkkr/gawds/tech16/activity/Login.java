@@ -130,15 +130,11 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == RC_SIGN_IN)
-            {
-                if(resultCode==RESULT_OK)
-                {
-                    GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-                    handleSignInResult(result);
-                }
-                else Toast.makeText(this,"Please SignUp",Toast.LENGTH_SHORT).show();
-            }
+        if (requestCode == RC_SIGN_IN)
+        {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
     }
 
     private void handleSignInResult(GoogleSignInResult result)
@@ -309,7 +305,7 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
         {
             case FAILED:
                 userModel=new AppUserModel();
-                Toast.makeText(getBaseContext(), "Failed to LogIn", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Failed to LogIn", Toast.LENGTH_SHORT).show();
                 break;
 
             case SUCCESS:
@@ -426,7 +422,9 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
         if (exit)
         {
             if(AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this))
-                AppUserModel.MAIN_USER.loadAppUser(this);
+            {
+                AppUserModel.MAIN_USER.logoutUser(this);
+            }
             super.onBackPressed();
         }
 
@@ -449,7 +447,9 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
         else
         {
             if(AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this))
+            {
                 AppUserModel.MAIN_USER.logoutUser(this);
+            }
             super.onBackPressed();
         }
         ActivityHelper.setExitAnimation(Login.this);

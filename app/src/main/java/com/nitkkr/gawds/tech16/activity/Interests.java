@@ -136,6 +136,8 @@ public class Interests extends AppCompatActivity
 		switch (status)
 		{
 			case SUCCESS:
+				appUserModel.setLoggedIn(true,this);
+				appUserModel.setSignedup(true,this);
 				appUserModel.saveAppUser(Interests.this);
 				AppUserModel.MAIN_USER=appUserModel;
 

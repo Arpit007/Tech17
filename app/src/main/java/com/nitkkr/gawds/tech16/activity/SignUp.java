@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -142,7 +143,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			@Override
 			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
 			{
-				if(!AppUserModel.MAIN_USER.isUseGoogleImage() && AppUserModel.MAIN_USER.getImageId()==-1)
+				if(!userModel.isUseGoogleImage() && userModel.getImageId()==-1)
 					setImage();
 			}
 
@@ -210,19 +211,20 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 					@Override
 					public void onClick(View v)
 					{
-						gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-								.requestEmail()
-								.requestIdToken(Login.client_server_id)
-								.build();
-
-						mGoogleApiClient = new GoogleApiClient.Builder(SignUp.this)
-								.enableAutoManage(SignUp.this, SignUp.this)
-								.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-								.build();
 						signIn();
 					}
 				}
 		);
+
+		gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+				.requestEmail()
+				.requestIdToken(Login.client_server_id)
+				.build();
+
+		mGoogleApiClient = new GoogleApiClient.Builder(SignUp.this)
+				.enableAutoManage(SignUp.this, SignUp.this)
+				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+				.build();
 
 		runAnimationUp.start();
 		runAnimationDown.start();
@@ -240,12 +242,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		if(requestCode==RC_SIGN_IN)
 		{
-			if (resultCode == RESULT_OK)
-			{
-				GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-				handleSignInResult(result);
-			}
-			else Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
+			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+			handleSignInResult(result);
 		}
 		if(resultCode==RESULT_OK)
 		{
@@ -484,6 +482,12 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			return false;
 		}
 
+		if(userModel.getEmail().equals(""))
+		{
+			Snackbar.make(findViewById(android.R.id.content), "Please Select Email", Snackbar.LENGTH_SHORT).show();
+			return false;
+		}
+
 		return true;
 	}
 
@@ -621,42 +625,23 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	public void onBackPressed()
 	{
 		if (mProgressDialog != null && mProgressDialog.isShowing())
-			return;
-
-		if (exit)
 		{
-			if(AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this))
-				AppUserModel.MAIN_USER.logoutUser(this);
-			else if(AppUserModel.MAIN_USER.isUserLoggedIn(this))
-				AppUserModel.MAIN_USER.setSignedup(false,this);
-			super.onBackPressed();
-			finish();
+			return;
 		}
-		else
+
+		if (AppUserModel.MAIN_USER.isUserLoggedIn(this))
+		{
+			AppUserModel.MAIN_USER.setSignedup(false, this);
+		}
+
 		if (isTaskRoot())
 		{
-			if (!exit)
-			{
-				exit = true;
-				Toast.makeText(SignUp.this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
-				new Handler().postDelayed(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						exit = false;
-					}
-				}, getResources().getInteger(R.integer.WarningDuration));
-			}
+			startActivity(new Intent(SignUp.this, Login.class));
 		}
 		else
 		{
-			if(AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this))
-				AppUserModel.MAIN_USER.logoutUser(this);
-			else if(AppUserModel.MAIN_USER.isUserLoggedIn(this))
-				AppUserModel.MAIN_USER.setSignedup(false,this);
-
 			super.onBackPressed();
+			finish();
 		}
 		ActivityHelper.setExitAnimation(SignUp.this);
 	}
