@@ -221,11 +221,7 @@ public class DashboardPage extends AppCompatActivity
             {
                 if(status==ResponseStatus.SUCCESS && object!=null)
                 {
-                    ArrayList<EventModel> models=(ArrayList<EventModel>)object;
-                    ArrayList<EventKey> keys=new ArrayList<>(models.size());
-
-                    for(EventModel model:models)
-                        keys.add(model);
+                    ArrayList<EventKey> keys=(ArrayList<EventKey>)object;
                     eventAdapter.setEvents(keys);
                 }
                 else if(status==ResponseStatus.NONE)

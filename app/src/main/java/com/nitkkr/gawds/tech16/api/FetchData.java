@@ -1208,17 +1208,18 @@ public class FetchData
 
                             if (code == 200)
                             {
-                                for(int i=0;i<data.length();i++){
-                                    String Name=data.getJSONObject(i).getString("Name");
-                                    int Id=data.getJSONObject(i).getInt("Id");
-                                    int CategoryId=data.getJSONObject(i).getInt("CategoryId");
+                                ArrayList<EventKey> keys=new ArrayList<>();
+                                for(int i=0;i<data.length();i++)
+                                {
+                                    EventKey key=new EventKey();
+                                    JSONObject object=data.getJSONObject(i);
+                                    key.setEventName(object.getString("Name"));
+                                    key.setEventID(object.getInt("Id"));
+                                    //object.getInt("CategoryId");
+                                    keys.add(key);
                                 }
-
-
-//                                Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
-//                                Log.v("DEBUG", data.toString());
-//                                if(callback!=null)
-//                                    callback.onResponse(ResponseStatus.SUCCESS,eventModels);
+                                if(callback!=null)
+                                    callback.onResponse(ResponseStatus.SUCCESS,keys);
                             }
                             else
                             {
