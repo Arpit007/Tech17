@@ -130,14 +130,15 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode==RESULT_OK)
-        {
             if (requestCode == RC_SIGN_IN)
             {
-                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-                handleSignInResult(result);
+                if(resultCode==RESULT_OK)
+                {
+                    GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                    handleSignInResult(result);
+                }
+                else Toast.makeText(this,"Please SignUp",Toast.LENGTH_SHORT).show();
             }
-        }
     }
 
     private void handleSignInResult(GoogleSignInResult result)

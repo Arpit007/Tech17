@@ -210,33 +210,16 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 					@Override
 					public void onClick(View v)
 					{
-						if(Check())
-						{
-							gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+						gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 								.requestEmail()
 								.requestIdToken(Login.client_server_id)
 								.build();
 
-							mGoogleApiClient = new GoogleApiClient.Builder(SignUp.this)
-									.enableAutoManage(SignUp.this, SignUp.this)
-									.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-									.build();
-							signIn();
-
-						}
-						else
-						{
-							findViewById(R.id.signup_Warning).setVisibility(View.VISIBLE);
-							new Handler().postDelayed(new Runnable()
-							{
-								@Override
-								public void run()
-								{
-									findViewById(R.id.signup_Warning).setVisibility(View.INVISIBLE);
-								}
-							}, getResources().getInteger(R.integer.WarningDuration));
-						}
-
+						mGoogleApiClient = new GoogleApiClient.Builder(SignUp.this)
+								.enableAutoManage(SignUp.this, SignUp.this)
+								.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+								.build();
+						signIn();
 					}
 				}
 		);
@@ -255,13 +238,17 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if(resultCode==RESULT_OK)
+		if(requestCode==RC_SIGN_IN)
 		{
-			if (requestCode == RC_SIGN_IN)
+			if (resultCode == RESULT_OK)
 			{
 				GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 				handleSignInResult(result);
 			}
+			else Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
+		}
+		if(resultCode==RESULT_OK)
+		{
 			if(requestCode==AVATAR)
 			{
 				int ID = data.getIntExtra("ID", -1);
