@@ -34,6 +34,7 @@ import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.model.EventStatus;
+import com.nitkkr.gawds.tech16.src.CustomTabLayout;
 import com.nitkkr.gawds.tech16.src.PdfDownloader;
 
 import java.text.SimpleDateFormat;
@@ -245,7 +246,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(getIntent().getExtras().getInt("NotificationID"));
 
-		TabLayout tabLayout=(TabLayout)findViewById(R.id.event_tab_layout);
+		CustomTabLayout tabLayout=(CustomTabLayout) findViewById(R.id.event_tab_layout);
 		ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
 
 		key = (EventKey) getIntent().getExtras().getSerializable("Event");
