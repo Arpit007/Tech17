@@ -34,11 +34,8 @@ public class About extends FragmentActivity {
 		ActivityHelper.setCreateAnimation(this);
 
 		isLogin=getIntent().getBooleanExtra("Login",false);
+		ActivityHelper.setStatusBarColor(About.this);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-			ActivityHelper.setStatusBarColor(About.this);
-		}
 		mViewPager = (ViewPager) findViewById(R.id.view_pager);
 		mViewPager.setOffscreenPageLimit(0);
 		view = findViewById(R.id.page_indicator);
