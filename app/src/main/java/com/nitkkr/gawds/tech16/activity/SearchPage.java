@@ -86,4 +86,13 @@ public class SearchPage extends AppCompatActivity
 			ActivityHelper.setExitAnimation(this);
 		}
 	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+
+		if(adapter.ID!=-1)
+			adapter.notifyDataSetChanged();
+	}
 }

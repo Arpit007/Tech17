@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="#00ffffff" />
+    </item>
+    <item android:gravity="center_vertical|right">
+        <layer-list>
+            <item android:drawable="@drawable/ic_arrow_drop_down_white_24dp" android:gravity="center" android:bottom="10dp"/>
+        </layer-list>
+    </item>
+</layer-list>

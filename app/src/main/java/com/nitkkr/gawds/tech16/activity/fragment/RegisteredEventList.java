@@ -89,4 +89,13 @@ public class RegisteredEventList extends Fragment
 		listAdapter.setEvents(listDataChild);
 		listAdapter.notifyDataSetChanged();
 	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+
+		if(listAdapter.EventID!=-1)
+			listAdapter.notifyDataSetChanged();
+	}
 }

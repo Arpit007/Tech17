@@ -26,7 +26,7 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 	private Context context;
 	private EventSearch eventSearch;
 	private boolean Notify;
-	private int EventID=-1;
+	public int EventID=-1;
 
 	public EventListAdapter(Context context, ArrayList<EventKey> events, final boolean Notify)
 	{
@@ -35,15 +35,6 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 		this.Events = events;
 
 		eventSearch=new EventSearch(this);
-
-		this.registerDataSetObserver(new DataSetObserver()
-		{
-			@Override
-			public void onChanged()
-			{
-				EventID=-1;
-			}
-		});
 	}
 
 	@Override

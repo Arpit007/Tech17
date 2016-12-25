@@ -154,4 +154,12 @@ public class ListPage extends AppCompatActivity
 			ActivityHelper.setExitAnimation(this);
 		}
 	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if(listAdapter.EventID!=-1)
+			listAdapter.notifyDataSetChanged();
+	}
 }

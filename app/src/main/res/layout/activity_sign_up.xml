@@ -135,6 +135,8 @@
     android:textColorHint="@color/text_color_primary"
     android:textColor="@color/text_color_primary"
     android:ems="10"
+    android:gravity="top|start"
+    android:textAlignment="gravity"
     android:layout_marginStart="10dp"
     android:layout_marginBottom="-20dp"
     android:layout_alignBottom="@+id/imageView15"
@@ -175,6 +177,8 @@
     android:textColor="@color/text_color_primary"
     android:hint="Mobile No"
     android:ems="10"
+    android:gravity="top|start"
+    android:textAlignment="gravity"
     android:maxLength="10"
     android:digits="1234567890"
     android:textColorHint="@color/text_color_primary"
@@ -225,7 +229,7 @@
     android:layout_marginStart="10dp"
     android:layout_marginBottom="-10dp"
     android:id="@+id/signup_gender"
-    android:popupBackground="@color/app_background"
+    android:popupBackground="#00ffffff"
     android:textColor="@color/User_Image_Fill_Color"
     android:layout_alignBottom="@+id/imageView21"
     android:layout_alignParentEnd="true"
@@ -279,18 +283,8 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_below="@+id/imageView24"
+              android:layout_marginBottom="-10dp"
               android:visibility="gone">
-<TextView android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textColor="@color/text_color_primary"
-          android:text="College: "
-          android:textSize="20sp"
-          android:visibility="invisible"
-          android:layout_below="@+id/imageView23"
-          android:layout_alignStart="@+id/imageView23"
-          android:layout_marginTop="16dp"
-          android:id="@+id/textView"/>
-
 <EditText android:id="@+id/signup_CollegeName"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -299,7 +293,7 @@
           android:layout_marginStart="15dp"
           android:textColor="@color/text_color_primary"
           android:textColorHint="@color/text_color_primary"
-          android:hint="Your College Name"
+          android:hint="Your College Name" android:layout_marginBottom="-10dp"
           android:textSize="20sp" android:layout_alignBaseline="@+id/textView"
           android:layout_alignBottom="@+id/textView" android:layout_toEndOf="@+id/textView"/>
 </LinearLayout>
@@ -340,7 +334,8 @@
     android:ems="10"
     android:maxLength="12"
     android:textColor="@color/text_color_primary"
-
+    android:gravity="top|start"
+    android:textAlignment="gravity"
     android:textColorHint="@color/text_color_primary"
     android:layout_marginStart="10dp"
     android:layout_marginBottom="-20dp"
@@ -360,7 +355,6 @@
     android:layout_width="match_parent"
     android:layout_height="0.01dp"
     android:layout_below="@+id/signup_year"
-    android:layout_marginTop="10dp"
     android:background="@color/User_Image_Fill_Color"
     android:id="@+id/view34"/>
 <ImageView
@@ -388,8 +382,7 @@
             android:backgroundTint="#ffffff"
             android:popupBackground="@color/app_background"
             android:textColor="@color/User_Image_Fill_Color"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="10dp"
             android:layout_alignStart="@+id/signup_Roll" android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/imageView33"/>
 
@@ -402,15 +395,6 @@
     android:id="@+id/imageView35"
     android:layout_marginTop="13dp"
     android:layout_below="@+id/view34" android:layout_alignStart="@+id/imageView32"/>
-<ImageView
-    android:layout_width="25dp"
-    android:layout_height="25dp"
-    android:background="@drawable/edit_text_image_design"
-    android:layout_marginStart="0dp"
-    android:backgroundTint="@color/app_background"
-    app:srcCompat="@drawable/right_arrow"
-    android:id="@+id/imageView36"
-    android:layout_alignTop="@+id/imageView35" android:layout_toStartOf="@+id/signup_year"/>
 
         <TextView
     android:id="@+id/signup_Warning"
@@ -439,8 +423,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#ffffff"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="-10dp"
             android:popupBackground="@color/app_background"
             android:textColor="@color/User_Image_Fill_Color"
             android:layout_alignTop="@+id/imageView36" android:layout_alignStart="@+id/signup_Roll"/>
@@ -460,6 +444,15 @@
             android:textSize="18sp"
             android:layout_below="@+id/imageView35"
             android:layout_alignStart="@+id/view2" android:layout_toStartOf="@+id/signup_Done"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/edit_text_image_design"
+            android:backgroundTint="@color/app_background"
+            app:srcCompat="@drawable/right_arrow"
+            android:id="@+id/imageView36"
+            android:layout_above="@+id/signup_Email" android:layout_alignStart="@+id/imageView24"/>
 
     </RelativeLayout>
     </ScrollView>

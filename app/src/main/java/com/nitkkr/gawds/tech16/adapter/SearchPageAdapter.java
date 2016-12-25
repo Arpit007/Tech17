@@ -27,7 +27,7 @@ public class SearchPageAdapter extends BaseAdapter
 	private Context context;
 	private SearchPageFilter filter=new SearchPageFilter(this);
 	private ArrayList<SearchPageFilter.Holder> Keys=new ArrayList<>();
-	private int ID=-1;
+	public int ID=-1;
 
 	public SearchPageAdapter(Context context){this.context = context;}
 
@@ -53,7 +53,7 @@ public class SearchPageAdapter extends BaseAdapter
 	public View getView(int i, View view, ViewGroup viewGroup)
 	{
 
-		if(ID==i)
+		if(ID==Keys.get(i).key.getEventID())
 		{
 			SearchPageFilter.Holder holder=Keys.get(i);
 			switch (holder.type)
@@ -95,7 +95,7 @@ public class SearchPageAdapter extends BaseAdapter
 
 	public void onClick(int ID)
 	{
-		this.ID = ID;
+		this.ID = Keys.get(ID).key.getEventID();
 		SearchPageFilter.Holder holder=Keys.get(ID);
 		if(holder.type== EventTargetType.Event || holder.type==EventTargetType.Informals)
 		{

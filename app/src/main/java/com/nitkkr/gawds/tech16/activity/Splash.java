@@ -22,6 +22,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.api.FetchData;
@@ -34,7 +41,9 @@ import io.fabric.sdk.android.services.concurrency.AsyncTask;
 import com.nitkkr.gawds.tech16.src.RateApp;
 import com.nitkkr.gawds.tech16.src.Typewriter;
 
-public class Splash extends AppCompatActivity
+import static com.nitkkr.gawds.tech16.activity.Login.mGoogleApiClient;
+
+public class Splash extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
 {
 	boolean secondPermissionRequest=false;
 	private static final int STORAGE_PERMISSION_CODE =1 ;
@@ -234,6 +243,35 @@ public class Splash extends AppCompatActivity
 			FetchData.getInstance().fetchUserWishlist(getBaseContext());
 		}
 
+		if(AppUserModel.MAIN_USER.isUserLoggedIn(this))
+		{
+			try
+			{
+				GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+						.requestEmail()
+						.build();
+
+				mGoogleApiClient = new GoogleApiClient.Builder(this)
+						.enableAutoManage(this, this)
+						.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+						.build();
+				OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+				if (opr.isDone())
+				{
+					GoogleSignInResult result = opr.get();
+					if (result.isSuccess())
+					{
+						GoogleSignInAccount acct = result.getSignInAccount();
+						AppUserModel.MAIN_USER.setImageResource(acct.getPhotoUrl().toString());
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+
 		handler.postDelayed(runnable, getResources().getInteger(R.integer.SplashDuration));
 	}
 
@@ -267,6 +305,11 @@ public class Splash extends AppCompatActivity
 
 	@Override
 	public void onBackPressed()
+	{
+	}
+
+	@Override
+	public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
 	{
 	}
 }

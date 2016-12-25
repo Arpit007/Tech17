@@ -97,7 +97,7 @@ public class DashboardPage extends AppCompatActivity
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
                 {
-                    eventAdapter.onClick(i);
+                    eventAdapter.onClick(((EventKey)eventAdapter.getItem(i)).getEventID());
                     if(page==Page.Wishlist)
                     {
                         Bundle bundle = new Bundle();
@@ -251,5 +251,14 @@ public class DashboardPage extends AppCompatActivity
             super.onBackPressed();
             ActivityHelper.setExitAnimation(this);
         }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if(eventAdapter!=null && eventAdapter.EventID!=-1)
+            eventAdapter.notifyDataSetChanged();
     }
 }
