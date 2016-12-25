@@ -419,7 +419,7 @@ public class FetchData
                                     eventModel.setCurrentRound(0);
                                 }
                                 eventModel.setMaxUsers(data.getInt("MaxContestants"));
-                                eventModel.setStatus(EventStatus.Parse(data.getString("Status")));
+                                eventModel.setStatus(EventStatus.Parse(data.getString("Status").toLowerCase()));
                                 eventModel.setPdfLink(data.getString("Pdf"));
                                 eventModel.setCategory(data.getInt("CategoryId"));
                                 eventModel. setSociety(data.getInt("SocietyId"));
@@ -491,7 +491,7 @@ public class FetchData
                                         eventModel.setCurrentRound(0);
                                     }
                                     eventModel.setMaxUsers(data.getJSONObject(i).getInt("MaxContestants"));
-                                    eventModel.setStatus(EventStatus.Parse(data.getJSONObject(i).getString("Status")));
+                                    eventModel.setStatus(EventStatus.Parse(data.getJSONObject(i).getString("Status").toLowerCase()));
                                     eventModel.setPdfLink(data.getJSONObject(i).getString("Pdf"));
                                     eventModel.setCategory(data.getJSONObject(i).getInt("CategoryId"));
                                     eventModel. setSociety(data.getJSONObject(i).getInt("SocietyId"));
@@ -1061,7 +1061,7 @@ public class FetchData
                                         eventModel.setCurrentRound(0);
                                     }
                                     eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
-                                    eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status")));
+                                    eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status").toLowerCase()));
                                     eventModel.setPdfLink(jEvent.getString("Pdf"));
                                     eventModel.setRules(jEvent.getString("Rules"));
                                     eventModel.setCategory(jEvent.getInt("CategoryId"));
@@ -1332,7 +1332,7 @@ public class FetchData
                                             eventModel.setCurrentRound(0);
                                         }
                                         eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
-                                        eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status")));
+                                        eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status").toLowerCase()));
                                         eventModel.setPdfLink(jEvent.getString("Pdf"));
                                         eventModel.setRules(jEvent.getString("Rules"));
                                         eventModel.setCategory(jEvent.getInt("CategoryId"));
