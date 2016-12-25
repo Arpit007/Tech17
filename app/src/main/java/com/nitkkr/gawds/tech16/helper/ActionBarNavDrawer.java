@@ -125,9 +125,9 @@ public class ActionBarNavDrawer
 				i.setData(Uri.parse(url));
 				activity.startActivity(i);
 			}
-			catch (ActivityNotFoundException e)
+			catch (Exception e)
 			{
-				// Chrome is not installed
+				e.printStackTrace();
 				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 				activity.startActivity(i);
 			}

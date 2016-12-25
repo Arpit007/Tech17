@@ -8,6 +8,7 @@ import android.util.Log;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -89,8 +90,12 @@ public class PdfDownloader
 	public void DownloadPdf(final String url, final iCallback callback, final Context context)
 	{
 		if(isPdfExisting(url))
-			if (callback != null)
-				callback.DownloadComplete(url, ResponseStatus.FAILED);
+		{
+			viewPdfIfExists(url, context);
+			if(callback!=null)
+				callback.DownloadComplete(url,ResponseStatus.SUCCESS);
+			return;
+		}
 
 		if(!ActivityHelper.isInternetConnected())
 		{
@@ -209,6 +214,8 @@ public class PdfDownloader
 					}
 				}, null);
 
+		//request.setRetryPolicy(new DefaultRetryPolicy(10000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,	DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		request.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 		RequestQueue mRequestQueue = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
 		mRequestQueue.add(request);
 	}

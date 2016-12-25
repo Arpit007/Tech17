@@ -2,7 +2,6 @@ package com.nitkkr.gawds.tech16.helper;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,18 +14,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.transition.Slide;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.api.Query;
 import com.nitkkr.gawds.tech16.activity.Home;
 import com.nitkkr.gawds.tech16.activity.ListPage;
-import com.nitkkr.gawds.tech16.model.AppUserModel;
-import com.nitkkr.gawds.tech16.src.CheckUpdate;
+import com.nitkkr.gawds.tech16.src.UpdateCheck;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -119,9 +115,9 @@ public class ActivityHelper
 		activity.overridePendingTransition(R.anim.anim_none,R.anim.anim_right_out);
 	}
 
-	public static void comingSoonSnackBar(Activity activity)
+	public static void comingSoonSnackBar(String Message, Activity activity)
 	{
-		if(CheckUpdate.getInstance().isUpdateAvailable())
+		if(UpdateCheck.getInstance().isUpdateAvailable())
 		{
 			Snackbar.make(activity.findViewById(android.R.id.content), "Update to Access this Feature", Snackbar.LENGTH_LONG)
 					.setAction("Update Now", new View.OnClickListener()
@@ -153,7 +149,7 @@ public class ActivityHelper
 		}
 		else
 		{
-			Snackbar.make(activity.findViewById(android.R.id.content), "Feature Coming Soon", Snackbar.LENGTH_SHORT).show();
+			Snackbar.make(activity.findViewById(android.R.id.content), Message, Snackbar.LENGTH_SHORT).show();
 		}
 	}
 }

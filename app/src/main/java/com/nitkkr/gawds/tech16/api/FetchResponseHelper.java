@@ -42,6 +42,7 @@ public class FetchResponseHelper
 	public void reset()
 	{
 		requestCount = responseCount = 0;
+		error=null;
 	}
 
 	public boolean isAllFetchComplete()
@@ -53,7 +54,6 @@ public class FetchResponseHelper
 
 	public void DisplayError(final Context context)
 	{
-
 		if(!ActivityHelper.isInternetConnected() && isAnyError() && Database.getInstance().getEventsDB().getRowCount()==0)
 		{
 			Toast.makeText(context,"App's First Run\nRestart with Network Connection\nExiting...",Toast.LENGTH_LONG).show();
@@ -74,6 +74,7 @@ public class FetchResponseHelper
 				Toast.makeText(context,"Network Error",Toast.LENGTH_LONG).show();
 			else Toast.makeText(context,"Error Fetching Feed",Toast.LENGTH_LONG).show();
 		}
+		reset();
 	}
 
 

@@ -27,7 +27,7 @@ import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.src.CheckUpdate;
+import com.nitkkr.gawds.tech16.src.UpdateCheck;
 import io.fabric.sdk.android.Fabric;
 import com.nitkkr.gawds.tech16.src.RateApp;
 import com.nitkkr.gawds.tech16.src.Typewriter;
@@ -65,13 +65,21 @@ public class Splash extends AppCompatActivity
 			{
 				startActivity(new Intent(Splash.this,Home.class));
 			}
-			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && !AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())){
-				startActivity(new Intent(Splash.this,Login.class));
-			}
-
-			//if  logged in
-			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext())){
-				startActivity(new Intent(Splash.this,Home.class));
+			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
+			{
+				if (!AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
+				{
+					Intent intent = new Intent(Splash.this, SignUp.class);
+					intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
+					startActivity(intent);
+				}
+				else if(Database.getInstance().getInterestDB().getSelectedInterests().size()==0)
+				{
+					Intent intent = new Intent(Splash.this, Interests.class);
+					intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
+					startActivity(intent);
+				}
+				else startActivity(new Intent(Splash.this,Home.class));
 			}
 			else
 			{
@@ -207,7 +215,7 @@ public class Splash extends AppCompatActivity
 				});*/
 		}
 
-		CheckUpdate.getInstance().checkForUpdate(getApplicationContext());
+		UpdateCheck.getInstance().checkForUpdate(getApplicationContext());
 
 		RateApp.getInstance().incrementAppStartCount(getApplicationContext());
 

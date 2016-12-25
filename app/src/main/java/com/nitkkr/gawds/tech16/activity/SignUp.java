@@ -3,6 +3,7 @@ package com.nitkkr.gawds.tech16.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -17,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,51 +59,48 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
 {
-	Animation slideUp,slideDown;
-	View upper, lower;
 	Thread runAnimationUp = new Thread(){
 		@Override
 		public void run() {
-			upper.startAnimation(slideUp);
+			findViewById(R.id.view3).startAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up));
 		}
 	};
 	Thread runAnimationDown = new Thread(){
 		@Override
 		public void run() {
-			lower.startAnimation(slideDown);
+			findViewById(R.id.view2).startAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down));
 		}
 	};
 
-	private PopupMenu popup;
+	private boolean exit;
 	private final int AVATAR=234;
-	boolean Processing, Verified = false;
 	private  String TAG="DEBUG";
-	private static final int RC_SIGN_IN = 007;
+	private static final int RC_SIGN_IN = 678;
 	private GoogleApiClient mGoogleApiClient;
 	private ProgressDialog mProgressDialog;
 	private GoogleSignInOptions gso;
-	String personName,personPhotoUrl,email,token_user,token_recieved,College,Gender,Branch,RollNo,PhoneNumber,Year;
 
-	ResponseStatus success= ResponseStatus.SUCCESS;
-	ResponseStatus failed= ResponseStatus.FAILED;
+	AppUserModel userModel=(AppUserModel)AppUserModel.MAIN_USER.clone();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
+
 		ActivityHelper.setCreateAnimation(this);
+
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-		if(!AppUserModel.MAIN_USER.isUserLoggedIn(this))
+		if(!userModel.isUserLoggedIn(this))
 		{
-			AppUserModel.MAIN_USER.setUseGoogleImage(false);
-			AppUserModel.MAIN_USER.setImageId(0);
+			userModel.setUseGoogleImage(false);
+			userModel.setImageId(0);
 		}
 
-		setImage();
 
-		ActivityHelper.setStatusBarColor(this);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			ActivityHelper.setStatusBarColor(this);
 
 		( (RadioButton) findViewById(R.id.signup_NitRadio) ).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 		{
@@ -111,32 +108,22 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			public void onCheckedChanged(CompoundButton compoundButton, boolean checked)
 			{
 				if (checked)
-				{
 					findViewById(R.id.signup_OtherCollege).setVisibility(View.GONE);
-				}
-				else
-				{
-					findViewById(R.id.signup_OtherCollege).setVisibility(View.VISIBLE);
-				}
+				else findViewById(R.id.signup_OtherCollege).setVisibility(View.VISIBLE);
 			}
 		});
 
-		//TODO: Add Branches Data
-		String Branches[] = getResources().getStringArray(R.array.Branches);
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Branches);
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,getResources().getStringArray(R.array.Branches));
 		AppCompatSpinner spinner=(AppCompatSpinner) findViewById(R.id.signup_Branch);
 		spinner.setAdapter(adapter);
 		spinner.setSelection(0);
 
-		String Gender[] = getResources().getStringArray(R.array.Gender);
-		ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Gender);
+		ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,getResources().getStringArray(R.array.Gender));
 		spinner=(AppCompatSpinner) findViewById(R.id.signup_gender);
 		spinner.setAdapter(adapter2);
 		spinner.setSelection(0);
 
-
-		String Year[] = getResources().getStringArray(R.array.Year);
-		ArrayAdapter<String> adapter3 = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,Year);
+		ArrayAdapter<String> adapter3 = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_modified,R.id.branch_selected,getResources().getStringArray(R.array.Year));
 		spinner=(AppCompatSpinner) findViewById(R.id.signup_year);
 		spinner.setAdapter(adapter3);
 		spinner.setSelection(0);
@@ -144,24 +131,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		Typewriter signupLabel=(Typewriter)findViewById(R.id.signup_label);
 		signupLabel.animateText("   Sign up");
 		signupLabel.setCharacterDelay(60);
-
-		//if user logged in first then if found new
-
-		 personName=AppUserModel.MAIN_USER.getName();
-		 email=AppUserModel.MAIN_USER.getEmail();
-		 personPhotoUrl=AppUserModel.MAIN_USER.getImageResource();
-
-
-
-		EditText name_editText; Button email_button;
-		if(!personName.equals("")){
-			name_editText=( EditText)findViewById(R.id.signup_Name);
-			name_editText.setText(personName);
-		}
-		if(!email.equals("")){
-			email_button=(Button) findViewById(R.id.signup_Email);
-			email_button.setText(email);
-		}
 
 		(( EditText)findViewById(R.id.signup_Name)).addTextChangedListener(new TextWatcher()
 		{
@@ -183,16 +152,25 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			}
 		});
 
+		if(userModel.isUserLoggedIn(this))
+		{
+			(( EditText)findViewById(R.id.signup_Name)).setText(userModel.getName());
+			Button button=((Button) findViewById(R.id.signup_Email));
+			button.setText(userModel.getEmail());
+		}
+
+		setImage();
+
 		findViewById(R.id.signup_user_Image_Button).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
 			{
-				popup = new PopupMenu(SignUp.this, view);
+				PopupMenu popup = new PopupMenu(SignUp.this, view);
 				MenuInflater inflater = popup.getMenuInflater();
 				inflater.inflate(R.menu.image_menu, popup.getMenu());
 
-				if(email.equals(""))
+				if(userModel.getEmail().equals(""))
 					popup.getMenu().getItem(0).setVisible(false);
 				else popup.getMenu().getItem(0).setVisible(true);
 
@@ -204,8 +182,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 						switch (item.getItemId())
 						{
 							case R.id.google_Image:
-								AppUserModel.MAIN_USER.setUseGoogleImage(true);
-								AppUserModel.MAIN_USER.setImageId(-1);
+								userModel.setUseGoogleImage(true);
+								userModel.setImageId(-1);
 								setImage();
 								break;
 
@@ -215,8 +193,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 								break;
 
 							case R.id.alphabet:
-								AppUserModel.MAIN_USER.setUseGoogleImage(false);
-								AppUserModel.MAIN_USER.setImageId(-1);
+								userModel.setUseGoogleImage(false);
+								userModel.setImageId(-1);
 								setImage();
 								break;
 						}
@@ -227,18 +205,27 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			}
 		});
 
-
-		Button google_signIn_btn=(Button)findViewById(R.id.signup_Email);
-		google_signIn_btn.setOnClickListener(
+		findViewById(R.id.signup_Email).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
-					public void onClick(View v) {
-						if(Check()){
-							mGoogleApiClient = Login.mGoogleApiClient;
+					public void onClick(View v)
+					{
+						if(Check())
+						{
+							gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+								.requestEmail()
+								.requestIdToken(Login.client_server_id)
+								.build();
+
+							mGoogleApiClient = new GoogleApiClient.Builder(SignUp.this)
+									.enableAutoManage(SignUp.this, SignUp.this)
+									.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+									.build();
 							signIn();
 
-						}else{
-
+						}
+						else
+						{
 							findViewById(R.id.signup_Warning).setVisibility(View.VISIBLE);
 							new Handler().postDelayed(new Runnable()
 							{
@@ -254,179 +241,160 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				}
 		);
 
-		token_recieved=AppUserModel.MAIN_USER.getToken();
-		lower = findViewById(R.id.view2);
-		upper = findViewById(R.id.view3);
-		slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
-		slideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up);
 		runAnimationUp.start();
 		runAnimationDown.start();
-
-
 	}
+
 	private void signIn() {
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
+
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if(resultCode==RESULT_OK)
 		{
-			// Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 			if (requestCode == RC_SIGN_IN)
 			{
 				GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 				handleSignInResult(result);
 			}
-		}
-
-		if(resultCode==RESULT_OK)
-		{
 			if(requestCode==AVATAR)
 			{
 				int ID = data.getIntExtra("ID", -1);
-				AppUserModel.MAIN_USER.setImageId(ID);
 
-				AppUserModel.MAIN_USER.setUseGoogleImage(( ID == -1 ));
+				userModel.setImageId(ID);
+				if(ID!=-1)
+					userModel.setUseGoogleImage(false);
 
 				setImage();
 			}
 		}
 	}
-	private void handleSignInResult(GoogleSignInResult result) {
 
+	private void handleSignInResult(GoogleSignInResult result)
+	{
 		Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-		if (result.isSuccess()) {
-			// Signed in successfully, show authenticated UI.
+		if (result.isSuccess())
+		{
 			GoogleSignInAccount acct = result.getSignInAccount();
 
 			if(acct!=null)
 			{
-				Log.v(TAG, "display name: " + acct.getDisplayName());
+				userModel.setName(acct.getDisplayName());
+				try
+				{
+					userModel.setImageResource(acct.getPhotoUrl().toString());
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 
-				personName = acct.getDisplayName();
-				personPhotoUrl = acct.getPhotoUrl().toString();
-				email = acct.getEmail();
-				token_user = acct.getIdToken();
-			}
-			Log.e(TAG, "Name: " + personName + ", email: " + email
-					+ ", Image: " + personPhotoUrl+" token :"+token_user);
+				userModel.setEmail(acct.getEmail());
+				userModel.setToken(acct.getIdToken());
 
-
-			if(popup!=null)
-			{
-				if (email.equals(""))
-					popup.getMenu().getItem(0).setVisible(false);
-				else popup.getMenu().getItem(0).setVisible(true);
+				(( EditText)findViewById(R.id.signup_Name)).setText(userModel.getName());
+				((Button) findViewById(R.id.signup_Email)).setText(userModel.getEmail());
 			}
 			sendToken();
-		} else {
-			// Signed out, show unauthenticated UI.
-			signup_result(failed);
+		}
+		else
+		{
+			signUpResult(ResponseStatus.FAILED);
 		}
 	}
 
-	public void sendToken(){
+	public void sendToken()
+	{
 		showProgressDialog("Verifying");
 
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
 				getResources().getString(R.string.login_post_url),
-				new Response.Listener<String>() {
+				new Response.Listener<String>()
+				{
 					@Override
-					public void onResponse(String res) {
-
-						//check response if good send to handler
-						JSONObject response= null,status=null,data=null;
-						String message;
+					public void onResponse(String res)
+					{
+						JSONObject response,data;
 						int code;
 						boolean isNew;
-						try {
+						try
+						{
 							response = new JSONObject(res);
-							status=response.getJSONObject("status");
 							data=response.getJSONObject("data");
 
-							code=status.getInt("code");
-							message=status.getString("message");
+							code=response.getJSONObject("status").getInt("code");
 
 							isNew=data.getBoolean("IsNew");
-							token_recieved=data.getString("token");
+							userModel.setToken(data.getString("token"));
 
-							//save this token for further use
+							if(code==200)
+							{
+								Log.v(TAG,response.getJSONObject("status").getString("message"));
 
-							if(code==200){
-								Log.v(TAG,message);
-								//success
-								if(isNew){
-									Button email_button;
-
-									if(!email.equals("")){
-										email_button=(Button) findViewById(R.id.signup_Email);
-										email_button.setText(email);
-									}
-
-								}else{
-
-									//already logged in user
-									AppUserModel.MAIN_USER.setLoggedIn(false,getBaseContext());
-									AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
-									Toast.makeText(SignUp.this,"Already signed up!!, please login",Toast.LENGTH_LONG).show();
+								if(!isNew)
+								{
+									Toast.makeText(SignUp.this,"Already signed up!!\n please login",Toast.LENGTH_LONG).show();
 									startActivity(new Intent(SignUp.this,Login.class));
+									ActivityHelper.setExitAnimation(SignUp.this);
+									finish();
 								}
-							}else{
-								//failure
-								signup_result(failed);
+								else hideProgressDialog();
 							}
-
-						} catch (JSONException e) {
-							e.printStackTrace();
+							else
+							{
+								signUpResult(ResponseStatus.FAILED);
+							}
 						}
-
-
-						hideProgressDialog();
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							signUpResult(ResponseStatus.FAILED);
+						}
 					}
 				},
 				new Response.ErrorListener() {
 					@Override
-					public void onErrorResponse(VolleyError error) {
-						Toast.makeText(SignUp.this,error.toString(),Toast.LENGTH_LONG).show();
-						hideProgressDialog();
+					public void onErrorResponse(VolleyError error)
+					{
+						signUpResult(ResponseStatus.FAILED);
 					}
 				}){
 			@Override
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<>();
-				params.put("idToken",token_user);
+				params.put("idToken",userModel.getToken());
 				return params;
 			}
-
 		};
 
 		RequestQueue requestQueue = Volley.newRequestQueue(this);
 		requestQueue.add(stringRequest);
 	}
 
-
 	private void setImage()
 	{
-		if(AppUserModel.MAIN_USER.getImageResource()!=null && AppUserModel.MAIN_USER.isUseGoogleImage())
+		if(userModel.getImageResource()!=null && userModel.isUseGoogleImage())
 		{
 			CircleImageView view=(CircleImageView)findViewById(R.id.signup_user_Image);
 			view.setVisibility(View.VISIBLE);
 
-			Glide.with(SignUp.this).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
+			Glide.with(SignUp.this).load(userModel.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
 
 			findViewById(R.id.signup_user_Image_Letter).setVisibility(View.INVISIBLE);
 			findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}
-		else if(AppUserModel.MAIN_USER.getImageId()!=-1)
+		else if(userModel.getImageId()!=-1)
 		{
 			CircleImageView view=(CircleImageView)findViewById(R.id.signup_user_Image);
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array=getResources().obtainTypedArray(R.array.Avatar);
-			view.setImageResource(array.getResourceId(AppUserModel.MAIN_USER.getImageId(),0));
+			view.setImageResource(array.getResourceId(userModel.getImageId(),0));
 			array.recycle();
 
 			CircularTextView circularTextView=(CircularTextView)findViewById(R.id.signup_user_Image_Letter);
@@ -473,15 +441,32 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		EditText signup_Roll=( (EditText) findViewById(R.id.signup_Roll) );
 		AppCompatSpinner signup_year=( (AppCompatSpinner) findViewById(R.id.signup_year) );
 
-		if (( signup_name ).getText().toString().trim().equals(""))
+		String Name=( signup_name ).getText().toString().trim();
+		if (Name.equals(""))
 		{
-			signup_name.setError("required");
+			signup_name.setError("Required");
 			return false;
 		}
 
-		if (( (RadioButton) findViewById(R.id.signup_OtherRadio) ).isChecked() && ( (EditText) ( findViewById(R.id.signup_CollegeName) ) ).getText().toString().trim().equals(""))
+		if (Name.length()<3)
 		{
+			signup_name.setError("Invalid");
 			return false;
+		}
+
+		if (( (RadioButton) findViewById(R.id.signup_OtherRadio) ).isChecked())
+		{
+			String Clg=( (EditText) ( findViewById(R.id.signup_CollegeName) ) ).getText().toString();
+			if(Clg.equals(""))
+			{
+				( (EditText) ( findViewById(R.id.signup_CollegeName) ) ).setError("Required");
+				return false;
+			}
+			if(Clg.length()<3)
+			{
+				( (EditText) ( findViewById(R.id.signup_CollegeName) ) ).setError("Invalid");
+				return false;
+			}
 		}
 		if ( signup_number.getText().toString().trim().equals("") )
 		{
@@ -489,15 +474,23 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			return false;
 		}
 		if(( (TextView) findViewById(R.id.signup_Number) ).getText().length() < 10){
-			signup_number.setError("Not valid");
-			return false;
-		}
-		if ( signup_Roll.getText().toString().trim().equals("") )
-		{
-			signup_Roll.setError("required");
+			signup_number.setError("Invalid");
 			return false;
 		}
 
+		String roll=signup_Roll.getText().toString().trim();
+
+		if ( roll.equals(""))
+		{
+			signup_Roll.setError("Required");
+			return false;
+		}
+
+		if ( roll.length()<4)
+		{
+			signup_Roll.setError("Invalid");
+			return false;
+		}
 		if ( signup_year.getSelectedItem().toString().trim().equals("") )
 		{
 			signup_year.setPrompt("required");
@@ -507,114 +500,90 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		return true;
 	}
 
-	public void save_and_send_user_details(){
-
-		showProgressDialog("Saving");
+	public void saveAndSendUserDetails()
+	{
+		showProgressDialog("Signing Up...");
 
 		if(( (RadioButton) findViewById(R.id.signup_NitRadio) ).isChecked())
-			College="NIT Kurukshetra";
+			userModel.setCollege("NIT Kurukshetra");
 		else
-			College=(((EditText)findViewById(R.id.signup_CollegeName)).getText().toString());
+			userModel.setCollege(((EditText)findViewById(R.id.signup_CollegeName)).getText().toString());
 
-		RollNo=(( EditText)findViewById(R.id.signup_Roll)).getText().toString();
-		PhoneNumber=(( EditText)findViewById(R.id.signup_Number)).getText().toString();
-		Gender=((Spinner)findViewById(R.id.signup_gender)).getSelectedItem().toString();
-		Branch=((Spinner)findViewById(R.id.signup_Branch)).getSelectedItem().toString();
-		Year=(( AppCompatSpinner)findViewById(R.id.signup_year)).getSelectedItem().toString();
-
-		//saving user data
-		AppUserModel.MAIN_USER.setName(personName);
-		AppUserModel.MAIN_USER.setEmail(email);
-		AppUserModel.MAIN_USER.setImageResource(personPhotoUrl);
-		AppUserModel.MAIN_USER.setToken(token_recieved);
-		AppUserModel.MAIN_USER.setRoll(RollNo);
-		AppUserModel.MAIN_USER.setCollege(College);
-		AppUserModel.MAIN_USER.setMobile(PhoneNumber);
-		AppUserModel.MAIN_USER.setBranch(Branch);
-		AppUserModel.MAIN_USER.setGender(Gender);
-		AppUserModel.MAIN_USER.setYear(Year);
-
-		AppUserModel.MAIN_USER.saveAppUser(SignUp.this);
-
-		//saved now send it
-		hideProgressDialog();
-
-		send_user_details();
-
+		userModel.setRoll((( EditText)findViewById(R.id.signup_Roll)).getText().toString());
+		userModel.setMobile((( EditText)findViewById(R.id.signup_Number)).getText().toString());
+		userModel.setGender(((Spinner)findViewById(R.id.signup_gender)).getSelectedItem().toString());
+		userModel.setBranch(((Spinner)findViewById(R.id.signup_Branch)).getSelectedItem().toString());
+		userModel.setYear((( AppCompatSpinner)findViewById(R.id.signup_year)).getSelectedItem().toString());
+		sendUserDetails();
 	}
 
-	public void send_user_details(){
-
-		showProgressDialog("Setting fire to the rain");
-
+	public void sendUserDetails()
+	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url)+
 				getResources().getString(R.string.get_user_details_url),
-				new Response.Listener<String>() {
+				new Response.Listener<String>()
+				{
 					@Override
-					public void onResponse(String res) {
-
-						//check response if good send to handler
-						JSONObject response= null,status=null,data=null;
+					public void onResponse(String res)
+					{
+						JSONObject response;
 						String message;
 						int code;
-						try {
+						try
+						{
 							response = new JSONObject(res);
-							status=response.getJSONObject("status");
 
-							code=status.getInt("code");
-							message=status.getString("message");
+							code=response.getJSONObject("status").getInt("code");
+							message=response.getJSONObject("status").getString("message");
 
-							if(code==200){
+							if(code==200)
+							{
 								Log.v(TAG,message);
-
-								//user details updated on server
-								signup_result(success);
-
-							}else{
-
-								//failure
-								signup_result(failed);
+								signUpResult(ResponseStatus.SUCCESS);
 							}
-
-						} catch (JSONException e) {
-							e.printStackTrace();
+							else
+							{
+								signUpResult(ResponseStatus.FAILED);
+							}
 						}
-
-						Toast.makeText(SignUp.this,res,Toast.LENGTH_LONG).show();
-						hideProgressDialog();
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							signUpResult(ResponseStatus.FAILED);
+						}
 					}
 				},
-				new Response.ErrorListener() {
+				new Response.ErrorListener()
+				{
 					@Override
-					public void onErrorResponse(VolleyError error) {
-						Toast.makeText(SignUp.this,error.toString(),Toast.LENGTH_LONG).show();
-						hideProgressDialog();
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						signUpResult(ResponseStatus.FAILED);
 					}
 				}){
 			@Override
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<>();
-				params.put("token",token_recieved);
-				params.put("name",personName);
-				params.put("rollNo",RollNo);
-				params.put("phoneNo",PhoneNumber);
-				params.put("branch",Branch);
-				params.put("year",Year);
-				params.put("college",College);
-				params.put("gender",Gender);
+				params.put("token",userModel.getToken());
+				params.put("name",userModel.getName());
+				params.put("rollNo",userModel.getRoll());
+				params.put("phoneNo",userModel.getMobile());
+				params.put("branch",userModel.getBranch());
+				params.put("year",userModel.getYear());
+				params.put("college",userModel.getCollege());
+				params.put("gender",userModel.getGender());
 				return params;
 			}
-
 		};
 
 		RequestQueue requestQueue = Volley.newRequestQueue(this);
 		requestQueue.add(stringRequest);
-
-
 	}
 
-	public void signup_result(ResponseStatus status){
-
+	public void signUpResult(ResponseStatus status)
+	{
+		hideProgressDialog();
 
 		switch (status)
 			{
@@ -622,10 +591,12 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 					AppUserModel.MAIN_USER.setSignedup(false,getBaseContext());
 					Toast.makeText(this,"Failed to Sign Up, Please Try Again",Toast.LENGTH_LONG).show();
 					break;
-				case SUCCESS:
 
+				case SUCCESS:
+					AppUserModel.MAIN_USER=userModel;
 					AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
 					AppUserModel.MAIN_USER.setLoggedIn(true,getBaseContext());
+					AppUserModel.MAIN_USER.saveAppUser(this);
 
 					Intent intent=new Intent(SignUp.this, Interests.class);
 					Bundle bundle=new Bundle();
@@ -634,17 +605,16 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 					startActivity(intent);
 					break;
 				default:
+					Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
 					break;
 			}
-
-
 	}
+
 	public void SignUpButton(View view)
 	{
-
-		if (Check() && !( (String) ( (Button) findViewById(R.id.signup_Email) ).getText() ).trim().equals(""))
+		if (Check() && !userModel.getEmail().equals(""))
 		{
-			save_and_send_user_details();
+			saveAndSendUserDetails();
 		}
 		else
 		{
@@ -663,49 +633,73 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	@Override
 	public void onBackPressed()
 	{
-		if (Processing)
+		if (mProgressDialog != null && mProgressDialog.isShowing())
+			return;
+
+		if (exit)
 		{
-			Toast.makeText(getBaseContext(), "Please Wait", Toast.LENGTH_SHORT).show();
+			if(AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this))
+				AppUserModel.MAIN_USER.logoutUser(this);
+			else if(AppUserModel.MAIN_USER.isUserLoggedIn(this))
+				AppUserModel.MAIN_USER.setSignedup(false,this);
+			super.onBackPressed();
+			finish();
+		}
+		else
+		if (isTaskRoot())
+		{
+			if (!exit)
+			{
+				exit = true;
+				Toast.makeText(SignUp.this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+				new Handler().postDelayed(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						exit = false;
+					}
+				}, getResources().getInteger(R.integer.WarningDuration));
+			}
 		}
 		else
 		{
-			if (mProgressDialog!=null && mProgressDialog.isShowing())
-				return;
-
-
-			AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
+			if(AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this))
+				AppUserModel.MAIN_USER.logoutUser(this);
+			else if(AppUserModel.MAIN_USER.isUserLoggedIn(this))
+				AppUserModel.MAIN_USER.setSignedup(false,this);
 
 			super.onBackPressed();
-			ActivityHelper.setExitAnimation(this);
 		}
+		ActivityHelper.setExitAnimation(SignUp.this);
 	}
-
 
 	@Override
-	public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-		// An unresolvable error has occurred and Google APIs (including Sign-In) will not
-		// be available.
-		Log.d(TAG, "onConnectionFailed:" + connectionResult);
-
+	public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
+	{
+		Toast.makeText(this,"Network Error",Toast.LENGTH_SHORT).show();
+		Log.d("DEBUG", "onConnectionFailed:" + connectionResult);
 	}
-	private void showProgressDialog(String msg) {
-		if (mProgressDialog == null) {
-			mProgressDialog = new ProgressDialog(this);
-			mProgressDialog.setMessage(msg);
-			mProgressDialog.setIndeterminate(true);
-			mProgressDialog.setCancelable(false);
 
+	private void showProgressDialog(String msg)
+	{
+		if (mProgressDialog == null)
+		{
+			mProgressDialog = new ProgressDialog(this);
 		}
+		mProgressDialog = new ProgressDialog(this);
+		mProgressDialog.setMessage(msg);
+		mProgressDialog.setIndeterminate(true);
+		mProgressDialog.setCancelable(false);
 
 		mProgressDialog.show();
 	}
 
-	private void hideProgressDialog() {
-		if (mProgressDialog != null && mProgressDialog.isShowing()) {
-			mProgressDialog.hide();
+	private void hideProgressDialog()
+	{
+		if (mProgressDialog != null)
+		{
+			mProgressDialog.dismiss();
 		}
 	}
-
-
-
 }

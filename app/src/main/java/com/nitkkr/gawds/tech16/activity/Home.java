@@ -15,7 +15,7 @@ import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.iActionBar;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
-import com.nitkkr.gawds.tech16.src.CheckUpdate;
+import com.nitkkr.gawds.tech16.src.UpdateCheck;
 import com.nitkkr.gawds.tech16.src.RateApp;
 
 public class Home extends AppCompatActivity implements View.OnClickListener
@@ -53,9 +53,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		barNavDrawer.setOpenNewSearchPage(true);
 
 
-		if(CheckUpdate.getInstance().isUpdateAvailable())
+		if(UpdateCheck.getInstance().isUpdateAvailable())
 		{
-			if (!CheckUpdate.getInstance().displayUpdate(Home.this))
+			if (!UpdateCheck.getInstance().displayUpdate(Home.this))
 				if (RateApp.getInstance().isReadyForRating(Home.this))
 					RateApp.getInstance().displayRating(Home.this);
 		}
@@ -112,7 +112,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 
 		if(page== DashboardPage.Page.Notification)
 		{
-			ActivityHelper.comingSoonSnackBar(Home.this);
+			ActivityHelper.comingSoonSnackBar("Feature Coming Soon",Home.this);
 			return;
 		}
 

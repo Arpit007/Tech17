@@ -26,8 +26,9 @@
              android:layout_alignParentBottom="true"
              android:layout_marginBottom="10dp"/>
     <Button
-        android:visibility="visible"
+        android:visibility="invisible"
         android:textSize="15sp"
+        android:layout_marginBottom="-15dp"
         android:text="Next" android:id="@+id/Login_Button"
         android:background="@drawable/border_button"
         android:textColor="@color/text_color_primary"

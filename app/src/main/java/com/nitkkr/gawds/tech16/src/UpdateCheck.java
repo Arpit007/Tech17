@@ -28,15 +28,15 @@ import static com.nitkkr.gawds.tech16.helper.ActivityHelper.getApplicationContex
  * Created by Home Laptop on 18-Nov-16.
  */
 
-public class CheckUpdate
+public class UpdateCheck
 {
 	private boolean UpdateAvailable=false;
 
-	private static CheckUpdate CHECK_UPDATE=new CheckUpdate();
+	private static UpdateCheck CHECK_UPDATE=new UpdateCheck();
 
-	public static CheckUpdate getInstance(){return CHECK_UPDATE;}
+	public static UpdateCheck getInstance(){return CHECK_UPDATE;}
 
-	private CheckUpdate(){}
+	private UpdateCheck(){}
 
 	public boolean isUpdateAvailable()
 	{

@@ -232,8 +232,8 @@ public class EditUser extends AppCompatActivity
 			{
 				int ID = data.getIntExtra("ID", -1);
 				AppUserModel.MAIN_USER.setImageId(ID);
-
-				AppUserModel.MAIN_USER.setUseGoogleImage(( ID == -1 ));
+				if(ID!=-1)
+					AppUserModel.MAIN_USER.setUseGoogleImage(false);
 
 				AppUserModel.MAIN_USER.saveAppUser(EditUser.this);
 

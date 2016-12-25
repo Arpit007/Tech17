@@ -136,7 +136,7 @@ public class AppUserModel extends UserModel implements Cloneable
 		setName(preferences.getString("Name",""));
 		setEmail(preferences.getString("Email",""));
 		setRoll(preferences.getString("Roll",""));
-		setYear(preferences.getString("Year","1"));
+		setYear(preferences.getString("Year",""));
 		setCollege(preferences.getString("College",""));
 		setMobile(preferences.getString("Mobile",""));
 		setBranch(preferences.getString("Branch",""));
@@ -177,7 +177,8 @@ public class AppUserModel extends UserModel implements Cloneable
 		editor.commit();
 	}
 
-	public boolean isUserLoggedIn(Context context){
+	public boolean isUserLoggedIn(Context context)
+	{
 		SharedPreferences sp=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE);
 		loggedIn=sp.getBoolean("loggedIn",false);
 

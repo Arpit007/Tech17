@@ -168,7 +168,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 						else
 						{
 							/*TODO:Remove on Update*/
-							ActivityHelper.comingSoonSnackBar(Event.this);
+							ActivityHelper.comingSoonSnackBar("Team Registration Coming Soon",Event.this);
 
 							/*Intent intent = new Intent(Event.this, CreateTeam.class);
 							Bundle bundle=new Bundle();
