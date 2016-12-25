@@ -29,6 +29,12 @@ public class InterestAdapter extends BaseAdapter
 		this.context=context;
 	}
 
+	public InterestAdapter(Context context, ArrayList<InterestModel> keys)
+	{
+		list= keys;
+		this.context=context;
+	}
+
 	@Override
 	public int getCount()
 	{

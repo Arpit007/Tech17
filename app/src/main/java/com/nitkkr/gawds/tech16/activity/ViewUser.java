@@ -49,7 +49,7 @@ public class ViewUser extends AppCompatActivity
 		if(model.getEmail().equals(AppUserModel.MAIN_USER.getEmail()))
 		{
 			bar.setButtonLabel("Edit");
-			bar.setButtonDrawable(R.drawable.ic_edit);
+			bar.setButtonDrawable(R.drawable.ic_edit_white);
 			bar.setButtonVisibility(View.VISIBLE);
 		}
 		else

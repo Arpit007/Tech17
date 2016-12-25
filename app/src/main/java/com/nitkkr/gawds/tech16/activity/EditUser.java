@@ -72,7 +72,7 @@ public class EditUser extends AppCompatActivity
 					}
 
 					progressDialog=new ProgressDialog(EditUser.this);
-					progressDialog.setMessage("Uploading Changes...");
+					progressDialog.setMessage("Updating Changes...");
 					progressDialog.setCancelable(false);
 					progressDialog.setIndeterminate(true);
 					progressDialog.show();
@@ -119,7 +119,9 @@ public class EditUser extends AppCompatActivity
 			public void onClick(View view)
 			{
 				Intent intent=new Intent(EditUser.this,Interests.class);
-				intent.putExtra("Return_Interest",true);
+				Bundle bundle=new Bundle();
+				bundle.putSerializable("Keys",model.getInterests());
+				bundle.putSerializable("Return_Interest",true);
 				startActivityForResult(intent,INTEREST);
 			}
 		});
@@ -380,7 +382,7 @@ public class EditUser extends AppCompatActivity
 					ActivityHelper.revertToHome(EditUser.this);
 					ActivityHelper.setExitAnimation(EditUser.this);
 				}
-			},getResources().getInteger(R.integer.AutoCloseDuration));
+			},1000);
 		}
 	}
 }
