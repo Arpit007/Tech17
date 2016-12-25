@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nitkkr.gawds.tech16.model.CoordinatorModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.CoordinatorModel;
 
 import java.util.List;
 

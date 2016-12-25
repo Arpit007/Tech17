@@ -2,14 +2,15 @@ package com.nitkkr.gawds.tech16.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.adapter.RegisterTeamAdapter;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
@@ -18,7 +19,6 @@ import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.model.TeamModel;
-import com.nitkkr.gawds.tech16.R;
 
 //TODO:Fix
 public class ViewTeam extends AppCompatActivity

@@ -5,14 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.widget.Button;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,18 +29,14 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.api.FetchData;
-import com.nitkkr.gawds.tech16.api.FetchResponseHelper;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.helper.App;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
-import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 import com.nitkkr.gawds.tech16.src.Typewriter;
-
-import android.view.animation.AnimationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

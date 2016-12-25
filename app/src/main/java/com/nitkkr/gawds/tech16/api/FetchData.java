@@ -13,7 +13,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.nitkkr.gawds.tech16.activity.Exhibition;
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.database.DbConstants;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
@@ -24,7 +24,6 @@ import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.model.EventStatus;
 import com.nitkkr.gawds.tech16.model.ExhibitionModel;
 import com.nitkkr.gawds.tech16.model.InterestModel;
-import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.model.NotificationModel;
 import com.nitkkr.gawds.tech16.model.SocietyModel;
 

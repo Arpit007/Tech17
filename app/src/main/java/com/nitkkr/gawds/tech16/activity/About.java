@@ -2,10 +2,10 @@ package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -13,9 +13,9 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Toast;
 
-import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.activity.fragment.ScreenSlidePageFragment;
+import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.SlideTransformer;
 
 public class About extends FragmentActivity {

@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -29,19 +29,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
-import com.nitkkr.gawds.tech16.R;
-import com.nitkkr.gawds.tech16.src.UpdateCheck;
-import io.fabric.sdk.android.Fabric;
-import io.fabric.sdk.android.services.concurrency.AsyncTask;
-
 import com.nitkkr.gawds.tech16.src.RateApp;
 import com.nitkkr.gawds.tech16.src.Typewriter;
+import com.nitkkr.gawds.tech16.src.UpdateCheck;
+
+import io.fabric.sdk.android.Fabric;
 
 import static com.nitkkr.gawds.tech16.activity.Login.mGoogleApiClient;
 

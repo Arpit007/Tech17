@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.InterestModel;
-import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
 

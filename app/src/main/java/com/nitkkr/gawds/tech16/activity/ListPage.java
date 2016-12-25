@@ -2,8 +2,8 @@ package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
 import android.database.DataSetObserver;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -11,16 +11,16 @@ import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.adapter.EventListAdapter;
 import com.nitkkr.gawds.tech16.api.EventTargetType;
 import com.nitkkr.gawds.tech16.api.Query;
-import com.nitkkr.gawds.tech16.adapter.EventListAdapter;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.database.DbConstants;
 import com.nitkkr.gawds.tech16.helper.ActionBarSearch;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.iActionBar;
 import com.nitkkr.gawds.tech16.model.EventKey;
-import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
 

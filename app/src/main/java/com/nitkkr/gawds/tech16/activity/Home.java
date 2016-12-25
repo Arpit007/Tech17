@@ -3,22 +3,22 @@ package com.nitkkr.gawds.tech16.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.iActionBar;
-import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
-import com.nitkkr.gawds.tech16.src.UpdateCheck;
 import com.nitkkr.gawds.tech16.src.RateApp;
+import com.nitkkr.gawds.tech16.src.UpdateCheck;
 
 public class Home extends AppCompatActivity implements View.OnClickListener
 {

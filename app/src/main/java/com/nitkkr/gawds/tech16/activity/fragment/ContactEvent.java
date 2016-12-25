@@ -10,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.adapter.CoordinatorAdapter;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.CoordinatorModel;
-import com.nitkkr.gawds.tech16.adapter.CoordinatorAdapter;
 import com.nitkkr.gawds.tech16.model.EventModel;
-import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
 

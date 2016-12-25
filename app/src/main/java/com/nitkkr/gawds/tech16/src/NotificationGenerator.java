@@ -11,12 +11,12 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.activity.Exhibition;
 import com.nitkkr.gawds.tech16.activity.Home;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.EventKey;
-import com.nitkkr.gawds.tech16.R;
 
 import java.util.Date;
 

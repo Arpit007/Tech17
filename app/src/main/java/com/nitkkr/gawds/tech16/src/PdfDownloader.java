@@ -15,9 +15,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
-import com.nitkkr.gawds.tech16.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

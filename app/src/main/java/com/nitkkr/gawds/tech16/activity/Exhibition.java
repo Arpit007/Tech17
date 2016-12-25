@@ -3,10 +3,10 @@ package com.nitkkr.gawds.tech16.activity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.database.Database;
@@ -24,7 +25,6 @@ import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.ExhibitionModel;
-import com.nitkkr.gawds.tech16.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -73,10 +73,6 @@ public class Exhibition extends AppCompatActivity
 					}
 				}
 			});
-		}
-		else
-		{
-			//TODO:Get Exhibition
 		}
 
 		fab.setOnClickListener(new View.OnClickListener()

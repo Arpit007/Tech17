@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.activity.SearchPage;
 import com.nitkkr.gawds.tech16.model.TeamModel;
-import com.nitkkr.gawds.tech16.R;
 
 
 /**

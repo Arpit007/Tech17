@@ -4,9 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,15 +14,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.adapter.InterestAdapter;
+import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
-import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
-import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.model.InterestModel;
 
 import java.util.ArrayList;

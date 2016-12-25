@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,26 +14,25 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.activity.fragment.AboutEvent;
 import com.nitkkr.gawds.tech16.activity.fragment.ContactEvent;
 import com.nitkkr.gawds.tech16.activity.fragment.Result_frag;
 import com.nitkkr.gawds.tech16.activity.fragment.RulesEvent;
+import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.EventKey;
 import com.nitkkr.gawds.tech16.model.EventModel;
-import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.model.EventStatus;
 import com.nitkkr.gawds.tech16.src.PdfDownloader;
 
@@ -55,6 +55,11 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		Button Register = (Button) findViewById(R.id.Event_Register);
 		if (model.isRegistered())
 		{
+			Register.setText("Registered");
+			Register.setEnabled(false);
+
+			//========TODO:Remove on Update=====================
+			/*
 			if (model.isSingleEvent())
 			{
 				Register.setText("Registered");
@@ -63,6 +68,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			if (model.isGroupEvent())
 			{
 				Register.setText("View Team");
+
+
 				Register.setOnClickListener(new View.OnClickListener()
 				{
 					@Override
@@ -75,7 +82,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 						startActivity(intent);
 					}
 				});
-			}
+			}*/
 		}
 		else
 		{

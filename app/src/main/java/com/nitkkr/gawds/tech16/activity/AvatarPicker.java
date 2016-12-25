@@ -1,16 +1,16 @@
 package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.adapter.AvatarAdapter;
 import com.nitkkr.gawds.tech16.helper.ActionBarBack;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
-import com.nitkkr.gawds.tech16.R;
 
 public class AvatarPicker extends AppCompatActivity
 {

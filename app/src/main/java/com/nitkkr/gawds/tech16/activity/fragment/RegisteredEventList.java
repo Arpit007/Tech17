@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.activity.Event;
 import com.nitkkr.gawds.tech16.adapter.EventListAdapter;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.EventKey;
-import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
 

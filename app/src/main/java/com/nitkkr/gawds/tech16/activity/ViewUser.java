@@ -2,19 +2,19 @@ package com.nitkkr.gawds.tech16.activity;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.model.UserModel;
-import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.src.CircularTextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;

@@ -1,7 +1,6 @@
 package com.nitkkr.gawds.tech16.adapter;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,9 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.model.EventKey;
-import com.nitkkr.gawds.tech16.R;
 
 import java.util.ArrayList;
 

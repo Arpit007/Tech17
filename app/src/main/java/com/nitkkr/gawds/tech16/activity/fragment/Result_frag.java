@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nitkkr.gawds.tech16.model.EventModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.EventModel;
 
 /**
  * Created by Dell on 18-Dec-16.
