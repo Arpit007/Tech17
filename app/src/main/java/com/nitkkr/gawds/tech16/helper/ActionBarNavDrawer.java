@@ -14,12 +14,23 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.api.EventTargetType;
 import com.nitkkr.gawds.tech16.api.Query;
 import com.nitkkr.gawds.tech16.activity.About;
@@ -34,6 +45,7 @@ import com.nitkkr.gawds.tech16.src.CircularTextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.nitkkr.gawds.tech16.activity.Login.mGoogleApiClient;
 import static com.nitkkr.gawds.tech16.helper.ActivityHelper.startListActivity;
 
 /**
@@ -100,13 +112,42 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.nav_logout)
 		{
-			AppUserModel.MAIN_USER.logoutUser(activity);
+			try
+			{
+				GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+						.requestEmail()
+						.build();
 
-			intent = new Intent(activity, Login.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			activity.startActivity(intent);
-			activity.finish();
+				mGoogleApiClient = new GoogleApiClient.Builder(activity)
+						.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+						.build();
+				if (mGoogleApiClient.isConnected())
+				{
+					Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
+					{
+						@Override
+						public void onResult(Status status)
+						{
+							if(status.isSuccess())
+							{
+								Toast.makeText(activity,"Logged Out Successfully",Toast.LENGTH_SHORT).show();
+								AppUserModel.MAIN_USER.logoutUser(activity);
 
+								Intent intent = new Intent(activity, Login.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+								activity.startActivity(intent);
+								activity.finish();
+							}
+							else Toast.makeText(activity,"LogOut Failed",Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				Toast.makeText(activity,"LogOut Failed",Toast.LENGTH_SHORT).show();
+			}
 		}
 		else if (id == R.id.nav_login)
 		{
@@ -390,5 +431,4 @@ public class ActionBarNavDrawer
 			navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
 		}
 	}
-
 }

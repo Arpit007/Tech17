@@ -80,7 +80,7 @@ public class SearchPageAdapter extends BaseAdapter
 
 		if (holder.key.isNotify())
 		{
-			Star.setImageResource(R.drawable.icon_unstarred);
+			Star.setImageResource(R.drawable.icon_starred);
 			Star.setVisibility(View.VISIBLE);
 		}
 		else

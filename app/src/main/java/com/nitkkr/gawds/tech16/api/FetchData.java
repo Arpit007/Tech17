@@ -13,6 +13,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.nitkkr.gawds.tech16.activity.Exhibition;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.database.DbConstants;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
@@ -580,89 +581,6 @@ public class FetchData
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
-    }
-
-    public void fetchAllGTalks(final Context context)
-    {
-        FetchResponseHelper.getInstance().incrementRequestCount();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures),
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String res)
-                    {
-                        JSONObject response;
-                        JSONArray data;
-                        int code;
-                        try
-                        {
-                            response = new JSONObject(res);
-                            code=response.getJSONObject("status").getInt("code");
-                            data=response.getJSONArray("data");
-                            if(code==200)
-                            {
-                                ArrayList<ExhibitionModel> models=Database.getInstance().getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " = 1");
-                                int Size=models.size();
-                                for(int i=0;i<data.length();i++)
-                                {
-                                    ExhibitionModel model = new ExhibitionModel();
-                                    JSONObject object = data.getJSONObject(i);
-
-                                    int ID=object.getInt("Id"), index=-1;
-
-                                    for(int x=0;x<Size;x++)
-                                    {
-                                        if(models.get(x).getEventID()==ID)
-                                        {
-                                            model=models.get(x);
-                                            index=x;
-                                            break;
-                                        }
-                                    }
-
-                                    model.setEventName(object.getString("GuestName"));
-                                    model.setEventID(object.getInt("Id"));
-                                    model.setEventDate(EventModel.parseDate(object.getString("Start")));
-                                    model.setEventEndDate(EventModel.parseDate(object.getString("End")));
-                                    model.setImage_URL(object.getString("Photo"));
-                                    model.setDescription(object.getString("Description"));
-                                    model.setAuthor(object.getString("Designation"));
-                                    model.setVenue(object.getString("Venue"));
-                                    model.setGTalk(true);
-
-                                    if(index==-1)
-                                        models.add(model);
-                                }
-                                Log.v("DEBUG","GUSTO TALK"+data.toString());
-                                Database.getInstance().getExhibitionDB().addOrUpdateExhibition(models);
-                                FetchResponseHelper.getInstance().incrementResponseCount(null);
-                            }
-                            else
-                            {
-                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                            }
-                        }
-                        catch (JSONException e)
-                        {
-                            e.printStackTrace();
-                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        error.printStackTrace();
-                        FetchResponseHelper.getInstance().incrementResponseCount(error);
-                    }
-                });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-
     }
 
     public void getGTalk(final Context context, final EventKey key, final iResponseCallback callback)
@@ -1336,11 +1254,15 @@ public class FetchData
                             if (code == 200)
                             {
                                 ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getEvents("");
+                                ArrayList<EventModel> finalEvents=new ArrayList<>();
+
                                 ArrayList<ExhibitionModel> exhibitionModels=Database.getInstance().getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
+                                ArrayList<ExhibitionModel> finalExhibition=new ArrayList<>();
+
                                 ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
 
                                 int evSize=eventModels.size(), exSize=exhibitionModels.size();
-                                int ID,index;
+                                int ID;
                                 boolean isInformal;
 
                                 for (int i = 0; i < data.length(); i++)
@@ -1354,14 +1276,12 @@ public class FetchData
                                         JSONObject object = data.getJSONObject(i);
 
                                         ID=jEvent.getInt("Id");
-                                        index=-1;
 
                                         for(int x=0;x<exSize;x++)
                                         {
                                             if(exhibitionModels.get(x).getEventID()==ID)
                                             {
                                                 model=exhibitionModels.get(x);
-                                                index=x;
                                                 break;
                                             }
                                         }
@@ -1376,8 +1296,7 @@ public class FetchData
                                         model.setVenue(object.getString("Venue"));
                                         model.setGTalk(false);
 
-                                        if(index==-1)
-                                            exhibitionModels.add(model);
+                                        finalExhibition.add(model);
                                     }
                                     else
                                     {
@@ -1386,7 +1305,6 @@ public class FetchData
                                         isInformal = ( Category.equals("informals") || Category.equals("informalz") || Temp1.equals("informals") || Temp1.equals("informalz"));
 
                                         ID = jEvent.getInt("Id");
-                                        index = -1;
 
                                         EventModel eventModel = new EventModel();
 
@@ -1395,7 +1313,6 @@ public class FetchData
                                             if (eventModels.get(x).getEventID() == ID)
                                             {
                                                 eventModel = eventModels.get(x);
-                                                index = x;
                                                 break;
                                             }
                                         }
@@ -1422,8 +1339,7 @@ public class FetchData
                                         eventModel.setCategory(jEvent.getInt("CategoryId"));
                                         eventModel.setSociety(jEvent.getInt("SocietyId"));
 
-                                        if(index==-1)
-                                            eventModels.add(eventModel);
+                                        finalEvents.add(eventModel);
 
                                         coordinators = jEvent.getJSONArray("Coordinators");
 
@@ -1441,11 +1357,15 @@ public class FetchData
                                     }
                                 }
 
-                                Database.getInstance().getExhibitionDB().addOrUpdateExhibition(exhibitionModels);
-                                Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
-                                Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
+                                fetchAllGTalks(context,exhibitionModels,finalExhibition);
 
-                                FetchResponseHelper.getInstance().incrementResponseCount(null);
+                                Database.getInstance().getEventsDB().deleteTable();
+                                Database.getInstance().getEventsDB().onCreate(Database.getInstance().getDatabase());
+                                Database.getInstance().getEventsDB().addOrUpdateEvent(finalEvents);
+
+                                Database.getInstance().getCoordinatorDB().deleteTable();
+                                Database.getInstance().getCoordinatorDB().onCreate(Database.getInstance().getDatabase());
+                                Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
                             }
                             else
                             {
@@ -1467,6 +1387,86 @@ public class FetchData
                     {
                         FetchResponseHelper.getInstance().incrementResponseCount(error);
                         error.printStackTrace();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    private void fetchAllGTalks(final Context context, final ArrayList<ExhibitionModel> initialList, final ArrayList<ExhibitionModel> finalList)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.guestLectures),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String res)
+                    {
+                        JSONObject response;
+                        JSONArray data;
+                        int code;
+                        try
+                        {
+                            response = new JSONObject(res);
+                            code=response.getJSONObject("status").getInt("code");
+                            data=response.getJSONArray("data");
+                            if(code==200)
+                            {
+                                ArrayList<ExhibitionModel> models=initialList;
+                                int Size=models.size();
+                                for(int i=0;i<data.length();i++)
+                                {
+                                    ExhibitionModel model = new ExhibitionModel();
+                                    JSONObject object = data.getJSONObject(i);
+
+                                    int ID=object.getInt("Id");
+
+                                    for(int x=0;x<Size;x++)
+                                    {
+                                        if(models.get(x).getEventID()==ID)
+                                        {
+                                            model=models.get(x);
+                                            break;
+                                        }
+                                    }
+
+                                    model.setEventName(object.getString("GuestName"));
+                                    model.setEventID(object.getInt("Id"));
+                                    model.setEventDate(EventModel.parseDate(object.getString("Start")));
+                                    model.setEventEndDate(EventModel.parseDate(object.getString("End")));
+                                    model.setImage_URL(object.getString("Photo"));
+                                    model.setDescription(object.getString("Description"));
+                                    model.setAuthor(object.getString("Designation"));
+                                    model.setVenue(object.getString("Venue"));
+                                    model.setGTalk(true);
+
+                                    finalList.add(model);
+                                }
+                                Log.v("DEBUG","GUSTO TALK"+data.toString());
+                                Database.getInstance().getExhibitionDB().deleteTable();
+                                Database.getInstance().getExhibitionDB().onCreate(Database.getInstance().getDatabase());
+                                Database.getInstance().getExhibitionDB().addOrUpdateExhibition(finalList);
+                                FetchResponseHelper.getInstance().incrementResponseCount(null);
+                            }
+                            else
+                            {
+                                FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                            FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                        FetchResponseHelper.getInstance().incrementResponseCount(error);
                     }
                 });
 

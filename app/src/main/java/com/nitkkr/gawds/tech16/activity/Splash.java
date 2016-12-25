@@ -29,6 +29,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.api.FetchData;
@@ -235,7 +237,6 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		FetchData.getInstance().fetchAll(getApplicationContext());
 		FetchData.getInstance().getSocieties(getApplicationContext());
-		FetchData.getInstance().fetchAllGTalks(getApplicationContext());
 
 		if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) || AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{

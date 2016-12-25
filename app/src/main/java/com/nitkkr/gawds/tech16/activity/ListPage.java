@@ -35,6 +35,7 @@ public class ListPage extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		Database.getInstance().getNotificationDB().UpdateTable();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_page);
 		ActivityHelper.setCreateAnimation(this);

@@ -12,13 +12,13 @@
     <string name="Misc_Prefs">Misc_Prefs</string>
 
     <string-array name="Branches">
-        <item >Computer Sc</item>
-        <item >Information Tech.</item>
-        <item>Civil</item>
-        <item >Mechanical</item>
-        <item >Electrical</item>
+        <item >Computer Science</item>
+        <item >Information Technology</item>
         <item >Electronics</item>
-        <item >PIE</item>
+        <item >Electrical</item>
+        <item >Mechanical</item>
+        <item>Civil</item>
+        <item >Production</item>
 
     </string-array>
 
