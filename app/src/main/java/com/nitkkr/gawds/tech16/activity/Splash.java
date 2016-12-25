@@ -29,6 +29,8 @@ import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.src.UpdateCheck;
 import io.fabric.sdk.android.Fabric;
+import io.fabric.sdk.android.services.concurrency.AsyncTask;
+
 import com.nitkkr.gawds.tech16.src.RateApp;
 import com.nitkkr.gawds.tech16.src.Typewriter;
 
@@ -126,7 +128,11 @@ public class Splash extends AppCompatActivity
 		slidedown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
 		slideup=AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
 		imageSLideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.image_slide_up);
+
 		ts_logo.startAnimation(imageSLideUp);
+		runAnimationDown.start();
+		runAnimationUp.start();
+		splashTypewriter.animateText("      Techspardha' 17");
 
 		Thread thread=new Thread()
 		{
@@ -140,11 +146,9 @@ public class Splash extends AppCompatActivity
 				else start_app();
 			}
 		};
-		thread.start();
 
-		runAnimationDown.start();
-		runAnimationUp.start();
-		splashTypewriter.animateText("      Techspardha' 17");
+		thread.setPriority(4);
+		thread.start();
 	}
 
 	private boolean isReadStorageAllowed()

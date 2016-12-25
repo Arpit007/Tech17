@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +16,16 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.nitkkr.gawds.tech16.adapter.InterestAdapter;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.R;
+import com.nitkkr.gawds.tech16.model.InterestModel;
+
+import java.util.ArrayList;
 
 public class Interests extends AppCompatActivity
 {
@@ -28,7 +33,7 @@ public class Interests extends AppCompatActivity
 	private InterestAdapter adapter;
 	private ProgressDialog mProgressDialog;
 	String token;
-
+	boolean exit=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -38,7 +43,10 @@ public class Interests extends AppCompatActivity
 		ActivityHelper.setStatusBarColor(this);
 
 		ListView listView = (ListView) findViewById(R.id.interest_list);
-		adapter = new InterestAdapter(getBaseContext());
+
+		if(getIntent().getExtras().getBoolean("Return_Interest",false))
+			adapter=new InterestAdapter(getBaseContext(),( ArrayList<InterestModel>)getIntent().getExtras().getSerializable("Keys"));
+		else adapter = new InterestAdapter(getBaseContext());
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
@@ -193,10 +201,31 @@ public class Interests extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
+		if(exit)
+		{
+			finish();
+			ActivityHelper.setExitAnimation(this);
+		}
 		if (mProgressDialog!=null && mProgressDialog.isShowing())
 			return;
 
-		super.onBackPressed();
-		ActivityHelper.setExitAnimation(this);
+		if(isTaskRoot())
+		{
+			exit = true;
+			Toast.makeText(this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					exit = false;
+				}
+			}, getResources().getInteger(R.integer.WarningDuration));
+		}
+		else
+		{
+			super.onBackPressed();
+			ActivityHelper.setExitAnimation(this);
+		}
 	}
 }
