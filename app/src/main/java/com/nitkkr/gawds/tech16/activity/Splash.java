@@ -219,8 +219,7 @@ public class Splash extends AppCompatActivity
 
 		RateApp.getInstance().incrementAppStartCount(getApplicationContext());
 
-		//FetchData.getInstance().fetchAllEvents(getApplicationContext());
-		//FetchData.getInstance().fetchAllInterests(getApplicationContext());
+
 		FetchData.getInstance().fetchAll(getApplicationContext());
 		FetchData.getInstance().getSocieties(getApplicationContext());
 		FetchData.getInstance().fetchAllGTalks(getApplicationContext());

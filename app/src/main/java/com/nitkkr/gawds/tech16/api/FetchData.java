@@ -523,7 +523,7 @@ public class FetchData
     public void registerSingleEvent(final Context context, String eventId, final iResponseCallback callback)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url)+
-                "api/event/"+eventId+"/register" ,
+                "/api/event/"+eventId+"/register" ,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -1208,54 +1208,17 @@ public class FetchData
 
                             if (code == 200)
                             {
-                                ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getAllEvents();
-                                int Size=eventModels.size();
-
-                                for (int i = 0; i < data.length(); i++)
-                                {
-                                    EventModel eventModel = new EventModel();
-                                    JSONObject jEvent = data.getJSONObject(i);
-
-                                    int ID=jEvent.getInt("Id"), index=-1;
-
-                                    for(int x=0;x<Size;x++)
-                                    {
-                                        if(eventModels.get(x).getEventID()==ID)
-                                        {
-                                            eventModel=eventModels.get(x);
-                                            index=x;
-                                            break;
-                                        }
-                                    }
-                                    eventModel.setEventID(ID);
-                                    eventModel.setEventName(jEvent.getString("Name"));
-                                    eventModel.setDescription(jEvent.getString("Description"));
-                                    eventModel.setVenue(jEvent.getString("Venue"));
-                                    eventModel.setEventDate(EventModel.parseDate(jEvent.getString("Start")));
-                                    eventModel.setEventEndDate(EventModel.parseDate(jEvent.getString("End")));
-                                    try
-                                    {
-                                        eventModel.setCurrentRound(Integer.valueOf(jEvent.getString("CurrentRound")));
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        eventModel.setCurrentRound(0);
-                                    }
-                                    eventModel.setMaxUsers(jEvent.getInt("MaxContestants"));
-                                    eventModel.setStatus(EventStatus.Parse(jEvent.getString("Status")));
-                                    eventModel.setPdfLink(jEvent.getString("Pdf"));
-                                    eventModel.setRules(jEvent.getString("Rules"));
-                                    eventModel.setCategory(jEvent.getInt("CategoryId"));
-                                    eventModel.setSociety(jEvent.getInt("SocietyId"));
-
-                                    if(index==-1)
-                                        eventModels.add(eventModel);
+                                for(int i=0;i<data.length();i++){
+                                    String Name=data.getJSONObject(i).getString("Name");
+                                    int Id=data.getJSONObject(i).getInt("Id");
+                                    int CategoryId=data.getJSONObject(i).getInt("CategoryId");
                                 }
 
-                                Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
-                                Log.v("DEBUG", data.toString());
-                                if(callback!=null)
-                                    callback.onResponse(ResponseStatus.SUCCESS,eventModels);
+
+//                                Database.getInstance().getEventsDB().addOrUpdateEvent(eventModels);
+//                                Log.v("DEBUG", data.toString());
+//                                if(callback!=null)
+//                                    callback.onResponse(ResponseStatus.SUCCESS,eventModels);
                             }
                             else
                             {
