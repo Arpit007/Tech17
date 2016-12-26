@@ -57,6 +57,7 @@ public class Result_frag extends Fragment {
         else
         {
             textView.setText("Update Now to Access This Feature");
+            textView.setVisibility(View.VISIBLE);
             textView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
