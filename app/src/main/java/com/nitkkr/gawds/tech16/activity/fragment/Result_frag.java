@@ -52,12 +52,12 @@ public class Result_frag extends Fragment {
     void fetchResult()
     {
         TextView textView=(TextView)MyView.findViewById(R.id.NotAvail);
+        textView.setVisibility(View.VISIBLE);
         if(!UpdateCheck.getInstance().isUpdateAvailable())
             textView.setText("Feature Coming Soon");
         else
         {
             textView.setText("Update Now to Access This Feature");
-            textView.setVisibility(View.VISIBLE);
             textView.setOnClickListener(new View.OnClickListener()
             {
                 @Override

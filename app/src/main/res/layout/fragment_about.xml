@@ -2,10 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-        <TextView
-            android:visibility="gone"
-            android:textColor="@color/text_color_primary" android:id="@+id/NotAvail"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -19,4 +15,9 @@
         android:layout_height="match_parent"/>
 
 </ScrollView>
+    <TextView
+        android:visibility="gone" android:textAlignment="center"
+        android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+        android:textColor="@color/text_color_primary" android:id="@+id/NotAvail"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
 </RelativeLayout>

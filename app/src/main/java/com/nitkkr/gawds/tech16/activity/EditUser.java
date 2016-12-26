@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -26,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.api.FetchData;
 import com.nitkkr.gawds.tech16.api.iResponseCallback;
+import com.nitkkr.gawds.tech16.database.Database;
 import com.nitkkr.gawds.tech16.helper.ActionBarDoneButton;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
@@ -55,6 +57,10 @@ public class EditUser extends AppCompatActivity
 		setContentView(R.layout.activity_edit_user);
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
+
+		model.setInterests(Database.getInstance().getInterestDB().getAllInterests());
+
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 		Initialise();
 
@@ -120,8 +126,9 @@ public class EditUser extends AppCompatActivity
 			{
 				Intent intent=new Intent(EditUser.this,Interests.class);
 				Bundle bundle=new Bundle();
-				bundle.putSerializable("Keys",model.getInterests());
 				bundle.putSerializable("Return_Interest",true);
+				bundle.putSerializable("Keys",model.getInterests());
+				intent.putExtras(bundle);
 				startActivityForResult(intent,INTEREST);
 			}
 		});

@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -596,6 +597,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 					Answers.getInstance().logSignUp(new SignUpEvent()
 							.putMethod("Google: "+AppUserModel.MAIN_USER.getName())
 							.putSuccess(true));
+
+					getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit().putBoolean("Skip",false).commit();
 
 					Intent intent=new Intent(SignUp.this, Interests.class);
 					Bundle bundle=new Bundle();

@@ -280,9 +280,9 @@ public class ActionBarNavDrawer
 					Bundle bundle=new Bundle();
 					bundle.putSerializable("User",AppUserModel.MAIN_USER);
 					intent.putExtras(bundle);
-					activity.startActivity(intent);
 					DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 					drawer.closeDrawer(GravityCompat.START);
+					activity.startActivity(intent);
 				}
 				else
 				{

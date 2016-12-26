@@ -320,11 +320,18 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
                 AppUserModel.MAIN_USER=userModel;
                 AppUserModel.MAIN_USER.setLoggedIn(true,getBaseContext());
                 AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
+                AppUserModel.MAIN_USER.setUseGoogleImage(false);
+                if(AppUserModel.MAIN_USER.getGender().toLowerCase().equals("male"))
+                    AppUserModel.MAIN_USER.setImageId(0);
+                else AppUserModel.MAIN_USER.setImageId(1);
                 AppUserModel.MAIN_USER.saveAppUser(this);
 
                 Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
 
+                getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit().putBoolean("Skip",false).commit();
+
                 FetchData.getInstance().fetchUserWishlist(getApplicationContext());
+                FetchData.getInstance().fetchUserInterests(getApplicationContext());
 
                 if(!ActivityHelper.isDebugMode(getApplicationContext()))
                 {

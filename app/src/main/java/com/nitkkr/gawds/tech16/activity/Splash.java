@@ -74,12 +74,13 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 			if(Skip)
 			{
 				startActivity(new Intent(Splash.this,Home.class));
+				AppUserModel.MAIN_USER.logoutUser(getApplicationContext());
 			}
 			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
 			{
 				if (!AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 				{
-					Toast.makeText(Splash.this.getApplicationContext(), "Continiuing From Where You Left", Toast.LENGTH_LONG).show();
+					Toast.makeText(Splash.this.getApplicationContext(), "Continuing From Where You Left", Toast.LENGTH_LONG).show();
 					Intent intent = new Intent(Splash.this, SignUp.class);
 					intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
 					startActivity(intent);

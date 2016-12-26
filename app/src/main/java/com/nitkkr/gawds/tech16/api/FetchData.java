@@ -1196,6 +1196,8 @@ public class FetchData
                             interestModel.setInterest(object.getString("Name"));
                             list.add(interestModel);
                         }
+                        Database.getInstance().getInterestDB().deleteTable();
+                        Database.getInstance().getInterestDB().onCreate(Database.getInstance().getDatabase());
                         Database.getInstance().getInterestDB().addOrUpdateInterest(list);
                         Log.v("DEBUG", data.toString());
                         FetchData.getInstance().fetchData(context);

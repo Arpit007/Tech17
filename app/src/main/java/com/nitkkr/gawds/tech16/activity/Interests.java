@@ -76,7 +76,7 @@ public class Interests extends AppCompatActivity
 					appUserModel.setInterests(adapter.getFinalList());
 
 					//Used for Edit User
-					if(getIntent().getBooleanExtra("Return_Interest",false))
+					if(getIntent().getExtras().getBoolean("Return_Interest",false))
 					{
 						Intent data=new Intent();
 						Bundle bundle=new Bundle();
