@@ -159,9 +159,8 @@ public class NotificationGenerator
 		builder = builder.setContentTitle(Label)
 				.setContentText(Message)
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-				.setWhen(new Date().getTime());
-
-		builder=builder.setAutoCancel(true)
+				.setWhen(new Date().getTime())
+				.setAutoCancel(true)
 				.setPriority(Notification.PRIORITY_HIGH);
 
 		if(intent!=null)

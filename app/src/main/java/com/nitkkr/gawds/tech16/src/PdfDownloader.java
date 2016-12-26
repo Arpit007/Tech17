@@ -77,9 +77,9 @@ public class PdfDownloader
 		return URLUtil.guessFileName(url,null,null);
 	}
 
-	public boolean isPdfExisting(String url)
+	public boolean isPdfExisting(String FileName)
 	{
-		return new File(getDataFolder(),getFileName(url)).exists();
+		return new File(getDataFolder(),FileName+".pdf").exists();
 	}
 
 	public boolean isPdfDownloading(String url)
@@ -87,11 +87,11 @@ public class PdfDownloader
 		return Downloading.keySet().contains(getFileName(url));
 	}
 
-	public void DownloadPdf(final String url, final iCallback callback, final Context context)
+	public void DownloadPdf(final String url,final String FileName, final iCallback callback, final Context context)
 	{
-		if(isPdfExisting(url))
+		if(isPdfExisting(FileName))
 		{
-			viewPdfIfExists(url, context);
+			viewPdfIfExists(FileName, context);
 			if(callback!=null)
 				callback.DownloadComplete(url,ResponseStatus.SUCCESS);
 			return;
@@ -99,7 +99,7 @@ public class PdfDownloader
 
 		if(!ActivityHelper.isInternetConnected())
 		{
-			Toast.makeText(context, "No Internet Connection",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "No Network Connection",Toast.LENGTH_SHORT).show();
 			if (callback != null)
 				callback.DownloadComplete(url, ResponseStatus.FAILED);
 		}
@@ -109,7 +109,7 @@ public class PdfDownloader
 		holder.callback = callback;
 		NotificationGenerator generator= new NotificationGenerator(context);
 
-		holder.ID=generator.pdfNotification("Downloading Pdf","Downloading",getFileName(url));
+		holder.ID=generator.pdfNotification("Downloading Pdf","Downloading",FileName+".pdf");
 
 		Downloading.put(getFileName(url),holder);
 
@@ -123,12 +123,12 @@ public class PdfDownloader
 						{
 							if (response!=null)
 							{
-								File Path=new File(getDataFolder(),getFileName(url));
+								File Path=new File(getDataFolder(),FileName+".pdf");
 								FileOutputStream outputStream=new FileOutputStream(Path);
 								outputStream.write(response);
 								outputStream.close();
 
-								Toast.makeText(getApplicationContext(), getFileName(url)+" Downloaded", Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), FileName+".pdf Downloaded", Toast.LENGTH_LONG).show();
 
 								try
 								{
@@ -137,7 +137,7 @@ public class PdfDownloader
 									Downloading.remove(getFileName(url));
 
 
-									File file = new File(getDataFolder(),getFileName(url));
+									File file = new File(getDataFolder(),FileName+".pdf");
 									Intent target = new Intent(Intent.ACTION_VIEW);
 									target.setDataAndType(Uri.fromFile(file),"application/pdf");
 									target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -145,7 +145,7 @@ public class PdfDownloader
 									Intent intent = Intent.createChooser(target, "Open File");
 
 									NotificationGenerator generator1=new NotificationGenerator(context);
-									generator1.pdfNotification(holder1.ID,"Download Complete","Download Complete",getFileName(url),intent,true);
+									generator1.pdfNotification(holder1.ID,"Download Complete","Download Complete",FileName+".pdf",intent,true);
 
 									if (call != null)
 										call.DownloadComplete(url, ResponseStatus.SUCCESS);
@@ -160,7 +160,7 @@ public class PdfDownloader
 						}
 						catch (Exception e)
 						{
-							Toast.makeText(getApplicationContext(), getFileName(url)+" Download Failed", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), FileName+".pdf Download Failed", Toast.LENGTH_LONG).show();
 
 							try
 							{
@@ -169,7 +169,7 @@ public class PdfDownloader
 								Downloading.remove(getFileName(url));
 
 								NotificationGenerator generator1=new NotificationGenerator(context);
-								generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",getFileName(url),null,true);
+								generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",FileName+".pdf",null,true);
 
 								if (call != null)
 									call.DownloadComplete(url, ResponseStatus.FAILED);
@@ -189,7 +189,7 @@ public class PdfDownloader
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
-						Toast.makeText(getApplicationContext(), getFileName(url)+" Download Failed", Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(), FileName+".pdf Download Failed", Toast.LENGTH_LONG).show();
 
 						try
 						{
@@ -198,9 +198,8 @@ public class PdfDownloader
 							Downloading.remove(getFileName(url));
 
 							NotificationGenerator generator1=new NotificationGenerator(context);
-							generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",getFileName(url),null,true);
+							generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",FileName+".pdf",null,true);
 
-							Downloading.remove(getFileName(url));
 							if (call != null)
 								call.DownloadComplete(url, ResponseStatus.FAILED);
 						}
@@ -220,12 +219,12 @@ public class PdfDownloader
 		mRequestQueue.add(request);
 	}
 
-	public void viewPdfIfExists(String url, Context context)
+	public void viewPdfIfExists(String FileName, Context context)
 	{
-		if(!isPdfExisting(url))
+		if(!isPdfExisting(FileName))
 			return;
 
-		File file = new File(getDataFolder(),getFileName(url));
+		File file = new File(getDataFolder(),FileName+".pdf");
 		Intent target = new Intent(Intent.ACTION_VIEW);
 		target.setDataAndType(Uri.fromFile(file),"application/pdf");
 		target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

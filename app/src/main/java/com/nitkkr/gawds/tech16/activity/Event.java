@@ -209,16 +209,16 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			@Override
 			public void onClick(View view)
 			{
-				if(PdfDownloader.getInstance().isPdfExisting(model.getPdfLink()))
+				if(PdfDownloader.getInstance().isPdfExisting(model.getEventName()))
 				{
-					PdfDownloader.getInstance().viewPdfIfExists(model.getPdfLink(),Event.this);
+					PdfDownloader.getInstance().viewPdfIfExists(model.getEventName(),Event.this);
 				}
 				else
 				{
 					PdfButton.setText("Downloading");
 					PdfButton.setEnabled(false);
 
-					PdfDownloader.getInstance().DownloadPdf(model.getPdfLink(), new PdfDownloader.iCallback()
+					PdfDownloader.getInstance().DownloadPdf(model.getPdfLink(), model.getEventName(), new PdfDownloader.iCallback()
 					{
 						@Override
 						public void DownloadComplete(String url, ResponseStatus status)
@@ -358,7 +358,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		Button PdfButton=(Button)findViewById(R.id.Event_Pdf);
 
-		if(PdfDownloader.getInstance().isPdfExisting(model.getPdfLink()))
+		if(PdfDownloader.getInstance().isPdfExisting(model.getEventName()))
 		{
 			PdfButton.setText("View Pdf");
 			PdfButton.setEnabled(true);

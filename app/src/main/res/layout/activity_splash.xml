@@ -32,6 +32,12 @@
         android:id="@+id/lower_splash"
         android:layout_alignTop="@+id/upper_splash"
         android:layout_alignStart="@+id/upper_splash"/>
+    <TextView
+    android:gravity="center" android:layout_alignParentBottom="true"
+    android:text="Beta" android:textSize="140sp" android:textColor="@color/text_color_primary"
+    android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
 
     <com.nitkkr.gawds.tech16.src.Typewriter
         android:text="      Techspardha'17"

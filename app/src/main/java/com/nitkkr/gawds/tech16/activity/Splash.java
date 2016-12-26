@@ -208,7 +208,7 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		if(!ActivityHelper.isDebugMode(getApplicationContext()))
 		{
-			if (AppUserModel.MAIN_USER.isUserLoaded())
+			if (AppUserModel.MAIN_USER.isUserLoggedIn(this))
 			{
 				Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
 				Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
