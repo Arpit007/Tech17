@@ -49,7 +49,7 @@ public class Interests extends AppCompatActivity
 				adapter = new InterestAdapter(getBaseContext(), (ArrayList<InterestModel>) getIntent().getExtras().getSerializable("Keys"));
 			else adapter = new InterestAdapter(getBaseContext());
 		}
-		
+
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override

@@ -43,6 +43,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 import com.nitkkr.gawds.tech16.helper.ResponseStatus;
@@ -57,6 +59,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.nitkkr.gawds.tech16.activity.Login.mGoogleApiClient;
 
 public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
 {
@@ -158,6 +162,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			(( EditText)findViewById(R.id.signup_Name)).setText(userModel.getName());
 			Button button=((Button) findViewById(R.id.signup_Email));
 			button.setText(userModel.getEmail());
+			button.setEnabled(false);
 		}
 
 		setImage();
@@ -284,6 +289,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 				(( EditText)findViewById(R.id.signup_Name)).setText(userModel.getName());
 				((Button) findViewById(R.id.signup_Email)).setText(userModel.getEmail());
+				((Button) findViewById(R.id.signup_Email)).setEnabled(false);
 			}
 			sendToken();
 		}
@@ -629,9 +635,34 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			return;
 		}
 
-		if (AppUserModel.MAIN_USER.isUserLoggedIn(this))
+		if (AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this))
 		{
-			AppUserModel.MAIN_USER.setSignedup(false, this);
+			try
+			{
+				GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+						.requestEmail()
+						.build();
+
+				mGoogleApiClient = new GoogleApiClient.Builder(this)
+						.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+						.build();
+				if (mGoogleApiClient.isConnected())
+				{
+					Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
+					{
+						@Override
+						public void onResult(Status status)
+						{
+							AppUserModel.MAIN_USER.setSignedup(false,SignUp.this);
+						}
+					});
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				Toast.makeText(SignUp.this,"LogOut Failed",Toast.LENGTH_SHORT).show();
+			}
 		}
 
 		if (isTaskRoot())
