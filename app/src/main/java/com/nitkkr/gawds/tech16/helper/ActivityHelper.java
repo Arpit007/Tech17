@@ -20,6 +20,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.activity.Home;
 import com.nitkkr.gawds.tech16.activity.ListPage;
@@ -131,6 +133,7 @@ public class ActivityHelper
 						@Override
 						public void onClick(View view)
 						{
+							Answers.getInstance().logCustom(new CustomEvent("Updated App"));
 							SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE);
 							SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
 

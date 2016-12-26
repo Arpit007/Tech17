@@ -79,12 +79,14 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 			{
 				if (!AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 				{
+					Toast.makeText(Splash.this.getApplicationContext(), "Continiuing From Where You Left", Toast.LENGTH_LONG).show();
 					Intent intent = new Intent(Splash.this, SignUp.class);
 					intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
 					startActivity(intent);
 				}
 				else if(Database.getInstance().getInterestDB().getSelectedInterests().size()==0)
 				{
+					Toast.makeText(Splash.this.getApplicationContext(), "Continiuing From Where You Left", Toast.LENGTH_LONG).show();
 					Intent intent = new Intent(Splash.this, Interests.class);
 					intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
 					startActivity(intent);
@@ -140,7 +142,7 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 		ts_logo.startAnimation(imageSLideUp);
 		runAnimationDown.start();
 		runAnimationUp.start();
-		splashTypewriter.animateText("      Techspardha' 17");
+		splashTypewriter.animateText("      Techspardha '17");
 
 		Thread thread=new Thread()
 		{

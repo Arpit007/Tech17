@@ -39,7 +39,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             app:border_color="@color/User_Image_Border_Color" app:border_width="@dimen/User_Image_Border_Width"
-            android:id="@+id/view_user_Image" android:src="@drawable/avatar_1"
+            android:id="@+id/view_user_Image" app:srcCompat="@drawable/avatar_1"
             android:layout_centerVertical="true" android:layout_centerHorizontal="true"
             android:layout_width="150dp" android:layout_height="150dp"/>
 

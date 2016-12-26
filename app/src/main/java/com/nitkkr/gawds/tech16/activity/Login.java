@@ -22,6 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -328,6 +330,9 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
                 {
                     Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
                     Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
+                    Answers.getInstance().logLogin(new LoginEvent()
+                        .putMethod("Google: "+AppUserModel.MAIN_USER.getName())
+                        .putSuccess(true));
                 }
 
                 if(getIntent().getBooleanExtra("Start_Home",true))
@@ -414,6 +419,7 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
 
     public void Skip(View view)
     {
+        AppUserModel.MAIN_USER.logoutUser(this);
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
         editor.putBoolean("Skip",true);
         editor.apply();

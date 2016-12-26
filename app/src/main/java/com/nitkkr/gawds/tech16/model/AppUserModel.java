@@ -126,7 +126,7 @@ public class AppUserModel extends UserModel implements Cloneable
 		editor.putInt("ImageDrawableID",getImageId());
 
 		if(Interests!=null)
-		Database.getInstance().getInterestDB().addOrUpdateInterest(Interests);
+			Database.getInstance().getInterestDB().addOrUpdateInterest(Interests);
 
 		return editor.commit();
 	}

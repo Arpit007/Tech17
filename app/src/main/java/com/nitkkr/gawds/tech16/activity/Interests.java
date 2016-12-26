@@ -43,11 +43,16 @@ public class Interests extends AppCompatActivity
 
 		ListView listView = (ListView) findViewById(R.id.interest_list);
 
-		if(getIntent().getExtras()!=null)
+		try
 		{
 			if (getIntent().getExtras().getBoolean("Return_Interest", false))
 				adapter = new InterestAdapter(getBaseContext(), (ArrayList<InterestModel>) getIntent().getExtras().getSerializable("Keys"));
 			else adapter = new InterestAdapter(getBaseContext());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			adapter = new InterestAdapter(getBaseContext());
 		}
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()

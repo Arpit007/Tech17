@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:background="@color/app_background"
@@ -11,7 +12,7 @@
         <ImageButton
             android:id="@+id/team_member_Close"
             android:padding="5dp"
-            android:src="@drawable/icon_close"
+            app:srcCompat="@drawable/icon_close"
             android:background="@color/app_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

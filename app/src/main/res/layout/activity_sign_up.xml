@@ -93,7 +93,7 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 app:border_color="@color/text_color_primary" app:border_width="@dimen/User_Image_Border_Width"
-                android:id="@+id/signup_user_Image" android:src="@drawable/avatar_1"
+                android:id="@+id/signup_user_Image"  app:srcCompat="@drawable/avatar_1"
                 android:layout_centerVertical="true" android:layout_centerHorizontal="true"
                 android:layout_width="150dp" android:layout_height="150dp"/>
 
@@ -101,7 +101,7 @@
                 android:id="@+id/signup_user_Image_Button"
                 android:tint="@color/app_background"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:src="@drawable/ic_edit"
+                app:srcCompat="@drawable/ic_edit"
                 android:layout_marginStart="-45dp"
                 android:layout_alignBottom="@+id/signup_user_Image_Letter"
                 android:layout_toEndOf="@+id/signup_user_Image_Letter"/>
@@ -109,12 +109,12 @@
 
         </RelativeLayout>
 
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
     android:layout_marginStart="15dp"
-    android:backgroundTint="@color/app_background"
+    app:backgroundTint="@color/app_background"
     app:srcCompat="@drawable/right_arrow" android:layout_below="@+id/temp_Layout"
     android:layout_toStartOf="@+id/textView4"
     android:layout_marginTop="15dp" android:id="@+id/imageView15"/>
@@ -160,12 +160,12 @@
     android:id="@+id/imageView18"
     android:layout_below="@+id/view4" android:layout_alignStart="@+id/imageView16"
     android:layout_marginTop="18dp"/>
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
     android:layout_marginStart="15dp"
-    android:backgroundTint="@color/app_background"
+    app:backgroundTint="@color/app_background"
     app:srcCompat="@drawable/right_arrow"
     android:id="@+id/imageView17"
     android:layout_alignTop="@+id/imageView18"
@@ -211,12 +211,12 @@
     android:id="@+id/imageView20"
     android:layout_marginTop="19dp" android:layout_below="@+id/view5"
     android:layout_toStartOf="@+id/imageView17"/>
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
     android:layout_marginStart="15dp"
-    android:backgroundTint="@color/app_background"
+    app:backgroundTint="@color/app_background"
     app:srcCompat="@drawable/right_arrow"
     android:id="@+id/imageView21"
     android:layout_alignTop="@+id/imageView20" android:layout_toStartOf="@+id/signup_Number"/>
@@ -225,7 +225,7 @@
     android:layout_height="wrap_content"
     android:hint="Gender"
     android:ems="10"
-    android:backgroundTint="#ffffff"
+    app:backgroundTint="#ffffff"
     android:layout_marginStart="10dp"
     android:layout_marginBottom="-10dp"
     android:id="@+id/signup_gender"
@@ -245,18 +245,19 @@
     android:layout_marginTop="18dp"
     android:layout_below="@+id/view9" android:layout_alignStart="@+id/imageView20"/>
 
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
     android:layout_marginStart="15dp"
-    android:backgroundTint="@color/app_background"
+    app:backgroundTint="@color/app_background"
     app:srcCompat="@drawable/right_arrow"
     android:id="@+id/imageView24"
     android:layout_alignTop="@+id/imageView23" android:layout_toStartOf="@+id/signup_gender"/>
 
 <RadioGroup android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/radioGrp"
             android:orientation="horizontal"
             android:layout_alignBottom="@+id/imageView24"
             android:layout_alignStart="@+id/signup_gender">
@@ -279,25 +280,7 @@
 
 </RadioGroup>
 
-<LinearLayout android:id="@+id/signup_OtherCollege"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_below="@+id/imageView24"
-              android:layout_marginBottom="-10dp"
-              android:visibility="gone">
-<EditText android:id="@+id/signup_CollegeName"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:inputType="textCapWords"
-          android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-          android:layout_marginStart="15dp"
-          android:textColor="@color/text_color_primary"
-          android:textColorHint="@color/text_color_primary"
-          android:hint="Your College Name" android:layout_marginBottom="-10dp"
-          android:textSize="20sp" android:layout_alignBaseline="@+id/textView"
-          android:layout_alignBottom="@+id/textView" android:layout_toEndOf="@+id/textView"/>
-</LinearLayout>
-<View
+        <View
     android:layout_width="match_parent"
     android:layout_height="0.01dp"
     android:layout_below="@+id/signup_OtherCollege"
@@ -315,12 +298,12 @@
     android:id="@+id/imageView27"
     android:layout_marginTop="18dp"
     android:layout_below="@+id/view26" android:layout_alignStart="@+id/imageView23"/>
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
     android:layout_marginStart="0dp"
-    android:backgroundTint="@color/app_background"
+    app:backgroundTint="@color/app_background"
     app:srcCompat="@drawable/right_arrow"
     android:id="@+id/imageView28"
     android:layout_alignTop="@+id/imageView27" android:layout_alignStart="@+id/imageView21"/>
@@ -366,12 +349,12 @@
     android:id="@+id/imageView32"
     android:layout_marginTop="18dp"
     android:layout_below="@+id/view30" android:layout_alignStart="@+id/imageView27"/>
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
     android:layout_marginStart="0dp"
-    android:backgroundTint="@color/app_background"
+    app:backgroundTint="@color/app_background"
     app:srcCompat="@drawable/right_arrow"
     android:id="@+id/imageView33"
     android:layout_alignTop="@+id/imageView32" android:layout_toStartOf="@+id/signup_Roll"/>
@@ -379,7 +362,7 @@
             android:id="@+id/signup_year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
+            app:backgroundTint="#ffffff"
             android:popupBackground="@color/app_background"
             android:textColor="@color/User_Image_Fill_Color"
             android:layout_marginStart="10dp"
@@ -415,8 +398,7 @@
             android:text="Done"
             android:textAllCaps="false"
             android:textColor="@color/text_color_primary"
-            android:layout_alignBaseline="@+id/signup_Email"
-            android:layout_alignBottom="@+id/signup_Email"
+            android:layout_alignTop="@+id/signup_Email"
             android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/view2"/>
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/signup_Branch"
@@ -438,6 +420,7 @@
             android:background="@drawable/border_button"
             android:text="Select Email"
             android:ellipsize="end"
+            android:ems="15"
             android:layout_marginTop="30dp"
             android:textAllCaps="false"
             android:textColor="@color/text_color_primary"
@@ -445,14 +428,31 @@
             android:layout_below="@+id/imageView35"
             android:layout_alignStart="@+id/view2" android:layout_toStartOf="@+id/signup_Done"/>
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/edit_text_image_design"
-            android:backgroundTint="@color/app_background"
+            app:backgroundTint="@color/app_background"
             app:srcCompat="@drawable/right_arrow"
             android:id="@+id/imageView36"
             android:layout_above="@+id/signup_Email" android:layout_alignStart="@+id/imageView24"/>
+
+        <RelativeLayout android:id="@+id/signup_OtherCollege"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" android:layout_below="@+id/radioGrp"
+                        android:layout_alignStart="@+id/radioGrp">
+        <EditText android:id="@+id/signup_CollegeName"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="textCapWords"
+                  android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                  android:layout_marginStart="15dp"
+                  android:textColor="@color/text_color_primary"
+                  android:textColorHint="@color/text_color_primary"
+                  android:hint="Your College Name" android:layout_marginBottom="-10dp"
+                  android:textSize="20sp"/>
+        </RelativeLayout>
 
     </RelativeLayout>
     </ScrollView>

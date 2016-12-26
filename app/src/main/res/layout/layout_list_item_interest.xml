@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 <LinearLayout
     android:layout_width="match_parent"
     android:padding="10dp"
@@ -17,10 +18,10 @@
         android:textColor="@color/neon_green"
         android:text="Interest 1" android:textSize="25sp"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:layout_weight="1"
         android:id="@+id/interest_item_tick"
-        android:src="@drawable/icon_untick" android:layout_alignParentRight="true"
+        app:srcCompat="@drawable/icon_untick" android:layout_alignParentRight="true"
         android:layout_width="wrap_content" android:layout_height="match_parent"/>
 </LinearLayout>
 </RelativeLayout>

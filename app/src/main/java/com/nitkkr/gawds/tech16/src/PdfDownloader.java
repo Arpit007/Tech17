@@ -128,8 +128,6 @@ public class PdfDownloader
 								outputStream.write(response);
 								outputStream.close();
 
-								Toast.makeText(getApplicationContext(), FileName+".pdf Downloaded", Toast.LENGTH_LONG).show();
-
 								try
 								{
 									Holder holder1=Downloading.get(getFileName(url));
@@ -160,8 +158,6 @@ public class PdfDownloader
 						}
 						catch (Exception e)
 						{
-							Toast.makeText(getApplicationContext(), FileName+".pdf Download Failed", Toast.LENGTH_LONG).show();
-
 							try
 							{
 								Holder holder1=Downloading.get(getFileName(url));
@@ -189,8 +185,6 @@ public class PdfDownloader
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
-						Toast.makeText(getApplicationContext(), FileName+".pdf Download Failed", Toast.LENGTH_LONG).show();
-
 						try
 						{
 							Holder holder1=Downloading.get(getFileName(url));

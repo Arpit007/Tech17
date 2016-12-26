@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 
@@ -69,7 +71,7 @@ public class RateApp
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i)
 			{
-
+				Answers.getInstance().logCustom(new CustomEvent("Rated App"));
 				editor.putLong("MaxCount",-1);
 				editor.apply();
 

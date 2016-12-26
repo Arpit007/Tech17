@@ -37,12 +37,16 @@ public class AboutEvent extends Fragment
         View view= inflater.inflate(R.layout.fragment_about,container,false);
 
         WebView webView=(WebView)view.findViewById(R.id.Event_Content);
-        String text = "<html><head>"
-                + "<style type=\"text/css\">body{color: #fff; }"
-                + "</style></head>"
-                + "<body>"
-                + model.getDescription()
-                + "</body></html>";
+        String text="";
+        if(model!=null && model.getDescription()!=null)
+        {
+            text = "<html><head>"
+                    + "<style type=\"text/css\">body{color: #fff; }"
+                    + "</style></head>"
+                    + "<body>"
+                    + model.getDescription()
+                    + "</body></html>";
+        }
         webView.loadDataWithBaseURL(null,text,"text/html","utf-8",null);
         webView.setBackgroundColor(Color.TRANSPARENT);
         return view;

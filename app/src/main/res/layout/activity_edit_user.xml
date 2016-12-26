@@ -46,7 +46,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             app:border_color="@color/User_Image_Border_Color" app:border_width="@dimen/User_Image_Border_Width"
-            android:id="@+id/view_user_Image" android:src="@drawable/avatar_1"
+            android:id="@+id/view_user_Image" app:srcCompat="@drawable/avatar_1"
             android:layout_centerVertical="true" android:layout_centerHorizontal="true"
             android:layout_width="150dp" android:layout_height="150dp"/>
 
@@ -54,7 +54,7 @@
             android:id="@+id/edit_user_Image"
             android:tint="@color/app_background"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
+            app:srcCompat="@drawable/ic_edit"
             android:layout_marginStart="-45dp"
             android:layout_alignBottom="@+id/view_user_Image_Letter"
             android:layout_toEndOf="@+id/view_user_Image_Letter"/>
@@ -266,7 +266,7 @@
                 android:layout_marginStart="20dp"
                 android:textAlignment="center"
                 android:textColor="@color/User_Image_Fill_Color"
-                android:backgroundTint="#fff"
+                app:backgroundTint="#fff"
                 android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
                 android:layout_toEndOf="@+id/view25"/>
 
@@ -308,7 +308,7 @@
                 android:layout_marginStart="20dp"
                 android:textAlignment="center"
                 android:textColor="@color/User_Image_Fill_Color"
-                android:backgroundTint="@color/text_color_primary"
+                app:backgroundTint="@color/text_color_primary"
                 android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
                 android:layout_toEndOf="@+id/view27"/>
 

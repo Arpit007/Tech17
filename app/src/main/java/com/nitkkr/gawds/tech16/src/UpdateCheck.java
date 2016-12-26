@@ -14,6 +14,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.nitkkr.gawds.tech16.R;
 import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 
@@ -68,6 +70,7 @@ public class UpdateCheck
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i)
 				{
+					Answers.getInstance().logCustom(new CustomEvent("Updated App"));
 					Calendar calendar=Calendar.getInstance();
 					calendar.setTime(date);
 					calendar.add(Calendar.HOUR,context.getResources().getInteger(R.integer.AfterUpdateHours));

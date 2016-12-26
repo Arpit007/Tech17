@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+                android:layout_width="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:background="@color/action_bar_color"
 
-    android:layout_height="match_parent">
+                android:layout_height="match_parent">
 
 
     <RelativeLayout
@@ -15,7 +16,7 @@
             android:layout_centerVertical="true"
             android:padding="10dp"
             android:id="@+id/actionbar_navButton"
-            android:src="@drawable/icon_navigator"
+            app:srcCompat="@drawable/icon_navigator"
             android:tint="@color/text_color_primary"
             android:background="@color/action_bar_color"
             android:layout_width="wrap_content"
@@ -31,7 +32,7 @@
             android:background="#00000000"
             android:padding="10dp"
             android:tint="@color/text_color_primary"
-            android:src="@drawable/icon_search" />
+            app:srcCompat="@drawable/icon_search" />
 
         <TextView
             android:id="@+id/actionbar_title"
@@ -54,7 +55,7 @@
         <ImageButton
             android:layout_centerVertical="true"
             android:id="@+id/actionbar_back"
-            android:src="@drawable/icon_back" android:background="#00000000"
+            app:srcCompat="@drawable/icon_back" android:background="#00000000"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.SearchView

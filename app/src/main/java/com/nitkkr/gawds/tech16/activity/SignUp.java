@@ -37,6 +37,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.SignUpEvent;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -97,12 +99,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-		if(!userModel.isUserLoggedIn(this))
-		{
-			userModel.setUseGoogleImage(false);
-			userModel.setImageId(0);
-		}
-
+		userModel.setUseGoogleImage(false);
+		userModel.setImageId(0);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 			ActivityHelper.setStatusBarColor(this);
@@ -594,6 +592,10 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 					AppUserModel.MAIN_USER.setSignedup(true,getBaseContext());
 					AppUserModel.MAIN_USER.setLoggedIn(true,getBaseContext());
 					AppUserModel.MAIN_USER.saveAppUser(this);
+
+					Answers.getInstance().logSignUp(new SignUpEvent()
+							.putMethod("Google: "+AppUserModel.MAIN_USER.getName())
+							.putSuccess(true));
 
 					Intent intent=new Intent(SignUp.this, Interests.class);
 					Bundle bundle=new Bundle();

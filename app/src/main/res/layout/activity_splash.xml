@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.nitkkr.gawds.tech16.activity.Splash"
-    android:backgroundTint="@color/app_background"
+    app:backgroundTint="@color/app_background"
     android:background="@color/app_background">
       <ImageView
         android:layout_width="200dp"
@@ -32,11 +32,6 @@
         android:id="@+id/lower_splash"
         android:layout_alignTop="@+id/upper_splash"
         android:layout_alignStart="@+id/upper_splash"/>
-    <TextView
-    android:gravity="center" android:layout_alignParentBottom="true"
-    android:text="Beta" android:textSize="140sp" android:textColor="@color/text_color_primary"
-    android:layout_centerHorizontal="true" android:layout_centerVertical="true"
-    android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
 
     <com.nitkkr.gawds.tech16.src.Typewriter

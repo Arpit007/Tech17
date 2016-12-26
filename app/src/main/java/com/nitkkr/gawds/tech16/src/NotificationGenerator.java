@@ -161,7 +161,7 @@ public class NotificationGenerator
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 				.setWhen(new Date().getTime())
 				.setAutoCancel(true)
-				.setPriority(Notification.PRIORITY_HIGH);
+				.setPriority(Notification.PRIORITY_MAX);
 
 		if(intent!=null)
 		{
