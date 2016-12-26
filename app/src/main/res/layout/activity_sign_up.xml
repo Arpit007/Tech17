@@ -118,11 +118,11 @@
     app:srcCompat="@drawable/right_arrow" android:layout_below="@+id/temp_Layout"
     android:layout_toStartOf="@+id/textView4"
     android:layout_marginTop="15dp" android:id="@+id/imageView15"/>
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
-    android:backgroundTint="#ffffff"
+    app:backgroundTint="#ffffff"
     app:srcCompat="@drawable/name"
     android:id="@+id/imageView16" android:layout_alignTop="@+id/imageView15"
     android:layout_toStartOf="@+id/imageView15" android:layout_alignBottom="@+id/imageView15"/>
@@ -151,11 +151,11 @@
     android:layout_marginTop="10dp"
     android:background="@color/User_Image_Fill_Color" android:id="@+id/view4"/>
 
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
-    android:backgroundTint="#ffffff"
+    app:backgroundTint="#ffffff"
     app:srcCompat="@drawable/mobile_number"
     android:id="@+id/imageView18"
     android:layout_below="@+id/view4" android:layout_alignStart="@+id/imageView16"
@@ -202,11 +202,11 @@
     android:layout_below="@+id/signup_gender"
     android:layout_marginTop="10dp"
     android:background="@color/User_Image_Fill_Color" android:id="@+id/view9"/>
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
-    android:backgroundTint="#ffffff"
+    app:backgroundTint="#ffffff"
     app:srcCompat="@drawable/gender"
     android:id="@+id/imageView20"
     android:layout_marginTop="19dp" android:layout_below="@+id/view5"
@@ -235,11 +235,11 @@
     android:layout_alignParentEnd="true"
     android:layout_toEndOf="@+id/imageView15"/>
 
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
-    android:backgroundTint="#ffffff"
+    app:backgroundTint="#ffffff"
     app:srcCompat="@drawable/college"
     android:id="@+id/imageView23"
     android:layout_marginTop="18dp"
@@ -306,11 +306,11 @@
     android:id="@+id/view26"/>
 
 
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
-    android:backgroundTint="#ffffff"
+    app:backgroundTint="#ffffff"
     app:srcCompat="@drawable/roll_no"
     android:id="@+id/imageView27"
     android:layout_marginTop="18dp"
@@ -357,11 +357,11 @@
     android:layout_below="@+id/signup_year"
     android:background="@color/User_Image_Fill_Color"
     android:id="@+id/view34"/>
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
-    android:backgroundTint="#ffffff"
+    app:backgroundTint="#ffffff"
     app:srcCompat="@drawable/year"
     android:id="@+id/imageView32"
     android:layout_marginTop="18dp"
@@ -386,11 +386,11 @@
             android:layout_alignStart="@+id/signup_Roll" android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/imageView33"/>
 
-<ImageView
+<android.support.v7.widget.AppCompatImageView
     android:layout_width="25dp"
     android:layout_height="25dp"
     android:background="@drawable/edit_text_image_design"
-    android:backgroundTint="#ffffff"
+    app:backgroundTint="#ffffff"
     app:srcCompat="@drawable/branch"
     android:id="@+id/imageView35"
     android:layout_marginTop="13dp"
