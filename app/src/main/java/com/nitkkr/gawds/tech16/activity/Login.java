@@ -160,7 +160,10 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
             LogInResult(ResponseStatus.FAILED);
         }
     }
-
+    private void stopAutoManage() {
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.stopAutoManage(Login.this);
+    }
     public void sendToken()
     {
         showProgressDialog("Verifying");
@@ -235,6 +238,13 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopAutoManage();
+
     }
 
     public void fetchUserDetails()

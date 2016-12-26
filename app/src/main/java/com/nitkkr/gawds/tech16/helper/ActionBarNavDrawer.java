@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -104,42 +105,8 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.nav_logout)
 		{
-			try
-			{
-				GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-						.requestEmail()
-						.build();
+			logout();
 
-				mGoogleApiClient = new GoogleApiClient.Builder(activity)
-						.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-						.build();
-				if (mGoogleApiClient.isConnected())
-				{
-					Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
-					{
-						@Override
-						public void onResult(Status status)
-						{
-							if(status.isSuccess())
-							{
-								Toast.makeText(activity,"Logged Out Successfully",Toast.LENGTH_SHORT).show();
-								AppUserModel.MAIN_USER.logoutUser(activity);
-
-								Intent intent = new Intent(activity, Login.class);
-								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-								activity.startActivity(intent);
-								activity.finish();
-							}
-							else Toast.makeText(activity,"LogOut Failed",Toast.LENGTH_SHORT).show();
-						}
-					});
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				Toast.makeText(activity,"LogOut Failed",Toast.LENGTH_SHORT).show();
-			}
 		}
 		else if (id == R.id.nav_login)
 		{
@@ -156,6 +123,39 @@ public class ActionBarNavDrawer
 
 		}
 	}
+	public void logout() {
+		mGoogleApiClient.connect();
+		mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+			@Override
+			public void onConnected( Bundle bundle) {
+
+					if(mGoogleApiClient.isConnected()) {
+					Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+						@Override
+						public void onResult(@NonNull Status status) {
+							if (status.isSuccess()) {
+
+								Toast.makeText(activity,"Logged Out Successfully",Toast.LENGTH_SHORT).show();
+								AppUserModel.MAIN_USER.logoutUser(activity);
+
+								Intent intent = new Intent(activity, Login.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+								activity.startActivity(intent);
+								activity.finish();
+							}else Toast.makeText(activity,"LogOut Failed",Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onConnectionSuspended(int i) {
+				Log.d("DEBUG", "Google API Client Connection Suspended");
+			}
+		});
+	}
+
+
 
 	public ActionBarNavDrawer(final AppCompatActivity activity, iActionBar drawer, final int pageNavID)
 	{

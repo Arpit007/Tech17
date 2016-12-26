@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ import com.nitkkr.gawds.tech16.helper.iActionBar;
 import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.src.RateApp;
 import com.nitkkr.gawds.tech16.src.UpdateCheck;
+
+import static com.nitkkr.gawds.tech16.activity.Login.mGoogleApiClient;
 
 public class Home extends AppCompatActivity implements View.OnClickListener
 {
@@ -152,5 +155,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 			finish();
 			ActivityHelper.setExitAnimation(this);
 		}
+
 	}
 }
