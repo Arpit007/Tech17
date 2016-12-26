@@ -51,7 +51,7 @@ public class ActionBarDoneButton
 	public void setButtonDrawable(int ResourceID)
 	{
 		Button button = (Button)activity.findViewById(R.id.actionbar_DoneButton);
-		button.setCompoundDrawablesWithIntrinsicBounds(ResourceID, 0, 0, 0);
+		//button.setCompoundDrawablesWithIntrinsicBounds(ResourceID, 0, 0, 0);
 	}
 
 	public void setButtonVisibility(int visibility)

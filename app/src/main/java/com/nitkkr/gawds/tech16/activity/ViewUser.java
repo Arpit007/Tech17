@@ -34,7 +34,6 @@ public class ViewUser extends AppCompatActivity
 
 		model=(UserModel)getIntent().getExtras().getSerializable("User");
 
-
 		ActionBarDoneButton bar=new ActionBarDoneButton(ViewUser.this, new View.OnClickListener()
 		{
 			@Override
