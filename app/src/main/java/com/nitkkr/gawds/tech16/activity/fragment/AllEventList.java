@@ -151,4 +151,15 @@ public class AllEventList extends Fragment
 			listAdapter.getFilter().filter(Query);
 		}
 	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if(listAdapter.ID!=-1)
+		{
+			listAdapter.ID=-1;
+			listAdapter.notifyDataSetChanged();
+		}
+	}
 }

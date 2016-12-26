@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech16.adapter;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 	private Context context;
 	private HashMap<String, EventListAdapter> Events;
 	private AllEventSearch Filter;
+	public int ID=-1;
 
 	public AllEventListAdapter(Context context, HashMap<String,ArrayList<EventKey>> events)
 	{
@@ -138,6 +140,7 @@ public class AllEventListAdapter extends BaseExpandableListAdapter implements Fi
 
 	public void onClick(int Group, int Child)
 	{
+		ID=Group;
 		EventListAdapter adapter=this.Events.get(getGroup(Group).toString());
 		adapter.onClick(((EventKey)adapter.getItem(Child)).getEventID());
 	}
