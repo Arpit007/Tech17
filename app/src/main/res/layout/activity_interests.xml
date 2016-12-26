@@ -21,7 +21,8 @@
             android:id="@+id/interest_list"
             android:divider="@color/neon_green"
             android:dividerHeight="0.5dp"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 </RelativeLayout>

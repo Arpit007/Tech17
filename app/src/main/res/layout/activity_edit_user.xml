@@ -100,13 +100,13 @@
                 android:layout_marginStart="0dp"
                 />
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/name"
                 android:padding="5dp"
                 android:layout_margin="10dp"
-                android:backgroundTint="@color/neon_green"
+                app:backgroundTint="@color/neon_green"
                 android:id="@+id/name_view"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
@@ -123,12 +123,12 @@
             android:padding="10dp"
             android:layout_height="40dp">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/email"
                 android:padding="5dp"
-                android:backgroundTint="@color/neon_green"
+                app:backgroundTint="@color/neon_green"
                 android:id="@+id/email_view"/>
             <View
                 android:layout_width="2dp"
@@ -161,12 +161,12 @@
             android:padding="10dp"
             android:layout_height="40dp">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/college"
                 android:padding="5dp"
-                android:backgroundTint="@color/neon_green"
+                app:backgroundTint="@color/neon_green"
                 android:id="@+id/college_view"/>
             <View
                 android:layout_width="2dp"
@@ -201,12 +201,12 @@
             android:padding="10dp"
             android:layout_height="40dp">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/roll_no"
                 android:padding="5dp"
-                android:backgroundTint="@color/neon_green"
+                app:backgroundTint="@color/neon_green"
                 android:id="@+id/roll_no_view"/>
             <View
                 android:layout_width="2dp"
@@ -237,12 +237,12 @@
             android:layout_margin="5dp"
             android:layout_height="40dp">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@drawable/branch"
                 android:layout_marginStart="7dp"
-                android:backgroundTint="@color/neon_green"
+                app:backgroundTint="@color/neon_green"
                 android:id="@+id/branch_view"/>
             <View
                 android:layout_width="2dp"
@@ -280,12 +280,12 @@
             android:layout_margin="5dp"
             android:layout_height="40dp">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@drawable/year"
                 android:layout_marginStart="10dp"
-                android:backgroundTint="@color/neon_green"
+                app:backgroundTint="@color/neon_green"
                 android:id="@+id/year_view"/>
             <View
                 android:layout_width="2dp"
@@ -308,7 +308,7 @@
                 android:layout_marginStart="20dp"
                 android:textAlignment="center"
                 android:textColor="@color/User_Image_Fill_Color"
-                android:backgroundTint="@color/User_Image_Fill_Color"
+                android:backgroundTint="@color/text_color_primary"
                 android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
                 android:layout_toEndOf="@+id/view27"/>
 
@@ -323,9 +323,9 @@
             android:layout_margin="5dp"
             android:layout_height="40dp">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="20dp"
-                android:backgroundTint="@color/neon_green"
+                app:backgroundTint="@color/neon_green"
                 android:layout_height="match_parent"
                 android:background="@drawable/contact"
                 android:padding="5dp"
