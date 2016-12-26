@@ -639,29 +639,33 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		{
 			try
 			{
-				GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-						.requestEmail()
-						.build();
+				mGoogleApiClient.connect();
+				mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+					@Override
+					public void onConnected( Bundle bundle) {
 
-				mGoogleApiClient = new GoogleApiClient.Builder(this)
-						.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-						.build();
-				if (mGoogleApiClient.isConnected())
-				{
-					Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
-					{
-						@Override
-						public void onResult(Status status)
-						{
-							AppUserModel.MAIN_USER.setSignedup(false,SignUp.this);
+						if(mGoogleApiClient.isConnected()) {
+							Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+								@Override
+								public void onResult(@NonNull Status status) {
+									if (status.isSuccess())
+									{
+										AppUserModel.MAIN_USER.setSignedup(false,SignUp.this);
+									}
+								}
+							});
 						}
-					});
-				}
+					}
+
+					@Override
+					public void onConnectionSuspended(int i) {
+						Log.d("DEBUG", "Google API Client Connection Suspended");
+					}
+				});
 			}
 			catch (Exception e)
 			{
 				e.printStackTrace();
-				Toast.makeText(SignUp.this,"LogOut Failed",Toast.LENGTH_SHORT).show();
 			}
 		}
 

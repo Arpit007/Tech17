@@ -88,119 +88,131 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		else
 		{
 			Register.setText("Register");
-			Register.setOnClickListener(new View.OnClickListener()
+			Register.setEnabled(true);
+			if (model.getEventStatus() == EventStatus.Started || model.getEventStatus() == EventStatus.Finished)
 			{
-				@Override
-				public void onClick(View view)
+				Snackbar.make(this.findViewById(android.R.id.content), "Registrations Are Closed", Snackbar.LENGTH_LONG).show();
+			}
+			else if(model.getEventStatus()==EventStatus.None)
+			{
+				Snackbar.make(this.findViewById(android.R.id.content), "Fetching Live Data/Server Error", Snackbar.LENGTH_LONG).show();
+			}
+			else if (model.getEventStatus() == EventStatus.NotStarted)
+			{
+				Register.setOnClickListener(new View.OnClickListener()
 				{
-					if(AppUserModel.MAIN_USER.isUserLoggedIn(Event.this))
+					@Override
+					public void onClick(View view)
 					{
-						if (model.isSingleEvent())
+						if (AppUserModel.MAIN_USER.isUserLoggedIn(Event.this))
 						{
-							AlertDialog.Builder builder = new AlertDialog.Builder(Event.this);
-							builder.setCancelable(true);
-							builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+							if (model.isSingleEvent())
 							{
-								@Override
-								public void onClick(DialogInterface dialogInterface, int i)
+								AlertDialog.Builder builder = new AlertDialog.Builder(Event.this);
+								builder.setCancelable(true);
+								builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
 								{
-									dialogInterface.dismiss();
-									progressDialog=new ProgressDialog(Event.this);
-									progressDialog.setMessage("Registering, Please Wait");
-									progressDialog.setIndeterminate(true);
-									progressDialog.setCancelable(false);
-									progressDialog.show();
-
-									FetchData.getInstance().registerSingleEvent(getApplicationContext(), String.valueOf(model.getEventID()), new iResponseCallback()
+									@Override
+									public void onClick(DialogInterface dialogInterface, int i)
 									{
-										@Override
-										public void onResponse(ResponseStatus status)
-										{
-											if(progressDialog!=null)
-												progressDialog.dismiss();
+										dialogInterface.dismiss();
+										progressDialog = new ProgressDialog(Event.this);
+										progressDialog.setMessage("Registering, Please Wait");
+										progressDialog.setIndeterminate(true);
+										progressDialog.setCancelable(false);
+										progressDialog.show();
 
-											switch (status)
+										FetchData.getInstance().registerSingleEvent(getApplicationContext(), String.valueOf(model.getEventID()), new iResponseCallback()
+										{
+											@Override
+											public void onResponse(ResponseStatus status)
 											{
-												case FAILED:
-													Toast.makeText(Event.this, "Failed, Please Try Again", Toast.LENGTH_LONG).show();
-													break;
-												case SUCCESS:
-													Toast.makeText(Event.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+												if (progressDialog != null)
+													progressDialog.dismiss();
 
-													model.setRegistered(true);
-													model.setNotify(true);
-													Database.getInstance().getEventsDB().addOrUpdateEvent(model);
-													Database.getInstance().getNotificationDB().UpdateTable();
-													model.callStatusListener();
-													LoadEvent();
-													break;
-												default:
-													Toast.makeText(Event.this, "Network Error", Toast.LENGTH_LONG).show();
-													break;
+												switch (status)
+												{
+													case FAILED:
+														Toast.makeText(Event.this, "Failed, Please Try Again", Toast.LENGTH_LONG).show();
+														break;
+													case SUCCESS:
+														Toast.makeText(Event.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+
+														model.setRegistered(true);
+														model.setNotify(true);
+														Database.getInstance().getEventsDB().addOrUpdateEvent(model);
+														Database.getInstance().getNotificationDB().UpdateTable();
+														model.callStatusListener();
+														LoadEvent();
+														break;
+													default:
+														Toast.makeText(Event.this, "Network Error", Toast.LENGTH_LONG).show();
+														break;
+												}
 											}
-										}
 
-										@Override
-										public void onResponse(ResponseStatus status, Object object)
-										{
-											onResponse(status);
-										}
-									});
-								}
-							});
-							builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-							{
-								@Override
-								public void onClick(DialogInterface dialogInterface, int i)
+											@Override
+											public void onResponse(ResponseStatus status, Object object)
+											{
+												onResponse(status);
+											}
+										});
+									}
+								});
+								builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
 								{
-									dialogInterface.dismiss();
-								}
-							});
-							builder.setMessage("Are you sure, you want to Register for " + model.getEventName() + "?");
-							builder.setTitle("Register Event");
-							alertDialog = builder.create();
-							alertDialog.setOnShowListener(
-									new DialogInterface.OnShowListener()
+									@Override
+									public void onClick(DialogInterface dialogInterface, int i)
 									{
-										@Override
-										public void onShow(DialogInterface arg0)
+										dialogInterface.dismiss();
+									}
+								});
+								builder.setMessage("Are you sure, you want to Register for " + model.getEventName() + "?");
+								builder.setTitle("Register Event");
+								alertDialog = builder.create();
+								alertDialog.setOnShowListener(
+										new DialogInterface.OnShowListener()
 										{
+											@Override
+											public void onShow(DialogInterface arg0)
+											{
 
-											alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(Event.this,R.color.button_color));
-											alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(Event.this,R.color.button_color));
-											alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(Event.this,R.color.button_color));
-										}
-									});
-							alertDialog.show();
+												alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(Event.this, R.color.button_color));
+												alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(Event.this, R.color.button_color));
+												alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(Event.this, R.color.button_color));
+											}
+										});
+								alertDialog.show();
+							}
+							else
+							{
+								/*TODO:Remove on Update*/
+								ActivityHelper.comingSoonSnackBar("Team Registration Coming Soon", Event.this);
+
+								/*Intent intent = new Intent(Event.this, CreateTeam.class);
+								Bundle bundle=new Bundle();
+								bundle.putSerializable("Event",key);
+								intent.putExtras(bundle);
+								startActivityForResult(intent, REGISTER);*/
+							}
 						}
 						else
 						{
-							/*TODO:Remove on Update*/
-							ActivityHelper.comingSoonSnackBar("Team Registration Coming Soon",Event.this);
-
-							/*Intent intent = new Intent(Event.this, CreateTeam.class);
-							Bundle bundle=new Bundle();
-							bundle.putSerializable("Event",key);
-							intent.putExtras(bundle);
-							startActivityForResult(intent, REGISTER);*/
+							Snackbar.make(findViewById(android.R.id.content), "Login Required", Snackbar.LENGTH_SHORT)
+									.setAction("Login", new View.OnClickListener()
+									{
+										@Override
+										public void onClick(View view)
+										{
+											AppUserModel.MAIN_USER.LoginUserNoHome(Event.this, false);
+										}
+									})
+									.setActionTextColor(ContextCompat.getColor(Event.this, R.color.neon_green))
+									.show();
 						}
 					}
-					else
-					{
-						Snackbar.make(findViewById(android.R.id.content), "Login Required", Snackbar.LENGTH_SHORT)
-								.setAction("Login", new View.OnClickListener()
-								{
-									@Override
-									public void onClick(View view)
-									{
-										AppUserModel.MAIN_USER.LoginUserNoHome(Event.this,false);
-									}
-								})
-								.setActionTextColor(ContextCompat.getColor(Event.this,R.color.neon_green))
-								.show();
-					}
-				}
-			});
+				});
+			}
 		}
 
 		final Button PdfButton=(Button)findViewById(R.id.Event_Pdf);

@@ -6,11 +6,8 @@ package com.nitkkr.gawds.tech16.model;
 public enum EventStatus
 {
 	None("None"),
-	Running("Running"),
 	NotStarted("Not Started"),
 	Started("Started"),
-	Waiting("Waiting"),
-	Delayed("Delayed"),
 	Finished("Finished");
 
 
@@ -20,11 +17,8 @@ public enum EventStatus
 	{
 		switch (data.toLowerCase())
 		{
-			case "running" :return Running;
 			case "not started"  :return NotStarted;
 			case "started":return Started;
-			case "waiting": return Waiting;
-			case "delayed": return Delayed;
 			case "finished": return Finished;
 			default:return None;
 		}

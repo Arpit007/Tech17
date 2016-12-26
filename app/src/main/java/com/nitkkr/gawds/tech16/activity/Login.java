@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -401,6 +402,11 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
 
     public void SignUp(View view)
     {
+        if(!ActivityHelper.isInternetConnected())
+        {
+            Snackbar.make(this.findViewById(android.R.id.content), "No Network Connection", Snackbar.LENGTH_LONG).show();
+            return;
+        }
         Intent intent=new Intent(Login.this, SignUp.class);
         intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home",true));
         startActivity(intent);
