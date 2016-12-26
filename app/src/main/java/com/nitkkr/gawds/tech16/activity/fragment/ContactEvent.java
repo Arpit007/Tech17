@@ -64,8 +64,11 @@ public class ContactEvent extends Fragment
 
     public void prepare_list()
     {
-        coordinatorModelList= Database.getInstance().getCoordinatorDB().getCoordinators(model);
-        mCoordinatorAdapter.setCoordinatorModelList(coordinatorModelList);
-        mCoordinatorAdapter.notifyDataSetChanged();
+        if(model!=null)
+        {
+            coordinatorModelList = Database.getInstance().getCoordinatorDB().getCoordinators(model);
+            mCoordinatorAdapter.setCoordinatorModelList(coordinatorModelList);
+            mCoordinatorAdapter.notifyDataSetChanged();
+        }
     }
 }

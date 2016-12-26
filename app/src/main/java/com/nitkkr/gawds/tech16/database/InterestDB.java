@@ -286,6 +286,8 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 
 	public void addOrUpdateInterest(ArrayList<InterestModel> interests)
 	{
+		if(interests==null)
+			return;
 		SQLiteDatabase database=dbRequest.getDatabase();
 
 		String TABLENAME=DbConstants.Constants.getInterestTableName();
