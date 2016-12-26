@@ -83,6 +83,8 @@ public class Login extends AppCompatActivity  implements GoogleApiClient.OnConne
 
         ActivityHelper.setCreateAnimation(this);
 
+        Database.getInstance().ResetTables();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             ActivityHelper.setStatusBarColor(this);

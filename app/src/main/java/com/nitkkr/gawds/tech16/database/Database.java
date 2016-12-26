@@ -105,6 +105,4 @@ public class Database implements iDbRequest
 		interestDB.resetTable();
 		eventsDB.resetTable();
 	}
-
-
 }
