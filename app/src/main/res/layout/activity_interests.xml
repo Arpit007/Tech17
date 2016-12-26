@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.nitkkr.gawds.tech16.activity.Interests">
+    tools:context="com.nitkkr.gawds.tech17.activity.Interests">
 
     <include
         layout="@layout/actionbar_donebutton" android:id="@+id/temp_bar"

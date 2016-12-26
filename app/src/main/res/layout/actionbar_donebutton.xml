@@ -31,6 +31,6 @@
     <ImageView android:layout_width="20dp"
                android:layout_height="20dp"
                android:src="@drawable/icon_tick"
-               android:id="@+id/ButtonIcon" android:layout_alignTop="@+id/actionbar_title"
-               android:layout_toEndOf="@+id/actionbar_title"/>
+               android:id="@+id/ButtonIcon"
+               android:layout_centerVertical="true" android:layout_toEndOf="@+id/actionbar_title"/>
 </RelativeLayout>

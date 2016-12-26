@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/app_background"
-    tools:context="com.nitkkr.gawds.tech16.activity.DashboardPage">
+    tools:context="com.nitkkr.gawds.tech17.activity.DashboardPage">
 
     <include
         layout="@layout/actionbar_search" android:id="@+id/temp_bar"

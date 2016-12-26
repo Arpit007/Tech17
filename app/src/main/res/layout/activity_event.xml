@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
 
     android:background="@color/app_background"
-    tools:context="com.nitkkr.gawds.tech16.activity.Event">
+    tools:context="com.nitkkr.gawds.tech17.activity.Event">
     <include layout="@layout/actionbar_back" android:id="@+id/temp_bar"
              android:layout_width="match_parent"
              android:layout_height="?actionBarSize"
@@ -128,7 +128,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:layout_above="@+id/button_Wrap">
 
-        <com.nitkkr.gawds.tech16.src.CustomTabLayout
+        <com.nitkkr.gawds.tech17.src.CustomTabLayout
             android:layout_width="match_parent"
             android:layout_marginTop="1dp"
             android:layout_height="40dp"
@@ -138,7 +138,7 @@
             app:tabTextColor="@color/text_color_primary"
             app:tabSelectedTextColor="@color/text_color_primary"
             android:layout_alignParentStart="true">
-        </com.nitkkr.gawds.tech16.src.CustomTabLayout>
+        </com.nitkkr.gawds.tech17.src.CustomTabLayout>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"

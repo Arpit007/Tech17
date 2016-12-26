@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "359694175175",
-    "project_id": "techspardha-17"
+    "project_number": "726783559264",
+    "project_id": "final-project-152420"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:359694175175:android:86fbbe147cdb2c65",
+        "mobilesdk_app_id": "1:726783559264:android:86fbbe147cdb2c65",
         "android_client_info": {
-          "package_name": "com.nitkkr.gawds.tech16"
+          "package_name": "com.nitkkr.gawds.tech17"
         }
       },
       "oauth_client": [
         {
-          "client_id": "359694175175-ss33j3qcn84o6qvh9djmennea6mo3tco.apps.googleusercontent.com",
+          "client_id": "726783559264-1h4i0h3nfpi13j4p60v0b0lmk4b1clvd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.nitkkr.gawds.tech16",
-            "certificate_hash": "49869656D914E09782FA03904ECC80DCDBCECD3C"
+            "package_name": "com.nitkkr.gawds.tech17",
+            "certificate_hash": "082B426169376D5F3051888A0C2999164BA119F2"
           }
         },
         {
-          "client_id": "726783559264-f54jfseres6kkfb7ik3m41kfve5fqbji.apps.googleusercontent.com",
+          "client_id": "726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDpHZe2YFdfYxA4tz_iLWgHF3D5NF75o7w"
+          "current_key": "AIzaSyBEi8H6UQgOCEf9CD06blouksFbTnvbyQI"
         }
       ],
       "services": {

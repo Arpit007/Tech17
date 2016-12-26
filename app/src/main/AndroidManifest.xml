@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.nitkkr.gawds.tech16">
+          package="com.nitkkr.gawds.tech17">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
         <activity
-            android:name=".activity.Splash"
+            android:name="com.nitkkr.gawds.tech17.activity.Splash"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SplashScreenStyle">
@@ -26,78 +26,78 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.Login"
+            android:name="com.nitkkr.gawds.tech17.activity.Login"
             android:label="@string/Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.Home"
+            android:name="com.nitkkr.gawds.tech17.activity.Home"
             android:label="@string/Home"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.SignUp"
+            android:name="com.nitkkr.gawds.tech17.activity.SignUp"
             android:label="Sign Up"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.Interests"
+            android:name="com.nitkkr.gawds.tech17.activity.Interests"
             android:label="Interests"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.SearchPage"
+            android:name="com.nitkkr.gawds.tech17.activity.SearchPage"
             android:label="Search"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.Event"
+            android:name="com.nitkkr.gawds.tech17.activity.Event"
             android:label="Event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.CreateTeam"
+            android:name="com.nitkkr.gawds.tech17.activity.CreateTeam"
             android:label="Create Team"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.ViewTeam"
+            android:name="com.nitkkr.gawds.tech17.activity.ViewTeam"
             android:label="View Team"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.ViewUser"
+            android:name="com.nitkkr.gawds.tech17.activity.ViewUser"
             android:label="User"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.EventListPage"
+            android:name="com.nitkkr.gawds.tech17.activity.EventListPage"
             android:label="Event List"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.ListPage"
+            android:name="com.nitkkr.gawds.tech17.activity.ListPage"
             android:label="List Page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.EditUser"
+            android:name="com.nitkkr.gawds.tech17.activity.EditUser"
             android:label="Edit Details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.AvatarPicker"
+            android:name="com.nitkkr.gawds.tech17.activity.AvatarPicker"
             android:label="Avatar"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.About"
+            android:name="com.nitkkr.gawds.tech17.activity.About"
             android:label="About"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.Exhibition"
+            android:name="com.nitkkr.gawds.tech17.activity.Exhibition"
             android:label="@string/Exhibition"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -107,7 +107,7 @@
             android:value="fdeefa2727df0c4191430c1ec466304d71e88d96"/>
 
         <activity
-            android:name=".activity.DashboardPage"
+            android:name="com.nitkkr.gawds.tech17.activity.DashboardPage"
             android:label="Dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>

@@ -6,7 +6,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nitkkr.gawds.tech16.activity.Splash"
+    tools:context="com.nitkkr.gawds.tech17.activity.Splash"
     app:backgroundTint="@color/app_background"
     android:background="@color/app_background">
       <ImageView
@@ -34,7 +34,7 @@
         android:layout_alignStart="@+id/upper_splash"/>
 
 
-    <com.nitkkr.gawds.tech16.src.Typewriter
+    <com.nitkkr.gawds.tech17.src.Typewriter
         android:text="      Techspardha'17"
         android:id="@+id/splash_text"
         android:textSize="35sp"

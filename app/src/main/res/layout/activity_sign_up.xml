@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/app_background"
                 android:orientation="vertical"
-                tools:context="com.nitkkr.gawds.tech16.activity.SignUp">
+                tools:context="com.nitkkr.gawds.tech17.activity.SignUp">
 
 
     <ScrollView android:layout_width="match_parent"
@@ -33,7 +33,7 @@
     android:layout_marginStart="1dp"
     android:layout_marginTop="-5dp"/>
 
-    <com.nitkkr.gawds.tech16.src.Typewriter
+    <com.nitkkr.gawds.tech17.src.Typewriter
         android:textSize="38sp" android:id="@+id/signup_label"
         android:layout_marginTop="13dp"
         android:text="    Sign Up"
@@ -77,14 +77,14 @@
             android:layout_centerHorizontal="true" android:id="@+id/temp_Layout"
             android:layout_width="match_parent" android:layout_height="200dp">
 
-            <com.nitkkr.gawds.tech16.src.CircularTextView
+            <com.nitkkr.gawds.tech17.src.CircularTextView
                 android:textColor="@color/text_color_primary"
                 android:id="@+id/signup_user_Image_Letter" android:visibility="visible"
                 android:text="A" android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
                 android:layout_centerHorizontal="true" android:layout_centerVertical="true"
                 android:layout_width="150dp" android:layout_height="150dp"/>
 
-            <com.nitkkr.gawds.tech16.src.CircularTextView
+            <com.nitkkr.gawds.tech17.src.CircularTextView
                 android:id="@+id/temp_user_Image_Letter" android:visibility="invisible"
                 android:textSize="80sp" android:gravity="center_horizontal|center_vertical"
                 android:layout_centerHorizontal="true" android:layout_centerVertical="true"
