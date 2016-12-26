@@ -27,17 +27,17 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getEventsTableName() + ";";
-		dbRequest.getDatabase().rawQuery(Query,null);
+		String Query = "DROP TABLE IF EXISTS " + DbConstants.Constants.getEventsTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	@Override
 	public void resetTable()
 	{
-		String Query="UPDATE " + DbConstants.Constants.getEventsTableName()+ " SET " + DbConstants.EventNames.Notify.Name() + " = 0, " +
+		String Query = "UPDATE " + DbConstants.Constants.getEventsTableName() + " SET " + DbConstants.EventNames.Notify.Name() + " = 0, " +
 				DbConstants.EventNames.Registered.Name() + " = 0;";
-		Log.d("Query: ",Query);
-		dbRequest.getDatabase().rawQuery(Query,null);
+		Log.d("Query: ", Query);
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	private iDbRequest dbRequest;
@@ -48,16 +48,18 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
 		this.dbRequest = dbRequest;
 
-		if(DbConstants.Constants==null)
-			DbConstants.Constants=new DbConstants(context);
+		if (DbConstants.Constants == null)
+		{
+			DbConstants.Constants = new DbConstants(context);
+		}
 
-		SQLiteDatabase database=getWritableDatabase();
+		SQLiteDatabase database = getWritableDatabase();
 		onCreate(database);
 		database.close();
 	}
 
 	@Override
-	public void onCreate( SQLiteDatabase sqLiteDatabase)
+	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
 		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_EventsTable));
 	}
@@ -80,7 +82,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 		{
 			Query += " WHERE " + Clause + ";";
 		}
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -125,10 +127,10 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 					event.setRules(cursor.getString(ColumnIndex[8]));
 					event.setMaxUsers(cursor.getInt(ColumnIndex[9]));
 					event.setPdfLink(cursor.getString(ColumnIndex[10]));
-					event.setRegistered(cursor.getInt(ColumnIndex[11])!=0);
+					event.setRegistered(cursor.getInt(ColumnIndex[11]) != 0);
 					event.setSociety(cursor.getInt(ColumnIndex[12]));
 					event.setCategory(cursor.getInt(ColumnIndex[13]));
-					event.setInformal(cursor.getInt(ColumnIndex[14])!=0);
+					event.setInformal(cursor.getInt(ColumnIndex[14]) != 0);
 
 					keys.add(event);
 				}
@@ -152,7 +154,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 	public EventModel getEvent(int ID)
 	{
 		String Query = "SELECT * FROM " + DbConstants.Constants.getEventsTableName() + " WHERE " + DbConstants.EventNames.EventID.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		EventModel event = new EventModel();
 
@@ -196,10 +198,10 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 				event.setRules(cursor.getString(ColumnIndex[8]));
 				event.setMaxUsers(cursor.getInt(ColumnIndex[9]));
 				event.setPdfLink(cursor.getString(ColumnIndex[10]));
-				event.setRegistered(cursor.getInt(ColumnIndex[11])!=0);
+				event.setRegistered(cursor.getInt(ColumnIndex[11]) != 0);
 				event.setSociety(cursor.getInt(ColumnIndex[12]));
 				event.setCategory(cursor.getInt(ColumnIndex[13]));
-				event.setInformal(cursor.getInt(ColumnIndex[14])!=0);
+				event.setInformal(cursor.getInt(ColumnIndex[14]) != 0);
 			}
 		}
 		catch (Exception e)
@@ -238,10 +240,10 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 
 	public EventKey getEventKey(int ID)
 	{
-		String Query = "SELECT " + DbConstants.EventNames.EventName.Name() + ", " + DbConstants.EventNames.EventID.Name() + ", "+
-				DbConstants.EventNames.Notify.Name() + ", " + DbConstants.EventNames.Society.Name() +" FROM " + DbConstants.Constants.getEventsTableName() + " WHERE " +
+		String Query = "SELECT " + DbConstants.EventNames.EventName.Name() + ", " + DbConstants.EventNames.EventID.Name() + ", " +
+				DbConstants.EventNames.Notify.Name() + ", " + DbConstants.EventNames.Society.Name() + " FROM " + DbConstants.Constants.getEventsTableName() + " WHERE " +
 				DbConstants.EventNames.EventID.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		EventKey key = new EventKey();
 
@@ -286,8 +288,8 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 	public ArrayList<EventKey> getEventKeys(String Clause)
 	{
 		ArrayList<EventKey> keys = new ArrayList<>();
-		String Query = "SELECT " + DbConstants.EventNames.EventName.Name() + ", " + DbConstants.EventNames.EventID.Name() + ", "+
-				DbConstants.EventNames.Notify.Name() + ", " + DbConstants.EventNames.Society.Name() +" FROM " + DbConstants.Constants.getEventsTableName();
+		String Query = "SELECT " + DbConstants.EventNames.EventName.Name() + ", " + DbConstants.EventNames.EventID.Name() + ", " +
+				DbConstants.EventNames.Notify.Name() + ", " + DbConstants.EventNames.Society.Name() + " FROM " + DbConstants.Constants.getEventsTableName();
 		if (Clause.equals(""))
 		{
 			Query += ";";
@@ -296,7 +298,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 		{
 			Query += " WHERE " + Clause + ";";
 		}
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -360,7 +362,7 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 	public void deleteEvent(int ID)
 	{
 		String Query = "DELETE FROM " + DbConstants.Constants.getEventsTableName() + " WHERE " + DbConstants.EventNames.EventID.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
@@ -374,27 +376,27 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		SQLiteDatabase database = dbRequest.getDatabase();
 
-		ContentValues values=new ContentValues();
+		ContentValues values = new ContentValues();
 
-		values.put(DbConstants.EventNames.EventName.Name(),event.getEventName());
-		values.put(DbConstants.EventNames.EventID.Name(),event.getEventID());
-		values.put(DbConstants.EventNames.Date.Name(),event.getEventDate());
-		values.put(DbConstants.EventNames.Notify.Name(),((event.isNotify())?1:0));
-		values.put(DbConstants.EventNames.Venue.Name(),event.getVenue());
-		values.put(DbConstants.EventNames.Description.Name(),event.getDescription());
-		values.put(DbConstants.EventNames.ImageUrl.Name(),event.getImage_URL());
-		values.put(DbConstants.EventNames.EndDate.Name(),event.getEventEndDate());
-		values.put(DbConstants.EventNames.Rules.Name(),event.getRules());
-		values.put(DbConstants.EventNames.MaxUser.Name(),event.getMaxUsers());
-		values.put(DbConstants.EventNames.Pdf.Name(),event.getPdfLink());
-		values.put(DbConstants.EventNames.Registered.Name(),event.isRegistered());
-		values.put(DbConstants.EventNames.Society.Name(),event.getSociety());
-		values.put(DbConstants.EventNames.Category.Name(),event.getCategory());
-		values.put(DbConstants.EventNames.Informal.Name(),event.isInformal());
+		values.put(DbConstants.EventNames.EventName.Name(), event.getEventName());
+		values.put(DbConstants.EventNames.EventID.Name(), event.getEventID());
+		values.put(DbConstants.EventNames.Date.Name(), event.getEventDate());
+		values.put(DbConstants.EventNames.Notify.Name(), ( ( event.isNotify() ) ? 1 : 0 ));
+		values.put(DbConstants.EventNames.Venue.Name(), event.getVenue());
+		values.put(DbConstants.EventNames.Description.Name(), event.getDescription());
+		values.put(DbConstants.EventNames.ImageUrl.Name(), event.getImage_URL());
+		values.put(DbConstants.EventNames.EndDate.Name(), event.getEventEndDate());
+		values.put(DbConstants.EventNames.Rules.Name(), event.getRules());
+		values.put(DbConstants.EventNames.MaxUser.Name(), event.getMaxUsers());
+		values.put(DbConstants.EventNames.Pdf.Name(), event.getPdfLink());
+		values.put(DbConstants.EventNames.Registered.Name(), event.isRegistered());
+		values.put(DbConstants.EventNames.Society.Name(), event.getSociety());
+		values.put(DbConstants.EventNames.Category.Name(), event.getCategory());
+		values.put(DbConstants.EventNames.Informal.Name(), event.isInformal());
 
-		if(database.update(DbConstants.Constants.getEventsTableName(),values, DbConstants.EventNames.EventID.Name() + " = "+event.getEventID(),null)<1)
+		if (database.update(DbConstants.Constants.getEventsTableName(), values, DbConstants.EventNames.EventID.Name() + " = " + event.getEventID(), null) < 1)
 		{
-			database.insert(DbConstants.Constants.getEventsTableName(),null,values);
+			database.insert(DbConstants.Constants.getEventsTableName(), null, values);
 		}
 	}
 
@@ -406,49 +408,49 @@ public class EventsDB extends SQLiteOpenHelper implements iBaseDB
 
 	public void addOrUpdateEvent(ArrayList<EventModel> events)
 	{
-		SQLiteDatabase database=dbRequest.getDatabase();
+		SQLiteDatabase database = dbRequest.getDatabase();
 
-		String TABLENAME=DbConstants.Constants.getEventsTableName();
+		String TABLENAME = DbConstants.Constants.getEventsTableName();
 
-		String Event_Name= DbConstants.EventNames.EventName.Name();
-		String Event_ID= DbConstants.EventNames.EventID.Name();
-		String Event_Date= DbConstants.EventNames.Date.Name();
-		String Event_Notify= DbConstants.EventNames.Notify.Name();
-		String Event_Venue= DbConstants.EventNames.Venue.Name();
-		String Event_Description= DbConstants.EventNames.Description.Name();
-		String Event_ImageURL= DbConstants.EventNames.ImageUrl.Name();
-		String Event_EndDate= DbConstants.EventNames.EndDate.Name();
-		String Event_Rules= DbConstants.EventNames.Rules.Name();
-		String Event_MaxUser= DbConstants.EventNames.MaxUser.Name();
-		String Event_Pdf= DbConstants.EventNames.Pdf.Name();
-		String Event_Registered= DbConstants.EventNames.Registered.Name();
-		String Event_Society= DbConstants.EventNames.Society.Name();
-		String Event_Category= DbConstants.EventNames.Category.Name();
-		String Event_Informal=DbConstants.EventNames.Informal.Name();
+		String Event_Name = DbConstants.EventNames.EventName.Name();
+		String Event_ID = DbConstants.EventNames.EventID.Name();
+		String Event_Date = DbConstants.EventNames.Date.Name();
+		String Event_Notify = DbConstants.EventNames.Notify.Name();
+		String Event_Venue = DbConstants.EventNames.Venue.Name();
+		String Event_Description = DbConstants.EventNames.Description.Name();
+		String Event_ImageURL = DbConstants.EventNames.ImageUrl.Name();
+		String Event_EndDate = DbConstants.EventNames.EndDate.Name();
+		String Event_Rules = DbConstants.EventNames.Rules.Name();
+		String Event_MaxUser = DbConstants.EventNames.MaxUser.Name();
+		String Event_Pdf = DbConstants.EventNames.Pdf.Name();
+		String Event_Registered = DbConstants.EventNames.Registered.Name();
+		String Event_Society = DbConstants.EventNames.Society.Name();
+		String Event_Category = DbConstants.EventNames.Category.Name();
+		String Event_Informal = DbConstants.EventNames.Informal.Name();
 
-		for(EventModel event : events)
+		for (EventModel event : events)
 		{
-			ContentValues values=new ContentValues();
+			ContentValues values = new ContentValues();
 
-			values.put(Event_Name,event.getEventName());
-			values.put(Event_ID,event.getEventID());
-			values.put(Event_Date,event.getEventDate());
-			values.put(Event_Notify,((event.isNotify())?1:0));
-			values.put(Event_Venue,event.getVenue());
-			values.put(Event_Description,event.getDescription());
-			values.put(Event_ImageURL,event.getImage_URL());
-			values.put(Event_EndDate,event.getEventEndDate());
-			values.put(Event_Rules,event.getRules());
-			values.put(Event_MaxUser,event.getMaxUsers());
-			values.put(Event_Pdf,event.getPdfLink());
-			values.put(Event_Registered,event.isRegistered());
-			values.put(Event_Society,event.getSociety());
-			values.put(Event_Category,event.getCategory());
-			values.put(Event_Informal,event.isInformal());
+			values.put(Event_Name, event.getEventName());
+			values.put(Event_ID, event.getEventID());
+			values.put(Event_Date, event.getEventDate());
+			values.put(Event_Notify, ( ( event.isNotify() ) ? 1 : 0 ));
+			values.put(Event_Venue, event.getVenue());
+			values.put(Event_Description, event.getDescription());
+			values.put(Event_ImageURL, event.getImage_URL());
+			values.put(Event_EndDate, event.getEventEndDate());
+			values.put(Event_Rules, event.getRules());
+			values.put(Event_MaxUser, event.getMaxUsers());
+			values.put(Event_Pdf, event.getPdfLink());
+			values.put(Event_Registered, event.isRegistered());
+			values.put(Event_Society, event.getSociety());
+			values.put(Event_Category, event.getCategory());
+			values.put(Event_Informal, event.isInformal());
 
-			if(database.update(TABLENAME,values,Event_ID + " = "+event.getEventID(),null)<1)
+			if (database.update(TABLENAME, values, Event_ID + " = " + event.getEventID(), null) < 1)
 			{
-				database.insert(TABLENAME,null,values);
+				database.insert(TABLENAME, null, values);
 			}
 		}
 	}

@@ -25,13 +25,15 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 {
 	private iDbRequest dbRequest;
 
-	public SocietyDB (Context context, iDbRequest dbRequest)
+	public SocietyDB(Context context, iDbRequest dbRequest)
 	{
 		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
 		this.dbRequest = dbRequest;
 
-		if(DbConstants.Constants==null)
-			DbConstants.Constants=new DbConstants(context);
+		if (DbConstants.Constants == null)
+		{
+			DbConstants.Constants = new DbConstants(context);
+		}
 
 		onCreate(dbRequest.getDatabase());
 	}
@@ -55,11 +57,11 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 
 	public String getSocietyName(int ID)
 	{
-		String Name="";
+		String Name = "";
 
 		String Query = "SELECT " + DbConstants.SocietyNames.SocietyName.Name() + " FROM " + DbConstants.Constants.getSocietyTableName() + " WHERE " +
 				DbConstants.SocietyNames.Id.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -76,7 +78,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 			{
 				cursor.moveToFirst();
 
-				Name=cursor.getString(ColumnIndex[0]);
+				Name = cursor.getString(ColumnIndex[0]);
 			}
 		}
 		catch (Exception e)
@@ -105,7 +107,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 		{
 			Query += " WHERE " + Clause + ";";
 		}
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -125,7 +127,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 				cursor.moveToFirst();
 				do
 				{
-					SocietyModel society=new SocietyModel();
+					SocietyModel society = new SocietyModel();
 					society.setID(cursor.getInt(ColumnIndex[0]));
 					society.setName(cursor.getString(ColumnIndex[1]));
 					society.setDescription(cursor.getString(ColumnIndex[2]));
@@ -170,7 +172,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 		{
 			Query += " WHERE " + Clause + ";";
 		}
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -189,7 +191,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 				cursor.moveToFirst();
 				do
 				{
-					keys.put(cursor.getInt(ColumnIndex[0]),cursor.getString(ColumnIndex[1]));
+					keys.put(cursor.getInt(ColumnIndex[0]), cursor.getString(ColumnIndex[1]));
 				}
 				while (cursor.moveToNext());
 			}
@@ -211,7 +213,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 	public void deleteSociety(SocietyModel society)
 	{
 		String Query = "DELETE FROM " + DbConstants.Constants.getSocietyTableName() + " WHERE " + DbConstants.SocietyNames.Id.Name() + " = " + society.getID() + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
@@ -225,14 +227,14 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		SQLiteDatabase database = dbRequest.getDatabase();
 
-		ContentValues values=new ContentValues();
-		values.put(DbConstants.SocietyNames.Id.Name(),society.getID());
-		values.put(DbConstants.SocietyNames.SocietyName.Name(),society.getName());
-		values.put(DbConstants.SocietyNames.Description.Name(),society.getDescription());
+		ContentValues values = new ContentValues();
+		values.put(DbConstants.SocietyNames.Id.Name(), society.getID());
+		values.put(DbConstants.SocietyNames.SocietyName.Name(), society.getName());
+		values.put(DbConstants.SocietyNames.Description.Name(), society.getDescription());
 
-		if(database.update(DbConstants.Constants.getSocietyTableName(),values, DbConstants.SocietyNames.Id.Name() + " = " + society.getID(),null)<1)
+		if (database.update(DbConstants.Constants.getSocietyTableName(), values, DbConstants.SocietyNames.Id.Name() + " = " + society.getID(), null) < 1)
 		{
-			database.insert(DbConstants.Constants.getSocietyTableName(),null,values);
+			database.insert(DbConstants.Constants.getSocietyTableName(), null, values);
 		}
 	}
 
@@ -244,23 +246,23 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 
 	public void addOrUpdateSocities(ArrayList<SocietyModel> societies)
 	{
-		SQLiteDatabase database=dbRequest.getDatabase();
+		SQLiteDatabase database = dbRequest.getDatabase();
 
-		String TABLENAME=DbConstants.Constants.getSocietyTableName();
-		String Society_Id=DbConstants.SocietyNames.Id.Name();
-		String Society_Name=DbConstants.SocietyNames.SocietyName.Name();
-		String Society_Desc=DbConstants.SocietyNames.Description.Name();
+		String TABLENAME = DbConstants.Constants.getSocietyTableName();
+		String Society_Id = DbConstants.SocietyNames.Id.Name();
+		String Society_Name = DbConstants.SocietyNames.SocietyName.Name();
+		String Society_Desc = DbConstants.SocietyNames.Description.Name();
 
-		for(SocietyModel society : societies)
+		for (SocietyModel society : societies)
 		{
-			ContentValues values=new ContentValues();
-			values.put(Society_Id,society.getID());
-			values.put(Society_Name,society.getName());
-			values.put(Society_Desc,society.getDescription());
+			ContentValues values = new ContentValues();
+			values.put(Society_Id, society.getID());
+			values.put(Society_Name, society.getName());
+			values.put(Society_Desc, society.getDescription());
 
-			if(database.update(TABLENAME,values, Society_Id + " = " + society.getID(),null)<1)
+			if (database.update(TABLENAME, values, Society_Id + " = " + society.getID(), null) < 1)
 			{
-				database.insert(TABLENAME,null,values);
+				database.insert(TABLENAME, null, values);
 			}
 		}
 	}
@@ -273,10 +275,10 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 
 	public HashMap<Integer, String> societyArrayToHash(ArrayList<SocietyModel> models)
 	{
-		HashMap<Integer, String> map=new HashMap<>();
-		for(SocietyModel model:models)
+		HashMap<Integer, String> map = new HashMap<>();
+		for (SocietyModel model : models)
 		{
-			map.put(model.getID(),model.getName());
+			map.put(model.getID(), model.getName());
 		}
 		return map;
 	}
@@ -289,7 +291,7 @@ public class SocietyDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getSocietyTableName() + ";";
-		dbRequest.getDatabase().rawQuery(Query,null);
+		String Query = "DROP TABLE IF EXISTS " + DbConstants.Constants.getSocietyTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 }

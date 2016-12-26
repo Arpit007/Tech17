@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,8 +20,6 @@ import com.nitkkr.gawds.tech16.model.AppUserModel;
 import com.nitkkr.gawds.tech16.src.RateApp;
 import com.nitkkr.gawds.tech16.src.UpdateCheck;
 
-import static com.nitkkr.gawds.tech16.activity.Login.mGoogleApiClient;
-
 public class Home extends AppCompatActivity implements View.OnClickListener
 {
 	private ActionBarNavDrawer barNavDrawer;
@@ -34,11 +31,17 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		if(getIntent().getBooleanExtra("AnimStart",true))
+		if (getIntent().getBooleanExtra("AnimStart", true))
+		{
 			ActivityHelper.setCreateAnimation(this);
-		else overridePendingTransition(R.anim.anim_left_in,R.anim.anim_none);
+		}
+		else
+		{
+			overridePendingTransition(R.anim.anim_left_in, R.anim.anim_none);
+		}
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
 
 			ActivityHelper.setStatusBarColor(this);
 		}
@@ -53,25 +56,31 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 			public void SearchQuery(String Query)
 			{
 			}
-		},R.id.nav_home);
+		}, R.id.nav_home);
 		barNavDrawer.setLabel(getString(R.string.FestName));
 		barNavDrawer.setOpenNewSearchPage(true);
 
 
-		if(UpdateCheck.getInstance().isUpdateAvailable())
+		if (UpdateCheck.getInstance().isUpdateAvailable())
 		{
 			if (!UpdateCheck.getInstance().displayUpdate(Home.this))
+			{
 				if (RateApp.getInstance().isReadyForRating(Home.this))
+				{
 					RateApp.getInstance().displayRating(Home.this);
+				}
+			}
 		}
 		else if (RateApp.getInstance().isReadyForRating(Home.this))
-				RateApp.getInstance().displayRating(Home.this);
+		{
+			RateApp.getInstance().displayRating(Home.this);
+		}
 	}
 
 	@Override
 	public void onBackPressed()
 	{
-		if(!barNavDrawer.onBackPressed())
+		if (!barNavDrawer.onBackPressed())
 		{
 			if (!Exit)
 			{
@@ -97,7 +106,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 	@Override
 	public void onClick(View v)
 	{
-		int id=v.getId();
+		int id = v.getId();
 		DashboardPage.Page page = DashboardPage.Page.Live;
 		switch (id)
 		{
@@ -115,13 +124,13 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 				break;
 		}
 
-		if(page== DashboardPage.Page.Notification)
+		if (page == DashboardPage.Page.Notification)
 		{
-			ActivityHelper.comingSoonSnackBar("Feature Coming Soon",Home.this);
+			ActivityHelper.comingSoonSnackBar("Feature Coming Soon", Home.this);
 			return;
 		}
 
-		if(AppUserModel.MAIN_USER.isUserLoggedIn(Home.this) || page== DashboardPage.Page.Live)
+		if (AppUserModel.MAIN_USER.isUserLoggedIn(Home.this) || page == DashboardPage.Page.Live)
 		{
 			Intent intent = new Intent(Home.this, DashboardPage.class);
 			intent.putExtra("Navigation", page.value);
@@ -130,16 +139,16 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		else
 		{
 			Snackbar.make(findViewById(android.R.id.content), "Login to Access this Feature", Snackbar.LENGTH_LONG)
-				.setAction("Login", new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View view)
+					.setAction("Login", new View.OnClickListener()
 					{
-						AppUserModel.MAIN_USER.LoginUserNoHome(Home.this,false);
-					}
-				})
-				.setActionTextColor(ContextCompat.getColor(Home.this,R.color.neon_green))
-				.show();
+						@Override
+						public void onClick(View view)
+						{
+							AppUserModel.MAIN_USER.LoginUserNoHome(Home.this, false);
+						}
+					})
+					.setActionTextColor(ContextCompat.getColor(Home.this, R.color.neon_green))
+					.show();
 		}
 	}
 
@@ -147,11 +156,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 	protected void onStart()
 	{
 		super.onStart();
-		boolean Skip=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).getBoolean("Skip",false);
+		boolean Skip = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).getBoolean("Skip", false);
 
-		if(!Skip && Database.getInstance().getInterestDB().getSelectedInterests().size()<=0)
+		if (!Skip && Database.getInstance().getInterestDB().getSelectedInterests().size() <= 0)
 		{
-			startActivity(new Intent(this,Interests.class));
+			startActivity(new Intent(this, Interests.class));
 			finish();
 			ActivityHelper.setExitAnimation(this);
 		}

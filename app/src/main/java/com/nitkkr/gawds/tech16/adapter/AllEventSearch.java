@@ -19,37 +19,39 @@ public class AllEventSearch extends Filter
 	private HashMap<String, EventListAdapter> Events;
 	private EventListAdapter adapter;
 	private ListView listView;
-	private int EventID=-1;
+	private int EventID = -1;
 
 	public AllEventSearch(AllEventListAdapter adapter, Context context)
 	{
-		Events=adapter.getEvents();
-		this.adapter=new EventListAdapter(context,new ArrayList<EventKey>(),false);
+		Events = adapter.getEvents();
+		this.adapter = new EventListAdapter(context, new ArrayList<EventKey>(), false);
 	}
 
 	@Override
 	protected FilterResults performFiltering(CharSequence charSequence)
 	{
-		FilterResults results=new FilterResults();
+		FilterResults results = new FilterResults();
 
-		ArrayList<EventKey> list=new ArrayList<>();
+		ArrayList<EventKey> list = new ArrayList<>();
 
-		for (String Label: Events.keySet())
+		for (String Label : Events.keySet())
 		{
-			for(EventKey key: Events.get(Label).getEvents())
+			for (EventKey key : Events.get(Label).getEvents())
 			{
-				if (key.getEventID()==EventID)
+				if (key.getEventID() == EventID)
 				{
 					key.setNotify(Database.getInstance().getEventsDB().getEventKey(EventID).isNotify());
-					EventID=-1;
+					EventID = -1;
 				}
-				if(key.getEventName().toLowerCase().contains(charSequence.toString().toLowerCase()))
+				if (key.getEventName().toLowerCase().contains(charSequence.toString().toLowerCase()))
+				{
 					list.add(key);
+				}
 			}
 		}
 
-		results.values=list;
-		results.count=list.size();
+		results.values = list;
+		results.count = list.size();
 
 		return results;
 	}
@@ -57,13 +59,13 @@ public class AllEventSearch extends Filter
 	@Override
 	protected void publishResults(CharSequence charSequence, FilterResults filterResults)
 	{
-		adapter.setEvents((ArrayList<EventKey>)filterResults.values);
+		adapter.setEvents((ArrayList<EventKey>) filterResults.values);
 		adapter.notifyDataSetChanged();
 	}
 
 	public void setSearchList(ListView list)
 	{
-		listView=list;
+		listView = list;
 		listView.setAdapter(adapter);
 	}
 
@@ -74,7 +76,7 @@ public class AllEventSearch extends Filter
 
 	public void setEvents(HashMap<String, EventListAdapter> lists)
 	{
-		Events=lists;
+		Events = lists;
 	}
 
 }

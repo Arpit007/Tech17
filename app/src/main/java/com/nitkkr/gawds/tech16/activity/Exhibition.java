@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,10 +34,11 @@ public class Exhibition extends AppCompatActivity
 {
 	ExhibitionModel model;
 	ActionBarBack actionBarBack;
-	ProgressDialog progressDialog=null;
+	ProgressDialog progressDialog = null;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_exhibition);
 		ActivityHelper.setCreateAnimation(this);
@@ -46,15 +46,15 @@ public class Exhibition extends AppCompatActivity
 
 		actionBarBack = new ActionBarBack(Exhibition.this);
 
-		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(getIntent().getExtras().getInt("NotificationID"));
+		( (NotificationManager) getSystemService(NOTIFICATION_SERVICE) ).cancel(getIntent().getExtras().getInt("NotificationID"));
 
 		final EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
-		model=Database.getInstance().getExhibitionDB().getExhibition(key);
+		model = Database.getInstance().getExhibitionDB().getExhibition(key);
 		LoadExhibition();
 
 		final Button fab = (Button) findViewById(R.id.exhibition_notify);
 
-		if(model.isGTalk())
+		if (model.isGTalk())
 		{
 			FetchData.getInstance().getGTalk(getApplicationContext(), key, new iResponseCallback()
 			{
@@ -81,9 +81,9 @@ public class Exhibition extends AppCompatActivity
 			@Override
 			public void onClick(View view)
 			{
-				if(!ActivityHelper.isInternetConnected())
+				if (!ActivityHelper.isInternetConnected())
 				{
-					Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_LONG).show();
 					return;
 				}
 
@@ -95,40 +95,45 @@ public class Exhibition extends AppCompatActivity
 								@Override
 								public void onClick(View view)
 								{
-									AppUserModel.MAIN_USER.LoginUserNoHome(Exhibition.this,false);
+									AppUserModel.MAIN_USER.LoginUserNoHome(Exhibition.this, false);
 								}
 							})
-							.setActionTextColor(ContextCompat.getColor(Exhibition.this,R.color.neon_green))
+							.setActionTextColor(ContextCompat.getColor(Exhibition.this, R.color.neon_green))
 							.show();
 					return;
 				}
 
-				progressDialog=new ProgressDialog(Exhibition.this);
+				progressDialog = new ProgressDialog(Exhibition.this);
 				progressDialog.setMessage("Updating Changes");
 				progressDialog.setIndeterminate(true);
 				progressDialog.show();
-				if(model.isNotify())
+				if (model.isNotify())
 				{
 					FetchData.getInstance().removeFromWishlist(getApplicationContext(), key, new iResponseCallback()
 					{
 						@Override
 						public void onResponse(ResponseStatus status)
 						{
-							if(status==ResponseStatus.SUCCESS)
+							if (status == ResponseStatus.SUCCESS)
 							{
-								Toast.makeText(getApplicationContext(),"Removed Wishlist Successfully",Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), "Removed Wishlist Successfully", Toast.LENGTH_LONG).show();
 								fab.setText("Add to Wishlist");
 								model.setNotify(false);
 								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
 								Database.getInstance().getNotificationDB().UpdateTable();
 							}
-							else if(status==ResponseStatus.FAILED)
+							else if (status == ResponseStatus.FAILED)
 							{
-								Toast.makeText(getApplicationContext(),"Failed to Remove from Wishlist",Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), "Failed to Remove from Wishlist", Toast.LENGTH_LONG).show();
 							}
-							else Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
-							if(progressDialog!=null && progressDialog.isShowing())
+							else
+							{
+								Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_LONG).show();
+							}
+							if (progressDialog != null && progressDialog.isShowing())
+							{
 								progressDialog.dismiss();
+							}
 						}
 
 						@Override
@@ -145,21 +150,26 @@ public class Exhibition extends AppCompatActivity
 						@Override
 						public void onResponse(ResponseStatus status)
 						{
-							if(status==ResponseStatus.SUCCESS)
+							if (status == ResponseStatus.SUCCESS)
 							{
-								Toast.makeText(getApplicationContext(),"Added to Wishlist Successfully",Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), "Added to Wishlist Successfully", Toast.LENGTH_LONG).show();
 								fab.setText("Wishlisted");
 								model.setNotify(true);
 								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
 								Database.getInstance().getNotificationDB().UpdateTable();
 							}
-							else if(status==ResponseStatus.FAILED)
+							else if (status == ResponseStatus.FAILED)
 							{
-								Toast.makeText(getApplicationContext(),"Failed to Add to Wishlist",Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), "Failed to Add to Wishlist", Toast.LENGTH_LONG).show();
 							}
-							else Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
-							if(progressDialog!=null && progressDialog.isShowing())
+							else
+							{
+								Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_LONG).show();
+							}
+							if (progressDialog != null && progressDialog.isShowing())
+							{
 								progressDialog.dismiss();
+							}
 						}
 
 						@Override
@@ -175,21 +185,26 @@ public class Exhibition extends AppCompatActivity
 
 	private void LoadExhibition()
 	{
-		(( TextView)findViewById(R.id.exhibition_Title)).setText(model.getEventName());
-		(( TextView)findViewById(R.id.exhibition_Author)).setText(model.getAuthor());
+		( (TextView) findViewById(R.id.exhibition_Title) ).setText(model.getEventName());
+		( (TextView) findViewById(R.id.exhibition_Author) ).setText(model.getAuthor());
 
-		Glide.with(Exhibition.this).load(model.getImage_URL()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(( ImageView)findViewById(R.id.exhibition_Image));
+		Glide.with(Exhibition.this).load(model.getImage_URL()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into((ImageView) findViewById(R.id.exhibition_Image));
 
-		String date=new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "Am").replace("PM","Pm");
-		(( TextView)findViewById(R.id.exhibition_Date)).setText(date);
+		String date = new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "Am").replace("PM", "Pm");
+		( (TextView) findViewById(R.id.exhibition_Date) ).setText(date);
 
-		(( TextView)findViewById(R.id.exhibition_Venue)).setText(model.getVenue());
+		( (TextView) findViewById(R.id.exhibition_Venue) ).setText(model.getVenue());
 
-		(( TextView)findViewById(R.id.exhibition_Description)).setText(model.getDescription());
+		( (TextView) findViewById(R.id.exhibition_Description) ).setText(model.getDescription());
 
-		if(model.isNotify())
-			((Button) findViewById(R.id.exhibition_notify)).setText("Wishlisted");
-		else ((Button) findViewById(R.id.exhibition_notify)).setText("Add to Wishlist");
+		if (model.isNotify())
+		{
+			( (Button) findViewById(R.id.exhibition_notify) ).setText("Wishlisted");
+		}
+		else
+		{
+			( (Button) findViewById(R.id.exhibition_notify) ).setText("Add to Wishlist");
+		}
 
 		actionBarBack.setLabel(model.getEventName());
 	}
@@ -197,12 +212,20 @@ public class Exhibition extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(progressDialog!=null && progressDialog.isShowing())
+		if (progressDialog != null && progressDialog.isShowing())
+		{
 			return;
+		}
 
 
-		if(ActivityHelper.revertToHomeIfLast(Exhibition.this));
-		else super.onBackPressed();
+		if (ActivityHelper.revertToHomeIfLast(Exhibition.this))
+		{
+			;
+		}
+		else
+		{
+			super.onBackPressed();
+		}
 
 		ActivityHelper.setExitAnimation(this);
 	}
@@ -210,15 +233,17 @@ public class Exhibition extends AppCompatActivity
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		if(requestCode==AppUserModel.LOGIN_REQUEST_CODE)
+		if (requestCode == AppUserModel.LOGIN_REQUEST_CODE)
 		{
-			if(resultCode==RESULT_OK)
+			if (resultCode == RESULT_OK)
 			{
 				AppUserModel.MAIN_USER.loadAppUser(Exhibition.this);
 				findViewById(R.id.exhibition_notify).performClick();
 			}
 		}
 		else
-		super.onActivityResult(requestCode, resultCode, data);
+		{
+			super.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 }

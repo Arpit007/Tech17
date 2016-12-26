@@ -25,11 +25,14 @@ import java.util.ArrayList;
 public class SearchPageAdapter extends BaseAdapter
 {
 	private Context context;
-	private SearchPageFilter filter=new SearchPageFilter(this);
-	private ArrayList<SearchPageFilter.Holder> Keys=new ArrayList<>();
-	public int ID=-1;
+	private SearchPageFilter filter = new SearchPageFilter(this);
+	private ArrayList<SearchPageFilter.Holder> Keys = new ArrayList<>();
+	public int ID = -1;
 
-	public SearchPageAdapter(Context context){this.context = context;}
+	public SearchPageAdapter(Context context)
+	{
+		this.context = context;
+	}
 
 	@Override
 	public int getCount()
@@ -53,17 +56,21 @@ public class SearchPageAdapter extends BaseAdapter
 	public View getView(int i, View view, ViewGroup viewGroup)
 	{
 
-		if(ID==Keys.get(i).key.getEventID())
+		if (ID == Keys.get(i).key.getEventID())
 		{
-			SearchPageFilter.Holder holder=Keys.get(i);
+			SearchPageFilter.Holder holder = Keys.get(i);
 			switch (holder.type)
 			{
 				case Event:
-				case Informals:	holder.key.setNotify(Database.getInstance().getEventsDB().getEventKey(holder.key.getEventID()).isNotify());break;
+				case Informals:
+					holder.key.setNotify(Database.getInstance().getEventsDB().getEventKey(holder.key.getEventID()).isNotify());
+					break;
 				case GuestTalk:
-				case Exhibition: holder.key.setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(holder.key.getEventID()).isNotify());break;
+				case Exhibition:
+					holder.key.setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(holder.key.getEventID()).isNotify());
+					break;
 			}
-			ID=-1;
+			ID = -1;
 		}
 
 		final String childText = Keys.get(i).key.getEventName();
@@ -74,7 +81,7 @@ public class SearchPageAdapter extends BaseAdapter
 			view = inflater.inflate(R.layout.layout_event_list_item, null);
 		}
 
-		ImageView Star=(ImageView) view.findViewById(R.id.Event_Star);
+		ImageView Star = (ImageView) view.findViewById(R.id.Event_Star);
 
 		SearchPageFilter.Holder holder = Keys.get(i);
 
@@ -96,26 +103,33 @@ public class SearchPageAdapter extends BaseAdapter
 	public void onClick(int ID)
 	{
 		this.ID = Keys.get(ID).key.getEventID();
-		SearchPageFilter.Holder holder=Keys.get(ID);
-		if(holder.type== EventTargetType.Event || holder.type==EventTargetType.Informals)
+		SearchPageFilter.Holder holder = Keys.get(ID);
+		if (holder.type == EventTargetType.Event || holder.type == EventTargetType.Informals)
 		{
-			Bundle bundle=new Bundle();
-			bundle.putSerializable("Event",holder.key);
-			Intent intent=new Intent(context, Event.class);
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("Event", holder.key);
+			Intent intent = new Intent(context, Event.class);
 			intent.putExtras(bundle);
 			context.startActivity(intent);
 		}
-		else if (holder.type==EventTargetType.GuestTalk || holder.type==EventTargetType.Exhibition)
+		else if (holder.type == EventTargetType.GuestTalk || holder.type == EventTargetType.Exhibition)
 		{
-			Bundle bundle=new Bundle();
-			bundle.putSerializable("Event",holder.key);
-			Intent intent=new Intent(context, Exhibition.class);
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("Event", holder.key);
+			Intent intent = new Intent(context, Exhibition.class);
 			intent.putExtras(bundle);
 			context.startActivity(intent);
 		}
 	}
 
-	public void setKeys(ArrayList<SearchPageFilter.Holder> keys){this.Keys=keys;}
-	public SearchPageFilter getFilter(){return filter;}
+	public void setKeys(ArrayList<SearchPageFilter.Holder> keys)
+	{
+		this.Keys = keys;
+	}
+
+	public SearchPageFilter getFilter()
+	{
+		return filter;
+	}
 
 }

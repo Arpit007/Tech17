@@ -32,38 +32,47 @@ import static com.nitkkr.gawds.tech16.helper.ActivityHelper.getApplicationContex
 
 public class UpdateCheck
 {
-	private boolean UpdateAvailable=false;
+	private boolean UpdateAvailable = false;
 
-	private static UpdateCheck CHECK_UPDATE=new UpdateCheck();
+	private static UpdateCheck CHECK_UPDATE = new UpdateCheck();
 
-	public static UpdateCheck getInstance(){return CHECK_UPDATE;}
+	public static UpdateCheck getInstance()
+	{
+		return CHECK_UPDATE;
+	}
 
-	private UpdateCheck(){}
+	private UpdateCheck()
+	{
+	}
 
 	public boolean isUpdateAvailable()
 	{
-		SharedPreferences preferences=getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs),Context.MODE_PRIVATE);
-		UpdateAvailable = preferences.getBoolean("Update",UpdateAvailable);
+		SharedPreferences preferences = getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
+		UpdateAvailable = preferences.getBoolean("Update", UpdateAvailable);
 		return UpdateAvailable;
 	}
 
 	public boolean displayUpdate(final Context context)
 	{
-		if(!ActivityHelper.isInternetConnected())
+		if (!ActivityHelper.isInternetConnected())
+		{
 			return false;
+		}
 
-		final SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE);
-		final SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
+		final SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
+		final SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
 
 
 		if (isUpdateAvailable())
 		{
-			final Date date=new Date(preferences.getLong("Update_Date",new Date().getTime()));
+			final Date date = new Date(preferences.getLong("Update_Date", new Date().getTime()));
 
-			if(date.after(new Date()))
+			if (date.after(new Date()))
+			{
 				return false;
+			}
 
-			AlertDialog.Builder builder=new AlertDialog.Builder(context);
+			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setCancelable(false);
 			builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
 			{
@@ -71,18 +80,18 @@ public class UpdateCheck
 				public void onClick(DialogInterface dialogInterface, int i)
 				{
 					Answers.getInstance().logCustom(new CustomEvent("Updated App"));
-					Calendar calendar=Calendar.getInstance();
+					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
-					calendar.add(Calendar.HOUR,context.getResources().getInteger(R.integer.AfterUpdateHours));
+					calendar.add(Calendar.HOUR, context.getResources().getInteger(R.integer.AfterUpdateHours));
 
-					UpdateAvailable=false;
-					editor.putBoolean("Update",false);
+					UpdateAvailable = false;
+					editor.putBoolean("Update", false);
 
-					editor.putLong("Update_Date",calendar.getTime().getTime());
+					editor.putLong("Update_Date", calendar.getTime().getTime());
 					editor.apply();
 
-					Intent intent=new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse("market://details?id="+context.getPackageName()));
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse("market://details?id=" + context.getPackageName()));
 					context.startActivity(intent);
 
 					dialogInterface.dismiss();
@@ -93,13 +102,13 @@ public class UpdateCheck
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i)
 				{
-					Calendar calendar=Calendar.getInstance();
+					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
-					calendar.add(Calendar.HOUR,context.getResources().getInteger(R.integer.LaterUpdateHours));
+					calendar.add(Calendar.HOUR, context.getResources().getInteger(R.integer.LaterUpdateHours));
 
-					UpdateAvailable=true;
-					editor.putBoolean("Update",true);
-					editor.putLong("Update_Date",calendar.getTime().getTime());
+					UpdateAvailable = true;
+					editor.putBoolean("Update", true);
+					editor.putLong("Update_Date", calendar.getTime().getTime());
 					editor.apply();
 
 					dialogInterface.dismiss();
@@ -115,9 +124,9 @@ public class UpdateCheck
 						public void onShow(DialogInterface arg0)
 						{
 
-							alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(context,R.color.button_color));
-							alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
-							alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
+							alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(context, R.color.button_color));
+							alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, R.color.button_color));
+							alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.button_color));
 						}
 					});
 			alertDialog.show();
@@ -135,28 +144,29 @@ public class UpdateCheck
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			url+="null";
+			url += "null";
 		}
 
-		JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>()
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>()
 		{
 			@Override
 			public void onResponse(JSONObject response)
 			{
-				try{
-					if(response != null && response.has("status") && response.getBoolean("status") && response.has("version"))
+				try
+				{
+					if (response != null && response.has("status") && response.getBoolean("status") && response.has("version"))
 					{
-						String version=response.getString("version");
-						UpdateAvailable = (context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName.compareTo(version)<0);
+						String version = response.getString("version");
+						UpdateAvailable = ( context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName.compareTo(version) < 0 );
 					}
 					else
 					{
-						UpdateAvailable=false;
+						UpdateAvailable = false;
 					}
 				}
 				catch (Exception e)
 				{
-					UpdateAvailable=false;
+					UpdateAvailable = false;
 					e.printStackTrace();
 				}
 				finally
@@ -171,9 +181,9 @@ public class UpdateCheck
 			@Override
 			public void onErrorResponse(VolleyError error)
 			{
-				UpdateAvailable=false;
-				SharedPreferences.Editor editor= getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
-				editor.putBoolean("Update",UpdateAvailable);
+				UpdateAvailable = false;
+				SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
+				editor.putBoolean("Update", UpdateAvailable);
 				editor.apply();
 			}
 		});

@@ -15,40 +15,42 @@ import com.nitkkr.gawds.tech16.model.EventModel;
 /**
  * Created by Dell on 18-Dec-16.
  */
-public class RulesEvent extends Fragment {
+public class RulesEvent extends Fragment
+{
 
-    private EventModel model;
+	private EventModel model;
 
-    public static RulesEvent getNewFragment(EventModel model)
-    {
-        RulesEvent rules_frag=new RulesEvent();
-        rules_frag.model=model;
-        return rules_frag;
-    }
+	public static RulesEvent getNewFragment(EventModel model)
+	{
+		RulesEvent rules_frag = new RulesEvent();
+		rules_frag.model = model;
+		return rules_frag;
+	}
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view= inflater.inflate(R.layout.fragment_about,container,false);
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+	{
+		View view = inflater.inflate(R.layout.fragment_about, container, false);
 
-        if (model!=null)
-        {
-            WebView webView=(WebView)view.findViewById(R.id.Event_Content);
-            String text = "<html><head>"
-                    + "<style type=\"text/css\">body{color: #fff; }"
-                    + "</style></head>"
-                    + "<body>"
-                    + model.getRules()
-                    + "</body></html>";
-            webView.loadDataWithBaseURL(null,text,"text/html","utf-8",null);
-            webView.setBackgroundColor(Color.TRANSPARENT);
-        }
+		if (model != null)
+		{
+			WebView webView = (WebView) view.findViewById(R.id.Event_Content);
+			String text = "<html><head>"
+					+ "<style type=\"text/css\">body{color: #fff; }"
+					+ "</style></head>"
+					+ "<body>"
+					+ model.getRules()
+					+ "</body></html>";
+			webView.loadDataWithBaseURL(null, text, "text/html", "utf-8", null);
+			webView.setBackgroundColor(Color.TRANSPARENT);
+		}
 
-        return view;
-    }
+		return view;
+	}
 }

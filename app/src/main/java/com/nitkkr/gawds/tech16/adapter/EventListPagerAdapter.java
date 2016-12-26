@@ -14,10 +14,11 @@ import com.nitkkr.gawds.tech16.activity.fragment.RegisteredEventList;
 public class EventListPagerAdapter extends FragmentStatePagerAdapter
 {
 	private int mNumOfTabs;
-	private AllEventList allEventList =new AllEventList();
-	private RegisteredEventList registeredEventList=new RegisteredEventList();
+	private AllEventList allEventList = new AllEventList();
+	private RegisteredEventList registeredEventList = new RegisteredEventList();
 
-	public EventListPagerAdapter(FragmentManager fm, int NumOfTabs) {
+	public EventListPagerAdapter(FragmentManager fm, int NumOfTabs)
+	{
 		super(fm);
 		this.mNumOfTabs = NumOfTabs;
 	}
@@ -25,7 +26,8 @@ public class EventListPagerAdapter extends FragmentStatePagerAdapter
 	@Override
 	public Fragment getItem(int position)
 	{
-		switch (position) {
+		switch (position)
+		{
 			case 0:
 				return allEventList;
 			case 1:
@@ -36,7 +38,8 @@ public class EventListPagerAdapter extends FragmentStatePagerAdapter
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount()
+	{
 		return mNumOfTabs;
 	}
 

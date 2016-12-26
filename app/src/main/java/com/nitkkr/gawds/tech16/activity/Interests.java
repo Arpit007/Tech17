@@ -28,11 +28,12 @@ import java.util.ArrayList;
 
 public class Interests extends AppCompatActivity
 {
-	private AppUserModel appUserModel=(AppUserModel)AppUserModel.MAIN_USER.clone();
+	private AppUserModel appUserModel = (AppUserModel) AppUserModel.MAIN_USER.clone();
 	private InterestAdapter adapter;
 	private ProgressDialog mProgressDialog;
 	String token;
-	boolean exit=false;
+	boolean exit = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -46,8 +47,13 @@ public class Interests extends AppCompatActivity
 		try
 		{
 			if (getIntent().getExtras().getBoolean("Return_Interest", false))
+			{
 				adapter = new InterestAdapter(getBaseContext(), (ArrayList<InterestModel>) getIntent().getExtras().getSerializable("Keys"));
-			else adapter = new InterestAdapter(getBaseContext());
+			}
+			else
+			{
+				adapter = new InterestAdapter(getBaseContext());
+			}
 		}
 		catch (Exception e)
 		{
@@ -76,18 +82,21 @@ public class Interests extends AppCompatActivity
 					appUserModel.setInterests(adapter.getFinalList());
 
 					//Used for Edit User
-					if(getIntent().getExtras().getBoolean("Return_Interest",false))
+					if (getIntent().getExtras().getBoolean("Return_Interest", false))
 					{
-						Intent data=new Intent();
-						Bundle bundle=new Bundle();
-						bundle.putSerializable("Interests",adapter.getFinalList());
+						Intent data = new Intent();
+						Bundle bundle = new Bundle();
+						bundle.putSerializable("Interests", adapter.getFinalList());
 						data.putExtras(bundle);
-						setResult(RESULT_OK,data);
+						setResult(RESULT_OK, data);
 
 						finish();
 						ActivityHelper.setExitAnimation(Interests.this);
 					}
-					else sendInterests();
+					else
+					{
+						sendInterests();
+					}
 				}
 				else
 				{
@@ -97,7 +106,7 @@ public class Interests extends AppCompatActivity
 		});
 
 		barDone.setLabel("Interests");
-		token=AppUserModel.MAIN_USER.getToken();
+		token = AppUserModel.MAIN_USER.getToken();
 	}
 
 	public void sendInterests()
@@ -105,91 +114,94 @@ public class Interests extends AppCompatActivity
 		showProgressDialog("Uploading Information, Please Wait...");
 		FetchData.getInstance()
 				.sendInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
-		{
-			@Override
-			public void onResponse(ResponseStatus status)
-			{
-				if(status==ResponseStatus.SUCCESS)
 				{
-					Log.v("DEBUG","Interests send "+adapter.getFinalList().toString());
-					FetchData.getInstance().deleteInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
+					@Override
+					public void onResponse(ResponseStatus status)
 					{
-						@Override
-						public void onResponse(ResponseStatus status)
+						if (status == ResponseStatus.SUCCESS)
 						{
-							Log.v("DEBUG","Interests deleted "+adapter.getFinalList().toString());
+							Log.v("DEBUG", "Interests send " + adapter.getFinalList().toString());
+							FetchData.getInstance().deleteInterests(getApplicationContext(), adapter.getFinalList(), appUserModel, new iResponseCallback()
+									{
+										@Override
+										public void onResponse(ResponseStatus status)
+										{
+											Log.v("DEBUG", "Interests deleted " + adapter.getFinalList().toString());
+											hideProgressDialog();
+											serverResponse(status);
+										}
+
+										@Override
+										public void onResponse(ResponseStatus status, Object object)
+										{
+											this.onResponse(status);
+										}
+
+									}
+							);
+						}
+						else
+						{
+							Log.v("DEBUG", "Interests send failed" + adapter.getFinalList().toString());
 							hideProgressDialog();
 							serverResponse(status);
 						}
-
-						@Override
-						public void onResponse(ResponseStatus status, Object object)
-						{
-							this.onResponse(status);
-						}
-
 					}
-					);
-				}
-				else
-				{
-					Log.v("DEBUG","Interests send failed"+adapter.getFinalList().toString());
-					hideProgressDialog();
-					serverResponse(status);
-				}
-			}
 
-			@Override
-			public void onResponse(ResponseStatus status, Object object)
-			{
-				this.onResponse(status);
-			}
-		});
+					@Override
+					public void onResponse(ResponseStatus status, Object object)
+					{
+						this.onResponse(status);
+					}
+				});
 	}
 
-	public void serverResponse(ResponseStatus status){
+	public void serverResponse(ResponseStatus status)
+	{
 		switch (status)
 		{
 			case SUCCESS:
-				appUserModel.setLoggedIn(true,this);
-				appUserModel.setSignedup(true,this);
+				appUserModel.setLoggedIn(true, this);
+				appUserModel.setSignedup(true, this);
 				appUserModel.saveAppUser(Interests.this);
-				AppUserModel.MAIN_USER=appUserModel;
+				AppUserModel.MAIN_USER = appUserModel;
 
 				SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit();
-				editor.putBoolean("Skip",false);
+				editor.putBoolean("Skip", false);
 				editor.apply();
 
-				if(!ActivityHelper.isDebugMode(getApplicationContext()))
+				if (!ActivityHelper.isDebugMode(getApplicationContext()))
 				{
 					Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
 					Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
 				}
-				if(getIntent().getExtras().getBoolean("Start_Home",true))
+				if (getIntent().getExtras().getBoolean("Start_Home", true))
 				{
 					startActivity(new Intent(Interests.this, Home.class));
 					finish();
 				}
 				else
 				{
-					Intent intent=new Intent();
-					intent.putExtra("Logged_In",true);
-					setResult(RESULT_OK,intent);
+					Intent intent = new Intent();
+					intent.putExtra("Logged_In", true);
+					setResult(RESULT_OK, intent);
 					finish();
 					ActivityHelper.setExitAnimation(this);
 				}
 				break;
 			case FAILED:
-				Toast.makeText(Interests.this,"Failed, Please Try Again",Toast.LENGTH_LONG).show();
+				Toast.makeText(Interests.this, "Failed, Please Try Again", Toast.LENGTH_LONG).show();
 				break;
 			default:
-				Toast.makeText(Interests.this,"Network error",Toast.LENGTH_LONG).show();
+				Toast.makeText(Interests.this, "Network error", Toast.LENGTH_LONG).show();
 				break;
 		}
 	}
 
-	private void showProgressDialog(String msg) {
-		if (mProgressDialog == null) {
+	private void showProgressDialog(String msg)
+	{
+		if (mProgressDialog == null)
+		{
 			mProgressDialog = new ProgressDialog(this);
 			mProgressDialog.setMessage(msg);
 			mProgressDialog.setIndeterminate(true);
@@ -199,8 +211,10 @@ public class Interests extends AppCompatActivity
 		mProgressDialog.show();
 	}
 
-	private void hideProgressDialog() {
-		if (mProgressDialog != null && mProgressDialog.isShowing()) {
+	private void hideProgressDialog()
+	{
+		if (mProgressDialog != null && mProgressDialog.isShowing())
+		{
 			mProgressDialog.hide();
 		}
 	}
@@ -208,15 +222,17 @@ public class Interests extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(exit)
+		if (exit)
 		{
 			finish();
 			ActivityHelper.setExitAnimation(this);
 		}
-		if (mProgressDialog!=null && mProgressDialog.isShowing())
+		if (mProgressDialog != null && mProgressDialog.isShowing())
+		{
 			return;
+		}
 
-		if(isTaskRoot())
+		if (isTaskRoot())
 		{
 			exit = true;
 			Toast.makeText(this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();

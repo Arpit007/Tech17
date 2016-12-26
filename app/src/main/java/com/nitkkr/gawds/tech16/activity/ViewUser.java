@@ -21,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewUser extends AppCompatActivity
 {
-	private final int EDIT=10;
+	private final int EDIT = 10;
 	UserModel model;
 
 	@Override
@@ -32,27 +32,29 @@ public class ViewUser extends AppCompatActivity
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
-		model=(UserModel)getIntent().getExtras().getSerializable("User");
+		model = (UserModel) getIntent().getExtras().getSerializable("User");
 
-		ActionBarDoneButton bar=new ActionBarDoneButton(ViewUser.this, new View.OnClickListener()
+		ActionBarDoneButton bar = new ActionBarDoneButton(ViewUser.this, new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
 			{
-				Intent intent=new Intent(ViewUser.this,EditUser.class);
+				Intent intent = new Intent(ViewUser.this, EditUser.class);
 				startActivityForResult(intent, EDIT);
 			}
 		});
 		bar.setLabel(model.getName());
 
-		if(model.getEmail().equals(AppUserModel.MAIN_USER.getEmail()))
+		if (model.getEmail().equals(AppUserModel.MAIN_USER.getEmail()))
 		{
 			bar.setButtonLabel("Edit");
 			bar.setButtonDrawable(R.drawable.ic_edit_white);
 			bar.setButtonVisibility(View.VISIBLE);
 		}
 		else
+		{
 			bar.setButtonVisibility(View.GONE);
+		}
 
 		setUpContent();
 	}
@@ -60,17 +62,17 @@ public class ViewUser extends AppCompatActivity
 	public void setUpContent()
 	{
 
-		(( TextView)findViewById(R.id.user_Name)).setText(model.getName());
-		(( TextView)findViewById(R.id.user_Email)).setText(model.getEmail());
-		(( TextView)findViewById(R.id.user_College)).setText(model.getCollege());
-		(( TextView)findViewById(R.id.user_Roll)).setText(model.getRoll());
-		(( TextView)findViewById(R.id.user_Branch)).setText(model.getBranch());
-		(( TextView)findViewById(R.id.user_Year)).setText(model.getYear());
-		(( TextView)findViewById(R.id.user_Number)).setText(model.getMobile());
+		( (TextView) findViewById(R.id.user_Name) ).setText(model.getName());
+		( (TextView) findViewById(R.id.user_Email) ).setText(model.getEmail());
+		( (TextView) findViewById(R.id.user_College) ).setText(model.getCollege());
+		( (TextView) findViewById(R.id.user_Roll) ).setText(model.getRoll());
+		( (TextView) findViewById(R.id.user_Branch) ).setText(model.getBranch());
+		( (TextView) findViewById(R.id.user_Year) ).setText(model.getYear());
+		( (TextView) findViewById(R.id.user_Number) ).setText(model.getMobile());
 
-		if(model.getImageResource()!=null && model.isUseGoogleImage())
+		if (model.getImageResource() != null && model.isUseGoogleImage())
 		{
-			CircleImageView view=(CircleImageView)findViewById(R.id.view_user_Image);
+			CircleImageView view = (CircleImageView) findViewById(R.id.view_user_Image);
 			view.setVisibility(View.VISIBLE);
 
 			Glide.with(ViewUser.this).load(model.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
@@ -78,41 +80,51 @@ public class ViewUser extends AppCompatActivity
 			findViewById(R.id.view_user_Image_Letter).setVisibility(View.INVISIBLE);
 			findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}
-		else if(model.getImageId()!=-1)
+		else if (model.getImageId() != -1)
 		{
-			CircleImageView view=(CircleImageView)findViewById(R.id.view_user_Image);
+			CircleImageView view = (CircleImageView) findViewById(R.id.view_user_Image);
 			view.setVisibility(View.VISIBLE);
 
-			TypedArray array=getResources().obtainTypedArray(R.array.Avatar);
-			view.setImageResource(array.getResourceId(model.getImageId(),0));
+			TypedArray array = getResources().obtainTypedArray(R.array.Avatar);
+			view.setImageResource(array.getResourceId(model.getImageId(), 0));
 			array.recycle();
 
-			CircularTextView circularTextView=(CircularTextView)findViewById(R.id.view_user_Image_Letter);
+			CircularTextView circularTextView = (CircularTextView) findViewById(R.id.view_user_Image_Letter);
 			circularTextView.setVisibility(View.INVISIBLE);
-			circularTextView=(CircularTextView)findViewById(R.id.temp_user_Image_Letter);
+			circularTextView = (CircularTextView) findViewById(R.id.temp_user_Image_Letter);
 			circularTextView.setVisibility(View.VISIBLE);
-			circularTextView.setFillColor(ContextCompat.getColor(this,R.color.User_Image_Fill_Color));
+			circularTextView.setFillColor(ContextCompat.getColor(this, R.color.User_Image_Fill_Color));
 		}
 		else
 		{
-			CircularTextView view=(CircularTextView)findViewById(R.id.view_user_Image_Letter);
+			CircularTextView view = (CircularTextView) findViewById(R.id.view_user_Image_Letter);
 
-			if(model.getName().isEmpty())
+			if (model.getName().isEmpty())
+			{
 				view.setText("#");
-			else view.setText(String.valueOf(model.getName().trim().toUpperCase().charAt(0)));
+			}
+			else
+			{
+				view.setText(String.valueOf(model.getName().trim().toUpperCase().charAt(0)));
+			}
 
 			view.setVisibility(View.VISIBLE);
 
-			TypedArray array=getResources().obtainTypedArray(R.array.Flat_Colors);
+			TypedArray array = getResources().obtainTypedArray(R.array.Flat_Colors);
 
 			int colorPos;
-			if(model.getName().isEmpty())
-				colorPos=Math.abs(('#'-'a'))%array.length();
-			else colorPos = Math.abs(model.getName().trim().toLowerCase().charAt(0)-'a')%array.length();
+			if (model.getName().isEmpty())
+			{
+				colorPos = Math.abs(( '#' - 'a' )) % array.length();
+			}
+			else
+			{
+				colorPos = Math.abs(model.getName().trim().toLowerCase().charAt(0) - 'a') % array.length();
+			}
 
-			view.setFillColor(array.getColor(colorPos,0));
+			view.setFillColor(array.getColor(colorPos, 0));
 			view.setBorderWidth(2);
-			view.setBorderColor(ContextCompat.getColor(this,R.color.User_Image_Border_Color));
+			view.setBorderColor(ContextCompat.getColor(this, R.color.User_Image_Border_Color));
 
 			array.recycle();
 
@@ -125,17 +137,23 @@ public class ViewUser extends AppCompatActivity
 	public void onBackPressed()
 	{
 
-		if(ActivityHelper.revertToHomeIfLast(ViewUser.this));
-		else super.onBackPressed();
+		if (ActivityHelper.revertToHomeIfLast(ViewUser.this))
+		{
+			;
+		}
+		else
+		{
+			super.onBackPressed();
+		}
 		ActivityHelper.setExitAnimation(this);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		if(requestCode==EDIT)
+		if (requestCode == EDIT)
 		{
-			model=AppUserModel.MAIN_USER;
+			model = AppUserModel.MAIN_USER;
 			setUpContent();
 		}
 		super.onActivityResult(requestCode, resultCode, data);

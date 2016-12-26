@@ -15,21 +15,25 @@ public class CircularTextView extends TextView
 	private float borderWidth;
 	int borderColor, fillColor;
 
-	public CircularTextView(Context context) {
+	public CircularTextView(Context context)
+	{
 		super(context);
 	}
 
-	public CircularTextView(Context context, AttributeSet attrs) {
+	public CircularTextView(Context context, AttributeSet attrs)
+	{
 		super(context, attrs);
 	}
 
-	public CircularTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+	public CircularTextView(Context context, AttributeSet attrs, int defStyleAttr)
+	{
 		super(context, attrs, defStyleAttr);
 	}
 
 
 	@Override
-	public void draw(Canvas canvas) {
+	public void draw(Canvas canvas)
+	{
 
 		Paint circlePaint = new Paint();
 		circlePaint.setColor(fillColor);
@@ -39,18 +43,18 @@ public class CircularTextView extends TextView
 		strokePaint.setColor(borderColor);
 		strokePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
-		int  h = this.getHeight();
-		int  w = this.getWidth();
+		int h = this.getHeight();
+		int w = this.getWidth();
 
-		int diameter = ((h > w) ? h : w);
-		int radius = diameter/2;
+		int diameter = ( ( h > w ) ? h : w );
+		int radius = diameter / 2;
 
 		this.setHeight(diameter);
 		this.setWidth(diameter);
 
-		canvas.drawCircle(diameter / 2 , diameter / 2, radius, strokePaint);
+		canvas.drawCircle(diameter / 2, diameter / 2, radius, strokePaint);
 
-		canvas.drawCircle(diameter / 2, diameter / 2, radius- borderWidth, circlePaint);
+		canvas.drawCircle(diameter / 2, diameter / 2, radius - borderWidth, circlePaint);
 
 		super.draw(canvas);
 	}
@@ -58,7 +62,7 @@ public class CircularTextView extends TextView
 	public void setBorderWidth(int dp)
 	{
 		float scale = getContext().getResources().getDisplayMetrics().density;
-		borderWidth = dp*scale;
+		borderWidth = dp * scale;
 	}
 
 	public void setBorderColor(int color)

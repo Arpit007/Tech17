@@ -37,32 +37,32 @@ public class CreateTeam extends AppCompatActivity
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
-		EventKey key=( EventKey) getIntent().getSerializableExtra("Event");
-		eventModel=Database.getInstance().getEventsDB().getEvent(key);
+		EventKey key = (EventKey) getIntent().getSerializableExtra("Event");
+		eventModel = Database.getInstance().getEventsDB().getEvent(key);
 
-		ActionBarBack actionBarBack=new ActionBarBack(CreateTeam.this);
+		ActionBarBack actionBarBack = new ActionBarBack(CreateTeam.this);
 		actionBarBack.setLabel("Create Team");
 
-		model=new TeamModel();
-		ArrayList<UserModel> userModels=new ArrayList<>();
+		model = new TeamModel();
+		ArrayList<UserModel> userModels = new ArrayList<>();
 
 		userModels.add(AppUserModel.MAIN_USER);
 		model.setMembers(userModels);
 
-		adapter=new RegisterTeamAdapter(CreateTeam.this,model,eventModel.getMinUsers(),eventModel.getMaxUsers(),true);
+		adapter = new RegisterTeamAdapter(CreateTeam.this, model, eventModel.getMinUsers(), eventModel.getMaxUsers(), true);
 
-		ListView listView=(ListView)findViewById(R.id.team_register_list);
+		ListView listView = (ListView) findViewById(R.id.team_register_list);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				if(i!=adapter.getTeamModel().getMembers().size() && i!=0)
+				if (i != adapter.getTeamModel().getMembers().size() && i != 0)
 				{
-					Intent intent=new Intent(CreateTeam.this,ViewUser.class);
-					Bundle bundle=new Bundle();
-					bundle.putSerializable("User",adapter.getTeamModel().getMembers().get(i));
+					Intent intent = new Intent(CreateTeam.this, ViewUser.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("User", adapter.getTeamModel().getMembers().get(i));
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -73,24 +73,27 @@ public class CreateTeam extends AppCompatActivity
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		if(requestCode==RegisterTeamAdapter.SEARCH_USER)
+		if (requestCode == RegisterTeamAdapter.SEARCH_USER)
 		{
-			if(resultCode==RESULT_OK)
+			if (resultCode == RESULT_OK)
 			{
-				UserModel userModel=new UserModel();
+				UserModel userModel = new UserModel();
 				//Get new User
 				adapter.getTeamModel().getMembers().add(userModel);
 				adapter.notifyDataSetInvalidated();
 			}
 		}
-		else super.onActivityResult(requestCode, resultCode, data);
+		else
+		{
+			super.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 
 	public void Register(View view)
 	{
-		if(!ActivityHelper.isInternetConnected())
+		if (!ActivityHelper.isInternetConnected())
 		{
-			Toast.makeText(this,"No Network Connection",Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		ResponseStatus status = ResponseStatus.NONE;
@@ -102,9 +105,9 @@ public class CreateTeam extends AppCompatActivity
 				break;
 			case SUCCESS:
 				Toast.makeText(CreateTeam.this, "Registered Successfully", Toast.LENGTH_LONG).show();
-				Intent intent=new Intent();
-				intent.putExtra("Register",true);
-				setResult(RESULT_OK,intent);
+				Intent intent = new Intent();
+				intent.putExtra("Register", true);
+				setResult(RESULT_OK, intent);
 
 				eventModel.setNotify(true);
 				eventModel.setRegistered(true);
@@ -123,8 +126,14 @@ public class CreateTeam extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(ActivityHelper.revertToHomeIfLast(CreateTeam.this));
-			else super.onBackPressed();
+		if (ActivityHelper.revertToHomeIfLast(CreateTeam.this))
+		{
+			;
+		}
+		else
+		{
+			super.onBackPressed();
+		}
 		ActivityHelper.setExitAnimation(this);
 	}
 }

@@ -40,11 +40,11 @@ public class AllEventList extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState)
 	{
-		MyView= inflater.inflate(R.layout.fragment_all_event_list, container, false);
+		MyView = inflater.inflate(R.layout.fragment_all_event_list, container, false);
 
 		expListView = (ExpandableListView) MyView.findViewById(R.id.all_event_list);
 
-		final ListView listView=(ListView)MyView.findViewById(R.id.search_event_list);
+		final ListView listView = (ListView) MyView.findViewById(R.id.search_event_list);
 
 		listAdapter = new AllEventListAdapter(MyView.getContext(), HashData);
 		listAdapter.getFilter().setSearchList(listView);
@@ -54,9 +54,14 @@ public class AllEventList extends Fragment
 			@Override
 			public void onChanged()
 			{
-				if(listView.getVisibility()==View.VISIBLE && listView.getAdapter().getCount()==0)
+				if (listView.getVisibility() == View.VISIBLE && listView.getAdapter().getCount() == 0)
+				{
 					MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
-				else MyView.findViewById(R.id.None).setVisibility(View.GONE);
+				}
+				else
+				{
+					MyView.findViewById(R.id.None).setVisibility(View.GONE);
+				}
 
 				super.onChanged();
 			}
@@ -67,12 +72,12 @@ public class AllEventList extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				EventListAdapter adapter=(EventListAdapter)listView.getAdapter();
-				adapter.onClick(((EventKey)adapter.getItem(i)).getEventID());
+				EventListAdapter adapter = (EventListAdapter) listView.getAdapter();
+				adapter.onClick(( (EventKey) adapter.getItem(i) ).getEventID());
 
-				Bundle bundle=new Bundle();
-				bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
-				Intent intent=new Intent(view.getContext(), Event.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("Event", (EventKey) listView.getAdapter().getItem(i));
+				Intent intent = new Intent(view.getContext(), Event.class);
 				intent.putExtras(bundle);
 				view.getContext().startActivity(intent);
 			}
@@ -83,11 +88,14 @@ public class AllEventList extends Fragment
 			@Override
 			public void onChanged()
 			{
-				if(listAdapter.getGroupCount()==0)
+				if (listAdapter.getGroupCount() == 0)
 				{
 					MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
 				}
-				else MyView.findViewById(R.id.None).setVisibility(View.GONE);
+				else
+				{
+					MyView.findViewById(R.id.None).setVisibility(View.GONE);
+				}
 				super.onChanged();
 			}
 		});
@@ -99,21 +107,26 @@ public class AllEventList extends Fragment
 			@Override
 			public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l)
 			{
-				listAdapter.onClick(i,i1);
+				listAdapter.onClick(i, i1);
 
-				Bundle bundle=new Bundle();
-				bundle.putSerializable("Event",(EventKey)(listAdapter.getChild(i,i1)));
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("Event", (EventKey) ( listAdapter.getChild(i, i1) ));
 
-				Intent intent=new Intent(view.getContext(), Event.class);
+				Intent intent = new Intent(view.getContext(), Event.class);
 				intent.putExtras(bundle);
 				view.getContext().startActivity(intent);
 				return false;
 			}
 		});
 
-		if(Database.getInstance().getEventsDB().getRowCount()==0)
+		if (Database.getInstance().getEventsDB().getRowCount() == 0)
+		{
 			MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
-		else MyView.findViewById(R.id.None).setVisibility(View.GONE);
+		}
+		else
+		{
+			MyView.findViewById(R.id.None).setVisibility(View.GONE);
+		}
 
 		prepareListData();
 
@@ -123,11 +136,11 @@ public class AllEventList extends Fragment
 	private void prepareListData()
 	{
 		HashData = new HashMap<>();
-		ArrayList<SocietyModel> societies= Database.getInstance().getSocietyDB().getAllSocieties();
+		ArrayList<SocietyModel> societies = Database.getInstance().getSocietyDB().getAllSocieties();
 
-		for(SocietyModel society: societies)
+		for (SocietyModel society : societies)
 		{
-			HashData.put(society.getName(),Database.getInstance().getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID()));
+			HashData.put(society.getName(), Database.getInstance().getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID()));
 		}
 		listAdapter.setEvents(HashData);
 		listAdapter.notifyDataSetChanged();
@@ -135,11 +148,16 @@ public class AllEventList extends Fragment
 
 	public void SearchQuery(String Query)
 	{
-		if(Query.equals(""))
+		if (Query.equals(""))
 		{
-			if(Database.getInstance().getEventsDB().getRowCount()==0)
+			if (Database.getInstance().getEventsDB().getRowCount() == 0)
+			{
 				MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
-			else MyView.findViewById(R.id.None).setVisibility(View.GONE);
+			}
+			else
+			{
+				MyView.findViewById(R.id.None).setVisibility(View.GONE);
+			}
 
 			MyView.findViewById(R.id.all_event_list).setVisibility(View.VISIBLE);
 			MyView.findViewById(R.id.search_event_list).setVisibility(View.GONE);
@@ -156,9 +174,9 @@ public class AllEventList extends Fragment
 	public void onResume()
 	{
 		super.onResume();
-		if(listAdapter.ID!=-1)
+		if (listAdapter.ID != -1)
 		{
-			listAdapter.ID=-1;
+			listAdapter.ID = -1;
 			listAdapter.notifyDataSetChanged();
 		}
 	}

@@ -11,22 +11,30 @@ public enum EventStatus
 	Finished("Finished");
 
 
-
 	private String value;
+
 	static public EventStatus Parse(String data)
 	{
 		switch (data.toLowerCase())
 		{
-			case "not started"  :return NotStarted;
-			case "started":return Started;
-			case "finished": return Finished;
-			default:return None;
+			case "not started":
+				return NotStarted;
+			case "started":
+				return Started;
+			case "finished":
+				return Finished;
+			default:
+				return None;
 		}
 	}
 
 	EventStatus(String value)
 	{
-		this.value=value;
+		this.value = value;
 	}
-	String getValue(){return value;}
+
+	String getValue()
+	{
+		return value;
+	}
 }

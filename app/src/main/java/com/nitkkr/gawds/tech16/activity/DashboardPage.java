@@ -26,239 +26,266 @@ import java.util.ArrayList;
 
 public class DashboardPage extends AppCompatActivity
 {
-    private Page page;
-    private EventListAdapter eventAdapter;
-    private ListView listView;
-    private ActionBarSearch barBack;
+	private Page page;
+	private EventListAdapter eventAdapter;
+	private ListView listView;
+	private ActionBarSearch barBack;
 
-    enum Page
-    {
-        Live(1),
-        Wishlist(2),
-        Notification(3),
-        Interest(4);
+	enum Page
+	{
+		Live(1),
+		Wishlist(2),
+		Notification(3),
+		Interest(4);
 
-        int value;
-        Page(int Value){value=Value;}
-        static public Page Parse(int value)
-        {
-            switch (value)
-            {
-                case 2:return Wishlist;
-                case 3:return Notification;
-                case 4:return Interest;
-                default:return Live;
-            }
-        }
-    }
+		int value;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-        ActivityHelper.setCreateAnimation(this);
-        ActivityHelper.setStatusBarColor(DashboardPage.this);
+		Page(int Value)
+		{
+			value = Value;
+		}
 
-        barBack=new ActionBarSearch(DashboardPage.this, new iActionBar()
-        {
-            @Override
-            public void NavButtonClicked()
-            {
-            }
+		static public Page Parse(int value)
+		{
+			switch (value)
+			{
+				case 2:
+					return Wishlist;
+				case 3:
+					return Notification;
+				case 4:
+					return Interest;
+				default:
+					return Live;
+			}
+		}
+	}
 
-            @Override
-            public void SearchQuery(String Query)
-            {
-                if(page!=Page.Notification)
-                    eventAdapter.getFilter().filter(Query);
-            }
-        });
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_dashboard);
+		ActivityHelper.setCreateAnimation(this);
+		ActivityHelper.setStatusBarColor(DashboardPage.this);
 
-        int ID=getIntent().getIntExtra("Navigation",-1);
-        if(ID==-1)
-        {
-            finish();
-            ActivityHelper.setExitAnimation(this);
-            return;
-        }
+		barBack = new ActionBarSearch(DashboardPage.this, new iActionBar()
+		{
+			@Override
+			public void NavButtonClicked()
+			{
+			}
 
-        page = Page.Parse(ID);
+			@Override
+			public void SearchQuery(String Query)
+			{
+				if (page != Page.Notification)
+				{
+					eventAdapter.getFilter().filter(Query);
+				}
+			}
+		});
 
-        if(page!=Page.Notification)
-        {
-            findViewById(R.id.notification_list).setVisibility(View.GONE);
-            eventAdapter=new EventListAdapter(DashboardPage.this,new ArrayList<EventKey>(),page==Page.Wishlist);
-            listView =(ListView)findViewById(R.id.event_list);
-            listView.setVisibility(View.VISIBLE);
-            listView.setAdapter(eventAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-                {
-                    eventAdapter.onClick(((EventKey)eventAdapter.getItem(i)).getEventID());
-                    if(page==Page.Wishlist)
-                    {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("Event",(EventKey)eventAdapter.getItem(i));
-                        Intent intent=new Intent(view.getContext(), Exhibition.class);
-                        intent.putExtras(bundle);
-                        DashboardPage.this.startActivity(intent);
-                    }
-                    else
-                    {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("Event",(EventKey)eventAdapter.getItem(i));
-                        Intent intent=new Intent(view.getContext(), Event.class);
-                        intent.putExtras(bundle);
-                        DashboardPage.this.startActivity(intent);
-                    }
-                }
-            });
-        }
-        else
-        {
-            findViewById(R.id.event_list).setVisibility(View.GONE);
-            listView =(ListView)findViewById(R.id.notification_list);
-            listView.setVisibility(View.VISIBLE);
-        }
+		int ID = getIntent().getIntExtra("Navigation", -1);
+		if (ID == -1)
+		{
+			finish();
+			ActivityHelper.setExitAnimation(this);
+			return;
+		}
 
-        listView.getAdapter().registerDataSetObserver(new DataSetObserver()
-        {
-            @Override
-            public void onChanged()
-            {
-                if(listView.getAdapter().getCount()==0)
-                    findViewById(R.id.None).setVisibility(View.VISIBLE);
-                else findViewById(R.id.None).setVisibility(View.GONE);
-            }
-        });
+		page = Page.Parse(ID);
 
-        switch (page)
-        {
-            case Live:
-                barBack.setLabel("Live Events");
-                loadLiveEvents();
-                break;
-            case Notification:
-                barBack.setLabel("Notifications");
-                loadNotificationEvents();
-                barBack.setSearchButtonVisibility(View.GONE);
-                break;
-            case Interest:
-                barBack.setLabel("Interested Events");
-                loadInterestedEvents();
-                break;
-            case Wishlist:
-                loadWishlistEvents();
-                barBack.setLabel("Wishlist Events");
-                break;
-        }
-    }
+		if (page != Page.Notification)
+		{
+			findViewById(R.id.notification_list).setVisibility(View.GONE);
+			eventAdapter = new EventListAdapter(DashboardPage.this, new ArrayList<EventKey>(), page == Page.Wishlist);
+			listView = (ListView) findViewById(R.id.event_list);
+			listView.setVisibility(View.VISIBLE);
+			listView.setAdapter(eventAdapter);
+			listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+			{
+				@Override
+				public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+				{
+					eventAdapter.onClick(( (EventKey) eventAdapter.getItem(i) ).getEventID());
+					if (page == Page.Wishlist)
+					{
+						Bundle bundle = new Bundle();
+						bundle.putSerializable("Event", (EventKey) eventAdapter.getItem(i));
+						Intent intent = new Intent(view.getContext(), Exhibition.class);
+						intent.putExtras(bundle);
+						DashboardPage.this.startActivity(intent);
+					}
+					else
+					{
+						Bundle bundle = new Bundle();
+						bundle.putSerializable("Event", (EventKey) eventAdapter.getItem(i));
+						Intent intent = new Intent(view.getContext(), Event.class);
+						intent.putExtras(bundle);
+						DashboardPage.this.startActivity(intent);
+					}
+				}
+			});
+		}
+		else
+		{
+			findViewById(R.id.event_list).setVisibility(View.GONE);
+			listView = (ListView) findViewById(R.id.notification_list);
+			listView.setVisibility(View.VISIBLE);
+		}
 
-    private void loadLiveEvents()
-    {
-        final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
-        dialog.setIndeterminate(true);
-        dialog.setMessage("Fetching Data");
-        dialog.show();
+		listView.getAdapter().registerDataSetObserver(new DataSetObserver()
+		{
+			@Override
+			public void onChanged()
+			{
+				if (listView.getAdapter().getCount() == 0)
+				{
+					findViewById(R.id.None).setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					findViewById(R.id.None).setVisibility(View.GONE);
+				}
+			}
+		});
 
-        FetchData.getInstance().getLiveEvents(getBaseContext(), new iResponseCallback()
-        {
-            @Override
-            public void onResponse(ResponseStatus status)
-            {
-                this.onResponse(status,null);
-            }
+		switch (page)
+		{
+			case Live:
+				barBack.setLabel("Live Events");
+				loadLiveEvents();
+				break;
+			case Notification:
+				barBack.setLabel("Notifications");
+				loadNotificationEvents();
+				barBack.setSearchButtonVisibility(View.GONE);
+				break;
+			case Interest:
+				barBack.setLabel("Interested Events");
+				loadInterestedEvents();
+				break;
+			case Wishlist:
+				loadWishlistEvents();
+				barBack.setLabel("Wishlist Events");
+				break;
+		}
+	}
 
-            @Override
-            public void onResponse(ResponseStatus status, Object object)
-            {
-                if(status==ResponseStatus.SUCCESS && object!=null)
-                {
-                    ArrayList<EventModel> models=(ArrayList<EventModel>)object;
-                    ArrayList<EventKey> keys=new ArrayList<>(models.size());
+	private void loadLiveEvents()
+	{
+		final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
+		dialog.setIndeterminate(true);
+		dialog.setMessage("Fetching Data");
+		dialog.show();
 
-                    for(EventModel model:models)
-                        keys.add(model);
-                    eventAdapter.setEvents(keys);
-                }
-                else if(status==ResponseStatus.NONE)
-                {
-                    Toast.makeText(getBaseContext(),"Network Error",Toast.LENGTH_LONG).show();
-                }
-                else Toast.makeText(getBaseContext(),"Failed to Fetch Live Events",Toast.LENGTH_LONG).show();
-                eventAdapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
+		FetchData.getInstance().getLiveEvents(getBaseContext(), new iResponseCallback()
+		{
+			@Override
+			public void onResponse(ResponseStatus status)
+			{
+				this.onResponse(status, null);
+			}
 
-        eventAdapter.notifyDataSetChanged();
-    }
+			@Override
+			public void onResponse(ResponseStatus status, Object object)
+			{
+				if (status == ResponseStatus.SUCCESS && object != null)
+				{
+					ArrayList<EventModel> models = (ArrayList<EventModel>) object;
+					ArrayList<EventKey> keys = new ArrayList<>(models.size());
 
-    private void loadNotificationEvents()
-    {
+					for (EventModel model : models)
+					{
+						keys.add(model);
+					}
+					eventAdapter.setEvents(keys);
+				}
+				else if (status == ResponseStatus.NONE)
+				{
+					Toast.makeText(getBaseContext(), "Network Error", Toast.LENGTH_LONG).show();
+				}
+				else
+				{
+					Toast.makeText(getBaseContext(), "Failed to Fetch Live Events", Toast.LENGTH_LONG).show();
+				}
+				eventAdapter.notifyDataSetChanged();
+				dialog.dismiss();
+			}
+		});
 
-    }
-    private void loadInterestedEvents()
-    {
-        final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
-        dialog.setIndeterminate(true);
-        dialog.setMessage("Fetching Data");
-        dialog.show();
+		eventAdapter.notifyDataSetChanged();
+	}
 
-        FetchData.getInstance().fetchInterestedEvents(getBaseContext(), new iResponseCallback()
-        {
-            @Override
-            public void onResponse(ResponseStatus status)
-            {
-                this.onResponse(status,null);
-            }
+	private void loadNotificationEvents()
+	{
 
-            @Override
-            public void onResponse(ResponseStatus status, Object object)
-            {
-                if(status==ResponseStatus.SUCCESS && object!=null)
-                {
-                    ArrayList<EventKey> keys=(ArrayList<EventKey>)object;
-                    eventAdapter.setEvents(keys);
-                }
-                else if(status==ResponseStatus.NONE)
-                {
-                    Toast.makeText(getBaseContext(),"Network Error",Toast.LENGTH_LONG).show();
-                }
-                else Toast.makeText(getBaseContext(),"Failed to Interested Events",Toast.LENGTH_LONG).show();
-                eventAdapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
+	}
 
-        eventAdapter.notifyDataSetChanged();
-    }
+	private void loadInterestedEvents()
+	{
+		final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
+		dialog.setIndeterminate(true);
+		dialog.setMessage("Fetching Data");
+		dialog.show();
 
-    private void loadWishlistEvents()
-    {
-        eventAdapter.setEvents(Database.getInstance().getExhibitionDB().getRegisteredExhibitionKeys());
-        eventAdapter.notifyDataSetChanged();
-    }
+		FetchData.getInstance().fetchInterestedEvents(getBaseContext(), new iResponseCallback()
+		{
+			@Override
+			public void onResponse(ResponseStatus status)
+			{
+				this.onResponse(status, null);
+			}
 
-    @Override
-    public void onBackPressed()
-    {
-        if(barBack.backPressed())
-        {
-            super.onBackPressed();
-            ActivityHelper.setExitAnimation(this);
-        }
-    }
+			@Override
+			public void onResponse(ResponseStatus status, Object object)
+			{
+				if (status == ResponseStatus.SUCCESS && object != null)
+				{
+					ArrayList<EventKey> keys = (ArrayList<EventKey>) object;
+					eventAdapter.setEvents(keys);
+				}
+				else if (status == ResponseStatus.NONE)
+				{
+					Toast.makeText(getBaseContext(), "Network Error", Toast.LENGTH_LONG).show();
+				}
+				else
+				{
+					Toast.makeText(getBaseContext(), "Failed to Interested Events", Toast.LENGTH_LONG).show();
+				}
+				eventAdapter.notifyDataSetChanged();
+				dialog.dismiss();
+			}
+		});
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
+		eventAdapter.notifyDataSetChanged();
+	}
 
-        if(eventAdapter!=null && eventAdapter.EventID!=-1)
-            eventAdapter.notifyDataSetChanged();
-    }
+	private void loadWishlistEvents()
+	{
+		eventAdapter.setEvents(Database.getInstance().getExhibitionDB().getRegisteredExhibitionKeys());
+		eventAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if (barBack.backPressed())
+		{
+			super.onBackPressed();
+			ActivityHelper.setExitAnimation(this);
+		}
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+
+		if (eventAdapter != null && eventAdapter.EventID != -1)
+		{
+			eventAdapter.notifyDataSetChanged();
+		}
+	}
 }

@@ -18,7 +18,7 @@ public class SearchPage extends AppCompatActivity
 	private ActionBarSearch actionBarSearch;
 	SearchPageAdapter adapter;
 	ListView listView;
-	String Query="";
+	String Query = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +30,7 @@ public class SearchPage extends AppCompatActivity
 
 		ActivityHelper.setStatusBarColor(this);
 
-		listView=(ListView)findViewById(R.id.event_list);
+		listView = (ListView) findViewById(R.id.event_list);
 		adapter = new SearchPageAdapter(SearchPage.this);
 		listView.setAdapter(adapter);
 
@@ -48,13 +48,18 @@ public class SearchPage extends AppCompatActivity
 			@Override
 			public void onChanged()
 			{
-				if (adapter.getCount()==0  && !Query.isEmpty())
+				if (adapter.getCount() == 0 && !Query.isEmpty())
+				{
 					findViewById(R.id.None).setVisibility(View.VISIBLE);
-				else findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				}
+				else
+				{
+					findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				}
 			}
 		});
 
-		actionBarSearch=new ActionBarSearch(SearchPage.this, new iActionBar()
+		actionBarSearch = new ActionBarSearch(SearchPage.this, new iActionBar()
 		{
 			@Override
 			public void NavButtonClicked()
@@ -79,10 +84,16 @@ public class SearchPage extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(actionBarSearch.backPressed())
+		if (actionBarSearch.backPressed())
 		{
-			if(ActivityHelper.revertToHomeIfLast(SearchPage.this));
-			else super.onBackPressed();
+			if (ActivityHelper.revertToHomeIfLast(SearchPage.this))
+			{
+				;
+			}
+			else
+			{
+				super.onBackPressed();
+			}
 			ActivityHelper.setExitAnimation(this);
 		}
 	}
@@ -92,7 +103,9 @@ public class SearchPage extends AppCompatActivity
 	{
 		super.onResume();
 
-		if(adapter.ID!=-1)
+		if (adapter.ID != -1)
+		{
 			adapter.notifyDataSetChanged();
+		}
 	}
 }

@@ -11,6 +11,13 @@ public class ResultPositionModel implements Serializable
 {
 	private ArrayList<iUserModel> Winners;
 
-	public ArrayList<iUserModel> getWinners(){return Winners;}
-	public void setWinners(ArrayList<iUserModel> winners){Winners=winners;}
+	public ArrayList<iUserModel> getWinners()
+	{
+		return Winners;
+	}
+
+	public void setWinners(ArrayList<iUserModel> winners)
+	{
+		Winners = winners;
+	}
 }

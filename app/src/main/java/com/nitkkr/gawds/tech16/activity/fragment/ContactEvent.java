@@ -23,52 +23,53 @@ import java.util.ArrayList;
  */
 public class ContactEvent extends Fragment
 {
-    private ArrayList<CoordinatorModel> coordinatorModelList=new ArrayList<>();
-    private CoordinatorAdapter mCoordinatorAdapter;
-    private RecyclerView mreRecyclerView;
+	private ArrayList<CoordinatorModel> coordinatorModelList = new ArrayList<>();
+	private CoordinatorAdapter mCoordinatorAdapter;
+	private RecyclerView mreRecyclerView;
 
-    private EventModel model;
+	private EventModel model;
 
-    public static ContactEvent getNewFragment(EventModel model)
-    {
-        ContactEvent contact_frag=new ContactEvent();
-        contact_frag.model=model;
+	public static ContactEvent getNewFragment(EventModel model)
+	{
+		ContactEvent contact_frag = new ContactEvent();
+		contact_frag.model = model;
 
-        return contact_frag;
-    }
+		return contact_frag;
+	}
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View rootView= inflater.inflate(R.layout.fragment_contact,container,false);
-        mreRecyclerView=(RecyclerView) rootView.findViewById(R.id.Event_Contacts);
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+	{
+		View rootView = inflater.inflate(R.layout.fragment_contact, container, false);
+		mreRecyclerView = (RecyclerView) rootView.findViewById(R.id.Event_Contacts);
 
-        mCoordinatorAdapter =new CoordinatorAdapter(coordinatorModelList);
+		mCoordinatorAdapter = new CoordinatorAdapter(coordinatorModelList);
 
 
-        LinearLayoutManager layoutManager=new LinearLayoutManager(rootView.getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mreRecyclerView.setLayoutManager(layoutManager);
-        mreRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mreRecyclerView.setAdapter(mCoordinatorAdapter);
+		LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		mreRecyclerView.setLayoutManager(layoutManager);
+		mreRecyclerView.setItemAnimator(new DefaultItemAnimator());
+		mreRecyclerView.setAdapter(mCoordinatorAdapter);
 
-        prepare_list();
+		prepare_list();
 
-        return rootView;
-    }
+		return rootView;
+	}
 
-    public void prepare_list()
-    {
-        if(model!=null)
-        {
-            coordinatorModelList = Database.getInstance().getCoordinatorDB().getCoordinators(model);
-            mCoordinatorAdapter.setCoordinatorModelList(coordinatorModelList);
-            mCoordinatorAdapter.notifyDataSetChanged();
-        }
-    }
+	public void prepare_list()
+	{
+		if (model != null)
+		{
+			coordinatorModelList = Database.getInstance().getCoordinatorDB().getCoordinators(model);
+			mCoordinatorAdapter.setCoordinatorModelList(coordinatorModelList);
+			mCoordinatorAdapter.notifyDataSetChanged();
+		}
+	}
 }

@@ -21,28 +21,38 @@ public class Query implements Serializable
 
 	public Query(String query, QueryType queryType, EventTargetType queryTargetType)
 	{
-		this.query=query;
-		this.queryType=queryType;
-		this.targetType=queryTargetType;
+		this.query = query;
+		this.queryType = queryType;
+		this.targetType = queryTargetType;
 	}
 
 	public QueryType getQueryType()
 	{
 		return queryType;
 	}
+
 	public String getQuery()
 	{
 		return query;
 	}
-	public EventTargetType getQueryTargetType(){return targetType;}
+
+	public EventTargetType getQueryTargetType()
+	{
+		return targetType;
+	}
 
 	public void setQueryType(QueryType queryType)
 	{
 		this.queryType = queryType;
 	}
+
 	public void setQuery(String query)
 	{
 		this.query = query;
 	}
-	public void setQueryTargetType(EventTargetType targetType){this.targetType=targetType;}
+
+	public void setQueryTargetType(EventTargetType targetType)
+	{
+		this.targetType = targetType;
+	}
 }

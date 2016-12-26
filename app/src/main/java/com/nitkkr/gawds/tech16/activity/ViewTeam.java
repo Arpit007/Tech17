@@ -24,7 +24,7 @@ import com.nitkkr.gawds.tech16.model.TeamModel;
 public class ViewTeam extends AppCompatActivity
 {
 	EventModel model;
-	TeamModel teamModel =new TeamModel();
+	TeamModel teamModel = new TeamModel();
 	ActionBarBack barBack;
 	RegisterTeamAdapter adapter;
 	ProgressDialog progressDialog;
@@ -37,18 +37,18 @@ public class ViewTeam extends AppCompatActivity
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
-		barBack=new ActionBarBack(ViewTeam.this);
+		barBack = new ActionBarBack(ViewTeam.this);
 		barBack.setLabel("");
 
-		EventKey key=(EventKey) getIntent().getExtras().getSerializable("Event");
-		model= Database.getInstance().getEventsDB().getEvent(key);
+		EventKey key = (EventKey) getIntent().getExtras().getSerializable("Event");
+		model = Database.getInstance().getEventsDB().getEvent(key);
 
-		progressDialog=new ProgressDialog(ViewTeam.this);
+		progressDialog = new ProgressDialog(ViewTeam.this);
 		progressDialog.setMessage("Loading, Please Wait");
 		progressDialog.show();
 
 		//TODO:Load Team Model------------------------
-		ResponseStatus status=ResponseStatus.SUCCESS;
+		ResponseStatus status = ResponseStatus.SUCCESS;
 
 		switch (status)
 		{
@@ -58,7 +58,7 @@ public class ViewTeam extends AppCompatActivity
 				progressDialog.dismiss();
 				break;
 			case OTHER:
-				Toast.makeText(ViewTeam.this,"==================MESSAGE==================",Toast.LENGTH_LONG).show();
+				Toast.makeText(ViewTeam.this, "==================MESSAGE==================", Toast.LENGTH_LONG).show();
 				new Handler().postDelayed(new Runnable()
 				{
 					@Override
@@ -68,10 +68,10 @@ public class ViewTeam extends AppCompatActivity
 						finish();
 						ActivityHelper.setExitAnimation(ViewTeam.this);
 					}
-				},getResources().getInteger(R.integer.AutoCloseDuration));
+				}, getResources().getInteger(R.integer.AutoCloseDuration));
 				break;
 			default:
-				Toast.makeText(ViewTeam.this,"Failed to Fetch Team Details",Toast.LENGTH_LONG).show();
+				Toast.makeText(ViewTeam.this, "Failed to Fetch Team Details", Toast.LENGTH_LONG).show();
 				new Handler().postDelayed(new Runnable()
 				{
 					@Override
@@ -81,20 +81,20 @@ public class ViewTeam extends AppCompatActivity
 						finish();
 						ActivityHelper.setExitAnimation(ViewTeam.this);
 					}
-				},getResources().getInteger(R.integer.AutoCloseDuration));
+				}, getResources().getInteger(R.integer.AutoCloseDuration));
 				break;
 		}
 
-		ListView listView=(ListView)findViewById(R.id.view_team_list);
-		adapter=new RegisterTeamAdapter(ViewTeam.this, teamModel,model.getMinUsers(),model.getMaxUsers(),false);
+		ListView listView = (ListView) findViewById(R.id.view_team_list);
+		adapter = new RegisterTeamAdapter(ViewTeam.this, teamModel, model.getMinUsers(), model.getMaxUsers(), false);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				Intent intent=new Intent(ViewTeam.this,ViewUser.class);
-				Bundle bundle=new Bundle();
+				Intent intent = new Intent(ViewTeam.this, ViewUser.class);
+				Bundle bundle = new Bundle();
 				bundle.putSerializable("User", teamModel.getMembers().get(i));
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -105,18 +105,26 @@ public class ViewTeam extends AppCompatActivity
 	void loadTeam()
 	{
 		//TODO:Implement
-		barBack.setLabel("Team: "+ teamModel.getTeamName());
+		barBack.setLabel("Team: " + teamModel.getTeamName());
 	}
 
 	@Override
 	public void onBackPressed()
 	{
-		if(progressDialog!=null && progressDialog.isShowing())
+		if (progressDialog != null && progressDialog.isShowing())
+		{
 			return;
+		}
 
 
-		if(ActivityHelper.revertToHomeIfLast(ViewTeam.this));
-			else super.onBackPressed();
+		if (ActivityHelper.revertToHomeIfLast(ViewTeam.this))
+		{
+			;
+		}
+		else
+		{
+			super.onBackPressed();
+		}
 		ActivityHelper.setExitAnimation(this);
 	}
 }

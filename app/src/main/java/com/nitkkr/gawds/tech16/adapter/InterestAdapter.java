@@ -25,14 +25,14 @@ public class InterestAdapter extends BaseAdapter
 
 	public InterestAdapter(Context context)
 	{
-		list= Database.getInstance().getInterestDB().getAllInterests();
-		this.context=context;
+		list = Database.getInstance().getInterestDB().getAllInterests();
+		this.context = context;
 	}
 
 	public InterestAdapter(Context context, ArrayList<InterestModel> keys)
 	{
-		list= keys;
-		this.context=context;
+		list = keys;
+		this.context = context;
 	}
 
 	@Override
@@ -56,43 +56,53 @@ public class InterestAdapter extends BaseAdapter
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup)
 	{
-		if(view==null)
+		if (view == null)
 		{
-			LayoutInflater inflater=LayoutInflater.from(context);
-			view=inflater.inflate(R.layout.layout_list_item_interest,viewGroup,false);
+			LayoutInflater inflater = LayoutInflater.from(context);
+			view = inflater.inflate(R.layout.layout_list_item_interest, viewGroup, false);
 		}
 
-		(( TextView)view.findViewById(R.id.interest_item_label)).setText(list.get(i).getInterest());
+		( (TextView) view.findViewById(R.id.interest_item_label) ).setText(list.get(i).getInterest());
 
-		if(list.get(i).isSelected())
-			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
-		else ((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
+		if (list.get(i).isSelected())
+		{
+			( (ImageView) view.findViewById(R.id.interest_item_tick) ).setImageResource(R.drawable.icon_tick);
+		}
+		else
+		{
+			( (ImageView) view.findViewById(R.id.interest_item_tick) ).setImageResource(R.drawable.icon_untick);
+		}
 
 		return view;
 	}
 
 	public void onItemClick(View view, int Position)
 	{
-		list.get(Position).setSelected(!(list.get(Position).isSelected()));
-		if(list.get(Position).isSelected())
+		list.get(Position).setSelected(!( list.get(Position).isSelected() ));
+		if (list.get(Position).isSelected())
 		{
-			((ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_tick);
+			( (ImageView) view.findViewById(R.id.interest_item_tick) ).setImageResource(R.drawable.icon_tick);
 		}
 		else
 		{
-			(( ImageView)view.findViewById(R.id.interest_item_tick)).setImageResource(R.drawable.icon_untick);
+			( (ImageView) view.findViewById(R.id.interest_item_tick) ).setImageResource(R.drawable.icon_untick);
 		}
 	}
 
 	public boolean isDone()
 	{
-		for(InterestModel model: list)
+		for (InterestModel model : list)
 		{
 			if (model.isSelected())
+			{
 				return true;
+			}
 		}
 		return false;
 	}
 
-	public ArrayList<InterestModel> getFinalList(){return list;}
+	public ArrayList<InterestModel> getFinalList()
+	{
+		return list;
+	}
 }

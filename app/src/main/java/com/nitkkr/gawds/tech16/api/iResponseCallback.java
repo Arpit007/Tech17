@@ -9,5 +9,6 @@ import com.nitkkr.gawds.tech16.helper.ResponseStatus;
 public interface iResponseCallback
 {
 	void onResponse(ResponseStatus status);
+
 	void onResponse(ResponseStatus status, Object object);
 }

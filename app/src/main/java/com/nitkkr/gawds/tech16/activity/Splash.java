@@ -44,20 +44,24 @@ import static com.nitkkr.gawds.tech16.activity.Login.mGoogleApiClient;
 
 public class Splash extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
 {
-	boolean secondPermissionRequest=false;
-	private static final int STORAGE_PERMISSION_CODE =1 ;
+	boolean secondPermissionRequest = false;
+	private static final int STORAGE_PERMISSION_CODE = 1;
 	private Handler handler = new Handler();
 	View upper, lower;
-	Animation slideup, slidedown,imageSLideUp;
-	Thread runAnimationUp = new Thread() {
+	Animation slideup, slidedown, imageSLideUp;
+	Thread runAnimationUp = new Thread()
+	{
 		@Override
-		public void run() {
+		public void run()
+		{
 			upper.startAnimation(slideup);
 		}
 	};
-	Thread runAnimationDown = new Thread() {
+	Thread runAnimationDown = new Thread()
+	{
 		@Override
-		public void run() {
+		public void run()
+		{
 			lower.startAnimation(slidedown);
 		}
 	};
@@ -68,15 +72,15 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 	{
 		public void run()
 		{
-			SharedPreferences preferences=getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
-			boolean Skip=preferences.getBoolean("Skip",false);
+			SharedPreferences preferences = getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE);
+			boolean Skip = preferences.getBoolean("Skip", false);
 
-			if(Skip)
+			if (Skip)
 			{
-				startActivity(new Intent(Splash.this,Home.class));
+				startActivity(new Intent(Splash.this, Home.class));
 				AppUserModel.MAIN_USER.logoutUser(getApplicationContext());
 			}
-			else if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
+			else if (AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()))
 			{
 				if (!AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 				{
@@ -85,19 +89,22 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 					intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
 					startActivity(intent);
 				}
-				else if(Database.getInstance().getInterestDB().getSelectedInterests().size()==0)
+				else if (Database.getInstance().getInterestDB().getSelectedInterests().size() == 0)
 				{
 					Toast.makeText(Splash.this.getApplicationContext(), "Continiuing From Where You Left", Toast.LENGTH_LONG).show();
 					Intent intent = new Intent(Splash.this, Interests.class);
 					intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
 					startActivity(intent);
 				}
-				else startActivity(new Intent(Splash.this,Home.class));
+				else
+				{
+					startActivity(new Intent(Splash.this, Home.class));
+				}
 			}
 			else
 			{
-				Intent intent=new Intent(Splash.this,About.class);
-				intent.putExtra("Login",true);
+				Intent intent = new Intent(Splash.this, About.class);
+				intent.putExtra("Login", true);
 				startActivity(intent);
 			}
 
@@ -105,7 +112,6 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 			ActivityHelper.setExitAnimation(Splash.this);
 		}
 	};
-
 
 
 	@Override
@@ -117,12 +123,13 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		ActivityHelper.setCreateAnimation(this);
 
-		if(!ActivityHelper.isDebugMode(getApplicationContext()))
+		if (!ActivityHelper.isDebugMode(getApplicationContext()))
 		{
 			Fabric.with(this, new Crashlytics());
 		}
 
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
 
 			ActivityHelper.setStatusBarColor(R.color.app_background, this);
 		}
@@ -136,25 +143,28 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 		splashTypewriter.setText("");
 		splashTypewriter.setCharacterDelay(70);
 
-		slidedown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
-		slideup=AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
-		imageSLideUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.image_slide_up);
+		slidedown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+		slideup = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+		imageSLideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.image_slide_up);
 
 		ts_logo.startAnimation(imageSLideUp);
 		runAnimationDown.start();
 		runAnimationUp.start();
 		splashTypewriter.animateText("      Techspardha '17");
 
-		Thread thread=new Thread()
+		Thread thread = new Thread()
 		{
 			@Override
 			public void run()
 			{
-				if(!isReadStorageAllowed())
+				if (!isReadStorageAllowed())
 				{
-					ActivityCompat.requestPermissions(Splash.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
+					ActivityCompat.requestPermissions(Splash.this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE_PERMISSION_CODE);
 				}
-				else start_app();
+				else
+				{
+					start_app();
+				}
 			}
 		};
 
@@ -189,27 +199,27 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 		});
 		final AlertDialog alertDialog = builder.create();
 		alertDialog.setOnShowListener(
-			new DialogInterface.OnShowListener()
-			{
-				@Override
-				public void onShow(DialogInterface arg0)
+				new DialogInterface.OnShowListener()
 				{
+					@Override
+					public void onShow(DialogInterface arg0)
+					{
 
-					alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(Splash.this,R.color.button_color));
-					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(Splash.this,R.color.button_color));
-					alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(Splash.this,R.color.button_color));
-				}
-			});
+						alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(Splash.this, R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(Splash.this, R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(Splash.this, R.color.button_color));
+					}
+				});
 		alertDialog.show();
 	}
 
 	public void start_app()
 	{
-		Database database=new Database(getApplicationContext());
-		Log.d("Instance: ",database.toString() +" Started");
+		Database database = new Database(getApplicationContext());
+		Log.d("Instance: ", database.toString() + " Started");
 		AppUserModel.MAIN_USER.loadAppUser(getApplicationContext());
 
-		if(!ActivityHelper.isDebugMode(getApplicationContext()))
+		if (!ActivityHelper.isDebugMode(getApplicationContext()))
 		{
 			if (AppUserModel.MAIN_USER.isUserLoggedIn(this))
 			{
@@ -238,13 +248,13 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 		FetchData.getInstance().fetchAll(getApplicationContext());
 		FetchData.getInstance().getSocieties(getApplicationContext());
 
-		if(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
+		if (AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
 			FetchData.getInstance().fetchUserInterests(getBaseContext());
 			FetchData.getInstance().fetchUserWishlist(getBaseContext());
 		}
 
-		if(AppUserModel.MAIN_USER.isUserLoggedIn(this))
+		if (AppUserModel.MAIN_USER.isUserLoggedIn(this))
 		{
 			try
 			{
@@ -282,13 +292,17 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 		switch (requestCode)
 		{
 			case STORAGE_PERMISSION_CODE:
-				if(isReadStorageAllowed())
+				if (isReadStorageAllowed())
+				{
 					start_app();
-				else if(!secondPermissionRequest)
+				}
+				else if (!secondPermissionRequest)
+				{
 					requestStoragePermission();
+				}
 				else
 				{
-					Toast.makeText(getApplicationContext(),"Failed to Get Write Permissions.\nExiting...",Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Failed to Get Write Permissions.\nExiting...", Toast.LENGTH_LONG).show();
 					new Handler().postDelayed(new Runnable()
 					{
 						@Override
@@ -297,7 +311,7 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 							finish();
 							System.exit(-1);
 						}
-					},getResources().getInteger(R.integer.AppCloseDuration));
+					}, getResources().getInteger(R.integer.AppCloseDuration));
 				}
 				break;
 		}

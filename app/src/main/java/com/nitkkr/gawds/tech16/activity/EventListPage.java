@@ -25,7 +25,7 @@ public class EventListPage extends AppCompatActivity
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
-		barNavDrawer=new ActionBarNavDrawer(EventListPage.this, new iActionBar()
+		barNavDrawer = new ActionBarNavDrawer(EventListPage.this, new iActionBar()
 		{
 			@Override
 			public void NavButtonClicked()
@@ -37,7 +37,7 @@ public class EventListPage extends AppCompatActivity
 			{
 				adapter.Filter(Query);
 			}
-		},R.id.nav_events);
+		}, R.id.nav_events);
 
 		barNavDrawer.setLabel("Events");
 
@@ -47,24 +47,28 @@ public class EventListPage extends AppCompatActivity
 		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 		final ViewPager viewPager = (ViewPager) findViewById(R.id.event_list_page_view);
-		adapter = new EventListPagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+		adapter = new EventListPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
 		viewPager.setAdapter(adapter);
 		viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 		viewPager.setCurrentItem(0);
 
-		tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+		tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
+		{
 			@Override
-			public void onTabSelected(TabLayout.Tab tab) {
+			public void onTabSelected(TabLayout.Tab tab)
+			{
 				viewPager.setCurrentItem(tab.getPosition());
 			}
 
 			@Override
-			public void onTabUnselected(TabLayout.Tab tab) {
+			public void onTabUnselected(TabLayout.Tab tab)
+			{
 
 			}
 
 			@Override
-			public void onTabReselected(TabLayout.Tab tab) {
+			public void onTabReselected(TabLayout.Tab tab)
+			{
 
 			}
 		});
@@ -73,11 +77,17 @@ public class EventListPage extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(!barNavDrawer.onBackPressed())
+		if (!barNavDrawer.onBackPressed())
 		{
 
-			if(ActivityHelper.revertToHomeIfLast(EventListPage.this));
-				else super.onBackPressed();
+			if (ActivityHelper.revertToHomeIfLast(EventListPage.this))
+			{
+				;
+			}
+			else
+			{
+				super.onBackPressed();
+			}
 			ActivityHelper.setExitAnimation(this);
 		}
 	}

@@ -22,6 +22,7 @@ public class SearchPageFilter extends Filter
 	{
 		public EventKey key;
 		public EventTargetType type;
+
 		public Holder(EventKey Key, EventTargetType Type)
 		{
 			key = Key;
@@ -29,7 +30,10 @@ public class SearchPageFilter extends Filter
 		}
 	}
 
-	public SearchPageFilter(SearchPageAdapter adapter){this.adapter = adapter;}
+	public SearchPageFilter(SearchPageAdapter adapter)
+	{
+		this.adapter = adapter;
+	}
 
 	@Override
 	protected FilterResults performFiltering(CharSequence charSequence)
@@ -57,14 +61,14 @@ public class SearchPageFilter extends Filter
 		}
 		FilterResults results = new FilterResults();
 		results.count = Keys.size();
-		results.values=Keys;
+		results.values = Keys;
 		return results;
 	}
 
 	@Override
 	protected void publishResults(CharSequence charSequence, FilterResults filterResults)
 	{
-		adapter.setKeys((ArrayList<Holder>)filterResults.values);
+		adapter.setKeys((ArrayList<Holder>) filterResults.values);
 		adapter.notifyDataSetChanged();
 	}
 }

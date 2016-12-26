@@ -6,7 +6,7 @@ package com.nitkkr.gawds.tech16.model;
 
 public class MessageModel
 {
-	private String Text="";
+	private String Text = "";
 	private int ID;
 	private MessageType type;
 	//Other Required Fields
@@ -15,10 +15,12 @@ public class MessageModel
 	{
 		return Text;
 	}
+
 	public int getID()
 	{
 		return ID;
 	}
+
 	public MessageType getType()
 	{
 		return type;
@@ -28,10 +30,12 @@ public class MessageModel
 	{
 		Text = text;
 	}
+
 	public void setID(int ID)
 	{
 		this.ID = ID;
 	}
+
 	public void setType(MessageType type)
 	{
 		this.type = type;

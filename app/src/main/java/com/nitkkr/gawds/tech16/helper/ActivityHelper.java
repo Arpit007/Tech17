@@ -15,10 +15,8 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
@@ -37,7 +35,7 @@ import java.util.Date;
 
 public class ActivityHelper
 {
-	private static Context context=null;
+	private static Context context = null;
 
 	public static void setStatusBarColor(Activity activity)
 	{
@@ -66,13 +64,19 @@ public class ActivityHelper
 		}
 	}
 
-	public static Context getApplicationContext(){return context;}
+	public static Context getApplicationContext()
+	{
+		return context;
+	}
 
-	public static void setApplictionContext(Context context){ActivityHelper.context = context;}
+	public static void setApplictionContext(Context context)
+	{
+		ActivityHelper.context = context;
+	}
 
 	public static boolean revertToHomeIfLast(Activity activity)
 	{
-		if(activity.isTaskRoot())
+		if (activity.isTaskRoot())
 		{
 			revertToHome(activity);
 			return true;
@@ -82,19 +86,19 @@ public class ActivityHelper
 
 	public static void revertToHome(Activity activity)
 	{
-		Intent intent=new Intent(activity,Home.class);
-		intent.putExtra("AnimStart",false);
+		Intent intent = new Intent(activity, Home.class);
+		intent.putExtra("AnimStart", false);
 		activity.startActivity(intent);
 		activity.finish();
-		activity.overridePendingTransition(R.anim.anim_none,R.anim.anim_none);
+		activity.overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
 	}
 
 	public static void startListActivity(Activity activity, String Label, Query query)
 	{
-		Intent intent=new Intent(activity, ListPage.class);
-		Bundle bundle=new Bundle();
-		bundle.putSerializable("Query",query);
-		bundle.putString("Label",Label);
+		Intent intent = new Intent(activity, ListPage.class);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("Query", query);
+		bundle.putString("Label", Label);
 		intent.putExtras(bundle);
 		activity.startActivity(intent);
 	}
@@ -113,19 +117,19 @@ public class ActivityHelper
 		return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 	}
 
-	public static  void setCreateAnimation(Activity activity)
+	public static void setCreateAnimation(Activity activity)
 	{
-		activity.overridePendingTransition(R.anim.anim_right_in,R.anim.anim_none);
+		activity.overridePendingTransition(R.anim.anim_right_in, R.anim.anim_none);
 	}
 
-	public static  void setExitAnimation(Activity activity)
+	public static void setExitAnimation(Activity activity)
 	{
-		activity.overridePendingTransition(R.anim.anim_none,R.anim.anim_right_out);
+		activity.overridePendingTransition(R.anim.anim_none, R.anim.anim_right_out);
 	}
 
 	public static void comingSoonSnackBar(String Message, Activity activity)
 	{
-		if(UpdateCheck.getInstance().isUpdateAvailable())
+		if (UpdateCheck.getInstance().isUpdateAvailable())
 		{
 			Snackbar.make(activity.findViewById(android.R.id.content), "Update to Access this Feature", Snackbar.LENGTH_LONG)
 					.setAction("Update Now", new View.OnClickListener()
@@ -134,26 +138,26 @@ public class ActivityHelper
 						public void onClick(View view)
 						{
 							Answers.getInstance().logCustom(new CustomEvent("Updated App"));
-							SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE);
-							SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
+							SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
+							SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
 
-							Date date=new Date(preferences.getLong("Update_Date",new Date().getTime()));
+							Date date = new Date(preferences.getLong("Update_Date", new Date().getTime()));
 
-							Calendar calendar=Calendar.getInstance();
+							Calendar calendar = Calendar.getInstance();
 							calendar.setTime(date);
-							calendar.add(Calendar.HOUR,context.getResources().getInteger(R.integer.AfterUpdateHours));
+							calendar.add(Calendar.HOUR, context.getResources().getInteger(R.integer.AfterUpdateHours));
 
-							editor.putBoolean("Update",false);
+							editor.putBoolean("Update", false);
 
-							editor.putLong("Update_Date",calendar.getTime().getTime());
+							editor.putLong("Update_Date", calendar.getTime().getTime());
 							editor.apply();
 
-							Intent intent=new Intent(Intent.ACTION_VIEW);
-							intent.setData(Uri.parse("market://details?id="+context.getPackageName()));
+							Intent intent = new Intent(Intent.ACTION_VIEW);
+							intent.setData(Uri.parse("market://details?id=" + context.getPackageName()));
 							context.startActivity(intent);
 						}
 					})
-					.setActionTextColor(ContextCompat.getColor(activity,R.color.neon_green))
+					.setActionTextColor(ContextCompat.getColor(activity, R.color.neon_green))
 					.show();
 		}
 		else

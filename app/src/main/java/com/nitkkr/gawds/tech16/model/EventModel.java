@@ -16,11 +16,12 @@ public class EventModel extends BaseEventModel implements Serializable
 {
 
 
-	public interface EventStatusListener {
+	public interface EventStatusListener
+	{
 		void EventStatusChanged(EventStatus status);
 	}
 
-	private String Rules="";
+	private String Rules = "";
 	private int MinUsers = 1;
 	private int MaxUsers = 1;
 	private int CurrentRound = 0;
@@ -29,59 +30,162 @@ public class EventModel extends BaseEventModel implements Serializable
 
 	private boolean Informal = false;
 	private boolean Registered = false;
-	private EventStatus status= EventStatus.None;
+	private EventStatus status = EventStatus.None;
 	private ArrayList<RoundResultModel> Result;
 	private ArrayList<iUserModel> Participants;
 	private EventStatusListener listener;
 
 
-	public int getCategory(){return Category;}
-	public int getSociety(){return Society;}
-	public String getRules(){return Rules;}
-	public int getMinUsers(){return MinUsers;}
-	public int getMaxUsers(){return MaxUsers;}
-	public int getCurrentRound(){return CurrentRound;}
-	public EventStatus getEventStatus(){return  status;}
-	public ArrayList<RoundResultModel> getResult(){return Result;}
-	public ArrayList<iUserModel> getParticipants(){return Participants;}
-	public EventStatusListener getListener(){return listener;}
-	public void callStatusListener() {
+	public int getCategory()
+	{
+		return Category;
+	}
+
+	public int getSociety()
+	{
+		return Society;
+	}
+
+	public String getRules()
+	{
+		return Rules;
+	}
+
+	public int getMinUsers()
+	{
+		return MinUsers;
+	}
+
+	public int getMaxUsers()
+	{
+		return MaxUsers;
+	}
+
+	public int getCurrentRound()
+	{
+		return CurrentRound;
+	}
+
+	public EventStatus getEventStatus()
+	{
+		return status;
+	}
+
+	public ArrayList<RoundResultModel> getResult()
+	{
+		return Result;
+	}
+
+	public ArrayList<iUserModel> getParticipants()
+	{
+		return Participants;
+	}
+
+	public EventStatusListener getListener()
+	{
+		return listener;
+	}
+
+	public void callStatusListener()
+	{
 		try
 		{
 			if (listener != null)
+			{
 				listener.EventStatusChanged(status);
+			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
-	public void callStatusListener(EventStatus status) {
-		this.status=status;
-		if(listener!=null)
+
+	public void callStatusListener(EventStatus status)
+	{
+		this.status = status;
+		if (listener != null)
+		{
 			listener.EventStatusChanged(status);
+		}
 	}
 
 
-	public void setListener(EventStatusListener listener){this.listener=listener;}
-	public void setCategory(int category){Category = category;}
-	public void setSociety(int society){Society = society;}
-	public void setRules(String rules){Rules=rules;}
-	public void setMaxUsers(int maxUsers){MaxUsers=maxUsers;}
-	public void setCurrentRound(int currentRound){CurrentRound = currentRound;}
-	public void setStatus(EventStatus status){this.status=status;}
-	public void setResult(ArrayList<RoundResultModel> result){Result=result;}
-	public void setParticipants(ArrayList<iUserModel> participants){Participants=participants;}
-	public void setRegistered(boolean registered){Registered=registered;}
-	public void setInformal(boolean informal){this.Informal=informal;}
+	public void setListener(EventStatusListener listener)
+	{
+		this.listener = listener;
+	}
 
-	public boolean isRegistered(){return Registered;}
-	public boolean isInformal(){return Informal;}
-	public boolean isParticipantCountOK(){return (Participants.size()>=MinUsers && Participants.size()<=MaxUsers);}
+	public void setCategory(int category)
+	{
+		Category = category;
+	}
+
+	public void setSociety(int society)
+	{
+		Society = society;
+	}
+
+	public void setRules(String rules)
+	{
+		Rules = rules;
+	}
+
+	public void setMaxUsers(int maxUsers)
+	{
+		MaxUsers = maxUsers;
+	}
+
+	public void setCurrentRound(int currentRound)
+	{
+		CurrentRound = currentRound;
+	}
+
+	public void setStatus(EventStatus status)
+	{
+		this.status = status;
+	}
+
+	public void setResult(ArrayList<RoundResultModel> result)
+	{
+		Result = result;
+	}
+
+	public void setParticipants(ArrayList<iUserModel> participants)
+	{
+		Participants = participants;
+	}
+
+	public void setRegistered(boolean registered)
+	{
+		Registered = registered;
+	}
+
+	public void setInformal(boolean informal)
+	{
+		this.Informal = informal;
+	}
+
+	public boolean isRegistered()
+	{
+		return Registered;
+	}
+
+	public boolean isInformal()
+	{
+		return Informal;
+	}
+
+	public boolean isParticipantCountOK()
+	{
+		return ( Participants.size() >= MinUsers && Participants.size() <= MaxUsers );
+	}
+
 	public boolean isSingleEvent()
 	{
-		return (MaxUsers==1);
+		return ( MaxUsers == 1 );
 	}
+
 	public boolean isGroupEvent()
 	{
 		return !isSingleEvent();
@@ -90,10 +194,13 @@ public class EventModel extends BaseEventModel implements Serializable
 	public static long parseDate(String date)
 	{
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
-		Date parsed_date=new Date();
-		try {
+		Date parsed_date = new Date();
+		try
+		{
 			parsed_date = format.parse(date);
-		} catch (ParseException e) {
+		}
+		catch (ParseException e)
+		{
 			e.printStackTrace();
 		}
 		return parsed_date.getTime();

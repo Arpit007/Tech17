@@ -12,6 +12,8 @@ import org.json.JSONObject;
 public interface iMessageAction
 {
 	void performAction(MessageModel model, Context context);
+
 	MessageModel formatMessage(String Data);
+
 	JSONObject getObject(MessageModel model);
 }

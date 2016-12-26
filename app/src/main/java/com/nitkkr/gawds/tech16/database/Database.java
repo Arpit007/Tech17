@@ -13,7 +13,7 @@ import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 
 public class Database implements iDbRequest
 {
-	private SQLiteDatabase sqLiteDatabase =null;
+	private SQLiteDatabase sqLiteDatabase = null;
 
 	private ExhibitionDB exhibitionDB;
 	private NotificationDB notificationDB;
@@ -26,30 +26,41 @@ public class Database implements iDbRequest
 
 	public Database(Context context)
 	{
-		if(database!=null)
+		if (database != null)
+		{
 			return;
+		}
 
 		database = this;
 
-		DbConstants.Constants=new DbConstants(context);
+		DbConstants.Constants = new DbConstants(context);
 
 		startDatabase(false);
 
-		eventsDB=new EventsDB(context,Database.this);
-		interestDB=new InterestDB(context,Database.this);
-		societyDB = new SocietyDB(context,Database.this);
-		exhibitionDB=new ExhibitionDB(context,Database.this);
-		notificationDB=new NotificationDB(context,Database.this);
-		coordinatorDB = new CoordinatorDB(context,Database.this);
+		eventsDB = new EventsDB(context, Database.this);
+		interestDB = new InterestDB(context, Database.this);
+		societyDB = new SocietyDB(context, Database.this);
+		exhibitionDB = new ExhibitionDB(context, Database.this);
+		notificationDB = new NotificationDB(context, Database.this);
+		coordinatorDB = new CoordinatorDB(context, Database.this);
 	}
 
-	public static Database getInstance(){if(database==null)database=new Database(ActivityHelper.getApplicationContext());return database;}
+	public static Database getInstance()
+	{
+		if (database == null)
+		{
+			database = new Database(ActivityHelper.getApplicationContext());
+		}
+		return database;
+	}
 
 	@Override
 	public SQLiteDatabase getDatabase()
 	{
-		if(sqLiteDatabase ==null || !sqLiteDatabase.isOpen())
+		if (sqLiteDatabase == null || !sqLiteDatabase.isOpen())
+		{
 			startDatabase(false);
+		}
 
 		return sqLiteDatabase;
 	}
@@ -64,37 +75,64 @@ public class Database implements iDbRequest
 
 	public void closeDatabase()
 	{
-		if(sqLiteDatabase !=null && sqLiteDatabase.isOpen())
+		if (sqLiteDatabase != null && sqLiteDatabase.isOpen())
+		{
 			sqLiteDatabase.close();
+		}
 	}
 
 	public void startDatabase(boolean Restart)
 	{
-		if(sqLiteDatabase!=null && (sqLiteDatabase.isOpen() || Restart))
+		if (sqLiteDatabase != null && ( sqLiteDatabase.isOpen() || Restart ))
+		{
 			sqLiteDatabase.close();
+		}
 
 		if (sqLiteDatabase == null)
 		{
-			Log.d("Database:\t","Opening");
-			sqLiteDatabase=ActivityHelper.getApplicationContext().openOrCreateDatabase(DbConstants.Constants.getDatabaseName(),android.content.Context.MODE_PRIVATE ,null);
+			Log.d("Database:\t", "Opening");
+			sqLiteDatabase = ActivityHelper.getApplicationContext().openOrCreateDatabase(DbConstants.Constants.getDatabaseName(), android.content.Context.MODE_PRIVATE, null);
 		}
 		else if (!sqLiteDatabase.isOpen() || Restart)
 		{
-			sqLiteDatabase=ActivityHelper.getApplicationContext().openOrCreateDatabase(DbConstants.Constants.getDatabaseName(),android.content.Context.MODE_PRIVATE ,null);
+			sqLiteDatabase = ActivityHelper.getApplicationContext().openOrCreateDatabase(DbConstants.Constants.getDatabaseName(), android.content.Context.MODE_PRIVATE, null);
 		}
 	}
 
 	public Cursor runQuery(String Query)
 	{
-		return getDatabase().rawQuery(Query,null);
+		return getDatabase().rawQuery(Query, null);
 	}
 
-	public ExhibitionDB getExhibitionDB(){return exhibitionDB;}
-	public NotificationDB getNotificationDB(){return notificationDB;}
-	public CoordinatorDB getCoordinatorDB(){return coordinatorDB;}
-	public SocietyDB getSocietyDB(){return societyDB;}
-	public InterestDB getInterestDB(){return interestDB;}
-	public EventsDB getEventsDB(){return eventsDB;}
+	public ExhibitionDB getExhibitionDB()
+	{
+		return exhibitionDB;
+	}
+
+	public NotificationDB getNotificationDB()
+	{
+		return notificationDB;
+	}
+
+	public CoordinatorDB getCoordinatorDB()
+	{
+		return coordinatorDB;
+	}
+
+	public SocietyDB getSocietyDB()
+	{
+		return societyDB;
+	}
+
+	public InterestDB getInterestDB()
+	{
+		return interestDB;
+	}
+
+	public EventsDB getEventsDB()
+	{
+		return eventsDB;
+	}
 
 	public void ResetTables()
 	{

@@ -15,7 +15,11 @@ public enum MessageType
 
 	MessageType(String t)
 	{
-		value=t;
+		value = t;
 	}
-	String getValue(){return value;}
+
+	String getValue()
+	{
+		return value;
+	}
 }

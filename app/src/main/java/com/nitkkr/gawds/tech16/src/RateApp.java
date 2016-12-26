@@ -19,37 +19,44 @@ import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 
 public class RateApp
 {
-	private static RateApp rateApp=new RateApp();
+	private static RateApp rateApp = new RateApp();
 
-	public static RateApp getInstance(){return rateApp;}
+	public static RateApp getInstance()
+	{
+		return rateApp;
+	}
 
-	private RateApp(){}
+	private RateApp()
+	{
+	}
 
 	public void incrementAppStartCount(Context context)
 	{
-		final SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
-		final SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
+		final SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
+		final SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
 
-		long count=preferences.getLong("AppStartCount",0);
-		long maxCount=preferences.getLong("MaxCount",context.getResources().getInteger(R.integer.AppStartCount));
+		long count = preferences.getLong("AppStartCount", 0);
+		long maxCount = preferences.getLong("MaxCount", context.getResources().getInteger(R.integer.AppStartCount));
 
 		count++;
 
-		editor.putLong("AppStartCount",count);
-		editor.putLong("MaxCount",maxCount);
+		editor.putLong("AppStartCount", count);
+		editor.putLong("MaxCount", maxCount);
 
 		editor.apply();
 	}
 
 	public boolean isReadyForRating(Context context)
 	{
-		final SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
-		long MaxCount=preferences.getLong("MaxCount",context.getResources().getInteger(R.integer.AppStartCount));
+		final SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
+		long MaxCount = preferences.getLong("MaxCount", context.getResources().getInteger(R.integer.AppStartCount));
 
-		if(MaxCount==-1)
+		if (MaxCount == -1)
+		{
 			return false;
+		}
 
-		long count=preferences.getLong("AppStartCount",0);
+		long count = preferences.getLong("AppStartCount", 0);
 
 		return count >= MaxCount;
 	}
@@ -58,12 +65,14 @@ public class RateApp
 	{
 
 		if (!ActivityHelper.isInternetConnected())
+		{
 			return;
+		}
 
-		final SharedPreferences.Editor editor=context.getSharedPreferences(context.getString(R.string.Misc_Prefs),Context.MODE_PRIVATE).edit();
-		final SharedPreferences preferences=context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
+		final SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
+		final SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
 
-		AlertDialog.Builder builder=new AlertDialog.Builder(context);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setCancelable(false);
 
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
@@ -72,11 +81,11 @@ public class RateApp
 			public void onClick(DialogInterface dialogInterface, int i)
 			{
 				Answers.getInstance().logCustom(new CustomEvent("Rated App"));
-				editor.putLong("MaxCount",-1);
+				editor.putLong("MaxCount", -1);
 				editor.apply();
 
-				Intent intent=new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+context.getPackageName()));
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("market://details?id=" + context.getPackageName()));
 				context.startActivity(intent);
 
 				dialogInterface.dismiss();
@@ -89,19 +98,19 @@ public class RateApp
 			public void onClick(DialogInterface dialogInterface, int i)
 			{
 
-				long AppStartCount=context.getResources().getInteger(R.integer.AppStartCount);
-				long AppCount=preferences.getLong("AppStartCount",0);
+				long AppStartCount = context.getResources().getInteger(R.integer.AppStartCount);
+				long AppCount = preferences.getLong("AppStartCount", 0);
 
-				long MaxCount=(AppCount/AppStartCount + 1)*AppStartCount;
+				long MaxCount = ( AppCount / AppStartCount + 1 ) * AppStartCount;
 
-				editor.putLong("MaxCount",MaxCount);
+				editor.putLong("MaxCount", MaxCount);
 				editor.apply();
 				dialogInterface.dismiss();
 			}
 		});
 		builder.setTitle("Rate Us");
 		builder.setMessage(R.string.Rate);
-		final AlertDialog alertDialog=builder.create();
+		final AlertDialog alertDialog = builder.create();
 		alertDialog.setOnShowListener(
 				new DialogInterface.OnShowListener()
 				{
@@ -109,9 +118,9 @@ public class RateApp
 					public void onShow(DialogInterface arg0)
 					{
 
-						alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(context,R.color.button_color));
-						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
-						alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(context, R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.button_color));
 					}
 				});
 		alertDialog.show();

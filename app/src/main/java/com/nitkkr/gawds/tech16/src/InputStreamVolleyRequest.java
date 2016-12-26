@@ -17,15 +17,15 @@ class InputStreamVolleyRequest extends Request<byte[]>
 	private final Response.Listener<byte[]> mListener;
 	private Map<String, String> mParams;
 
-	public Map<String, String> responseHeaders ;
+	public Map<String, String> responseHeaders;
 
-	public InputStreamVolleyRequest(int method, String mUrl ,Response.Listener<byte[]> listener,
+	public InputStreamVolleyRequest(int method, String mUrl, Response.Listener<byte[]> listener,
 	                                Response.ErrorListener errorListener, HashMap<String, String> params)
 	{
 		super(method, mUrl, errorListener);
 		setShouldCache(false);
 		mListener = listener;
-		mParams=params;
+		mParams = params;
 	}
 
 	@Override
@@ -47,6 +47,6 @@ class InputStreamVolleyRequest extends Request<byte[]>
 		responseHeaders = response.headers;
 
 		//Pass the response data here
-		return Response.success( response.data, HttpHeaderParser.parseCacheHeaders(response));
+		return Response.success(response.data, HttpHeaderParser.parseCacheHeaders(response));
 	}
 }

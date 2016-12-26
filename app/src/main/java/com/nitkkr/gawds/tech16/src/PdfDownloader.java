@@ -39,11 +39,15 @@ public class PdfDownloader
 
 	HashMap<String, Holder> Downloading;
 
-	private static PdfDownloader pdfHelper=new PdfDownloader();
+	private static PdfDownloader pdfHelper = new PdfDownloader();
 
-	public static PdfDownloader getInstance(){return pdfHelper;}
+	public static PdfDownloader getInstance()
+	{
+		return pdfHelper;
+	}
 
-	private PdfDownloader(){
+	private PdfDownloader()
+	{
 		Downloading = new HashMap<>();
 	}
 
@@ -53,15 +57,15 @@ public class PdfDownloader
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
 		{
 			dataDir = new File(Environment.getExternalStorageDirectory(), getApplicationContext().getString(R.string.FolderName));
-			if(!dataDir.isDirectory())
+			if (!dataDir.isDirectory())
 			{
 				dataDir.mkdirs();
 			}
 		}
 
-		if(!dataDir.isDirectory())
+		if (!dataDir.isDirectory())
 		{
-			dataDir = getApplicationContext().getDir(getApplicationContext().getString(R.string.FolderName),Context.MODE_PRIVATE);
+			dataDir = getApplicationContext().getDir(getApplicationContext().getString(R.string.FolderName), Context.MODE_PRIVATE);
 		}
 
 		return dataDir;
@@ -74,12 +78,12 @@ public class PdfDownloader
 
 	public String getFileName(String url)
 	{
-		return URLUtil.guessFileName(url,null,null);
+		return URLUtil.guessFileName(url, null, null);
 	}
 
 	public boolean isPdfExisting(String FileName)
 	{
-		return new File(getDataFolder(),FileName+".pdf").exists();
+		return new File(getDataFolder(), FileName + ".pdf").exists();
 	}
 
 	public boolean isPdfDownloading(String url)
@@ -87,31 +91,35 @@ public class PdfDownloader
 		return Downloading.keySet().contains(getFileName(url));
 	}
 
-	public void DownloadPdf(final String url,final String FileName, final iCallback callback, final Context context)
+	public void DownloadPdf(final String url, final String FileName, final iCallback callback, final Context context)
 	{
-		if(isPdfExisting(FileName))
+		if (isPdfExisting(FileName))
 		{
 			viewPdfIfExists(FileName, context);
-			if(callback!=null)
-				callback.DownloadComplete(url,ResponseStatus.SUCCESS);
+			if (callback != null)
+			{
+				callback.DownloadComplete(url, ResponseStatus.SUCCESS);
+			}
 			return;
 		}
 
-		if(!ActivityHelper.isInternetConnected())
+		if (!ActivityHelper.isInternetConnected())
 		{
-			Toast.makeText(context, "No Network Connection",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "No Network Connection", Toast.LENGTH_SHORT).show();
 			if (callback != null)
+			{
 				callback.DownloadComplete(url, ResponseStatus.FAILED);
+			}
 		}
 
 
-		final Holder holder=new Holder();
+		final Holder holder = new Holder();
 		holder.callback = callback;
-		NotificationGenerator generator= new NotificationGenerator(context);
+		NotificationGenerator generator = new NotificationGenerator(context);
 
-		holder.ID=generator.pdfNotification("Downloading Pdf","Downloading",FileName+".pdf");
+		holder.ID = generator.pdfNotification("Downloading Pdf", "Downloading", FileName + ".pdf");
 
-		Downloading.put(getFileName(url),holder);
+		Downloading.put(getFileName(url), holder);
 
 		InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url,
 				new Response.Listener<byte[]>()
@@ -121,32 +129,34 @@ public class PdfDownloader
 					{
 						try
 						{
-							if (response!=null)
+							if (response != null)
 							{
-								File Path=new File(getDataFolder(),FileName+".pdf");
-								FileOutputStream outputStream=new FileOutputStream(Path);
+								File Path = new File(getDataFolder(), FileName + ".pdf");
+								FileOutputStream outputStream = new FileOutputStream(Path);
 								outputStream.write(response);
 								outputStream.close();
 
 								try
 								{
-									Holder holder1=Downloading.get(getFileName(url));
+									Holder holder1 = Downloading.get(getFileName(url));
 									iCallback call = holder1.callback;
 									Downloading.remove(getFileName(url));
 
 
-									File file = new File(getDataFolder(),FileName+".pdf");
+									File file = new File(getDataFolder(), FileName + ".pdf");
 									Intent target = new Intent(Intent.ACTION_VIEW);
-									target.setDataAndType(Uri.fromFile(file),"application/pdf");
+									target.setDataAndType(Uri.fromFile(file), "application/pdf");
 									target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
 									Intent intent = Intent.createChooser(target, "Open File");
 
-									NotificationGenerator generator1=new NotificationGenerator(context);
-									generator1.pdfNotification(holder1.ID,"Download Complete","Download Complete",FileName+".pdf",intent,true);
+									NotificationGenerator generator1 = new NotificationGenerator(context);
+									generator1.pdfNotification(holder1.ID, "Download Complete", "Download Complete", FileName + ".pdf", intent, true);
 
 									if (call != null)
+									{
 										call.DownloadComplete(url, ResponseStatus.SUCCESS);
+									}
 								}
 								catch (Exception e)
 								{
@@ -154,21 +164,26 @@ public class PdfDownloader
 									throw new Exception("Error");
 								}
 							}
-							else throw new Exception("No Response");
+							else
+							{
+								throw new Exception("No Response");
+							}
 						}
 						catch (Exception e)
 						{
 							try
 							{
-								Holder holder1=Downloading.get(getFileName(url));
+								Holder holder1 = Downloading.get(getFileName(url));
 								iCallback call = holder1.callback;
 								Downloading.remove(getFileName(url));
 
-								NotificationGenerator generator1=new NotificationGenerator(context);
-								generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",FileName+".pdf",null,true);
+								NotificationGenerator generator1 = new NotificationGenerator(context);
+								generator1.pdfNotification(holder1.ID, "Download Failed", "Download Failed", FileName + ".pdf", null, true);
 
 								if (call != null)
+								{
 									call.DownloadComplete(url, ResponseStatus.FAILED);
+								}
 							}
 							catch (Exception ex)
 							{
@@ -179,7 +194,7 @@ public class PdfDownloader
 							e.printStackTrace();
 						}
 					}
-				} ,
+				},
 				new Response.ErrorListener()
 				{
 					@Override
@@ -187,15 +202,17 @@ public class PdfDownloader
 					{
 						try
 						{
-							Holder holder1=Downloading.get(getFileName(url));
+							Holder holder1 = Downloading.get(getFileName(url));
 							iCallback call = holder1.callback;
 							Downloading.remove(getFileName(url));
 
-							NotificationGenerator generator1=new NotificationGenerator(context);
-							generator1.pdfNotification(holder1.ID,"Download Failed","Download Failed",FileName+".pdf",null,true);
+							NotificationGenerator generator1 = new NotificationGenerator(context);
+							generator1.pdfNotification(holder1.ID, "Download Failed", "Download Failed", FileName + ".pdf", null, true);
 
 							if (call != null)
+							{
 								call.DownloadComplete(url, ResponseStatus.FAILED);
+							}
 						}
 						catch (Exception e)
 						{
@@ -215,28 +232,33 @@ public class PdfDownloader
 
 	public void viewPdfIfExists(String FileName, Context context)
 	{
-		if(!isPdfExisting(FileName))
+		if (!isPdfExisting(FileName))
+		{
 			return;
+		}
 
-		File file = new File(getDataFolder(),FileName+".pdf");
+		File file = new File(getDataFolder(), FileName + ".pdf");
 		Intent target = new Intent(Intent.ACTION_VIEW);
-		target.setDataAndType(Uri.fromFile(file),"application/pdf");
+		target.setDataAndType(Uri.fromFile(file), "application/pdf");
 		target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
 		Intent intent = Intent.createChooser(target, "Open File");
 		try
 		{
 			context.startActivity(intent);
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
-			Toast.makeText(context,"Install a Pdf Viewer",Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Install a Pdf Viewer", Toast.LENGTH_LONG).show();
 		}
 	}
 
 	public void removeListener(String url)
 	{
-		if(isPdfDownloading(url))
-			Downloading.put(getFileName(url),null);
+		if (isPdfDownloading(url))
+		{
+			Downloading.put(getFileName(url), null);
+		}
 	}
 
 }

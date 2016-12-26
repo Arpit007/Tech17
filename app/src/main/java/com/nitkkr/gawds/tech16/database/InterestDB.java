@@ -25,16 +25,16 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getInterestTableName() + ";";
-		dbRequest.getDatabase().rawQuery(Query,null);
+		String Query = "DROP TABLE IF EXISTS " + DbConstants.Constants.getInterestTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	@Override
 	public void resetTable()
 	{
-		String Query="UPDATE " + DbConstants.Constants.getInterestTableName()+ " SET " + DbConstants.InterestNames.Selected.Name() + " = 0;";
-		Log.d("Query: ",Query);
-		dbRequest.getDatabase().rawQuery(Query,null);
+		String Query = "UPDATE " + DbConstants.Constants.getInterestTableName() + " SET " + DbConstants.InterestNames.Selected.Name() + " = 0;";
+		Log.d("Query: ", Query);
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	private iDbRequest dbRequest;
@@ -68,9 +68,9 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		String Query = "SELECT " + DbConstants.InterestNames.Interest.Name() + " FROM " + DbConstants.Constants.getInterestTableName() +
 				" WHERE " + DbConstants.InterestNames.Id.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
-		String Name="";
+		String Name = "";
 
 		Cursor cursor = null;
 		try
@@ -86,7 +86,7 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 			if (cursor.getCount() > 0)
 			{
 				cursor.moveToFirst();
-					Name=cursor.getString(ColumnIndex[0]);
+				Name = cursor.getString(ColumnIndex[0]);
 			}
 		}
 		catch (Exception e)
@@ -106,9 +106,9 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 	public InterestModel getInterestModel(int ID)
 	{
 		String Query = "SELECT * FROM " + DbConstants.Constants.getInterestTableName() + " WHERE " + DbConstants.InterestNames.Id.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
-		InterestModel interest=new InterestModel();
+		InterestModel interest = new InterestModel();
 
 		Cursor cursor = null;
 		try
@@ -127,7 +127,7 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 			{
 				cursor.moveToFirst();
 				interest.setInterest(cursor.getString(ColumnIndex[0]));
-				interest.setSelected(cursor.getInt(ColumnIndex[1])!=0);
+				interest.setSelected(cursor.getInt(ColumnIndex[1]) != 0);
 				interest.setID(cursor.getInt(ColumnIndex[2]));
 			}
 		}
@@ -157,7 +157,7 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 		{
 			Query += " WHERE " + Clause + ";";
 		}
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -177,9 +177,9 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 				cursor.moveToFirst();
 				do
 				{
-					InterestModel interest=new InterestModel();
+					InterestModel interest = new InterestModel();
 					interest.setInterest(cursor.getString(ColumnIndex[0]));
-					interest.setSelected(cursor.getInt(ColumnIndex[1])!=0);
+					interest.setSelected(cursor.getInt(ColumnIndex[1]) != 0);
 					interest.setID(cursor.getInt(ColumnIndex[2]));
 					keys.add(interest);
 				}
@@ -212,11 +212,13 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 
 	public ArrayList<String> getInterestStrings(String Clause)
 	{
-		ArrayList<InterestModel> models=getInterests(Clause);
-		ArrayList<String> keys= new ArrayList<>(models.size());
+		ArrayList<InterestModel> models = getInterests(Clause);
+		ArrayList<String> keys = new ArrayList<>(models.size());
 
-		for(InterestModel model: models)
+		for (InterestModel model : models)
+		{
 			keys.add(model.getInterest());
+		}
 
 		return keys;
 	}
@@ -239,7 +241,7 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 	public void deleteInterest(int ID)
 	{
 		String Query = "DELETE FROM " + DbConstants.Constants.getInterestTableName() + " WHERE " + DbConstants.InterestNames.Id.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
@@ -253,28 +255,28 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		SQLiteDatabase database = dbRequest.getDatabase();
 
-		ContentValues values=new ContentValues();
-		values.put(DbConstants.InterestNames.Interest.Name(),interest.getInterest());
-		values.put(DbConstants.InterestNames.Selected.Name(),((interest.isSelected())?1:0));
-		values.put(DbConstants.InterestNames.Id.Name(),interest.getID());
+		ContentValues values = new ContentValues();
+		values.put(DbConstants.InterestNames.Interest.Name(), interest.getInterest());
+		values.put(DbConstants.InterestNames.Selected.Name(), ( ( interest.isSelected() ) ? 1 : 0 ));
+		values.put(DbConstants.InterestNames.Id.Name(), interest.getID());
 
-		if(database.update(DbConstants.Constants.getInterestTableName(),values, DbConstants.InterestNames.Id.Name() + " = " + interest.getID(),null)<1)
+		if (database.update(DbConstants.Constants.getInterestTableName(), values, DbConstants.InterestNames.Id.Name() + " = " + interest.getID(), null) < 1)
 		{
-			database.insert(DbConstants.Constants.getInterestTableName(),null,values);
+			database.insert(DbConstants.Constants.getInterestTableName(), null, values);
 		}
 	}
 
 	public void addSelectedInterest(ArrayList<String> list)
 	{
-		String Query="UPDATE " + DbConstants.Constants.getInterestTableName() + " SET " + DbConstants.InterestNames.Selected.Name() + " = 0;";
-		dbRequest.getDatabase().rawQuery(Query,null);
+		String Query = "UPDATE " + DbConstants.Constants.getInterestTableName() + " SET " + DbConstants.InterestNames.Selected.Name() + " = 0;";
+		dbRequest.getDatabase().rawQuery(Query, null);
 
-		Query="UPDATE " + DbConstants.Constants.getInterestTableName() + " SET " + DbConstants.InterestNames.Selected.Name() + " = 1 WHERE " +
-				DbConstants.InterestNames.Id.Name() +" = ";
+		Query = "UPDATE " + DbConstants.Constants.getInterestTableName() + " SET " + DbConstants.InterestNames.Selected.Name() + " = 1 WHERE " +
+				DbConstants.InterestNames.Id.Name() + " = ";
 
-		for(String key : list)
+		for (String key : list)
 		{
-			dbRequest.getDatabase().rawQuery(Query + key + ";",null);
+			dbRequest.getDatabase().rawQuery(Query + key + ";", null);
 		}
 	}
 
@@ -286,25 +288,27 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 
 	public void addOrUpdateInterest(ArrayList<InterestModel> interests)
 	{
-		if(interests==null)
-			return;
-		SQLiteDatabase database=dbRequest.getDatabase();
-
-		String TABLENAME=DbConstants.Constants.getInterestTableName();
-		String Interest_Name=DbConstants.InterestNames.Interest.Name();
-		String Selected=DbConstants.InterestNames.Selected.Name();
-		String Interest_ID=DbConstants.InterestNames.Id.Name();
-
-		for(InterestModel interest : interests)
+		if (interests == null)
 		{
-			ContentValues values=new ContentValues();
-			values.put(Interest_Name,interest.getInterest());
-			values.put(Selected,((interest.isSelected())?1:0));
-			values.put(Interest_ID,interest.getID());
+			return;
+		}
+		SQLiteDatabase database = dbRequest.getDatabase();
 
-			if(database.update(TABLENAME,values, Interest_ID + " = " + interest.getID(),null)<1)
+		String TABLENAME = DbConstants.Constants.getInterestTableName();
+		String Interest_Name = DbConstants.InterestNames.Interest.Name();
+		String Selected = DbConstants.InterestNames.Selected.Name();
+		String Interest_ID = DbConstants.InterestNames.Id.Name();
+
+		for (InterestModel interest : interests)
+		{
+			ContentValues values = new ContentValues();
+			values.put(Interest_Name, interest.getInterest());
+			values.put(Selected, ( ( interest.isSelected() ) ? 1 : 0 ));
+			values.put(Interest_ID, interest.getID());
+
+			if (database.update(TABLENAME, values, Interest_ID + " = " + interest.getID(), null) < 1)
 			{
-				database.insert(TABLENAME,null,values);
+				database.insert(TABLENAME, null, values);
 			}
 		}
 	}

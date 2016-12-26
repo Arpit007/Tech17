@@ -40,22 +40,25 @@ public class RegisteredEventList extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState)
 	{
-		final View view= inflater.inflate(R.layout.fragment_registered_event_list, container, false);
+		final View view = inflater.inflate(R.layout.fragment_registered_event_list, container, false);
 
 		listView = (ListView) view.findViewById(R.id.registered_event_list);
 
-		listAdapter = new EventListAdapter(view.getContext(), listDataChild,false);
+		listAdapter = new EventListAdapter(view.getContext(), listDataChild, false);
 
 		listAdapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
 			public void onChanged()
 			{
-				if(listAdapter.getCount()==0)
+				if (listAdapter.getCount() == 0)
 				{
 					view.findViewById(R.id.None).setVisibility(View.VISIBLE);
 				}
-				else view.findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				else
+				{
+					view.findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				}
 				super.onChanged();
 			}
 		});
@@ -68,11 +71,11 @@ public class RegisteredEventList extends Fragment
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
 
-				listAdapter.onClick(((EventKey)listAdapter.getItem(i)).getEventID());
+				listAdapter.onClick(( (EventKey) listAdapter.getItem(i) ).getEventID());
 
-				Bundle bundle=new Bundle();
-				bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
-				Intent intent=new Intent(view.getContext(), Event.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("Event", (EventKey) listView.getAdapter().getItem(i));
+				Intent intent = new Intent(view.getContext(), Event.class);
 				intent.putExtras(bundle);
 				view.getContext().startActivity(intent);
 			}
@@ -85,7 +88,7 @@ public class RegisteredEventList extends Fragment
 
 	void prepareListData()
 	{
-		listDataChild=Database.getInstance().getEventsDB().getRegisteredEventKeys();
+		listDataChild = Database.getInstance().getEventsDB().getRegisteredEventKeys();
 		listAdapter.setEvents(listDataChild);
 		listAdapter.notifyDataSetChanged();
 	}
@@ -95,7 +98,9 @@ public class RegisteredEventList extends Fragment
 	{
 		super.onResume();
 
-		if(listAdapter.EventID!=-1)
+		if (listAdapter.EventID != -1)
+		{
 			listAdapter.notifyDataSetChanged();
+		}
 	}
 }

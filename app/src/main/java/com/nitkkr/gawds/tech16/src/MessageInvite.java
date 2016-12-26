@@ -21,9 +21,9 @@ public class MessageInvite implements iMessageAction
 	@Override
 	public void performAction(MessageModel model, final Context context)
 	{
-		JSONObject object=getObject(model);
+		JSONObject object = getObject(model);
 
-		String Team_Name="",Event_Name="",Team_Id="";
+		String Team_Name = "", Event_Name = "", Team_Id = "";
 
 		try
 		{
@@ -37,9 +37,9 @@ public class MessageInvite implements iMessageAction
 		}
 
 
-		AlertDialog.Builder builder=new AlertDialog.Builder(context);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("Team Invite");
-		builder.setMessage("Do you want to join Team "+Team_Name+" for the Event: "+Event_Name+"?");
+		builder.setMessage("Do you want to join Team " + Team_Name + " for the Event: " + Event_Name + "?");
 		builder.setCancelable(false);
 		builder.setNegativeButton("No", new DialogInterface.OnClickListener()
 		{
@@ -67,7 +67,7 @@ public class MessageInvite implements iMessageAction
 				//Implement
 			}
 		});
-		final AlertDialog alertDialog=builder.create();
+		final AlertDialog alertDialog = builder.create();
 		alertDialog.setOnShowListener(
 				new DialogInterface.OnShowListener()
 				{
@@ -76,8 +76,8 @@ public class MessageInvite implements iMessageAction
 					{
 
 						alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(context, R.color.button_color));
-						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
-						alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context,R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, R.color.button_color));
+						alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.button_color));
 					}
 				});
 	}

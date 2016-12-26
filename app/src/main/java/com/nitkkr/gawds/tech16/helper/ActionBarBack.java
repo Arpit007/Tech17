@@ -16,7 +16,7 @@ public class ActionBarBack
 
 	public ActionBarBack(final AppCompatActivity activity)
 	{
-		this.activity=activity;
+		this.activity = activity;
 		try
 		{
 			activity.findViewById(R.id.actionbar_back).setOnClickListener(new View.OnClickListener()
@@ -36,6 +36,6 @@ public class ActionBarBack
 
 	public void setLabel(String label)
 	{
-		(( TextView)activity.findViewById(R.id.actionbar_title)).setText(label);
+		( (TextView) activity.findViewById(R.id.actionbar_title) ).setText(label);
 	}
 }

@@ -25,15 +25,15 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 	private Context context;
 	private EventSearch eventSearch;
 	private boolean Notify;
-	public int EventID=-1;
+	public int EventID = -1;
 
 	public EventListAdapter(Context context, ArrayList<EventKey> events, final boolean Notify)
 	{
 		this.Notify = Notify;
-		this.context=context;
+		this.context = context;
 		this.Events = events;
 
-		eventSearch=new EventSearch(this);
+		eventSearch = new EventSearch(this);
 	}
 
 	@Override
@@ -59,22 +59,28 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 	{
 		final String childText = Events.get(i).getEventName();
 
-		if (view == null) {
+		if (view == null)
+		{
 			LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.layout_event_list_item, null);
 		}
 
-		if (Events.get(i).getEventID()==EventID)
+		if (Events.get(i).getEventID() == EventID)
 		{
-			if(!Notify)
+			if (!Notify)
+			{
 				Events.get(i).setNotify(Database.getInstance().getEventsDB().getEventKey(EventID).isNotify());
-			else Events.get(i).setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(EventID).isNotify());
-			EventID=-1;
+			}
+			else
+			{
+				Events.get(i).setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(EventID).isNotify());
+			}
+			EventID = -1;
 		}
 
-		ImageView Star=(ImageView) view.findViewById(R.id.Event_Star);
+		ImageView Star = (ImageView) view.findViewById(R.id.Event_Star);
 
-		if (((EventKey)getItem(i)).isNotify())
+		if (( (EventKey) getItem(i) ).isNotify())
 		{
 			Star.setImageResource(R.drawable.icon_starred);
 			Star.setVisibility(View.VISIBLE);
@@ -89,7 +95,10 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 		return view;
 	}
 
-	public ArrayList<EventKey> getEvents(){return Events;}
+	public ArrayList<EventKey> getEvents()
+	{
+		return Events;
+	}
 
 	public void setEvents(ArrayList<EventKey> models)
 	{
@@ -102,13 +111,19 @@ public class EventListAdapter extends BaseAdapter implements Filterable
 		Events = models;
 	}
 
-	public EventSearch getFilter(){return eventSearch;}
+	public EventSearch getFilter()
+	{
+		return eventSearch;
+	}
 
-	public boolean getNotify(){return Notify;}
+	public boolean getNotify()
+	{
+		return Notify;
+	}
 
 	public void onClick(int EventID)
 	{
-		this.EventID=EventID;
-		eventSearch.onClick(EventID,Notify);
+		this.EventID = EventID;
+		eventSearch.onClick(EventID, Notify);
 	}
 }

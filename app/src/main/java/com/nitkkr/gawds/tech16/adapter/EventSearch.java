@@ -15,13 +15,13 @@ public class EventSearch extends Filter
 {
 	private EventListAdapter adapter;
 	private ArrayList<EventKey> eventKeys;
-	private boolean isExhibition=false;
-	private int clickedEventId=-1;
+	private boolean isExhibition = false;
+	private int clickedEventId = -1;
 
 	public EventSearch(EventListAdapter adapter)
 	{
 		this.adapter = adapter;
-		this.eventKeys =adapter.getEvents();
+		this.eventKeys = adapter.getEvents();
 	}
 
 	@Override
@@ -29,18 +29,23 @@ public class EventSearch extends Filter
 	{
 		FilterResults filterResults = new FilterResults();
 
-		if (charSequence!=null && charSequence.length()>0)
+		if (charSequence != null && charSequence.length() > 0)
 		{
 			ArrayList<EventKey> tempList = new ArrayList<>();
 
 			for (EventKey model : eventKeys)
 			{
-				if (model.getEventID()==clickedEventId)
+				if (model.getEventID() == clickedEventId)
 				{
-					if(isExhibition)
+					if (isExhibition)
+					{
 						model.setNotify(Database.getInstance().getExhibitionDB().getExhibitionKey(clickedEventId).isNotify());
-					else model.setNotify(Database.getInstance().getEventsDB().getEventKey(clickedEventId).isNotify());
-					clickedEventId=-1;
+					}
+					else
+					{
+						model.setNotify(Database.getInstance().getEventsDB().getEventKey(clickedEventId).isNotify());
+					}
+					clickedEventId = -1;
 				}
 				if (model.getEventName().toLowerCase().contains(charSequence.toString().toLowerCase()))
 				{
@@ -69,9 +74,12 @@ public class EventSearch extends Filter
 
 	public void onClick(int Event_ID, boolean isExhibition)
 	{
-		this.clickedEventId=Event_ID;
-		this.isExhibition=isExhibition;
+		this.clickedEventId = Event_ID;
+		this.isExhibition = isExhibition;
 	}
 
-	public void setEventKeys(ArrayList<EventKey> keys){eventKeys = keys;}
+	public void setEventKeys(ArrayList<EventKey> keys)
+	{
+		eventKeys = keys;
+	}
 }

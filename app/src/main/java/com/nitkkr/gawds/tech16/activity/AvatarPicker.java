@@ -23,18 +23,18 @@ public class AvatarPicker extends AppCompatActivity
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
-		ActionBarBack barBack=new ActionBarBack(AvatarPicker.this);
+		ActionBarBack barBack = new ActionBarBack(AvatarPicker.this);
 		barBack.setLabel("Select an Avatar");
 
-		GridView gridView=(GridView)findViewById(R.id.avatar_list);
+		GridView gridView = (GridView) findViewById(R.id.avatar_list);
 		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				Intent intent=new Intent();
-				intent.putExtra("ID",i);
-				setResult(RESULT_OK,intent);
+				Intent intent = new Intent();
+				intent.putExtra("ID", i);
+				setResult(RESULT_OK, intent);
 				ActivityHelper.setExitAnimation(AvatarPicker.this);
 				finish();
 			}
@@ -45,8 +45,14 @@ public class AvatarPicker extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(ActivityHelper.revertToHomeIfLast(AvatarPicker.this));
-		else super.onBackPressed();
+		if (ActivityHelper.revertToHomeIfLast(AvatarPicker.this))
+		{
+			;
+		}
+		else
+		{
+			super.onBackPressed();
+		}
 		ActivityHelper.setExitAnimation(this);
 	}
 }

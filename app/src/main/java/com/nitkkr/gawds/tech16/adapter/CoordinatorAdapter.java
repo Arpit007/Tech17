@@ -18,77 +18,82 @@ import java.util.List;
 
 public class CoordinatorAdapter extends RecyclerView.Adapter<CoordinatorAdapter.MyViewHolder>
 {
-    private List<CoordinatorModel> coordinatorModelList;
+	private List<CoordinatorModel> coordinatorModelList;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder
-    {
-        public TextView name,email,mobile;
-        public ImageView callImg, emailImg;
+	public class MyViewHolder extends RecyclerView.ViewHolder
+	{
+		public TextView name, email, mobile;
+		public ImageView callImg, emailImg;
 
-        public MyViewHolder(View view)
-        {
-            super(view);
-            name = (TextView) view.findViewById(R.id.Coordinator_Name);
-            email = (TextView) view.findViewById(R.id.Coordinator_Email);
-            mobile = (TextView) view.findViewById(R.id.Coordinator_Number);
-            callImg=(ImageView)view.findViewById(R.id.imageView12);
-            emailImg=(ImageView)view.findViewById(R.id.imageView13);
-        }
+		public MyViewHolder(View view)
+		{
+			super(view);
+			name = (TextView) view.findViewById(R.id.Coordinator_Name);
+			email = (TextView) view.findViewById(R.id.Coordinator_Email);
+			mobile = (TextView) view.findViewById(R.id.Coordinator_Number);
+			callImg = (ImageView) view.findViewById(R.id.imageView12);
+			emailImg = (ImageView) view.findViewById(R.id.imageView13);
+		}
 
-    }
+	}
 
-    public void setCoordinatorModelList(List<CoordinatorModel> models){coordinatorModelList = models;}
+	public void setCoordinatorModelList(List<CoordinatorModel> models)
+	{
+		coordinatorModelList = models;
+	}
 
-    public CoordinatorAdapter(List<CoordinatorModel> coordinatorModelList) {
-        this.coordinatorModelList = coordinatorModelList;
-    }
+	public CoordinatorAdapter(List<CoordinatorModel> coordinatorModelList)
+	{
+		this.coordinatorModelList = coordinatorModelList;
+	}
 
-    @Override
-    public CoordinatorAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_list_item_contact, parent, false);
+	@Override
+	public CoordinatorAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+	{
+		View itemView = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.layout_list_item_contact, parent, false);
 
-        return new MyViewHolder(itemView);
-    }
+		return new MyViewHolder(itemView);
+	}
 
-    @Override
-    public void onBindViewHolder(CoordinatorAdapter.MyViewHolder holder, final int position)
-    {
-        CoordinatorModel coordinatorModel=coordinatorModelList.get(position);
-        holder.email.setText(coordinatorModel.getEmail());
-        holder.mobile.setText(coordinatorModel.getMobile());
-        holder.name.setText(coordinatorModel.getName());
+	@Override
+	public void onBindViewHolder(CoordinatorAdapter.MyViewHolder holder, final int position)
+	{
+		CoordinatorModel coordinatorModel = coordinatorModelList.get(position);
+		holder.email.setText(coordinatorModel.getEmail());
+		holder.mobile.setText(coordinatorModel.getMobile());
+		holder.name.setText(coordinatorModel.getName());
 
-        View.OnClickListener emailListener=new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                coordinatorModelList.get(position).EmailCoordinator(view.getContext());
-            }
-        };
+		View.OnClickListener emailListener = new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				coordinatorModelList.get(position).EmailCoordinator(view.getContext());
+			}
+		};
 
-        View.OnClickListener callListener=new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                coordinatorModelList.get(position).CallCoordinator(view.getContext());
-            }
-        };
+		View.OnClickListener callListener = new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				coordinatorModelList.get(position).CallCoordinator(view.getContext());
+			}
+		};
 
-        holder.email.setOnClickListener(emailListener);
-        holder.emailImg.setOnClickListener(emailListener);
+		holder.email.setOnClickListener(emailListener);
+		holder.emailImg.setOnClickListener(emailListener);
 
-        holder.callImg.setOnClickListener(callListener);
-        holder.mobile.setOnClickListener(callListener);
-    }
+		holder.callImg.setOnClickListener(callListener);
+		holder.mobile.setOnClickListener(callListener);
+	}
 
 
-    @Override
-    public int getItemCount() {
-        return coordinatorModelList.size();
-    }
+	@Override
+	public int getItemCount()
+	{
+		return coordinatorModelList.size();
+	}
 
 }

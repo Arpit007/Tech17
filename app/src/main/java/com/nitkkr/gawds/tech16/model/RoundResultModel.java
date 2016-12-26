@@ -12,9 +12,23 @@ public class RoundResultModel implements Serializable
 	private int RoundNumber;
 	private ArrayList<ResultPositionModel> WinningPosition;
 
-	public int getRoundNumber(){return RoundNumber;}
-	public ArrayList<ResultPositionModel> getWinningPosition(){return WinningPosition;}
+	public int getRoundNumber()
+	{
+		return RoundNumber;
+	}
 
-	public void setRoundNumber(int roundNumber){RoundNumber = roundNumber;}
-	public void setWinningPosition(ArrayList<ResultPositionModel> winningPosition){WinningPosition=winningPosition;}
+	public ArrayList<ResultPositionModel> getWinningPosition()
+	{
+		return WinningPosition;
+	}
+
+	public void setRoundNumber(int roundNumber)
+	{
+		RoundNumber = roundNumber;
+	}
+
+	public void setWinningPosition(ArrayList<ResultPositionModel> winningPosition)
+	{
+		WinningPosition = winningPosition;
+	}
 }

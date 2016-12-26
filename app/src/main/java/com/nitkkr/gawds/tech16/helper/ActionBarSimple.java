@@ -21,6 +21,6 @@ public class ActionBarSimple
 
 	public void setLabel(String label)
 	{
-		((TextView)activity.findViewById(R.id.actionbar_title)).setText(label);
+		( (TextView) activity.findViewById(R.id.actionbar_title) ).setText(label);
 	}
 }

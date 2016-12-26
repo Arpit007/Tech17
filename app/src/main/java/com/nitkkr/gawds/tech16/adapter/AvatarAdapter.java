@@ -24,7 +24,7 @@ public class AvatarAdapter extends BaseAdapter
 
 	public AvatarAdapter(Context context)
 	{
-		array=context.getResources().obtainTypedArray(R.array.Avatar);
+		array = context.getResources().obtainTypedArray(R.array.Avatar);
 		this.context = context;
 	}
 
@@ -49,16 +49,16 @@ public class AvatarAdapter extends BaseAdapter
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup)
 	{
-		if(view==null)
+		if (view == null)
 		{
 			LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = infalInflater.inflate(R.layout.layout_avatar, null);
 		}
-		CircleImageView CircleImageView=( CircleImageView)view.findViewById(R.id.avatar_image);
-		CircleImageView.setImageResource(array.getResourceId(i,0));
+		CircleImageView CircleImageView = (CircleImageView) view.findViewById(R.id.avatar_image);
+		CircleImageView.setImageResource(array.getResourceId(i, 0));
 
-		CircularTextView circularTextView=(CircularTextView)view.findViewById(R.id.circ_view);
-		circularTextView.setFillColor(ContextCompat.getColor(context,R.color.User_Image_Fill_Color));
+		CircularTextView circularTextView = (CircularTextView) view.findViewById(R.id.circ_view);
+		circularTextView.setFillColor(ContextCompat.getColor(context, R.color.User_Image_Fill_Color));
 
 		return view;
 	}

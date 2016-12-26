@@ -28,7 +28,7 @@ public class ListPage extends AppCompatActivity
 {
 	private Query query;
 	private ListView listView;
-	private ArrayList<EventKey> Data =new ArrayList<>();
+	private ArrayList<EventKey> Data = new ArrayList<>();
 	private EventListAdapter listAdapter;
 	ActionBarSearch actionBarSearch;
 
@@ -41,7 +41,7 @@ public class ListPage extends AppCompatActivity
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
-		actionBarSearch=new ActionBarSearch(ListPage.this, new iActionBar()
+		actionBarSearch = new ActionBarSearch(ListPage.this, new iActionBar()
 		{
 			@Override
 			public void NavButtonClicked()
@@ -55,27 +55,35 @@ public class ListPage extends AppCompatActivity
 			}
 		});
 
-		String Label=getIntent().getExtras().getString("Label");
-		this.query=(Query) getIntent().getExtras().getSerializable("Query");
+		String Label = getIntent().getExtras().getString("Label");
+		this.query = (Query) getIntent().getExtras().getSerializable("Query");
 
 		actionBarSearch.setLabel(Label);
 
 		listView = (ListView) this.findViewById(R.id.event_list);
 
 
-		if(query.getQueryTargetType()== EventTargetType.Informals)
-			listAdapter = new EventListAdapter(ListPage.this, Data,false);
-		else listAdapter = new EventListAdapter(ListPage.this, Data,true);
+		if (query.getQueryTargetType() == EventTargetType.Informals)
+		{
+			listAdapter = new EventListAdapter(ListPage.this, Data, false);
+		}
+		else
+		{
+			listAdapter = new EventListAdapter(ListPage.this, Data, true);
+		}
 		listAdapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
 			public void onChanged()
 			{
-				if(listAdapter.getCount()==0)
+				if (listAdapter.getCount() == 0)
 				{
 					findViewById(R.id.None).setVisibility(View.VISIBLE);
 				}
-				else findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				else
+				{
+					findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				}
 				super.onChanged();
 			}
 		});
@@ -87,10 +95,10 @@ public class ListPage extends AppCompatActivity
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				listAdapter.onClick(((EventKey)listAdapter.getItem(i)).getEventID());
+				listAdapter.onClick(( (EventKey) listAdapter.getItem(i) ).getEventID());
 
 				Intent intent;
-				Bundle bundle=new Bundle();
+				Bundle bundle = new Bundle();
 
 				//adding animation
 				Animation animation1 = new AlphaAnimation(0.3f, 1.0f);
@@ -101,15 +109,15 @@ public class ListPage extends AppCompatActivity
 				{
 					case Event:
 					case Informals:
-						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
-						intent=new Intent(view.getContext(), Event.class);
+						bundle.putSerializable("Event", (EventKey) listView.getAdapter().getItem(i));
+						intent = new Intent(view.getContext(), Event.class);
 						intent.putExtras(bundle);
 						view.getContext().startActivity(intent);
 						break;
 					case Exhibition:
 					case GuestTalk:
-						bundle.putSerializable("Event",(EventKey)listView.getAdapter().getItem(i));
-						intent=new Intent(view.getContext(), Exhibition.class);
+						bundle.putSerializable("Event", (EventKey) listView.getAdapter().getItem(i));
+						intent = new Intent(view.getContext(), Exhibition.class);
 						intent.putExtras(bundle);
 						ListPage.this.startActivity(intent);
 						break;
@@ -130,13 +138,13 @@ public class ListPage extends AppCompatActivity
 		}
 		else if (query.getQueryTargetType() == EventTargetType.Exhibition)
 		{
-			Data= Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
+			Data = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
 		}
 		else if (query.getQueryTargetType() == EventTargetType.GuestTalk)
 		{
-			Data= Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 1");
+			Data = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 1");
 		}
-		Log.v("DEBUG",Data.toString());
+		Log.v("DEBUG", Data.toString());
 		listAdapter.setEvents(Data);
 		listAdapter.notifyDataSetChanged();
 	}
@@ -144,7 +152,7 @@ public class ListPage extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if(!actionBarSearch.backPressed())
+		if (!actionBarSearch.backPressed())
 		{
 			ActivityHelper.revertToHomeIfLast(ListPage.this);
 			ActivityHelper.setExitAnimation(this);
@@ -160,7 +168,9 @@ public class ListPage extends AppCompatActivity
 	protected void onResume()
 	{
 		super.onResume();
-		if(listAdapter.EventID!=-1)
+		if (listAdapter.EventID != -1)
+		{
 			listAdapter.notifyDataSetChanged();
+		}
 	}
 }

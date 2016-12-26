@@ -17,22 +17,31 @@ import com.nitkkr.gawds.tech16.helper.ActivityHelper;
 
 public class FetchResponseHelper
 {
-	VolleyError error=null;
-	private int requestCount =0;
-	private int responseCount=0;
+	VolleyError error = null;
+	private int requestCount = 0;
+	private int responseCount = 0;
 
-	private static FetchResponseHelper helper=new FetchResponseHelper();
+	private static FetchResponseHelper helper = new FetchResponseHelper();
 
-	public static FetchResponseHelper getInstance(){return helper;}
+	public static FetchResponseHelper getInstance()
+	{
+		return helper;
+	}
 
 
-	public void incrementRequestCount(){requestCount++;}
+	public void incrementRequestCount()
+	{
+		requestCount++;
+	}
+
 	public void incrementResponseCount(VolleyError error)
 	{
 		if (this.error == null)
-			this.error=error;
+		{
+			this.error = error;
+		}
 		responseCount++;
-		if(isAllFetchComplete())
+		if (isAllFetchComplete())
 		{
 			DisplayError(ActivityHelper.getApplicationContext());
 			requestCount = responseCount = 0;
@@ -42,21 +51,24 @@ public class FetchResponseHelper
 	public void reset()
 	{
 		requestCount = responseCount = 0;
-		error=null;
+		error = null;
 	}
 
 	public boolean isAllFetchComplete()
 	{
-		return responseCount>=requestCount;
+		return responseCount >= requestCount;
 	}
 
-	public boolean isAnyError(){ return  error!=null;}
+	public boolean isAnyError()
+	{
+		return error != null;
+	}
 
 	public void DisplayError(final Context context)
 	{
-		if(!ActivityHelper.isInternetConnected() && isAnyError() && Database.getInstance().getEventsDB().getRowCount()==0)
+		if (!ActivityHelper.isInternetConnected() && isAnyError() && Database.getInstance().getEventsDB().getRowCount() == 0)
 		{
-			Toast.makeText(context,"App's First Run\nRestart with Network Connection\nExiting...",Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "App's First Run\nRestart with Network Connection\nExiting...", Toast.LENGTH_LONG).show();
 			new Handler().postDelayed(new Runnable()
 			{
 				@Override
@@ -64,15 +76,20 @@ public class FetchResponseHelper
 				{
 					System.exit(-1);
 				}
-			},3000);
+			}, 3000);
 			return;
 		}
 
 		if (isAnyError())
 		{
-			if(error instanceof TimeoutError || error instanceof NetworkError)
-				Toast.makeText(context,"Network Error",Toast.LENGTH_LONG).show();
-			else Toast.makeText(context,"Error Fetching Feed",Toast.LENGTH_LONG).show();
+			if (error instanceof TimeoutError || error instanceof NetworkError)
+			{
+				Toast.makeText(context, "Network Error", Toast.LENGTH_LONG).show();
+			}
+			else
+			{
+				Toast.makeText(context, "Error Fetching Feed", Toast.LENGTH_LONG).show();
+			}
 		}
 		reset();
 	}

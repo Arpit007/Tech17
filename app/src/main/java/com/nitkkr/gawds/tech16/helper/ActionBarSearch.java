@@ -20,7 +20,7 @@ public class ActionBarSearch
 	public ActionBarSearch(final AppCompatActivity activity, iActionBar callback)
 	{
 		this.activity = activity;
-		this.callback =callback;
+		this.callback = callback;
 
 		activity.findViewById(R.id.actionbar_back).setOnClickListener(new View.OnClickListener()
 		{
@@ -31,7 +31,7 @@ public class ActionBarSearch
 			}
 		});
 
-		final SearchView searchView=(SearchView)activity.findViewById(R.id.search);
+		final SearchView searchView = (SearchView) activity.findViewById(R.id.search);
 
 		activity.findViewById(R.id.actionbar_search).setOnClickListener(new View.OnClickListener()
 		{
@@ -64,27 +64,29 @@ public class ActionBarSearch
 
 	public void setLabel(String label)
 	{
-		((TextView)activity.findViewById(R.id.actionbar_title)).setText(label);
+		( (TextView) activity.findViewById(R.id.actionbar_title) ).setText(label);
 	}
 
 	public void setSearchHint(String hint)
 	{
-		SearchView searchView=(SearchView)activity.findViewById(R.id.search);
+		SearchView searchView = (SearchView) activity.findViewById(R.id.search);
 		searchView.setQueryHint(hint);
 	}
 
 	public boolean backPressed()
 	{
-		SearchView searchView=(SearchView)activity.findViewById(R.id.search);
-		if(searchView.getVisibility()==View.VISIBLE)
+		SearchView searchView = (SearchView) activity.findViewById(R.id.search);
+		if (searchView.getVisibility() == View.VISIBLE)
 		{
 			activity.findViewById(R.id.main_bar).setVisibility(View.VISIBLE);
 			searchView.setVisibility(View.GONE);
-			searchView.setQuery("",false);
+			searchView.setQuery("", false);
 			return false;
 		}
 		else
-		return true;
+		{
+			return true;
+		}
 	}
 
 	public void setSearchButtonVisibility(int visibility)

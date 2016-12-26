@@ -17,9 +17,9 @@ public class MessageHanlder
 {
 	public void DispatchMessage(String message, Context context)
 	{
-		MessageModel formattedMessage=getFormattedMessage(message);
+		MessageModel formattedMessage = getFormattedMessage(message);
 
-		switch(formattedMessage.getType())
+		switch (formattedMessage.getType())
 		{
 			case EVENT:
 				new MessageEvent().performAction(formattedMessage, context);
@@ -43,7 +43,7 @@ public class MessageHanlder
 
 	public MessageModel getFormattedMessage(String message)
 	{
-		switch(getMessageType(message))
+		switch (getMessageType(message))
 		{
 			case EVENT:
 				return new MessageEvent().formatMessage(message);

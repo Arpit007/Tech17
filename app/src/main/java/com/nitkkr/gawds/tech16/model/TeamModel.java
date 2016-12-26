@@ -9,12 +9,26 @@ import java.util.ArrayList;
 
 public class TeamModel implements iUserModel, Serializable
 {
-	private String TeamName="";
-	private ArrayList<UserModel> Members=new ArrayList<>();
+	private String TeamName = "";
+	private ArrayList<UserModel> Members = new ArrayList<>();
 
-	public String getTeamName(){return TeamName;}
-	public ArrayList<UserModel> getMembers(){return Members;}
+	public String getTeamName()
+	{
+		return TeamName;
+	}
 
-	public void setTeamName(String teamName){TeamName=teamName;}
-	public void setMembers(ArrayList<UserModel> members){Members=members;}
+	public ArrayList<UserModel> getMembers()
+	{
+		return Members;
+	}
+
+	public void setTeamName(String teamName)
+	{
+		TeamName = teamName;
+	}
+
+	public void setMembers(ArrayList<UserModel> members)
+	{
+		Members = members;
+	}
 }

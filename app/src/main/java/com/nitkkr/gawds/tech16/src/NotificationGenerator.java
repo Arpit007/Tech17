@@ -36,8 +36,8 @@ public class NotificationGenerator
 	public NotificationGenerator(Context context)
 	{
 		this.context = context;
-		SharedPreferences preferences=context.getSharedPreferences("Generator", Context.MODE_PRIVATE);
-		LastId=preferences.getInt("LastId",1000);
+		SharedPreferences preferences = context.getSharedPreferences("Generator", Context.MODE_PRIVATE);
+		LastId = preferences.getInt("LastId", 1000);
 	}
 
 	private NotificationCompat.Builder basicBuild(int IconID, String Label, String Ticker, String Message)
@@ -51,7 +51,7 @@ public class NotificationGenerator
 
 	private void complexBuild(int IconID, String Label, String Ticker, String Message, RemoteViews view, Intent intent)
 	{
-		NotificationCompat.Builder builder=basicBuild(IconID,Label,Ticker,Message);
+		NotificationCompat.Builder builder = basicBuild(IconID, Label, Ticker, Message);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 		{
@@ -77,84 +77,89 @@ public class NotificationGenerator
 		notification.defaults |= Notification.DEFAULT_SOUND;
 		notification.defaults |= Notification.DEFAULT_VIBRATE;
 
-		((NotificationManager) context.getSystemService(NOTIFICATION_SERVICE)).notify(LastId, notification);
+		( (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE) ).notify(LastId, notification);
 
 		saveCache();
 	}
 
 	public void eventNotification(String Label, String Ticker, String Message, EventKey key)
 	{
-		int IconID=0;
+		int IconID = 0;
 
-		RemoteViews view=new RemoteViews(context.getPackageName(),R.layout.layout_notification_event);
+		RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.layout_notification_event);
 
-		Bundle bundle=new Bundle();
-		bundle.putSerializable("Event",key);
-		bundle.putInt("NotificationID",LastId);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("Event", key);
+		bundle.putInt("NotificationID", LastId);
 		Intent intent;
 
-		if(key.getEventID()!= Database.getInstance().getExhibitionDB().getExhibition(key.getEventID()).getEventID())
-			intent=new Intent(context, Event.class);
-		else intent=new Intent(context, Exhibition.class);
+		if (key.getEventID() != Database.getInstance().getExhibitionDB().getExhibition(key.getEventID()).getEventID())
+		{
+			intent = new Intent(context, Event.class);
+		}
+		else
+		{
+			intent = new Intent(context, Exhibition.class);
+		}
 
 		intent.putExtras(bundle);
 
-		complexBuild(IconID,Label,Ticker,Message,view,intent);
+		complexBuild(IconID, Label, Ticker, Message, view, intent);
 	}
 
 	public void eventResultNotification(String Label, String Ticker, String Message, EventKey key)
 	{
-		int IconID=0;
+		int IconID = 0;
 
-		RemoteViews view=new RemoteViews(context.getPackageName(),R.layout.layout_notification_event);
+		RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.layout_notification_event);
 
-		Bundle bundle=new Bundle();
-		bundle.putSerializable("Event",key);
-		bundle.putInt("NotificationID",LastId);
-		bundle.putInt("PageID",3);
-		Intent intent=new Intent(context, Event.class);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("Event", key);
+		bundle.putInt("NotificationID", LastId);
+		bundle.putInt("PageID", 3);
+		Intent intent = new Intent(context, Event.class);
 
 		intent.putExtras(bundle);
 
-		complexBuild(IconID,Label,Ticker,Message,view,intent);
+		complexBuild(IconID, Label, Ticker, Message, view, intent);
 	}
 
 	public void inviteNotification(String Label, String Ticker, String Message)
 	{
-		int IconID=0;
+		int IconID = 0;
 
-		RemoteViews view=new RemoteViews(context.getPackageName(),R.layout.layout_notification_event);
+		RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.layout_notification_event);
 
-		Bundle bundle=new Bundle();
-		Intent intent=new Intent(context, Event.class);
+		Bundle bundle = new Bundle();
+		Intent intent = new Intent(context, Event.class);
 
 		intent.putExtras(bundle);
 
-		complexBuild(IconID,Label,Ticker,Message,view,intent);
+		complexBuild(IconID, Label, Ticker, Message, view, intent);
 	}
 
 	public void simpleNotification(String Label, String Ticker, String Message)
 	{
-		int IconID=0;
+		int IconID = 0;
 
-		RemoteViews view=new RemoteViews(context.getPackageName(),R.layout.layout_notification_event);
+		RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.layout_notification_event);
 
-		Intent intent=new Intent(context,Home.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		Intent intent = new Intent(context, Home.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-		complexBuild(IconID,Label,Ticker,Message,view,intent);
+		complexBuild(IconID, Label, Ticker, Message, view, intent);
 	}
 
 	public int pdfNotification(String Label, String Ticker, String Message)
 	{
-		pdfNotification(LastId,Label,Ticker,Message,null,false);
+		pdfNotification(LastId, Label, Ticker, Message, null, false);
 		saveCache();
-		return LastId-1;
+		return LastId - 1;
 	}
 
 	public void pdfNotification(int ID, String Label, String Ticker, String Message, Intent intent, boolean cancelOnClick)
 	{
-		NotificationCompat.Builder builder=basicBuild(R.drawable.ic_cloud_download,Label,Ticker,Message);
+		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_cloud_download, Label, Ticker, Message);
 
 		builder = builder.setContentTitle(Label)
 				.setContentText(Message)
@@ -163,7 +168,7 @@ public class NotificationGenerator
 				.setAutoCancel(true)
 				.setPriority(Notification.PRIORITY_MAX);
 
-		if(intent!=null)
+		if (intent != null)
 		{
 			PendingIntent pIntent = PendingIntent.getActivity(context, ID, intent,
 					PendingIntent.FLAG_CANCEL_CURRENT);
@@ -178,14 +183,14 @@ public class NotificationGenerator
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
 		}
 
-		((NotificationManager) context.getSystemService(NOTIFICATION_SERVICE)).notify(ID, notification);
+		( (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE) ).notify(ID, notification);
 	}
 
 	private void saveCache()
 	{
-		SharedPreferences.Editor editor=context.getSharedPreferences("Generator",Context.MODE_PRIVATE).edit();
+		SharedPreferences.Editor editor = context.getSharedPreferences("Generator", Context.MODE_PRIVATE).edit();
 		LastId++;
-		editor.putInt("LastId",LastId);
+		editor.putInt("LastId", LastId);
 		editor.apply();
 	}
 }

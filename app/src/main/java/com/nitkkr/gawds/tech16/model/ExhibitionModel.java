@@ -8,17 +8,26 @@ import java.io.Serializable;
 
 public class ExhibitionModel extends BaseEventModel implements Serializable
 {
-	private String Author="";
-	private boolean GTalk=false;
+	private String Author = "";
+	private boolean GTalk = false;
 
-	public String getAuthor(){
+	public String getAuthor()
+	{
 		return Author;
 	}
 
-	public boolean isGTalk(){return GTalk;}
-
-	public void setAuthor(String author){
-		Author=author;
+	public boolean isGTalk()
+	{
+		return GTalk;
 	}
-	public void setGTalk(boolean gTalk){GTalk=gTalk;}
+
+	public void setAuthor(String author)
+	{
+		Author = author;
+	}
+
+	public void setGTalk(boolean gTalk)
+	{
+		GTalk = gTalk;
+	}
 }

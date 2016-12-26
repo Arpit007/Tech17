@@ -19,37 +19,47 @@ public class AppUserModel extends UserModel implements Cloneable
 
 	ArrayList<InterestModel> Interests;
 
-	public static final int LOGIN_REQUEST_CODE=99;
-	private boolean loggedIn,signedup;
+	public static final int LOGIN_REQUEST_CODE = 99;
+	private boolean loggedIn, signedup;
 
-	public ArrayList<InterestModel> getInterests(){return Interests;}
+	public ArrayList<InterestModel> getInterests()
+	{
+		return Interests;
+	}
+
 	public ArrayList<String> getSelectedInterests()
 	{
-		ArrayList<String> Keys=new ArrayList<>();
-		for(InterestModel interestModel: Interests)
+		ArrayList<String> Keys = new ArrayList<>();
+		for (InterestModel interestModel : Interests)
 		{
-			if(interestModel.isSelected())
-				Keys.add(interestModel.getID()+"");
+			if (interestModel.isSelected())
+			{
+				Keys.add(interestModel.getID() + "");
+			}
 		}
 		return Keys;
 	}
 
-	public static AppUserModel MAIN_USER=new AppUserModel();
+	public static AppUserModel MAIN_USER = new AppUserModel();
 
 	public String selectedInterestsToString()
 	{
-		ArrayList<InterestModel> models=new ArrayList<>();
-		for(InterestModel model:Interests)
+		ArrayList<InterestModel> models = new ArrayList<>();
+		for (InterestModel model : Interests)
 		{
-			if(model.isSelected())
+			if (model.isSelected())
+			{
 				models.add(model);
+			}
 		}
-		if (models.size()==0)
+		if (models.size() == 0)
+		{
 			return "";
+		}
 
-		StringBuilder stringBuilder=new StringBuilder("[");
+		StringBuilder stringBuilder = new StringBuilder("[");
 
-		for(InterestModel model:models)
+		for (InterestModel model : models)
 		{
 			stringBuilder.append(",").append(model.getID());
 		}
@@ -63,20 +73,24 @@ public class AppUserModel extends UserModel implements Cloneable
 	public String unSelectedInterestsToString()
 	{
 
-		ArrayList<InterestModel> models=new ArrayList<>();
+		ArrayList<InterestModel> models = new ArrayList<>();
 
-		for(InterestModel model:Interests)
+		for (InterestModel model : Interests)
 		{
-			if(!model.isSelected() && Database.getInstance().getInterestDB().getInterestModel(model.getID()).isSelected())
+			if (!model.isSelected() && Database.getInstance().getInterestDB().getInterestModel(model.getID()).isSelected())
+			{
 				models.add(model);
+			}
 		}
 
-		if (models.size()==0)
+		if (models.size() == 0)
+		{
 			return "";
+		}
 
-		StringBuilder stringBuilder=new StringBuilder("[");
+		StringBuilder stringBuilder = new StringBuilder("[");
 
-		for(InterestModel model:models)
+		for (InterestModel model : models)
 		{
 			stringBuilder.append(",").append(model.getID());
 		}
@@ -87,21 +101,26 @@ public class AppUserModel extends UserModel implements Cloneable
 		return stringBuilder.toString();
 	}
 
-	public void setInterests(ArrayList<InterestModel> interests){Interests = interests;}
+	public void setInterests(ArrayList<InterestModel> interests)
+	{
+		Interests = interests;
+	}
 
 	public void setInterestsFromArray(ArrayList<String> list)
 	{
-		for(InterestModel model :Interests)
+		for (InterestModel model : Interests)
+		{
 			model.setSelected(false);
+		}
 
 		int ID;
 
-		for(String id: list)
+		for (String id : list)
 		{
-			ID=Integer.parseInt(id);
-			for(InterestModel model :Interests)
+			ID = Integer.parseInt(id);
+			for (InterestModel model : Interests)
 			{
-				if (model.getID()==ID)
+				if (model.getID() == ID)
 				{
 					model.setSelected(true);
 					break;
@@ -110,94 +129,109 @@ public class AppUserModel extends UserModel implements Cloneable
 		}
 	}
 
-	public boolean saveAppUser(Context context) {
-		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
-		editor.putString("Name",getName());
-		editor.putString("Token",getToken());
-		editor.putString("Email",getEmail());
-		editor.putString("Roll",getRoll());
-		editor.putString("Year",getYear());
-		editor.putString("College",getCollege());
-		editor.putString("Mobile",getMobile());
-		editor.putString("Branch",getBranch());
-		editor.putString("ImageId",getImageResource());
-		editor.putString("Gender",getGender());
-		editor.putBoolean("GoogleImage",isUseGoogleImage());
-		editor.putInt("ImageDrawableID",getImageId());
+	public boolean saveAppUser(Context context)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit();
+		editor.putString("Name", getName());
+		editor.putString("Token", getToken());
+		editor.putString("Email", getEmail());
+		editor.putString("Roll", getRoll());
+		editor.putString("Year", getYear());
+		editor.putString("College", getCollege());
+		editor.putString("Mobile", getMobile());
+		editor.putString("Branch", getBranch());
+		editor.putString("ImageId", getImageResource());
+		editor.putString("Gender", getGender());
+		editor.putBoolean("GoogleImage", isUseGoogleImage());
+		editor.putInt("ImageDrawableID", getImageId());
 
-		if(Interests!=null)
+		if (Interests != null)
+		{
 			Database.getInstance().getInterestDB().addOrUpdateInterest(Interests);
+		}
 
 		return editor.commit();
 	}
 
 	public void loadAppUser(Context context)
 	{
-		SharedPreferences preferences=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE);
-		setName(preferences.getString("Name",""));
-		setEmail(preferences.getString("Email",""));
-		setRoll(preferences.getString("Roll",""));
-		setYear(preferences.getString("Year",""));
-		setCollege(preferences.getString("College",""));
-		setMobile(preferences.getString("Mobile",""));
-		setBranch(preferences.getString("Branch",""));
-		setImageResource(preferences.getString("ImageId",null));
-		setToken(preferences.getString("Token",""));
-		setGender(preferences.getString("Gender",""));
-		setUseGoogleImage(preferences.getBoolean("GoogleImage",true));
-		setImageId(preferences.getInt("ImageDrawableID",-1));
-		Interests=Database.getInstance().getInterestDB().getSelectedInterests();
+		SharedPreferences preferences = context.getSharedPreferences("User_Data", Context.MODE_PRIVATE);
+		setName(preferences.getString("Name", ""));
+		setEmail(preferences.getString("Email", ""));
+		setRoll(preferences.getString("Roll", ""));
+		setYear(preferences.getString("Year", ""));
+		setCollege(preferences.getString("College", ""));
+		setMobile(preferences.getString("Mobile", ""));
+		setBranch(preferences.getString("Branch", ""));
+		setImageResource(preferences.getString("ImageId", null));
+		setToken(preferences.getString("Token", ""));
+		setGender(preferences.getString("Gender", ""));
+		setUseGoogleImage(preferences.getBoolean("GoogleImage", true));
+		setImageId(preferences.getInt("ImageDrawableID", -1));
+		Interests = Database.getInstance().getInterestDB().getSelectedInterests();
 	}
 
-	public void logoutUser(Context context) {
-		SharedPreferences.Editor editor=context.getSharedPreferences("User_Data",Context.MODE_PRIVATE).edit();
+	public void logoutUser(Context context)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit();
 		editor.clear();
 		editor.commit();
 
 		Database.getInstance().ResetTables();
 
-		setLoggedIn(false,context);
-		setSignedup(false,context);
+		setLoggedIn(false, context);
+		setSignedup(false, context);
 
 		loadAppUser(context);
 		saveAppUser(context);
 	}
+
 	public boolean isUserLoaded()
 	{
-		return (getEmail()!=null && !getEmail().equals(""));
+		return ( getEmail() != null && !getEmail().equals("") );
 	}
 
-	public void setLoggedIn(boolean val,Context context){
-		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
-		editor.putBoolean("loggedIn",val);
+	public void setLoggedIn(boolean val, Context context)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences("authenticate", Context.MODE_PRIVATE).edit();
+		editor.putBoolean("loggedIn", val);
 		editor.commit();
 	}
-	public void setSignedup(boolean val,Context context){
-		SharedPreferences.Editor editor=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE).edit();
-		editor.putBoolean("signedup",val);
+
+	public void setSignedup(boolean val, Context context)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences("authenticate", Context.MODE_PRIVATE).edit();
+		editor.putBoolean("signedup", val);
 		editor.commit();
 	}
 
 	public boolean isUserLoggedIn(Context context)
 	{
-		SharedPreferences sp=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE);
-		loggedIn=sp.getBoolean("loggedIn",false);
+		SharedPreferences sp = context.getSharedPreferences("authenticate", Context.MODE_PRIVATE);
+		loggedIn = sp.getBoolean("loggedIn", false);
 
 		return loggedIn;
 	}
-	public boolean isUserSignedUp(Context context){
-		SharedPreferences sp=context.getSharedPreferences("authenticate",Context.MODE_PRIVATE);
-		signedup=sp.getBoolean("signedup",false);
+
+	public boolean isUserSignedUp(Context context)
+	{
+		SharedPreferences sp = context.getSharedPreferences("authenticate", Context.MODE_PRIVATE);
+		signedup = sp.getBoolean("signedup", false);
 		return signedup;
 	}
 
 	public void LoginUserNoHome(Activity activity, boolean Result)
 	{
-		Intent intent=new Intent(activity,Login.class);
-		intent.putExtra("Start_Home",false);
-		if(Result)
-			activity.startActivityForResult(intent,LOGIN_REQUEST_CODE);
-		else activity.startActivity(intent);
+		Intent intent = new Intent(activity, Login.class);
+		intent.putExtra("Start_Home", false);
+		if (Result)
+		{
+			activity.startActivityForResult(intent, LOGIN_REQUEST_CODE);
+		}
+		else
+		{
+			activity.startActivity(intent);
+		}
 	}
 
 	@Override

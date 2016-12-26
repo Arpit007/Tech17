@@ -1,9 +1,9 @@
 package com.nitkkr.gawds.tech16.helper;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech16.R;
@@ -18,7 +18,7 @@ public class ActionBarDoneButton
 
 	public ActionBarDoneButton(final AppCompatActivity activity, View.OnClickListener listener)
 	{
-		this.activity=activity;
+		this.activity = activity;
 		try
 		{
 			activity.findViewById(R.id.actionbar_DoneButton).setOnClickListener(listener);
@@ -39,24 +39,24 @@ public class ActionBarDoneButton
 
 	public void setLabel(String label)
 	{
-		((TextView)activity.findViewById(R.id.actionbar_title)).setText(label);
+		( (TextView) activity.findViewById(R.id.actionbar_title) ).setText(label);
 	}
 
 	public void setButtonLabel(String label)
 	{
-		Button button = (Button)activity.findViewById(R.id.actionbar_DoneButton);
+		Button button = (Button) activity.findViewById(R.id.actionbar_DoneButton);
 		button.setText(label);
 	}
 
 	public void setButtonDrawable(int ResourceID)
 	{
-		Button button = (Button)activity.findViewById(R.id.actionbar_DoneButton);
-		//button.setCompoundDrawablesWithIntrinsicBounds(ResourceID, 0, 0, 0);
+		ImageView image = (ImageView) activity.findViewById(R.id.ButtonIcon);
+		image.setImageResource(ResourceID);
 	}
 
 	public void setButtonVisibility(int visibility)
 	{
-		Button button = (Button)activity.findViewById(R.id.actionbar_DoneButton);
+		Button button = (Button) activity.findViewById(R.id.actionbar_DoneButton);
 		button.setVisibility(visibility);
 	}
 }

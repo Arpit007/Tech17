@@ -17,38 +17,39 @@ import com.nitkkr.gawds.tech16.model.EventModel;
  */
 public class AboutEvent extends Fragment
 {
-    private EventModel model;
+	private EventModel model;
 
-    public static AboutEvent getNewFragment(EventModel model)
-    {
-        AboutEvent aboutFragment=new AboutEvent();
-        aboutFragment.model=model;
-        return aboutFragment;
-    }
+	public static AboutEvent getNewFragment(EventModel model)
+	{
+		AboutEvent aboutFragment = new AboutEvent();
+		aboutFragment.model = model;
+		return aboutFragment;
+	}
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view= inflater.inflate(R.layout.fragment_about,container,false);
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+	{
+		View view = inflater.inflate(R.layout.fragment_about, container, false);
 
-        WebView webView=(WebView)view.findViewById(R.id.Event_Content);
-        String text="";
-        if(model!=null && model.getDescription()!=null)
-        {
-            text = "<html><head>"
-                    + "<style type=\"text/css\">body{color: #fff; }"
-                    + "</style></head>"
-                    + "<body>"
-                    + model.getDescription()
-                    + "</body></html>";
-        }
-        webView.loadDataWithBaseURL(null,text,"text/html","utf-8",null);
-        webView.setBackgroundColor(Color.TRANSPARENT);
-        return view;
-    }
+		WebView webView = (WebView) view.findViewById(R.id.Event_Content);
+		String text = "";
+		if (model != null && model.getDescription() != null)
+		{
+			text = "<html><head>"
+					+ "<style type=\"text/css\">body{color: #fff; }"
+					+ "</style></head>"
+					+ "<body>"
+					+ model.getDescription()
+					+ "</body></html>";
+		}
+		webView.loadDataWithBaseURL(null, text, "text/html", "utf-8", null);
+		webView.setBackgroundColor(Color.TRANSPARENT);
+		return view;
+	}
 }

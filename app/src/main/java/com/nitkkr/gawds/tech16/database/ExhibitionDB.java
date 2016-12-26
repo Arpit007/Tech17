@@ -26,15 +26,15 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getExhibitionTableName() + ";";
-		dbRequest.getDatabase().rawQuery(Query,null);
+		String Query = "DROP TABLE IF EXISTS " + DbConstants.Constants.getExhibitionTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	@Override
 	public void resetTable()
 	{
-		String Query="UPDATE " + DbConstants.Constants.getExhibitionTableName()+ " SET " + DbConstants.ExhibitionNames.Notify.Name() + " = 0;";
-		dbRequest.getDatabase().rawQuery(Query,null);
+		String Query = "UPDATE " + DbConstants.Constants.getExhibitionTableName() + " SET " + DbConstants.ExhibitionNames.Notify.Name() + " = 0;";
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	private iDbRequest dbRequest;
@@ -45,14 +45,16 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
 		this.dbRequest = dbRequest;
 
-		if(DbConstants.Constants==null)
-			DbConstants.Constants=new DbConstants(context);
+		if (DbConstants.Constants == null)
+		{
+			DbConstants.Constants = new DbConstants(context);
+		}
 
 		onCreate(dbRequest.getDatabase());
 	}
 
 	@Override
-	public void onCreate( SQLiteDatabase sqLiteDatabase)
+	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
 		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_ExhibitionTable));
 	}
@@ -75,7 +77,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 		{
 			Query += " WHERE " + Clause + ";";
 		}
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -113,7 +115,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 					exhibition.setImage_URL(cursor.getString(ColumnIndex[6]));
 					exhibition.setAuthor(cursor.getString(ColumnIndex[7]));
 					exhibition.setPdfLink(cursor.getString(ColumnIndex[8]));
-					exhibition.setGTalk(cursor.getInt(ColumnIndex[9])!=0);
+					exhibition.setGTalk(cursor.getInt(ColumnIndex[9]) != 0);
 
 					keys.add(exhibition);
 				}
@@ -137,7 +139,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 	public ExhibitionModel getExhibition(int ID)
 	{
 		String Query = "SELECT * FROM " + DbConstants.Constants.getExhibitionTableName() + " WHERE " + DbConstants.ExhibitionNames.EventID.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		ExhibitionModel exhibition = new ExhibitionModel();
 
@@ -174,7 +176,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 				exhibition.setImage_URL(cursor.getString(ColumnIndex[6]));
 				exhibition.setAuthor(cursor.getString(ColumnIndex[7]));
 				exhibition.setPdfLink(cursor.getString(ColumnIndex[8]));
-				exhibition.setGTalk(cursor.getInt(ColumnIndex[9])!=0);
+				exhibition.setGTalk(cursor.getInt(ColumnIndex[9]) != 0);
 			}
 		}
 		catch (Exception e)
@@ -213,10 +215,10 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 
 	public EventKey getExhibitionKey(int ID)
 	{
-		String Query = "SELECT " + DbConstants.ExhibitionNames.EventName.Name() + ", " + DbConstants.ExhibitionNames.EventID.Name() + ", "+
+		String Query = "SELECT " + DbConstants.ExhibitionNames.EventName.Name() + ", " + DbConstants.ExhibitionNames.EventID.Name() + ", " +
 				DbConstants.ExhibitionNames.Notify.Name() + " FROM " + DbConstants.Constants.getExhibitionTableName() + " WHERE " +
 				DbConstants.ExhibitionNames.EventID.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		EventKey key = new EventKey();
 
@@ -259,7 +261,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 	public ArrayList<EventKey> getExhibitionKeys(String Clause)
 	{
 		ArrayList<EventKey> keys = new ArrayList<>();
-		String Query = "SELECT " + DbConstants.ExhibitionNames.EventName.Name() + ", " + DbConstants.ExhibitionNames.EventID.Name() + ", "+
+		String Query = "SELECT " + DbConstants.ExhibitionNames.EventName.Name() + ", " + DbConstants.ExhibitionNames.EventID.Name() + ", " +
 				DbConstants.ExhibitionNames.Notify.Name() + " FROM " + DbConstants.Constants.getExhibitionTableName();
 		if (Clause.equals(""))
 		{
@@ -269,7 +271,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 		{
 			Query += " WHERE " + Clause + ";";
 		}
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -332,7 +334,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 	public void deleteExhibition(int ID)
 	{
 		String Query = "DELETE FROM " + DbConstants.Constants.getExhibitionTableName() + " WHERE " + DbConstants.ExhibitionNames.EventID.Name() + " = " + ID + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
@@ -346,22 +348,22 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		SQLiteDatabase database = dbRequest.getDatabase();
 
-		ContentValues values=new ContentValues();
+		ContentValues values = new ContentValues();
 
-		values.put(DbConstants.ExhibitionNames.EventName.Name(),exhibition.getEventName());
-		values.put(DbConstants.ExhibitionNames.EventID.Name(),exhibition.getEventID());
-		values.put(DbConstants.ExhibitionNames.Date.Name(),exhibition.getEventDate());
-		values.put(DbConstants.ExhibitionNames.Notify.Name(),((exhibition.isNotify())?1:0));
-		values.put(DbConstants.ExhibitionNames.Venue.Name(),exhibition.getVenue());
-		values.put(DbConstants.ExhibitionNames.Description.Name(),exhibition.getDescription());
-		values.put(DbConstants.ExhibitionNames.ImageUrl.Name(),exhibition.getImage_URL());
-		values.put(DbConstants.ExhibitionNames.Author.Name(),exhibition.getAuthor());
-		values.put(DbConstants.ExhibitionNames.Pdf.Name(),exhibition.getPdfLink());
-		values.put(DbConstants.ExhibitionNames.GTalk.Name(),exhibition.isGTalk());
+		values.put(DbConstants.ExhibitionNames.EventName.Name(), exhibition.getEventName());
+		values.put(DbConstants.ExhibitionNames.EventID.Name(), exhibition.getEventID());
+		values.put(DbConstants.ExhibitionNames.Date.Name(), exhibition.getEventDate());
+		values.put(DbConstants.ExhibitionNames.Notify.Name(), ( ( exhibition.isNotify() ) ? 1 : 0 ));
+		values.put(DbConstants.ExhibitionNames.Venue.Name(), exhibition.getVenue());
+		values.put(DbConstants.ExhibitionNames.Description.Name(), exhibition.getDescription());
+		values.put(DbConstants.ExhibitionNames.ImageUrl.Name(), exhibition.getImage_URL());
+		values.put(DbConstants.ExhibitionNames.Author.Name(), exhibition.getAuthor());
+		values.put(DbConstants.ExhibitionNames.Pdf.Name(), exhibition.getPdfLink());
+		values.put(DbConstants.ExhibitionNames.GTalk.Name(), exhibition.isGTalk());
 
-		if(database.update(DbConstants.Constants.getExhibitionTableName(),values, DbConstants.ExhibitionNames.EventID.Name() + " = "+exhibition.getEventID(),null)<1)
+		if (database.update(DbConstants.Constants.getExhibitionTableName(), values, DbConstants.ExhibitionNames.EventID.Name() + " = " + exhibition.getEventID(), null) < 1)
 		{
-			database.insert(DbConstants.Constants.getExhibitionTableName(),null,values);
+			database.insert(DbConstants.Constants.getExhibitionTableName(), null, values);
 		}
 	}
 
@@ -373,40 +375,40 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 
 	public void addOrUpdateExhibition(ArrayList<ExhibitionModel> exhibitions)
 	{
-		Log.v("DEBUG","YES...............");
-		SQLiteDatabase database=dbRequest.getDatabase();
+		Log.v("DEBUG", "YES...............");
+		SQLiteDatabase database = dbRequest.getDatabase();
 
-		String TABLENAME=DbConstants.Constants.getExhibitionTableName();
+		String TABLENAME = DbConstants.Constants.getExhibitionTableName();
 
-		String Event_Name= DbConstants.ExhibitionNames.EventName.Name();
-		String Event_ID= DbConstants.ExhibitionNames.EventID.Name();
-		String Event_Date= DbConstants.ExhibitionNames.Date.Name();
-		String Event_Notify= DbConstants.ExhibitionNames.Notify.Name();
-		String Event_Venue= DbConstants.ExhibitionNames.Venue.Name();
-		String Event_Description= DbConstants.ExhibitionNames.Description.Name();
-		String Event_ImageURL= DbConstants.ExhibitionNames.ImageUrl.Name();
-		String Event_Author= DbConstants.ExhibitionNames.Author.Name();
-		String Event_Pdf= DbConstants.ExhibitionNames.Pdf.Name();
-		String Event_GTalk= DbConstants.ExhibitionNames.GTalk.Name();
+		String Event_Name = DbConstants.ExhibitionNames.EventName.Name();
+		String Event_ID = DbConstants.ExhibitionNames.EventID.Name();
+		String Event_Date = DbConstants.ExhibitionNames.Date.Name();
+		String Event_Notify = DbConstants.ExhibitionNames.Notify.Name();
+		String Event_Venue = DbConstants.ExhibitionNames.Venue.Name();
+		String Event_Description = DbConstants.ExhibitionNames.Description.Name();
+		String Event_ImageURL = DbConstants.ExhibitionNames.ImageUrl.Name();
+		String Event_Author = DbConstants.ExhibitionNames.Author.Name();
+		String Event_Pdf = DbConstants.ExhibitionNames.Pdf.Name();
+		String Event_GTalk = DbConstants.ExhibitionNames.GTalk.Name();
 
-		for(ExhibitionModel exhibition : exhibitions)
+		for (ExhibitionModel exhibition : exhibitions)
 		{
-			ContentValues values=new ContentValues();
+			ContentValues values = new ContentValues();
 
-			values.put(Event_Name,exhibition.getEventName());
-			values.put(Event_ID,exhibition.getEventID());
-			values.put(Event_Date,exhibition.getEventDate());
-			values.put(Event_Notify,((exhibition.isNotify())?1:0));
-			values.put(Event_Venue,exhibition.getVenue());
-			values.put(Event_Description,exhibition.getDescription());
-			values.put(Event_ImageURL,exhibition.getImage_URL());
-			values.put(Event_Author,exhibition.getAuthor());
-			values.put(Event_Pdf,exhibition.getPdfLink());
-			values.put(Event_GTalk,exhibition.isGTalk());
+			values.put(Event_Name, exhibition.getEventName());
+			values.put(Event_ID, exhibition.getEventID());
+			values.put(Event_Date, exhibition.getEventDate());
+			values.put(Event_Notify, ( ( exhibition.isNotify() ) ? 1 : 0 ));
+			values.put(Event_Venue, exhibition.getVenue());
+			values.put(Event_Description, exhibition.getDescription());
+			values.put(Event_ImageURL, exhibition.getImage_URL());
+			values.put(Event_Author, exhibition.getAuthor());
+			values.put(Event_Pdf, exhibition.getPdfLink());
+			values.put(Event_GTalk, exhibition.isGTalk());
 
-			if(database.update(TABLENAME,values, Event_ID + " = " + exhibition.getEventID(),null)<1)
+			if (database.update(TABLENAME, values, Event_ID + " = " + exhibition.getEventID(), null) < 1)
 			{
-				database.insert(TABLENAME,null,values);
+				database.insert(TABLENAME, null, values);
 			}
 		}
 	}

@@ -26,8 +26,8 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void deleteTable()
 	{
-		String Query="DROP TABLE IF EXISTS " + DbConstants.Constants.getCoordinatorTableName() + ";";
-		dbRequest.getDatabase().rawQuery(Query,null);
+		String Query = "DROP TABLE IF EXISTS " + DbConstants.Constants.getCoordinatorTableName() + ";";
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 		{
 			Query += " WHERE " + Clause + ";";
 		}
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 
 		Cursor cursor = null;
 		try
@@ -101,7 +101,7 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 				cursor.moveToFirst();
 				do
 				{
-					CoordinatorModel coordinator=new CoordinatorModel();
+					CoordinatorModel coordinator = new CoordinatorModel();
 
 					coordinator.setName(cursor.getString(ColumnIndex[0]));
 					coordinator.setEventID(cursor.getInt(ColumnIndex[1]));
@@ -136,14 +136,14 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 	public void deleteCoordinator(EventKey key)
 	{
 		String Query = "DELETE FROM " + DbConstants.Constants.getCoordinatorTableName() + " WHERE " + DbConstants.CoordinatorNames.EventID.Name() + " = " + key.getEventID() + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	public void deleteCoordinator(String Name)
 	{
 		String Query = "DELETE FROM " + DbConstants.Constants.getCoordinatorTableName() + " WHERE " + DbConstants.CoordinatorNames.CoordinatorName.Name() + " = " + Name + ";";
-		Log.d("Query:\t",Query);
+		Log.d("Query:\t", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
@@ -156,18 +156,18 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		SQLiteDatabase database = dbRequest.getDatabase();
 
-		ContentValues values=new ContentValues();
+		ContentValues values = new ContentValues();
 
-		values.put(DbConstants.CoordinatorNames.CoordinatorName.Name(),coordinator.getName());
-		values.put(DbConstants.CoordinatorNames.EventID.Name(),coordinator.getEventID());
-		values.put(DbConstants.CoordinatorNames.Email.Name(),coordinator.getEmail());
-		values.put(DbConstants.CoordinatorNames.Mobile.Name(),coordinator.getMobile());
-		values.put(DbConstants.CoordinatorNames.Designation.Name(),coordinator.getDesignation());
+		values.put(DbConstants.CoordinatorNames.CoordinatorName.Name(), coordinator.getName());
+		values.put(DbConstants.CoordinatorNames.EventID.Name(), coordinator.getEventID());
+		values.put(DbConstants.CoordinatorNames.Email.Name(), coordinator.getEmail());
+		values.put(DbConstants.CoordinatorNames.Mobile.Name(), coordinator.getMobile());
+		values.put(DbConstants.CoordinatorNames.Designation.Name(), coordinator.getDesignation());
 
-		if(database.update(DbConstants.Constants.getCoordinatorTableName(),values, DbConstants.CoordinatorNames.CoordinatorName.Name() +
-				" = " + coordinator.getName() + " AND " + DbConstants.CoordinatorNames.EventID.Name() + " = " + coordinator.getEventID(),null)<1)
+		if (database.update(DbConstants.Constants.getCoordinatorTableName(), values, DbConstants.CoordinatorNames.CoordinatorName.Name() +
+				" = " + coordinator.getName() + " AND " + DbConstants.CoordinatorNames.EventID.Name() + " = " + coordinator.getEventID(), null) < 1)
 		{
-			database.insert(DbConstants.Constants.getCoordinatorTableName(),null,values);
+			database.insert(DbConstants.Constants.getCoordinatorTableName(), null, values);
 		}
 	}
 
@@ -179,29 +179,29 @@ public class CoordinatorDB extends SQLiteOpenHelper implements iBaseDB
 
 	public void addOrUpdateCoordinator(ArrayList<CoordinatorModel> coordinators)
 	{
-		SQLiteDatabase database=dbRequest.getDatabase();
+		SQLiteDatabase database = dbRequest.getDatabase();
 
-		String TABLENAME=DbConstants.Constants.getCoordinatorTableName();
+		String TABLENAME = DbConstants.Constants.getCoordinatorTableName();
 
-		String Coordinator_Name=DbConstants.CoordinatorNames.CoordinatorName.Name();
-		String Event_ID=DbConstants.CoordinatorNames.EventID.Name();
-		String Coordinator_Email=DbConstants.CoordinatorNames.Email.Name();
-		String Coordinator_Mobile=DbConstants.CoordinatorNames.Mobile.Name();
-		String Coordinator_Designation=DbConstants.CoordinatorNames.Designation.Name();
+		String Coordinator_Name = DbConstants.CoordinatorNames.CoordinatorName.Name();
+		String Event_ID = DbConstants.CoordinatorNames.EventID.Name();
+		String Coordinator_Email = DbConstants.CoordinatorNames.Email.Name();
+		String Coordinator_Mobile = DbConstants.CoordinatorNames.Mobile.Name();
+		String Coordinator_Designation = DbConstants.CoordinatorNames.Designation.Name();
 
-		for(CoordinatorModel coordinator : coordinators)
+		for (CoordinatorModel coordinator : coordinators)
 		{
-			ContentValues values=new ContentValues();
+			ContentValues values = new ContentValues();
 
-			values.put(Coordinator_Name,coordinator.getName());
-			values.put(Event_ID,coordinator.getEventID());
-			values.put(Coordinator_Email,coordinator.getEmail());
-			values.put(Coordinator_Mobile,coordinator.getMobile());
-			values.put(Coordinator_Designation,coordinator.getDesignation());
+			values.put(Coordinator_Name, coordinator.getName());
+			values.put(Event_ID, coordinator.getEventID());
+			values.put(Coordinator_Email, coordinator.getEmail());
+			values.put(Coordinator_Mobile, coordinator.getMobile());
+			values.put(Coordinator_Designation, coordinator.getDesignation());
 
-			if(database.update(TABLENAME,values, Coordinator_Name + " = \"" + coordinator.getName() + "\" AND " + Event_ID + " = " + coordinator.getEventID(),null)<1)
+			if (database.update(TABLENAME, values, Coordinator_Name + " = \"" + coordinator.getName() + "\" AND " + Event_ID + " = " + coordinator.getEventID(), null) < 1)
 			{
-				database.insert(DbConstants.Constants.getCoordinatorTableName(),null,values);
+				database.insert(DbConstants.Constants.getCoordinatorTableName(), null, values);
 			}
 		}
 	}
