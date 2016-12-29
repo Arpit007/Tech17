@@ -111,6 +111,16 @@
             android:label="Dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <receiver
+            android:name="com.nitkkr.gawds.tech17.api.NotificationReceiver"
+            android:process=":remote" >
+        </receiver>
+
+        <service
+            android:name="com.nitkkr.gawds.tech17.api.NotificationService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

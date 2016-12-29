@@ -151,7 +151,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 		if (result.isSuccess())
 		{
 			GoogleSignInAccount acct = result.getSignInAccount();
-
+			Log.v("DEBUG",acct.getIdToken()+"");
 			if (acct != null)
 			{
 				userModel.setName(acct.getDisplayName());
@@ -202,7 +202,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 							response = new JSONObject(res);
 
 							data = response.getJSONObject("data");
-
 							code = response.getJSONObject("status").getInt("code");
 
 							isNew = data.getBoolean("IsNew");

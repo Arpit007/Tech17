@@ -1601,14 +1601,16 @@ public class FetchData
 									model.setAuthor(object.getString("Designation"));
 									model.setVenue(object.getString("Venue"));
 									model.setGTalk(true);
-
 									finalList.add(model);
+
 								}
 								Log.v("DEBUG", "GUSTO TALK" + data.toString());
+
 								Database.getInstance().getExhibitionDB().deleteTable();
 								Database.getInstance().getExhibitionDB().onCreate(Database.getInstance().getDatabase());
 								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(finalList);
 								FetchResponseHelper.getInstance().incrementResponseCount(null);
+
 							}
 							else
 							{

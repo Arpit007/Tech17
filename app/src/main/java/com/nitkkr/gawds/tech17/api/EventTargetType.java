@@ -8,5 +8,6 @@ public enum EventTargetType
 	Event,
 	Informals,
 	GuestTalk,
-	Exhibition
+	Exhibition,
+	Workshop
 }

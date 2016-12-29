@@ -115,6 +115,7 @@ public class ListPage extends AppCompatActivity
 						view.getContext().startActivity(intent);
 						break;
 					case Exhibition:
+					case Workshop:
 					case GuestTalk:
 						bundle.putSerializable("Event", (EventKey) listView.getAdapter().getItem(i));
 						intent = new Intent(view.getContext(), Exhibition.class);
@@ -138,6 +139,11 @@ public class ListPage extends AppCompatActivity
 		}
 		else if (query.getQueryTargetType() == EventTargetType.Exhibition)
 		{
+			Data = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
+		}
+		else if (query.getQueryTargetType() == EventTargetType.Workshop)
+		{
+			//TODO:get workshop clients
 			Data = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
 		}
 		else if (query.getQueryTargetType() == EventTargetType.GuestTalk)

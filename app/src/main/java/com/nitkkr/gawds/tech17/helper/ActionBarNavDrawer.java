@@ -97,6 +97,11 @@ public class ActionBarNavDrawer
 			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Exhibition);
 			startListActivity(activity, activity.getString(R.string.Exhibition), query);
 		}
+		else if (id == R.id.nav_workshops)
+		{
+			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Workshop);
+			startListActivity(activity, activity.getString(R.string.Workshop), query);
+		}
 		else if (id == R.id.nav_About)
 		{
 			intent = new Intent(activity, About.class);
