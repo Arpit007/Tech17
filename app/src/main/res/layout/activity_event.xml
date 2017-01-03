@@ -80,6 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Event_Venue"
+            android:maxEms="10"
             android:layout_marginBottom="5dp"
             android:layout_above="@id/imageView3"
             android:layout_alignStart="@+id/Event_Date"/>
@@ -173,6 +174,7 @@
             android:padding="3dp"
             android:text="1"
             android:textColor="#ffffff"
+            android:background="@color/Transparent"
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:layout_above="@+id/Event_Members" android:layout_alignParentEnd="true"/>

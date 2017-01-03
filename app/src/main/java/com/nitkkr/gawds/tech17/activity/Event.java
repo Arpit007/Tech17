@@ -417,27 +417,27 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		if (model.getEventStatus() == EventStatus.None)
 		{
 			Round.setText("0");
-			Round.setBorderColor(ContextCompat.getColor(Event.this,R.color.None));
+			Round.setBackgroundResource(R.drawable.none);
 			Status.setText("Round");
 			Status.setTextColor(ContextCompat.getColor(Event.this,R.color.None));
 		}
 		else
 		{
-			Status.setText(model.getEventStatus().name());
+			Status.setText(model.getEventStatus().getValue());
 			if(model.getEventStatus()==EventStatus.NotStarted)
 			{
 				Status.setTextColor(ContextCompat.getColor(Event.this,R.color.Upcoming));
-				Round.setBorderColor(ContextCompat.getColor(Event.this,R.color.Upcoming));
+				Round.setBackgroundResource(R.drawable.notstart);
 			}
 			else if(model.getEventStatus()==EventStatus.Started)
 			{
 				Status.setTextColor(ContextCompat.getColor(Event.this,R.color.Started));
-				Round.setBorderColor(ContextCompat.getColor(Event.this,R.color.Started));
+				Round.setBackgroundResource(R.drawable.start);
 			}
 			else if(model.getEventStatus()==EventStatus.Finished)
 			{
 				Status.setTextColor(ContextCompat.getColor(Event.this,R.color.Over));
-				Round.setBorderColor(ContextCompat.getColor(Event.this,R.color.Over));
+				Round.setBackgroundResource(R.drawable.finished);
 			}
 		}
 		Round.setText(String.valueOf(model.getCurrentRound()));

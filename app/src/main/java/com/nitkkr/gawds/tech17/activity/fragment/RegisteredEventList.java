@@ -95,7 +95,10 @@ public class RegisteredEventList extends Fragment
 
 	public void ResumeFragment()
 	{
-		listAdapter.setEvents(Database.getInstance().getEventsDB().getRegisteredEventKeys());
-		listAdapter.notifyDataSetChanged();
+		if (listAdapter!=null)
+		{
+			listAdapter.setEvents(Database.getInstance().getEventsDB().getRegisteredEventKeys());
+			listAdapter.notifyDataSetChanged();
+		}
 	}
 }
