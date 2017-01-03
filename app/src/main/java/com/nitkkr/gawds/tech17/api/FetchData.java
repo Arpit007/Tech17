@@ -194,8 +194,10 @@ public class FetchData
 					@Override
 					public void onResponse(String res)
 					{
+						Log.v("DEBUG",main_user.getName()+" "+main_user.getMobile()+" "+main_user.getRoll());
 						JSONObject response;
 						int code;
+						Log.v("DEBUG",res);
 						try
 						{
 							response = new JSONObject(res);
@@ -286,6 +288,7 @@ public class FetchData
 					public void onResponse(String res)
 					{
 						JSONObject response;
+						Log.v("DEBUG",res);
 						try
 						{
 							response = new JSONObject(res);
@@ -1637,6 +1640,514 @@ public class FetchData
 		RequestQueue requestQueue = Volley.newRequestQueue(context);
 		requestQueue.add(stringRequest);
 	}
+
+	//TEAM API
+	public void createTeam(final Context context, final String teamName, final int EventId, final int status, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.createTeam),
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						int code;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+							//Status 0 for read and 1 for unread
+							if (code == 200)
+							{
+								if (callback != null)
+								{
+									//TODO: get team id here
+									callback.onResponse(ResponseStatus.SUCCESS);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
+				params.put("teamName", teamName);
+				params.put("eventId",String.valueOf(EventId));
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
+	public void deleteTeam(final Context context, final String teamId, final int status, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.deleteTeam)+teamId,
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						String data;
+						int code;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+							data=response.getString("data");
+							//Status 0 for read and 1 for unread
+							if (code == 200)
+							{
+								if (callback != null)
+								{
+									//example
+									//"data": "Team deleted"
+									callback.onResponse(ResponseStatus.SUCCESS);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
+	public void getMyTeams(final Context context, final int status, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.createTeam),
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						JSONArray data,participantIn,teamLeaderOf,pendingInvitations;
+						int EventId; String Name;
+						int code;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+							data=response.getJSONArray("data");
+
+							if (code == 200)
+							{
+								if (callback != null)
+								{
+									//sample
+//									"data": [
+//									{
+//										"participantIn": []
+//									},
+//									{
+//										"teamLeaderOf": [
+//										{
+//											"EventId": 1,
+//												"Name": "Stuxnets"
+//										}
+//										]
+//									},
+//									{
+//										"pendingInvitations": []
+//									}
+//									]
+
+									if(data!=null) {
+										participantIn = data.getJSONObject(0).getJSONArray("participantIn");
+										teamLeaderOf = data.getJSONObject(1).getJSONArray("teamLeaderOf");
+										pendingInvitations = data.getJSONObject(2).getJSONArray("pendingInvitations");
+
+										for(int i=0;i<participantIn.length();i++){
+											EventId=participantIn.getJSONObject(i).getInt("EventId");
+											Name=participantIn.getJSONObject(i).getString("Name");
+										}
+
+										for(int i=0;i<teamLeaderOf.length();i++){
+											EventId=participantIn.getJSONObject(i).getInt("EventId");
+											Name=participantIn.getJSONObject(i).getString("Name");
+										}
+
+										for(int i=0;i<pendingInvitations.length();i++){
+											EventId=participantIn.getJSONObject(i).getInt("EventId");
+											Name=participantIn.getJSONObject(i).getString("Name");
+										}
+									}
+
+									callback.onResponse(ResponseStatus.SUCCESS);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
+	public void sendInvite(final Context context, final int teamId, final int status, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						int code;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+							//Status 0 for read and 1 for unread
+							if (code == 200)
+							{
+								if (callback != null)
+								{
+									//TODO: get team id here
+									callback.onResponse(ResponseStatus.SUCCESS);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
+				//TODO
+				params.put("inviteTypes","");
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
+	public void acceptTeamInvite(final Context context, final int teamId, final int status, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						int code;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+
+								if (code == 200)
+							{
+								if (callback != null)
+								{
+									//TODO: get team id here
+									callback.onResponse(ResponseStatus.SUCCESS);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
+				params.put("inviteTypes", "");
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
+	public void declineTeamInvite(final Context context, final int teamId, final int status, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						int code;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+
+							if (code == 200)
+							{
+								if (callback != null)
+								{
+									//TODO: get team id here
+									callback.onResponse(ResponseStatus.SUCCESS);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
+				params.put("inviteTypes", "");
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
 }
 
 
