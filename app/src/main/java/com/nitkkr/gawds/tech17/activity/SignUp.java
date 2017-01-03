@@ -53,6 +53,7 @@ import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
+import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 import com.nitkkr.gawds.tech17.src.Typewriter;
 
 import org.json.JSONException;
@@ -396,7 +397,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	{
 		if (userModel.getImageResource() != null && userModel.isUseGoogleImage())
 		{
-			CircleImageView view = (CircleImageView) findViewById(R.id.signup_user_Image);
+			CompatCircleImageView view = (CompatCircleImageView) findViewById(R.id.signup_user_Image);
 			view.setVisibility(View.VISIBLE);
 
 			Glide.with(SignUp.this).load(userModel.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
@@ -406,7 +407,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 		}
 		else if (userModel.getImageId() != -1)
 		{
-			CircleImageView view = (CircleImageView) findViewById(R.id.signup_user_Image);
+			CompatCircleImageView view = (CompatCircleImageView) findViewById(R.id.signup_user_Image);
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array = getResources().obtainTypedArray(R.array.Avatar);

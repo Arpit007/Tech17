@@ -27,12 +27,6 @@ public class MessageHanlder
 			case TEAM_INVITE:
 				new MessageInvite().performAction(formattedMessage, context);
 				break;
-			case EVENT_RESULT:
-				new MessageResult().performAction(formattedMessage, context);
-				break;
-			case SIMPLE_MESSAGE:
-				new MessageSimple().performAction(formattedMessage, context);
-				break;
 		}
 	}
 
@@ -49,10 +43,6 @@ public class MessageHanlder
 				return new MessageEvent().formatMessage(message);
 			case TEAM_INVITE:
 				return new MessageInvite().formatMessage(message);
-			case EVENT_RESULT:
-				return new MessageResult().formatMessage(message);
-			case SIMPLE_MESSAGE:
-				return new MessageSimple().formatMessage(message);
 		}
 		return null;
 	}

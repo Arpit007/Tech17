@@ -42,6 +42,8 @@ public class SearchPageFilter extends Filter
 		ArrayList<EventKey> events = Database.getInstance().getEventsDB().getEventKeys(DbConstants.EventNames.EventName.Name() + " LIKE \"%" + Query + "%\"");
 		ArrayList<EventKey> gtalk = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.EventName.Name() + " LIKE \"%" + Query + "%\" AND "
 				+ DbConstants.ExhibitionNames.GTalk.Name() + " = 1");
+		ArrayList<EventKey> wkShp = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.EventName.Name() + " LIKE \"%" + Query + "%\" AND "
+			+ DbConstants.ExhibitionNames.GTalk.Name() + " = -1");
 		ArrayList<EventKey> exhibition = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.EventName.Name() + " LIKE \"%" + Query + "%\" AND "
 				+ DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
 
@@ -54,6 +56,10 @@ public class SearchPageFilter extends Filter
 		for (EventKey key : gtalk)
 		{
 			Keys.add(new Holder(key, EventTargetType.GuestTalk));
+		}
+		for (EventKey key : wkShp)
+		{
+			Keys.add(new Holder(key, EventTargetType.Workshop));
 		}
 		for (EventKey key : exhibition)
 		{

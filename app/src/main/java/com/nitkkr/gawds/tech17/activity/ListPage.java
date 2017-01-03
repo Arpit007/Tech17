@@ -35,7 +35,6 @@ public class ListPage extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Database.getInstance().getNotificationDB().UpdateTable();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_page);
 		ActivityHelper.setCreateAnimation(this);
@@ -141,14 +140,13 @@ public class ListPage extends AppCompatActivity
 		{
 			Data = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
 		}
-		else if (query.getQueryTargetType() == EventTargetType.Workshop)
-		{
-			//TODO:get workshop clients
-			Data = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
-		}
 		else if (query.getQueryTargetType() == EventTargetType.GuestTalk)
 		{
 			Data = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = 1");
+		}
+		else if(query.getQueryTargetType()==EventTargetType.Workshop)
+		{
+			Data = Database.getInstance().getExhibitionDB().getExhibitionKeys(DbConstants.ExhibitionNames.GTalk.Name() + " = -1");
 		}
 		Log.v("DEBUG", Data.toString());
 		listAdapter.setEvents(Data);

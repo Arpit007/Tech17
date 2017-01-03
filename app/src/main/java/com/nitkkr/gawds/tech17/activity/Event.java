@@ -33,6 +33,7 @@ import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.model.EventKey;
 import com.nitkkr.gawds.tech17.model.EventModel;
 import com.nitkkr.gawds.tech17.model.EventStatus;
+import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CustomTabLayout;
 import com.nitkkr.gawds.tech17.src.PdfDownloader;
 
@@ -143,7 +144,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 														model.setRegistered(true);
 														model.setNotify(true);
 														Database.getInstance().getEventsDB().addOrUpdateEvent(model);
-														Database.getInstance().getNotificationDB().UpdateTable();
 														model.callStatusListener();
 														LoadEvent();
 														break;
@@ -409,15 +409,38 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			PdfButton.setEnabled(true);
 		}
 
+		CircularTextView Round=(CircularTextView) findViewById(R.id.Event_Round);
+		Round.setBorderWidth(5);
+		Round.setTextColor(ContextCompat.getColor(Event.this,R.color.text_color_primary));
+		TextView Status=(TextView) findViewById(R.id.Event_Status);
+
 		if (model.getEventStatus() == EventStatus.None)
 		{
-			( (TextView) findViewById(R.id.Event_Round) ).setText("ROUND");
+			Round.setText("0");
+			Round.setBorderColor(ContextCompat.getColor(Event.this,R.color.None));
+			Status.setText("Round");
+			Status.setTextColor(ContextCompat.getColor(Event.this,R.color.None));
 		}
 		else
 		{
-			( (TextView) findViewById(R.id.Event_Round) ).setText(model.getEventStatus().name());
+			Status.setText(model.getEventStatus().name());
+			if(model.getEventStatus()==EventStatus.NotStarted)
+			{
+				Status.setTextColor(ContextCompat.getColor(Event.this,R.color.Upcoming));
+				Round.setBorderColor(ContextCompat.getColor(Event.this,R.color.Upcoming));
+			}
+			else if(model.getEventStatus()==EventStatus.Started)
+			{
+				Status.setTextColor(ContextCompat.getColor(Event.this,R.color.Started));
+				Round.setBorderColor(ContextCompat.getColor(Event.this,R.color.Started));
+			}
+			else if(model.getEventStatus()==EventStatus.Finished)
+			{
+				Status.setTextColor(ContextCompat.getColor(Event.this,R.color.Over));
+				Round.setBorderColor(ContextCompat.getColor(Event.this,R.color.Over));
+			}
 		}
-		( (TextView) findViewById(R.id.Event_Round) ).setText(String.valueOf(model.getCurrentRound()));
+		Round.setText(String.valueOf(model.getCurrentRound()));
 		actionBar.setLabel(model.getEventName());
 
 		setCallbacks();

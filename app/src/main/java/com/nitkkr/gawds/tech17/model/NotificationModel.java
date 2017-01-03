@@ -6,36 +6,26 @@ import java.util.Date;
  * Created by Home Laptop on 18-Dec-16.
  */
 
-public class NotificationModel extends EventKey
+public class NotificationModel
 {
-	private boolean generated = false;
-	private long date;
+	private int NotificationID=0;
+	private int EventID=0;
+	private String Title="";
+	private String Message="";
+	private boolean Seen=false;
+	private boolean Updated=false;
 
-	//TODO:implement message later
-	private String message = "";
+	public int getNotificationID(){return NotificationID;}
+	public int getEventID(){return EventID;}
+	public String getTitle(){return Title;}
+	public String getMessage(){return  Message;}
+	public boolean isSeen(){return Seen;}
+	public boolean isUpdated(){return Updated;}
 
-	public void setGenerated(boolean generated)
-	{
-		this.generated = generated;
-	}
-
-	public void setDate(long date)
-	{
-		this.date = date;
-	}
-
-	public boolean isGenerated()
-	{
-		return generated;
-	}
-
-	public long getDate()
-	{
-		return date;
-	}
-
-	public Date getDateObject()
-	{
-		return new Date(date);
-	}
+	public void setNotificationID(int id){NotificationID = id;}
+	public void setEventID(int eventID){EventID = eventID;}
+	public void setTitle(String title){Title = title;}
+	public void setMessage(String message){Message = message;}
+	public void setSeen(boolean seen){Seen = seen;}
+	public void setUpdated(boolean updated){Updated=updated;}
 }

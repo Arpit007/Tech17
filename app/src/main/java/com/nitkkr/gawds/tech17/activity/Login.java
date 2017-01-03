@@ -353,6 +353,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 				FetchData.getInstance().fetchUserWishlist(getApplicationContext());
 				FetchData.getInstance().fetchUserInterests(getApplicationContext());
+				FetchData.getInstance().getNotifications(getApplicationContext());
 
 				if (!ActivityHelper.isDebugMode(getApplicationContext()))
 				{

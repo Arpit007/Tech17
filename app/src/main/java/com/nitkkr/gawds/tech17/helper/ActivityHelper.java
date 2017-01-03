@@ -48,10 +48,10 @@ public class ActivityHelper
 		{
 			try
 			{
-				Window window = activity.getWindow();
+				/*Window window = activity.getWindow();
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 				window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-				window.setStatusBarColor(ContextCompat.getColor(activity, statusBarColorID));
+				window.setStatusBarColor(ContextCompat.getColor(activity, statusBarColorID));*/
 
 				Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ts_logo2);
 				ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription("Techspardha", bm, ContextCompat.getColor(activity, R.color.pin_screen_color));

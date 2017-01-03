@@ -34,6 +34,7 @@ import com.nitkkr.gawds.tech17.api.EventTargetType;
 import com.nitkkr.gawds.tech17.api.Query;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
+import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -86,6 +87,11 @@ public class ActionBarNavDrawer
 		{
 			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.GuestTalk);
 			startListActivity(activity, activity.getString(R.string.Guest_Talks), query);
+		}
+		else if (id==R.id.nav_workshops)
+		{
+			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Workshop);
+			startListActivity(activity, activity.getString(R.string.Workshop), query);
 		}
 		else if (id == R.id.nav_informals)
 		{
@@ -353,7 +359,7 @@ public class ActionBarNavDrawer
 		{
 			if (!AppUserModel.MAIN_USER.getImageResource().equals("") && AppUserModel.MAIN_USER.isUseGoogleImage())
 			{
-				CircleImageView view = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
+				CompatCircleImageView view = (CompatCircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
 				view.setVisibility(View.VISIBLE);
 
 				Glide.with(activity).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
@@ -363,7 +369,7 @@ public class ActionBarNavDrawer
 			}
 			else if (AppUserModel.MAIN_USER.getImageId() != -1)
 			{
-				CircleImageView view = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
+				CompatCircleImageView view = (CompatCircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
 				view.setVisibility(View.VISIBLE);
 
 				TypedArray array = activity.getResources().obtainTypedArray(R.array.Avatar);
@@ -420,7 +426,7 @@ public class ActionBarNavDrawer
 		}
 		else
 		{
-			CircleImageView view = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
+			CompatCircleImageView view = (CompatCircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image);
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array = activity.getResources().obtainTypedArray(R.array.Avatar);

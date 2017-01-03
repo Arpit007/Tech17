@@ -124,17 +124,19 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 				break;
 		}
 
-		if (page == DashboardPage.Page.Notification)
-		{
-			ActivityHelper.comingSoonSnackBar("Feature Coming Soon", Home.this);
-			return;
-		}
-
 		if (AppUserModel.MAIN_USER.isUserLoggedIn(Home.this) || page == DashboardPage.Page.Live)
 		{
-			Intent intent = new Intent(Home.this, DashboardPage.class);
-			intent.putExtra("Navigation", page.value);
-			startActivity(intent);
+			if(page!= DashboardPage.Page.Notification)
+			{
+				Intent intent = new Intent(Home.this, DashboardPage.class);
+				intent.putExtra("Navigation", page.value);
+				startActivity(intent);
+			}
+			else
+			{
+				Intent intent = new Intent(Home.this, NotificationPage.class);
+				startActivity(intent);
+			}
 		}
 		else
 		{

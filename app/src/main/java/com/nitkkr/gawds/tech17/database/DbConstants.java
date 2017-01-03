@@ -183,11 +183,13 @@ public class DbConstants
 
 	public enum NotificationNames
 	{
-		EventName("EVENT_NAME"),
+		NotificationID("NOTIFICATION_ID"),
 		EventID("EVENT_ID"),
-		Notify("NOTIFY"),
-		Date("_DATE"),
-		Generated("GENERATED");
+		Title("TITLE"),
+		Message("MESSAGE"),
+		Seen("NOTIFICATION_SEEN"),
+		Updated("UPDATED");
+
 
 		private String Name;
 

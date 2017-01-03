@@ -29,10 +29,12 @@
     <string name="Query_Create_NotificationTable">
         CREATE TABLE IF NOT EXISTS NotificationList
         (
-            EVENT_ID INT PRIMARY KEY NOT NULL,
-            EVENT_NAME VARCHAR(127),
-            _DATE INT DEFAULT 0,
-            GENERATED INT DEFAULT 0
+            NOTIFICATION_ID INT PRIMARY KEY NOT NULL,
+            EVENT_ID INT DEFAULT 0,
+            TITLE VARCHAR(127),
+            MESSAGE VARCHAR(1024),
+            NOTIFICATION_SEEN INT DEFAULT 1,
+            UPDATED INT DEFAULT 0
         );
     </string>
 
@@ -81,7 +83,7 @@
         );
     </string>
 
-    <string name="Query_Update_NotificationList">
+    <!--<string name="Query_Update_NotificationList">
         DROP TABLE IF EXISTS TempNL;
 
         CREATE TABLE TempNL AS SELECT * FROM NotificationList WHERE 0;
@@ -106,6 +108,6 @@
         DROP TABLE NotificationList ;
 
         ALTER TABLE TempNL RENAME TO NotificationList;
-    </string>
+    </string>-->
 
 </resources>

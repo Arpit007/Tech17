@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
+import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -54,7 +55,7 @@ public class AvatarAdapter extends BaseAdapter
 			LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = infalInflater.inflate(R.layout.layout_avatar, null);
 		}
-		CircleImageView CircleImageView = (CircleImageView) view.findViewById(R.id.avatar_image);
+		CompatCircleImageView CircleImageView = (CompatCircleImageView) view.findViewById(R.id.avatar_image);
 		CircleImageView.setImageResource(array.getResourceId(i, 0));
 
 		CircularTextView circularTextView = (CircularTextView) view.findViewById(R.id.circ_view);

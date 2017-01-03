@@ -115,7 +115,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 					exhibition.setImage_URL(cursor.getString(ColumnIndex[6]));
 					exhibition.setAuthor(cursor.getString(ColumnIndex[7]));
 					exhibition.setPdfLink(cursor.getString(ColumnIndex[8]));
-					exhibition.setGTalk(cursor.getInt(ColumnIndex[9]) != 0);
+					exhibition.setGTalk(cursor.getInt(ColumnIndex[9]));
 
 					keys.add(exhibition);
 				}
@@ -176,7 +176,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 				exhibition.setImage_URL(cursor.getString(ColumnIndex[6]));
 				exhibition.setAuthor(cursor.getString(ColumnIndex[7]));
 				exhibition.setPdfLink(cursor.getString(ColumnIndex[8]));
-				exhibition.setGTalk(cursor.getInt(ColumnIndex[9]) != 0);
+				exhibition.setGTalk(cursor.getInt(ColumnIndex[9]));
 			}
 		}
 		catch (Exception e)

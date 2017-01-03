@@ -112,7 +112,6 @@ public class CreateTeam extends AppCompatActivity
 				eventModel.setNotify(true);
 				eventModel.setRegistered(true);
 				Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
-				Database.getInstance().getNotificationDB().UpdateTable();
 				eventModel.callStatusListener();
 				finish();
 				ActivityHelper.setExitAnimation(this);

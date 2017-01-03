@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.nitkkr.gawds.tech17.R;
+import com.nitkkr.gawds.tech17.activity.fragment.RegisteredEventList;
 import com.nitkkr.gawds.tech17.adapter.EventListPagerAdapter;
 import com.nitkkr.gawds.tech17.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
@@ -90,5 +91,12 @@ public class EventListPage extends AppCompatActivity
 			}
 			ActivityHelper.setExitAnimation(this);
 		}
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		(( RegisteredEventList)adapter.getItem(1)).ResumeFragment();
 	}
 }

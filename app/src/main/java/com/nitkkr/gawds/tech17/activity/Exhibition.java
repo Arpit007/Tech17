@@ -54,7 +54,7 @@ public class Exhibition extends AppCompatActivity
 
 		final Button fab = (Button) findViewById(R.id.exhibition_notify);
 
-		if (model.isGTalk())
+		if (model.isGTalk() == 1)
 		{
 			FetchData.getInstance().getGTalk(getApplicationContext(), key, new iResponseCallback()
 			{
@@ -120,7 +120,6 @@ public class Exhibition extends AppCompatActivity
 								fab.setText("Add to Wishlist");
 								model.setNotify(false);
 								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
-								Database.getInstance().getNotificationDB().UpdateTable();
 							}
 							else if (status == ResponseStatus.FAILED)
 							{
@@ -156,7 +155,6 @@ public class Exhibition extends AppCompatActivity
 								fab.setText("Wishlisted");
 								model.setNotify(true);
 								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
-								Database.getInstance().getNotificationDB().UpdateTable();
 							}
 							else if (status == ResponseStatus.FAILED)
 							{

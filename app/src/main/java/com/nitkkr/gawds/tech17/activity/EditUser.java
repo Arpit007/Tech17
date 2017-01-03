@@ -34,6 +34,7 @@ import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.model.InterestModel;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
+import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -270,7 +271,7 @@ public class EditUser extends AppCompatActivity
 	{
 		if (AppUserModel.MAIN_USER.getImageResource() != null && AppUserModel.MAIN_USER.isUseGoogleImage())
 		{
-			CircleImageView view = (CircleImageView) findViewById(R.id.view_user_Image);
+			CompatCircleImageView view = (CompatCircleImageView) findViewById(R.id.view_user_Image);
 			view.setVisibility(View.VISIBLE);
 
 			Glide.with(EditUser.this).load(AppUserModel.MAIN_USER.getImageResource()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into(view);
@@ -280,7 +281,7 @@ public class EditUser extends AppCompatActivity
 		}
 		else if (AppUserModel.MAIN_USER.getImageId() != -1)
 		{
-			CircleImageView view = (CircleImageView) findViewById(R.id.view_user_Image);
+			CompatCircleImageView view = (CompatCircleImageView) findViewById(R.id.view_user_Image);
 			view.setVisibility(View.VISIBLE);
 
 			TypedArray array = getResources().obtainTypedArray(R.array.Avatar);

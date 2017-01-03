@@ -10,7 +10,7 @@ import android.util.Log;
  */
 public class NotificationService extends IntentService {
 
-    public NotificationService(String name) {
+    public NotificationService() {
         super("NotificationService");
     }
 

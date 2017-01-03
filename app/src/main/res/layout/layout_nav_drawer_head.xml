@@ -31,7 +31,7 @@
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"
             android:layout_width="match_parent" android:layout_height="match_parent"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.nitkkr.gawds.tech17.src.CompatCircleImageView
             app:border_color="@color/User_Image_Border_Color" app:border_width="@dimen/User_Image_Border_Width"
             android:id="@+id/nav_User_Image" app:srcCompat="@drawable/avatar_1"
             android:layout_centerHorizontal="true"

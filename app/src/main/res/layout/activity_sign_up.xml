@@ -91,7 +91,7 @@
                 android:layout_width="150dp" android:layout_height="150dp"/>
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.nitkkr.gawds.tech17.src.CompatCircleImageView
                 app:border_color="@color/text_color_primary" app:border_width="@dimen/User_Image_Border_Width"
                 android:id="@+id/signup_user_Image"  app:srcCompat="@drawable/avatar_1"
                 android:layout_centerVertical="true" android:layout_centerHorizontal="true"

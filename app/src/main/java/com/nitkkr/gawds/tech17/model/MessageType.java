@@ -7,7 +7,6 @@ package com.nitkkr.gawds.tech17.model;
 public enum MessageType
 {
 	SIMPLE_MESSAGE("Text"),
-	EVENT_RESULT("Result"),
 	EVENT("Event"),
 	TEAM_INVITE("Invite");
 

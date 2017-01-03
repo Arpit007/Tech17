@@ -33,4 +33,10 @@
     <color name="tab_layout_bk_event">#2A2B2F</color>
     <color name="event_round_primary_color">#CE3331</color>
     <color name="neon_green">#54F8C6</color>
+
+    <color name="None">#03A9F4</color>
+    <color name="Started">#8BC34A</color>
+    <color name="Over">#f44336</color>
+    <color name="Upcoming">#FFC107</color>
+
 </resources>

@@ -161,22 +161,17 @@ public class DashboardPage extends AppCompatActivity
 				barBack.setLabel("Live Events");
 				loadLiveEvents();
 				break;
-			case Notification:
-				barBack.setLabel("Notifications");
-				loadNotificationEvents();
-				barBack.setSearchButtonVisibility(View.GONE);
-				break;
 			case Interest:
 				barBack.setLabel("Interested Events");
 				loadInterestedEvents();
 				break;
 			case Wishlist:
-				loadWishlistEvents();
+				loadWishListEvents();
 				barBack.setLabel("Wishlist Events");
 				break;
 		}
 
-		startNotify();
+		//startNotify();
 	}
 
 	public void startNotify() {
@@ -242,11 +237,6 @@ public class DashboardPage extends AppCompatActivity
 		eventAdapter.notifyDataSetChanged();
 	}
 
-	private void loadNotificationEvents()
-	{
-
-	}
-
 	private void loadInterestedEvents()
 	{
 		final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
@@ -286,7 +276,7 @@ public class DashboardPage extends AppCompatActivity
 		eventAdapter.notifyDataSetChanged();
 	}
 
-	private void loadWishlistEvents()
+	private void loadWishListEvents()
 	{
 		eventAdapter.setEvents(Database.getInstance().getExhibitionDB().getRegisteredExhibitionKeys());
 		eventAdapter.notifyDataSetChanged();

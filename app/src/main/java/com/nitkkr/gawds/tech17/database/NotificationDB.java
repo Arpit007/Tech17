@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.nitkkr.gawds.tech17.BuildConfig;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.model.NotificationModel;
@@ -39,6 +40,7 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 	}
 
 	private iDbRequest dbRequest;
+	private int CodeVersion;
 
 	public NotificationDB(Context context, iDbRequest dbRequest)
 	{
@@ -50,6 +52,12 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 			DbConstants.Constants = new DbConstants(context);
 		}
 
+		CodeVersion=context.getSharedPreferences("Update", Context.MODE_PRIVATE).getInt("Version",0);
+		if(BuildConfig.VERSION_CODE>CodeVersion)
+		{
+			context.getSharedPreferences("Update", Context.MODE_PRIVATE).edit().putInt("Version",BuildConfig.VERSION_CODE).commit();
+			deleteTable();
+		}
 		onCreate(dbRequest.getDatabase());
 	}
 
@@ -71,11 +79,11 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 		String Query = "SELECT * FROM " + DbConstants.Constants.getNotificationTableName();
 		if (Clause.equals(""))
 		{
-			Query += ";";
+			Query += " ORDER BY " + DbConstants.NotificationNames.NotificationID.Name() + " DESC";
 		}
 		else
 		{
-			Query += " WHERE " + Clause + ";";
+			Query += " WHERE " + Clause + " ORDER BY " + DbConstants.NotificationNames.NotificationID.Name() + " DESC";
 		}
 		Log.d("Query:\t", Query);
 
@@ -87,11 +95,12 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 			List<String> Columns = Arrays.asList(cursor.getColumnNames());
 			int[] ColumnIndex =
 					{
-							Columns.indexOf(DbConstants.NotificationNames.EventName.Name()),
+							Columns.indexOf(DbConstants.NotificationNames.NotificationID.Name()),
 							Columns.indexOf(DbConstants.NotificationNames.EventID.Name()),
-							Columns.indexOf(DbConstants.NotificationNames.Date.Name()),
-							Columns.indexOf(DbConstants.NotificationNames.Notify.Name()),
-							Columns.indexOf(DbConstants.NotificationNames.Generated.Name())
+							Columns.indexOf(DbConstants.NotificationNames.Message.Name()),
+							Columns.indexOf(DbConstants.NotificationNames.Seen.Name()),
+							Columns.indexOf(DbConstants.NotificationNames.Title.Name()),
+							Columns.indexOf(DbConstants.NotificationNames.Updated.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -100,11 +109,12 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 				do
 				{
 					NotificationModel notification = new NotificationModel();
-					notification.setEventName(cursor.getString(ColumnIndex[0]));
-					notification.setEventID(Integer.parseInt(cursor.getString(ColumnIndex[1])));
-					notification.setDate(cursor.getLong(ColumnIndex[2]));
-					notification.setNotify(cursor.getInt(ColumnIndex[3]) != 0);
-					notification.setGenerated(cursor.getInt(ColumnIndex[4]) != 0);
+					notification.setNotificationID(cursor.getInt(ColumnIndex[0]));
+					notification.setEventID(cursor.getInt(ColumnIndex[1]));
+					notification.setMessage(cursor.getString(ColumnIndex[2]));
+					notification.setSeen(cursor.getInt(ColumnIndex[3]) == 0);
+					notification.setTitle(cursor.getString(ColumnIndex[4]));
+					notification.setUpdated(cursor.getInt(ColumnIndex[5])!=0);
 					keys.add(notification);
 				}
 				while (cursor.moveToNext());
@@ -131,12 +141,12 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 
 	public void deleteNotification(NotificationModel model)
 	{
-		deleteNotification(model.getEventID());
+		deleteNotification(model.getNotificationID());
 	}
 
 	public void deleteNotification(int ID)
 	{
-		String Query = "DELETE FROM " + DbConstants.Constants.getNotificationTableName() + " WHERE " + DbConstants.NotificationNames.EventID.Name() + "=" + ID + ";";
+		String Query = "DELETE FROM " + DbConstants.Constants.getNotificationTableName() + " WHERE " + DbConstants.NotificationNames.NotificationID.Name() + "=" + ID + ";";
 		Log.d("Query:\t", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
@@ -151,21 +161,17 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 		SQLiteDatabase database = dbRequest.getDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(DbConstants.NotificationNames.EventName.Name(), notification.getEventName());
+		values.put(DbConstants.NotificationNames.NotificationID.Name(), notification.getNotificationID());
 		values.put(DbConstants.NotificationNames.EventID.Name(), notification.getEventID());
-		values.put(DbConstants.NotificationNames.Date.Name(), notification.getDate());
-		values.put(DbConstants.NotificationNames.Notify.Name(), ( ( notification.isNotify() ) ? 1 : 0 ));
-		values.put(DbConstants.NotificationNames.Generated.Name(), ( ( notification.isGenerated() ) ? 1 : 0 ));
+		values.put(DbConstants.NotificationNames.Message.Name(), notification.getMessage());
+		values.put(DbConstants.NotificationNames.Seen.Name(), notification.isSeen());
+		values.put(DbConstants.NotificationNames.Title.Name(), notification.getTitle());
+		values.put(DbConstants.NotificationNames.Updated.Name(), notification.isUpdated());
 
-		if (database.update(DbConstants.Constants.getNotificationTableName(), values, DbConstants.NotificationNames.EventID.Name() + " = " + notification.getEventID(), null) < 1)
+		if (database.update(DbConstants.Constants.getNotificationTableName(), values, DbConstants.NotificationNames.NotificationID.Name() + " = " + notification.getNotificationID(), null) < 1)
 		{
 			database.insert(DbConstants.Constants.getNotificationTableName(), null, values);
 		}
-	}
-
-	public void UpdateTable()
-	{
-		dbRequest.getDatabase().rawQuery(ActivityHelper.getApplicationContext().getString(R.string.Query_Update_NotificationList), null);
 	}
 
 	@Override
@@ -179,22 +185,24 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 		SQLiteDatabase database = dbRequest.getDatabase();
 
 		String TABLENAME = DbConstants.Constants.getInterestTableName();
-		String Event_Name = DbConstants.NotificationNames.EventName.Name();
+		String Notification_ID = DbConstants.NotificationNames.NotificationID.Name();
 		String Event_ID = DbConstants.NotificationNames.EventID.Name();
-		String Event_Date = DbConstants.NotificationNames.Date.Name();
-		String Event_Notify = DbConstants.NotificationNames.Notify.Name();
-		String Event_Generated = DbConstants.NotificationNames.Generated.Name();
+		String Message = DbConstants.NotificationNames.Message.Name();
+		String Title = DbConstants.NotificationNames.Title.Name();
+		String Seen = DbConstants.NotificationNames.Seen.Name();
+		String Update = DbConstants.NotificationNames.Updated.Name();
 
 		for (NotificationModel notification : notifications)
 		{
 			ContentValues values = new ContentValues();
-			values.put(Event_Name, notification.getEventName());
+			values.put(Notification_ID, notification.getNotificationID());
 			values.put(Event_ID, notification.getEventID());
-			values.put(Event_Date, notification.getDate());
-			values.put(Event_Notify, ( ( notification.isNotify() ) ? 1 : 0 ));
-			values.put(Event_Generated, ( ( notification.isGenerated() ) ? 1 : 0 ));
+			values.put(Message, notification.getMessage());
+			values.put(Title, notification.getTitle());
+			values.put(Seen, notification.isSeen());
+			values.put(Update, notification.isUpdated());
 
-			if (database.update(TABLENAME, values, Event_ID + " = " + notification.getEventID(), null) < 1)
+			if (database.update(TABLENAME, values, Notification_ID + " = " + notification.getNotificationID(), null) < 1)
 			{
 				database.insert(TABLENAME, null, values);
 			}

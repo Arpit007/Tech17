@@ -703,7 +703,7 @@ public class FetchData
 								model.setDescription(data.getString("Description"));
 								model.setAuthor(data.getString("GuestName"));
 								model.setVenue(data.getString("Venue"));
-								model.setGTalk(true);
+								model.setGTalk(1);
 
 								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);
 								if (callback != null)
@@ -782,7 +782,6 @@ public class FetchData
 									key.setNotify(true);
 									Database.getInstance().getExhibitionDB().addOrUpdateExhibition(key);
 								}
-								Database.getInstance().getNotificationDB().UpdateTable();
 								FetchResponseHelper.getInstance().incrementResponseCount(null);
 							}
 							else
@@ -1010,7 +1009,6 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	//get all notifications
 	public void getNotifications(final Context context)
 	{
 		FetchResponseHelper.getInstance().incrementRequestCount();
@@ -1032,19 +1030,34 @@ public class FetchData
 							data = response.getJSONArray("data");
 							if (code == 200)
 							{
-								ArrayList<NotificationModel> models = new ArrayList<>();
+								ArrayList<NotificationModel> models = Database.getInstance().getNotificationDB().getAllNotifications();
 								for (int i = 0; i < data.length(); i++)
 								{
-									//Status 0 for read and 1 for unread
-
 									JSONObject object = data.getJSONObject(i);
-									int Id = object.getInt("Id");
-									int status = object.getInt("status");
+									int ID=object.getInt("Id"), index = -1;
 
+									NotificationModel model=new NotificationModel();
+
+									for(int x=0;x<models.size();x++)
+									{
+										if(models.get(x).getNotificationID()==ID)
+										{
+											model=models.get(x);
+											index=x;
+										}
+									}
 									JSONObject NotificationObject = object.getJSONObject("Notification");
-									String Message = NotificationObject.getString("Message");
-									int EventId = NotificationObject.getInt("EventId");
+
+									model.setNotificationID(object.getInt("Id"));
+									model.setEventID(NotificationObject.getInt("EventId"));
+									model.setMessage(NotificationObject.getString("Message"));
+									model.setSeen(object.getInt("status")==0);
+
+									if(index==-1)
+										models.add(model);
 								}
+								Database.getInstance().getNotificationDB().addOrUpdateNotification(models);
+								FetchResponseHelper.getInstance().incrementResponseCount(null);
 							}
 							else
 							{
@@ -1072,7 +1085,6 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	//change Notification Status
 	public void changeNotificationStatus(final Context context, final int NotificationId, final int status, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
@@ -1088,7 +1100,6 @@ public class FetchData
 						{
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
-							//Status 0 for read and 1 for unread
 							if (code == 200)
 							{
 								if (callback != null)
@@ -1418,7 +1429,7 @@ public class FetchData
 								ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getEvents("");
 								ArrayList<EventModel> finalEvents = new ArrayList<>();
 
-								ArrayList<ExhibitionModel> exhibitionModels = Database.getInstance().getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " = 0");
+								ArrayList<ExhibitionModel> exhibitionModels = Database.getInstance().getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " != 1");
 								ArrayList<ExhibitionModel> finalExhibition = new ArrayList<>();
 
 								ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
@@ -1456,7 +1467,35 @@ public class FetchData
 										model.setDescription(object.getString("Description"));
 										model.setAuthor("");
 										model.setVenue(object.getString("Venue"));
-										model.setGTalk(false);
+										model.setGTalk(0);
+
+										finalExhibition.add(model);
+									}
+									else if (Category.equals("workshop"))
+									{
+										ExhibitionModel model = new ExhibitionModel();
+										JSONObject object = data.getJSONObject(i);
+
+										ID = jEvent.getInt("Id");
+
+										for (int x = 0; x < exSize; x++)
+										{
+											if (exhibitionModels.get(x).getEventID() == ID)
+											{
+												model = exhibitionModels.get(x);
+												break;
+											}
+										}
+
+										model.setEventName(object.getString("Name"));
+										model.setEventID(object.getInt("Id"));
+										model.setEventDate(EventModel.parseDate(object.getString("Start")));
+										model.setEventEndDate(EventModel.parseDate(object.getString("End")));
+										model.setImage_URL(object.getString("Image"));
+										model.setDescription(object.getString("Description"));
+										model.setAuthor("");
+										model.setVenue(object.getString("Venue"));
+										model.setGTalk(-1);
 
 										finalExhibition.add(model);
 									}
@@ -1600,7 +1639,7 @@ public class FetchData
 									model.setDescription(object.getString("Description"));
 									model.setAuthor(object.getString("Designation"));
 									model.setVenue(object.getString("Venue"));
-									model.setGTalk(true);
+									model.setGTalk(1);
 									finalList.add(model);
 
 								}
