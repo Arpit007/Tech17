@@ -15,7 +15,6 @@ import com.nitkkr.gawds.tech17.model.TeamModel;
 /**
  * Created by Home Laptop on 08-Nov-16.
  */
-//TODO:Fix
 public class RegisterTeamAdapter extends BaseAdapter
 {
 	private Activity activity;
