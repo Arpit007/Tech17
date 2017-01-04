@@ -37,7 +37,7 @@ public class CreateTeam extends AppCompatActivity
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
-		EventKey key = (EventKey) getIntent().getSerializableExtra("Event");
+		/*EventKey key = (EventKey) getIntent().getSerializableExtra("Event");
 		eventModel = Database.getInstance().getEventsDB().getEvent(key);
 
 		ActionBarBack actionBarBack = new ActionBarBack(CreateTeam.this);
@@ -67,12 +67,12 @@ public class CreateTeam extends AppCompatActivity
 					startActivity(intent);
 				}
 			}
-		});
+		});*/
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
+	{/*
 		if (requestCode == RegisterTeamAdapter.SEARCH_USER)
 		{
 			if (resultCode == RESULT_OK)
@@ -86,11 +86,11 @@ public class CreateTeam extends AppCompatActivity
 		else
 		{
 			super.onActivityResult(requestCode, resultCode, data);
-		}
+		}*/
 	}
 
 	public void Register(View view)
-	{
+	{/*
 		if (!ActivityHelper.isInternetConnected())
 		{
 			Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
@@ -119,7 +119,7 @@ public class CreateTeam extends AppCompatActivity
 			default:
 				Toast.makeText(CreateTeam.this, "----------------------Message--------------------", Toast.LENGTH_LONG).show();
 				break;
-		}
+		}*/
 	}
 
 	@Override

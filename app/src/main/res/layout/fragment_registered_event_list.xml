@@ -2,6 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+                android:background="@color/app_background"
              tools:context="com.nitkkr.gawds.tech17.activity.fragment.RegisteredEventList">
 
     <TextView
@@ -12,6 +13,9 @@
 
     <ListView
         android:id="@+id/registered_event_list"
+        android:dividerHeight="0.5dp"
+        android:footerDividersEnabled="true"
+        android:divider="@color/neon_green"
         android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
 </RelativeLayout>

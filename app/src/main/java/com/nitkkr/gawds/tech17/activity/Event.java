@@ -6,9 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +20,7 @@ import com.nitkkr.gawds.tech17.activity.fragment.AboutEvent;
 import com.nitkkr.gawds.tech17.activity.fragment.ContactEvent;
 import com.nitkkr.gawds.tech17.activity.fragment.Result_frag;
 import com.nitkkr.gawds.tech17.activity.fragment.RulesEvent;
+import com.nitkkr.gawds.tech17.adapter.ViewPagerAdapter;
 import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.database.Database;
@@ -38,8 +36,6 @@ import com.nitkkr.gawds.tech17.src.CustomTabLayout;
 import com.nitkkr.gawds.tech17.src.PdfDownloader;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class Event extends AppCompatActivity implements EventModel.EventStatusListener
@@ -229,6 +225,11 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				}
 				else
 				{
+					if(!ActivityHelper.isInternetConnected())
+					{
+						Toast.makeText(Event.this,"No Network Connection",Toast.LENGTH_SHORT).show();
+						return;
+					}
 					PdfButton.setText("Downloading");
 					PdfButton.setEnabled(false);
 
@@ -310,41 +311,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		adapter.addFragment(ContactEvent.getNewFragment(model), "Contact");
 		adapter.addFragment(Result_frag.getNewFragment(model), "Result");
 		viewPager.setAdapter(adapter);
-	}
-
-	class ViewPagerAdapter extends FragmentPagerAdapter
-	{
-		private final List<Fragment> mFragmentList = new ArrayList<>();
-		private final List<String> mFragmentTitleList = new ArrayList<>();
-
-		public ViewPagerAdapter(FragmentManager manager)
-		{
-			super(manager);
-		}
-
-		@Override
-		public Fragment getItem(int position)
-		{
-			return mFragmentList.get(position);
-		}
-
-		@Override
-		public int getCount()
-		{
-			return mFragmentList.size();
-		}
-
-		public void addFragment(Fragment fragment, String title)
-		{
-			mFragmentList.add(fragment);
-			mFragmentTitleList.add(title);
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position)
-		{
-			return mFragmentTitleList.get(position);
-		}
 	}
 
 	@Override

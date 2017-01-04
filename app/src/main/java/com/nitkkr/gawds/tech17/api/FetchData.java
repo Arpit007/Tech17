@@ -26,6 +26,7 @@ import com.nitkkr.gawds.tech17.model.ExhibitionModel;
 import com.nitkkr.gawds.tech17.model.InterestModel;
 import com.nitkkr.gawds.tech17.model.NotificationModel;
 import com.nitkkr.gawds.tech17.model.SocietyModel;
+import com.nitkkr.gawds.tech17.model.TeamKey;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1838,7 +1839,7 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void getMyTeams(final Context context, final int status, final iResponseCallback callback)
+	public void getMyTeams(final Context context, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.createTeam),
@@ -1849,7 +1850,6 @@ public class FetchData
 					{
 						JSONObject response;
 						JSONArray data,participantIn,teamLeaderOf,pendingInvitations;
-						int EventId; String Name;
 						int code;
 						try
 						{
@@ -1859,55 +1859,53 @@ public class FetchData
 
 							if (code == 200)
 							{
-								if (callback != null)
+								ArrayList<TeamKey> teams=new ArrayList<>();
+
+								if (data != null)
 								{
-									//sample
-//									"data": [
-//									{
-//										"participantIn": []
-//									},
-//									{
-//										"teamLeaderOf": [
-//										{
-//											"EventId": 1,
-//												"Name": "Stuxnets"
-//										}
-//										]
-//									},
-//									{
-//										"pendingInvitations": []
-//									}
-//									]
+									participantIn = data.getJSONObject(0).getJSONArray("participantIn");
+									teamLeaderOf = data.getJSONObject(1).getJSONArray("teamLeaderOf");
+									pendingInvitations = data.getJSONObject(2).getJSONArray("pendingInvitations");
 
-									if(data!=null) {
-										participantIn = data.getJSONObject(0).getJSONArray("participantIn");
-										teamLeaderOf = data.getJSONObject(1).getJSONArray("teamLeaderOf");
-										pendingInvitations = data.getJSONObject(2).getJSONArray("pendingInvitations");
 
-										for(int i=0;i<participantIn.length();i++){
-											EventId=participantIn.getJSONObject(i).getInt("EventId");
-											Name=participantIn.getJSONObject(i).getString("Name");
-										}
-
-										for(int i=0;i<teamLeaderOf.length();i++){
-											EventId=participantIn.getJSONObject(i).getInt("EventId");
-											Name=participantIn.getJSONObject(i).getString("Name");
-										}
-
-										for(int i=0;i<pendingInvitations.length();i++){
-											EventId=participantIn.getJSONObject(i).getInt("EventId");
-											Name=participantIn.getJSONObject(i).getString("Name");
-										}
+									for (int i = 0; i < participantIn.length(); i++)
+									{
+										TeamKey key=new TeamKey();
+										key.setEventID(participantIn.getJSONObject(i).getInt("EventId"));
+										key.setTeamName(participantIn.getJSONObject(i).getString("Name"));
+										key.setControl(TeamKey.TeamControl.Participant);
+										teams.add(key);
 									}
 
-									callback.onResponse(ResponseStatus.SUCCESS);
+									for (int i = 0; i < teamLeaderOf.length(); i++)
+									{
+										TeamKey key=new TeamKey();
+										key.setEventID(teamLeaderOf.getJSONObject(i).getInt("EventId"));
+										key.setTeamName(teamLeaderOf.getJSONObject(i).getString("Name"));
+										key.setControl(TeamKey.TeamControl.Leader);
+										teams.add(key);
+									}
+
+									for (int i = 0; i < pendingInvitations.length(); i++)
+									{
+										TeamKey key=new TeamKey();
+										key.setEventID(pendingInvitations.getJSONObject(i).getInt("EventId"));
+										key.setTeamName(pendingInvitations.getJSONObject(i).getString("Name"));
+										key.setControl(TeamKey.TeamControl.Pending);
+										teams.add(key);
+									}
+								}
+
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.SUCCESS, teams);
 								}
 							}
 							else
 							{
 								if (callback != null)
 								{
-									callback.onResponse(ResponseStatus.FAILED);
+									callback.onResponse(ResponseStatus.FAILED, null);
 								}
 							}
 
@@ -1917,7 +1915,7 @@ public class FetchData
 							e.printStackTrace();
 							if (callback != null)
 							{
-								callback.onResponse(ResponseStatus.FAILED);
+								callback.onResponse(ResponseStatus.FAILED, null);
 							}
 						}
 					}
@@ -1932,11 +1930,11 @@ public class FetchData
 						{
 							if (error instanceof TimeoutError || error instanceof NetworkError)
 							{
-								callback.onResponse(ResponseStatus.NONE);
+								callback.onResponse(ResponseStatus.NONE, null);
 							}
 							else
 							{
-								callback.onResponse(ResponseStatus.FAILED);
+								callback.onResponse(ResponseStatus.FAILED, null);
 							}
 						}
 					}

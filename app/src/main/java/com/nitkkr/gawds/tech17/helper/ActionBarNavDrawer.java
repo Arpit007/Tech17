@@ -29,6 +29,7 @@ import com.nitkkr.gawds.tech17.activity.EventListPage;
 import com.nitkkr.gawds.tech17.activity.Home;
 import com.nitkkr.gawds.tech17.activity.Login;
 import com.nitkkr.gawds.tech17.activity.SearchPage;
+import com.nitkkr.gawds.tech17.activity.TeamPage;
 import com.nitkkr.gawds.tech17.activity.ViewUser;
 import com.nitkkr.gawds.tech17.api.EventTargetType;
 import com.nitkkr.gawds.tech17.api.Query;
@@ -102,6 +103,11 @@ public class ActionBarNavDrawer
 		{
 			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Exhibition);
 			startListActivity(activity, activity.getString(R.string.Exhibition), query);
+		}
+		else if (id==R.id.nav_teams)
+		{
+			intent = new Intent(activity, TeamPage.class);
+			activity.startActivity(intent);
 		}
 		else if (id == R.id.nav_workshops)
 		{

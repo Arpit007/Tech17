@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -105,7 +106,7 @@ public class ActivityHelper
 
 	public static boolean isDebugMode(Context context)
 	{
-		//int appFlags=context.getApplicationInfo().flags;
+		int appFlags=context.getApplicationInfo().flags;
 		//return (appFlags & ApplicationInfo.FLAG_DEBUGGABLE)!=0;
 		return false;
 	}

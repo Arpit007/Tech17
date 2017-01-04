@@ -62,11 +62,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.ViewTeam"
-            android:label="View Team"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
             android:name=".activity.ViewUser"
             android:label="User"
             android:screenOrientation="portrait"
@@ -109,6 +104,11 @@
         <activity
             android:name=".activity.NotificationPage"
             android:label="Notification"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.TeamPage"
+            android:label="Teams"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 

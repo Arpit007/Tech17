@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/app_background"
+             tools:context="com.nitkkr.gawds.tech17.activity.fragment.TeamInvite">
+
+    <ListView
+        android:layout_margin="5dp"
+        android:id="@+id/MyTeam_List"
+        android:layout_below="@id/temp_Layout"
+        android:dividerHeight="0.5dp"
+        android:footerDividersEnabled="true"
+        android:divider="@color/neon_green"
+        android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+    <TextView
+        android:text="@string/No_Data" android:id="@+id/None"
+        android:textColor="@color/text_color_primary"
+        android:layout_centerInParent="true" android:visibility="invisible"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+</RelativeLayout>
