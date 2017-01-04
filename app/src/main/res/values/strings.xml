@@ -50,4 +50,8 @@
     <string name="interestedEvents">/api/user/interestedEvents</string>
     <string name="GetNotification">/api/user/me/notifications</string>
 
+    <string name="createTeam">/api/teams</string>
+    <string name="deleteTeam">/api/team/</string>
+    <string name="sendInvite">/invite</string>
+
 </resources>

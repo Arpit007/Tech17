@@ -214,6 +214,7 @@ public class EditUser extends AppCompatActivity
 			@Override
 			public void afterTextChanged(Editable editable)
 			{
+
 			}
 		});
 
