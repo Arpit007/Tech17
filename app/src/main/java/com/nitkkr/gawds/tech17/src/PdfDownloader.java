@@ -21,6 +21,8 @@ import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 
 import static com.nitkkr.gawds.tech17.helper.ActivityHelper.getApplicationContext;
@@ -93,6 +95,15 @@ public class PdfDownloader
 
 	public void DownloadPdf(final String url, final String FileName, final iCallback callback, final Context context)
 	{
+		if(!PdfExists(url))
+		{
+			Toast.makeText(context,"Pdf Unavailable",Toast.LENGTH_SHORT).show();
+			if (callback != null)
+			{
+				callback.DownloadComplete(url, ResponseStatus.FAILED);
+			}
+			return;
+		}
 		if (isPdfExisting(FileName))
 		{
 			viewPdfIfExists(FileName, context);
@@ -110,6 +121,7 @@ public class PdfDownloader
 			{
 				callback.DownloadComplete(url, ResponseStatus.FAILED);
 			}
+			return;
 		}
 
 
@@ -259,6 +271,24 @@ public class PdfDownloader
 		{
 			Downloading.put(getFileName(url), null);
 		}
+	}
+
+	public static boolean PdfExists(String url)
+	{
+		/*try {
+			HttpURLConnection.setFollowRedirects(false);
+			// note : you may also need
+			//        HttpURLConnection.setInstanceFollowRedirects(false)
+			HttpURLConnection con =
+					(HttpURLConnection) new URL(URLName).openConnection();
+			con.setRequestMethod("HEAD");
+			return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}*/
+		return !url.equals("");
 	}
 
 }

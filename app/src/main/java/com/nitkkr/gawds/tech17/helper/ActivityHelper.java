@@ -37,13 +37,9 @@ import java.util.Date;
 public class ActivityHelper
 {
 	private static Context context = null;
+	private static Bitmap bm;
 
 	public static void setStatusBarColor(Activity activity)
-	{
-		setStatusBarColor(R.color.status_bar_color, activity);
-	}
-
-	public static void setStatusBarColor(int statusBarColorID, Activity activity)
 	{
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
@@ -53,10 +49,11 @@ public class ActivityHelper
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 				window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 				window.setStatusBarColor(ContextCompat.getColor(activity, statusBarColorID));*/
-
-				Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ts_logo2);
-				ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription("Techspardha", bm, ContextCompat.getColor(activity, R.color.pin_screen_color));
-				activity.setTaskDescription(taskDescription);
+				if(bm!=null)
+				{
+					ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription("Techspardha", bm, ContextCompat.getColor(activity, R.color.pin_screen_color));
+					activity.setTaskDescription(taskDescription);
+				}
 			}
 			catch (Exception e)
 			{
@@ -70,9 +67,10 @@ public class ActivityHelper
 		return context;
 	}
 
-	public static void setApplictionContext(Context context)
+	public static void setUpHelper(Context context)
 	{
 		ActivityHelper.context = context;
+		bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ts_logo2);
 	}
 
 	public static boolean revertToHomeIfLast(Activity activity)

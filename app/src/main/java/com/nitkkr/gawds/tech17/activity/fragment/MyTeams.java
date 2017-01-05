@@ -18,6 +18,8 @@ import com.nitkkr.gawds.tech17.model.TeamKey;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 public class MyTeams extends Fragment
 {
 	private final int TEAM=600;
@@ -97,6 +99,11 @@ public class MyTeams extends Fragment
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
+		if(requestCode==TEAM && resultCode==RESULT_OK && data!=null)
+		{
+			adapter.getModels().add(0,(TeamKey)data.getExtras().getSerializable("TeamKey"));
+			adapter.notifyDataSetChanged();
+		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

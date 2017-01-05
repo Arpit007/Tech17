@@ -214,44 +214,51 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 
 		final Button PdfButton = (Button) findViewById(R.id.Event_Pdf);
-		PdfButton.setOnClickListener(new View.OnClickListener()
+		if(model.getPdfLink().equals(""))
+			PdfButton.setVisibility(View.GONE);
+		else
 		{
-			@Override
-			public void onClick(View view)
+			PdfButton.setVisibility(View.VISIBLE);
+			PdfButton.setOnClickListener(new View.OnClickListener()
 			{
-				if (PdfDownloader.getInstance().isPdfExisting(model.getEventName()))
+				@Override
+				public void onClick(View view)
 				{
-					PdfDownloader.getInstance().viewPdfIfExists(model.getEventName(), Event.this);
-				}
-				else
-				{
-					if(!ActivityHelper.isInternetConnected())
+					if (PdfDownloader.getInstance().isPdfExisting(model.getEventName()))
 					{
-						Toast.makeText(Event.this,"No Network Connection",Toast.LENGTH_SHORT).show();
-						return;
+						PdfDownloader.getInstance().viewPdfIfExists(model.getEventName(), Event.this);
 					}
-					PdfButton.setText("Downloading");
-					PdfButton.setEnabled(false);
-
-					PdfDownloader.getInstance().DownloadPdf(model.getPdfLink(), model.getEventName(), new PdfDownloader.iCallback()
+					else
 					{
-						@Override
-						public void DownloadComplete(String url, ResponseStatus status)
+						if (!ActivityHelper.isInternetConnected())
 						{
-							if (status == ResponseStatus.SUCCESS)
-							{
-								PdfButton.setText("View Pdf");
-							}
-							else
-							{
-								PdfButton.setText("Download as PDF");
-							}
-							PdfButton.setEnabled(true);
+							PdfButton.setText("Download PDF");
+							Toast.makeText(Event.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+							return;
 						}
-					}, Event.this);
+						PdfButton.setText("Downloading");
+						PdfButton.setEnabled(false);
+
+						PdfDownloader.getInstance().DownloadPdf(model.getPdfLink(), model.getEventName(), new PdfDownloader.iCallback()
+						{
+							@Override
+							public void DownloadComplete(String url, ResponseStatus status)
+							{
+								if (status == ResponseStatus.SUCCESS)
+								{
+									PdfButton.setText("View Pdf");
+								}
+								else
+								{
+									PdfButton.setText("Download PDF");
+								}
+								PdfButton.setEnabled(true);
+							}
+						}, Event.this);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	@Override
@@ -371,7 +378,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		}
 		else
 		{
-			PdfButton.setText("Download as PDF");
+			PdfButton.setText("Download PDF");
 			PdfButton.setEnabled(true);
 		}
 

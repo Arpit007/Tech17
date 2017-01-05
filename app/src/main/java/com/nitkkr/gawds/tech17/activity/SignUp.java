@@ -649,7 +649,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				bundle.putBoolean("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
 				intent.putExtras(bundle);
 				startActivity(intent);
-				finish();
 				break;
 			default:
 				Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();

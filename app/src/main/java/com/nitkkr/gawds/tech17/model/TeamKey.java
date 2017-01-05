@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class TeamKey implements Serializable
 {
 	private int EventID;
-	private String TeamName;
+	private String TeamName = "";
 	private TeamControl control = TeamControl.None;
 
 	public int getEventID(){return EventID;}

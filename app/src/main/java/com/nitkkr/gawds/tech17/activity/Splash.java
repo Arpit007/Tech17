@@ -119,7 +119,7 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 	{
 		super.onCreate(savedInstanceState);
 
-		ActivityHelper.setApplictionContext(getApplicationContext());
+		ActivityHelper.setUpHelper(getApplicationContext());
 
 		ActivityHelper.setCreateAnimation(this);
 
@@ -131,7 +131,7 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
 
-			ActivityHelper.setStatusBarColor(R.color.app_background, this);
+			ActivityHelper.setStatusBarColor(this);
 		}
 		setContentView(R.layout.activity_splash);
 

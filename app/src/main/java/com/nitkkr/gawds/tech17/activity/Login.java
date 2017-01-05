@@ -347,7 +347,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 }
 				AppUserModel.MAIN_USER.saveAppUser(this);
 
-				Toast.makeText(getBaseContext(), "SignIn Successful", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "Sign In Successful", Toast.LENGTH_SHORT).show();
 
 				getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit().putBoolean("Skip", false).commit();
 

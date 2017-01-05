@@ -54,7 +54,7 @@ public class TeamListAdapter extends BaseAdapter
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.layout_team_item, null);
 		}
-		(( TextView)view.findViewById(R.id.team_name)).setText(models.get(i).getTeamName());
+		(( TextView)view.findViewById(R.id.team_name)).setText("Team: " + models.get(i).getTeamName());
 
 		if(models.get(i).getControl()== TeamKey.TeamControl.Participant)
 			view.findViewById(R.id.team_control).setVisibility(View.GONE);
