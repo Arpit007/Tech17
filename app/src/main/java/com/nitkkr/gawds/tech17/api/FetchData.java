@@ -1916,7 +1916,59 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void sendInvite(final Context context, final int teamId, final int status, final iResponseCallback callback)
+	public void searchUsers(final Context context,  final String query,final iResponseCallback callback){
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)
+				+ "/api/user/search?token="+AppUserModel.MAIN_USER.getToken()+"&query="+query,
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						JSONArray data;
+						int code;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+							data = response.getJSONArray("data");
+							if (code == 200)
+							{
+								String userId,RollNo,Name;
+								for(int i=0;i<data.length();i++){
+									userId=data.getJSONObject(i).getString("Id");
+									RollNo=data.getJSONObject(i).getString("RollNo");
+									Name=data.getJSONObject(i).getString("Name");
+								}
+							}
+							else
+							{
+								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+							}
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						FetchResponseHelper.getInstance().incrementResponseCount(error);
+					}
+				});
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+
+	}
+
+	public void sendInvite(final Context context, final int teamId, final int status, final String invites,final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
@@ -1931,12 +1983,10 @@ public class FetchData
 						{
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
-							//Status 0 for read and 1 for unread
 							if (code == 200)
 							{
 								if (callback != null)
 								{
-									//TODO: get team id here
 									callback.onResponse(ResponseStatus.SUCCESS);
 								}
 							}
@@ -1984,8 +2034,8 @@ public class FetchData
 			{
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
-				//TODO
-				params.put("inviteTypes","");
+				params.put("inviteTypes","new");
+				params.put("invites",invites);
 				return params;
 			}
 		};
@@ -2005,6 +2055,7 @@ public class FetchData
 					{
 						JSONObject response;
 						int code;
+
 						try
 						{
 							response = new JSONObject(res);
@@ -2014,7 +2065,6 @@ public class FetchData
 							{
 								if (callback != null)
 								{
-									//TODO: get team id here
 									callback.onResponse(ResponseStatus.SUCCESS);
 								}
 							}
@@ -2062,7 +2112,7 @@ public class FetchData
 			{
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
-				params.put("inviteTypes", "");
+				params.put("inviteTypes", "accept");
 				return params;
 			}
 		};
@@ -2139,7 +2189,7 @@ public class FetchData
 			{
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
-				params.put("inviteTypes", "");
+				params.put("inviteTypes", "decline");
 				return params;
 			}
 		};
