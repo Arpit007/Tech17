@@ -2,6 +2,7 @@ package com.nitkkr.gawds.tech17.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech17.R;
@@ -60,6 +62,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		barNavDrawer.setLabel(getString(R.string.FestName));
 		barNavDrawer.setOpenNewSearchPage(true);
 
+		TextView tx = (TextView)findViewById(R.id.gawdsFont);
+
+		Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/timeburnernormal.ttf");
+		tx.setTypeface(custom_font);
 
 		if (UpdateCheck.getInstance().isUpdateAvailable())
 		{

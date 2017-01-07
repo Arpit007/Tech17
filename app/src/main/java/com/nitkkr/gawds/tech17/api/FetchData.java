@@ -1018,7 +1018,9 @@ public class FetchData
 		FetchResponseHelper.getInstance().incrementRequestCount();
 
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken(),
+				//TODO:add time stamp
+				//
+				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken()+"&timeStamp=",
 				new Response.Listener<String>()
 				{
 					@Override
@@ -2265,6 +2267,92 @@ public class FetchData
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
 				params.put("inviteTypes", "decline");
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
+	//team Detail
+	public void getTeamDetail(final Context context, final int teamId, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.deleteTeam)+teamId,
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						JSONArray data;
+						int code,Id,TeamId,StudentId;
+						String Status,TeamName,StudentName;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+							if (code == 200)
+							{
+								data=response.getJSONArray("data");
+								for(int i=0;i<data.length();i++){
+									Id=data.getJSONObject(i).getInt("Id");
+									Status=data.getJSONObject(i).getString("Status");
+									StudentId=data.getJSONObject(i).getInt("StudentId");
+									StudentName=data.getJSONObject(i).getJSONObject("Student").getString("Name");
+
+								}
+								Log.v("DEBUG",res.toString());
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.SUCCESS);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
 				return params;
 			}
 		};
