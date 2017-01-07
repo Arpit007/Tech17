@@ -23,7 +23,7 @@ public class ScreenSlidePageFragment extends Fragment
 	int val;
 	public static int[] images = {/*image ids go here*/R.drawable.about, R.drawable.events, R.drawable.guests,
 			R.drawable.exh, R.drawable.info };
-	public static CharSequence[] headings = { "About TS' 17", "Events", "Gusto Talk",
+	public static CharSequence[] headings = { "About TS '17", "Events", "Gusto Talk",
 			"Exhibitions and Tech-Expo", "Informals" };
 	public static String[] descriptions = { " Fasten your seatbelts as we launch into the universe of Techspardha.",
 			" A plethora of events awaits you in this journey.",
