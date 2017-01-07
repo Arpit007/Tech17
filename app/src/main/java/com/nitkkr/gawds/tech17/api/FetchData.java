@@ -1019,7 +1019,7 @@ public class FetchData
 
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				//TODO:add time stamp
-				//
+
 				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken()+"&timeStamp=",
 				new Response.Listener<String>()
 				{
@@ -1728,18 +1728,19 @@ public class FetchData
 					@Override
 					public void onResponse(String res)
 					{
-						JSONObject response;
-						int code;
+						JSONObject response,data;
+						int code,teamId;
 						try
 						{
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
+							data=response.getJSONObject("data");
 							//Status 0 for read and 1 for unread
 							if (code == 200)
 							{
+								teamId=data.getInt("Id");
 								if (callback != null)
 								{
-									//TODO: get team id here
 									callback.onResponse(ResponseStatus.SUCCESS);
 								}
 							}
@@ -2046,7 +2047,7 @@ public class FetchData
 	public void sendInvite(final Context context, final int teamId, final int status, final String invites,final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
+				context.getResources().getString(R.string.deleteTeam)+teamId+context.getResources().getString(R.string.sendInvite),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -2110,6 +2111,7 @@ public class FetchData
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
 				params.put("inviteTypes","new");
+				//TODO:invites here is an array of user ids ex: [1,2,3]
 				params.put("invites",invites);
 				return params;
 			}

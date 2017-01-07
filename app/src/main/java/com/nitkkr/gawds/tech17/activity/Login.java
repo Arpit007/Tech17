@@ -419,9 +419,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 	{
 		if (mProgressDialog == null)
 		{
-			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog = new ProgressDialog(this,R.style.StyledDialog);
 		}
-		mProgressDialog = new ProgressDialog(this);
+		mProgressDialog = new ProgressDialog(this,R.style.StyledDialog);
 		mProgressDialog.setMessage(msg);
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setCancelable(false);

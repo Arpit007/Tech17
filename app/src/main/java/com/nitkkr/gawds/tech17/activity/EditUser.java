@@ -78,7 +78,7 @@ public class EditUser extends AppCompatActivity
 						return;
 					}
 
-					progressDialog = new ProgressDialog(EditUser.this);
+					progressDialog = new ProgressDialog(EditUser.this,R.style.StyledDialog);
 					progressDialog.setMessage("Updating Changes...");
 					progressDialog.setCancelable(false);
 					progressDialog.setIndeterminate(true);

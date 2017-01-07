@@ -103,7 +103,7 @@ public class Exhibition extends AppCompatActivity
 					return;
 				}
 
-				progressDialog = new ProgressDialog(Exhibition.this);
+				progressDialog = new ProgressDialog(Exhibition.this,R.style.StyledDialog);
 				progressDialog.setMessage("Updating Changes");
 				progressDialog.setIndeterminate(true);
 				progressDialog.show();

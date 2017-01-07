@@ -194,7 +194,7 @@ public class DashboardPage extends AppCompatActivity
 
 	private void loadLiveEvents()
 	{
-		final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
+		final ProgressDialog dialog = new ProgressDialog(DashboardPage.this,R.style.StyledDialog);
 		dialog.setIndeterminate(true);
 		dialog.setMessage("Fetching Data");
 		dialog.show();
@@ -239,7 +239,7 @@ public class DashboardPage extends AppCompatActivity
 
 	private void loadInterestedEvents()
 	{
-		final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
+		final ProgressDialog dialog = new ProgressDialog(DashboardPage.this,R.style.StyledDialog);
 		dialog.setIndeterminate(true);
 		dialog.setMessage("Fetching Data");
 		dialog.show();
