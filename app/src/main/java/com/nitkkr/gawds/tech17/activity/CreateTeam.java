@@ -75,8 +75,9 @@ public class CreateTeam extends AppCompatActivity
 		listView.setAdapter(adapter);
 
 		dialog = new Dialog(this);
-		dialog.setCancelable(false);
+		dialog.setCancelable(true);
 		dialog.setContentView(R.layout.layout_dialog_team_name);
+		dialog.getWindow().getAttributes().windowAnimations = R.style.CloseDialogTheme;
 		dialog.findViewById(R.id.CheckAvailability).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -103,6 +104,8 @@ public class CreateTeam extends AppCompatActivity
 			{
 				if(dialog!=null)
 				{
+					if(((TextView)findViewById(R.id.Team_Name)).getText().toString().toLowerCase().equals("team name"))
+						((EditText) dialog.findViewById(R.id.Team_Name)).setText("");
 					dialog.show();
 					dialog.findViewById(R.id.Team_Name).requestFocus();
 					((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(dialog.findViewById(R.id.Team_Name), InputMethodManager.SHOW_IMPLICIT);
