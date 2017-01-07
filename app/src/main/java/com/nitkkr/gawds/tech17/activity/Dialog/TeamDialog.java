@@ -60,7 +60,7 @@ public class TeamDialog
 
 		userList=(ListView)dialog.findViewById(R.id.User_List);
 
-		adapter = new UserListAdapter(model.getMembers(),context,false);
+		adapter = new UserListAdapter(model.getMembers(),context,false,R.layout.layout_view_user_item);
 		userList.setAdapter(adapter);
 
 		adapter.registerDataSetObserver(new DataSetObserver()

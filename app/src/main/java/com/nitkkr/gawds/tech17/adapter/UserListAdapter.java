@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nitkkr.gawds.tech17.R;
-import com.nitkkr.gawds.tech17.activity.ViewUser;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.model.UserKey;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
@@ -29,10 +28,14 @@ public class UserListAdapter extends BaseAdapter
 	private ArrayList<UserKey> users;
 	private Context context;
 	private boolean cross;
+	private int ResourceID;
 
-	public UserListAdapter(ArrayList<UserKey> users, Context context, boolean showCross)
+	public UserListAdapter(ArrayList<UserKey> users, Context context, boolean showCross, int resourceID)
 	{
 		cross = showCross;
+
+		this.ResourceID = resourceID;
+
 		this.context = context;
 		this.users=users;
 	}
@@ -61,7 +64,7 @@ public class UserListAdapter extends BaseAdapter
 		if (view == null)
 		{
 			LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = infalInflater.inflate(R.layout.layout_user_item, null);
+			view = infalInflater.inflate(ResourceID, null);
 		}
 
 		(( TextView)view.findViewById(R.id.user_name)).setText(users.get(i).getName());

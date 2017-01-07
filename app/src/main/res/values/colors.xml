@@ -35,6 +35,7 @@
     <color name="neon_green">#54F8C6</color>
     <color name="Transparent">#00ffffff</color>
     <color name="RingColor">#FF303F9F</color>
+    <color name="transparent">#00ffffff</color>
 
     <color name="None">#03A9F4</color>
     <color name="Started">#8BC34A</color>

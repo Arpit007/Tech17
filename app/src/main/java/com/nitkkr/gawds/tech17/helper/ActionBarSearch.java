@@ -32,6 +32,7 @@ public class ActionBarSearch
 		});
 
 		final SearchView searchView = (SearchView) activity.findViewById(R.id.search);
+		searchView.setIconifiedByDefault(true);
 
 		activity.findViewById(R.id.actionbar_search).setOnClickListener(new View.OnClickListener()
 		{

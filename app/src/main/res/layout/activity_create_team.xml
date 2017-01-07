@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_create_team"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,34 +12,103 @@
         layout="@layout/actionbar_back" android:id="@+id/temp_bar"
         android:layout_width="match_parent" android:layout_height="?actionBarSize"/>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="19dp"
+        android:weightSum="10"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/temp_bar" android:id="@+id/temp_Layout"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView
+        android:text="Team Name"
+        android:layout_weight="7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@color/text_color_primary"
+        android:id="@+id/Team_Name"
+        android:textStyle="normal|bold"
+        android:textAlignment="textStart"/>
 
-    <Button
-        android:background="@drawable/border_button"
-        android:textColor="@color/neon_green"
-        android:id="@+id/team_register_button" android:onClick="Register"
-        android:layout_alignParentBottom="true" android:text="Register"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/Edit_Team_Name"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="3"
+            android:scaleType="center"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_edit"
+            android:tint="@color/neon_green"
+            android:layout_width="55dp" android:layout_height="wrap_content"/>
 
-    <RelativeLayout android:paddingBottom="@dimen/activity_vertical_margin"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:id="@+id/bottom"
-                    android:layout_width="match_parent" android:layout_height="match_parent"
-                    android:layout_below="@+id/temp_bar" android:layout_above="@id/team_register_button">
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/team_register_Name"
-                android:hint="Team Name"
-                android:textColorHint="@color/text_color_primary"
-                android:padding="10dp"
-                android:textColor="@color/text_color_primary"
-                android:textSize="20sp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <TextView
+        android:text="Event Name"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxEms="8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color_primary"
+        android:textSize="15sp"
+        android:id="@+id/Event_Name"
+        android:layout_below="@id/temp_Layout"
+        android:layout_alignStart="@id/temp_Layout"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp" android:id="@+id/temp_Layout1"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_below="@id/Event_Name"
+        android:layout_alignStart="@id/Event_Name">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/team2"
+            android:id="@+id/imageView3"/>
+        <TextView
+            android:layout_marginStart="10dp"
+            android:text="4 Members" android:layout_gravity="center_vertical"
+            android:textColor="@color/text_color_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Team_Members_Count"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/temp_Layout1"
+        android:layout_above="@+id/Team_Register"
+        android:background="@color/tab_layout_bk_event"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <com.nitkkr.gawds.tech17.src.CompatCircleImageView
+            android:id="@+id/Add_Member"
+            app:srcCompat="@drawable/ic_person_add_black_24dp"
+            android:tint="@color/neon_green"
+            android:padding="5dp"
+            android:layout_marginEnd="20dp" android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
+            android:layout_width="30dp" android:layout_height="30dp"/>
 
         <ListView
-            android:layout_marginTop="10dp"
-            android:id="@+id/team_register_list" android:layout_below="@id/team_register_Name"
-            android:paddingLeft="@dimen/activity_horizontal_margin" android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/Add_Member"
+            android:id="@+id/User_List" android:layout_margin="5dp"
+            android:divider="@color/neon_green"
+            android:dividerHeight="0.5dp"
+            android:footerDividersEnabled="true"
             android:layout_width="match_parent" android:layout_height="match_parent"/>
+
     </RelativeLayout>
+
+    <Button
+        android:text="Register" android:id="@+id/Team_Register"
+        android:background="@drawable/border_button"
+        android:textColor="@color/text_color_primary"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        />
+
 </RelativeLayout>

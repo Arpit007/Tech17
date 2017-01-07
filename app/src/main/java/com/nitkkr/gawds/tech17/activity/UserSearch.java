@@ -1,0 +1,111 @@
+package com.nitkkr.gawds.tech17.activity;
+
+import android.content.Intent;
+import android.database.DataSetObserver;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.nitkkr.gawds.tech17.R;
+import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
+import com.nitkkr.gawds.tech17.helper.ActionBarSearch;
+import com.nitkkr.gawds.tech17.helper.ActivityHelper;
+import com.nitkkr.gawds.tech17.helper.iActionBar;
+import com.nitkkr.gawds.tech17.model.UserKey;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Home Laptop on 08-Jan-17.
+ */
+
+public class UserSearch extends AppCompatActivity
+{
+	private ActionBarSearch actionBarSearch;
+	UserListAdapter adapter;
+	ListView listView;
+	String Query = "";
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_search_page);
+
+		ActivityHelper.setCreateAnimation(this);
+
+		ActivityHelper.setStatusBarColor(this);
+
+		listView = (ListView) findViewById(R.id.event_list);
+		adapter = new UserListAdapter(new ArrayList<UserKey>(),this,false,R.layout.layout_create_user_item);
+		listView.setAdapter(adapter);
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+			{
+				UserKey key=adapter.getUsers().get(i);
+				Intent result=new Intent();
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("User",key);
+				result.putExtras(bundle);
+				setResult(RESULT_OK,result);
+				finish();
+				ActivityHelper.setExitAnimation(UserSearch.this);
+			}
+		});
+
+		adapter.registerDataSetObserver(new DataSetObserver()
+		{
+			@Override
+			public void onChanged()
+			{
+				if (adapter.getCount() == 0 && !Query.isEmpty())
+				{
+					findViewById(R.id.None).setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				}
+			}
+		});
+
+		actionBarSearch = new ActionBarSearch(UserSearch.this, new iActionBar()
+		{
+			@Override
+			public void NavButtonClicked()
+			{
+			}
+
+			@Override
+			public void SearchQuery(String Query)
+			{
+				UserSearch.this.Query = Query;
+				findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+				//adapter.getFilter().filter(Query);
+				findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+			}
+		});
+		actionBarSearch.setLabel("User Search");
+		actionBarSearch.setSearchHint("Name/Roll/Email");
+
+		findViewById(R.id.actionbar_search).performClick();
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if (actionBarSearch.backPressed())
+		{
+			if (!ActivityHelper.revertToHomeIfLast(UserSearch.this))
+			{
+				super.onBackPressed();
+			}
+			ActivityHelper.setExitAnimation(this);
+		}
+	}
+}

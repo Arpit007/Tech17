@@ -1,15 +1,18 @@
 package com.nitkkr.gawds.tech17.activity;
 
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.adapter.RegisterTeamAdapter;
+import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActionBarBack;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
@@ -17,75 +20,87 @@ import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.model.EventKey;
 import com.nitkkr.gawds.tech17.model.EventModel;
+import com.nitkkr.gawds.tech17.model.TeamModel;
+import com.nitkkr.gawds.tech17.model.UserKey;
 import com.nitkkr.gawds.tech17.model.UserModel;
 
 import java.util.ArrayList;
 
 public class CreateTeam extends AppCompatActivity
 {
-	private RegisterTeamAdapter adapter;
 	private EventModel eventModel;
+	private TeamModel teamModel;
+	private final int GET_USER=101;
+	private UserListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_team);
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
 
-		/*EventKey key = (EventKey) getIntent().getSerializableExtra("Event");
+		EventKey key = (EventKey) getIntent().getSerializableExtra("Event");
 		eventModel = Database.getInstance().getEventsDB().getEvent(key);
 
 		ActionBarBack actionBarBack = new ActionBarBack(CreateTeam.this);
 		actionBarBack.setLabel("Create Team");
 
-		model = new TeamModel();
-		ArrayList<UserModel> userModels = new ArrayList<>();
+		teamModel=new TeamModel();
+		teamModel.getMembers().add(AppUserModel.MAIN_USER);
 
-		userModels.add(AppUserModel.MAIN_USER);
-		model.setMembers(userModels);
+		(( TextView)findViewById(R.id.Event_Name)).setText(eventModel.getEventName());
+		((TextView)findViewById(R.id.Team_Members_Count)).setText("Team ("+eventModel.getMinUsers()+"-"+eventModel.getMaxUsers()+") Members");
 
-		adapter = new RegisterTeamAdapter(CreateTeam.this, model, eventModel.getMinUsers(),
-		eventModel.getMaxUsers(), true);
-
-		ListView listView = (ListView) findViewById(R.id.team_register_list);
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		ListView listView = (ListView)findViewById(R.id.User_List);
+		adapter = new UserListAdapter(teamModel.getMembers(),CreateTeam.this,true, R.layout.layout_create_user_item);
+		adapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+			public void onChanged()
 			{
-				if (i != adapter.getTeamModel().getMembers().size() && i != 0)
-				{
-					Intent intent = new Intent(CreateTeam.this, ViewUser.class);
-					Bundle bundle = new Bundle();
-					bundle.putSerializable("User", adapter.getTeamModel().getMembers().get(i));
-					intent.putExtras(bundle);
-					startActivity(intent);
-				}
+				super.onChanged();
+				teamModel.setMembers(adapter.getUsers());
+				if(adapter.getUsers().size()==eventModel.getMaxUsers())
+					findViewById(R.id.Add_Member).setVisibility(View.INVISIBLE);
+				else findViewById(R.id.Add_Member).setVisibility(View.VISIBLE);
 			}
-		});*/
+		});
+		listView.setAdapter(adapter);
+
+
+		findViewById(R.id.Add_Member).setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				startActivityForResult(new Intent(CreateTeam.this,UserSearch.class),GET_USER);
+			}
+		});
+
+		findViewById(R.id.Team_Register).setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+
+			}
+		});
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{/*
-		if (requestCode == RegisterTeamAdapter.SEARCH_USER)
+	{
+		if (requestCode == GET_USER)
 		{
 			if (resultCode == RESULT_OK)
 			{
-				UserModel userModel = new UserModel();
-				//Get new User
-				adapter.getTeamModel().getMembers().add(userModel);
-				adapter.notifyDataSetInvalidated();
+				adapter.getUsers().add(( UserKey)data.getExtras().getSerializable("User"));
+				adapter.notifyDataSetChanged();
 			}
 		}
-		else
-		{
-			super.onActivityResult(requestCode, resultCode, data);
-		}*/
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	public void Register(View view)
@@ -124,11 +139,7 @@ public class CreateTeam extends AppCompatActivity
 	@Override
 	public void onBackPressed()
 	{
-		if (ActivityHelper.revertToHomeIfLast(CreateTeam.this))
-		{
-			;
-		}
-		else
+		if (!ActivityHelper.revertToHomeIfLast(CreateTeam.this))
 		{
 			super.onBackPressed();
 		}

@@ -90,6 +90,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	private GoogleApiClient mGoogleApiClient;
 	private ProgressDialog mProgressDialog;
 	private GoogleSignInOptions gso;
+	private boolean googleSigningTask=false;
 
 	AppUserModel userModel = (AppUserModel) AppUserModel.MAIN_USER.clone();
 
@@ -254,6 +255,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 	private void signIn()
 	{
+		googleSigningTask=true;
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
@@ -265,6 +267,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		if (requestCode == RC_SIGN_IN)
 		{
+			googleSigningTask=false;
 			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 			handleSignInResult(result);
 		}
@@ -679,7 +682,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	@Override
 	public void onBackPressed()
 	{
-		if (mProgressDialog != null && mProgressDialog.isShowing())
+		if ((mProgressDialog != null && mProgressDialog.isShowing())|| googleSigningTask)
 		{
 			return;
 		}

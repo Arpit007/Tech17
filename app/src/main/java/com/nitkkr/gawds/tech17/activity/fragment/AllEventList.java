@@ -152,20 +152,20 @@ public class AllEventList extends Fragment
 		{
 			if (Database.getInstance().getEventsDB().getRowCount() == 0)
 			{
-				MyView.findViewById(R.id.None).setVisibility(View.VISIBLE);
+				getView().findViewById(R.id.None).setVisibility(View.VISIBLE);
 			}
 			else
 			{
-				MyView.findViewById(R.id.None).setVisibility(View.GONE);
+				getView().findViewById(R.id.None).setVisibility(View.GONE);
 			}
 
-			MyView.findViewById(R.id.all_event_list).setVisibility(View.VISIBLE);
-			MyView.findViewById(R.id.search_event_list).setVisibility(View.GONE);
+			getView().findViewById(R.id.all_event_list).setVisibility(View.VISIBLE);
+			getView().findViewById(R.id.search_event_list).setVisibility(View.GONE);
 		}
 		else
 		{
-			MyView.findViewById(R.id.all_event_list).setVisibility(View.GONE);
-			MyView.findViewById(R.id.search_event_list).setVisibility(View.VISIBLE);
+			getView().findViewById(R.id.all_event_list).setVisibility(View.GONE);
+			getView().findViewById(R.id.search_event_list).setVisibility(View.VISIBLE);
 			listAdapter.getFilter().filter(Query);
 		}
 	}

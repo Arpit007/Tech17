@@ -48,10 +48,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	private ActionBarBack actionBar;
 	private AlertDialog alertDialog;
 	private ProgressDialog progressDialog = null;
-	private SwipeRefreshLayout swipe;
 	private void setCallbacks()
 	{
-		Button Register = (Button) findViewById(R.id.Event_Register);
+		final Button Register = (Button) findViewById(R.id.Event_Register);
 		if (model.isRegistered())
 		{
 			Register.setText("Registered");
@@ -101,7 +100,27 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 						}
 						else if (model.getEventStatus() == EventStatus.None)
 						{
-							Snackbar.make(Event.this.findViewById(android.R.id.content), "Fetching Live Data/Server Error", Snackbar.LENGTH_LONG).show();
+							Snackbar.make(Event.this.findViewById(android.R.id.content), "Fetching Live Data/Server Error", Snackbar.LENGTH_SHORT).show();
+							if(ActivityHelper.isInternetConnected())
+								FetchData.getInstance().getEvent(getApplicationContext(), model.getEventID(), new iResponseCallback()
+								{
+									@Override
+									public void onResponse(ResponseStatus status)
+									{
+									}
+
+									@Override
+									public void onResponse(ResponseStatus status, Object object)
+									{
+										if (status == ResponseStatus.SUCCESS)
+										{
+											model = (EventModel) object;
+											Database.getInstance().getEventsDB().addOrUpdateEvent(model);
+											LoadEvent();
+											Register.callOnClick();
+										}
+									}
+								});
 						}
 						else if (model.getEventStatus() == EventStatus.NotStarted)
 						{
@@ -186,14 +205,11 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 							}
 							else
 							{
-								/*TODO:Remove on Update*/
-								ActivityHelper.comingSoonSnackBar("Team Registration Coming Soon", Event.this);
-
-								/*Intent intent = new Intent(Event.this, CreateTeam.class);
+								Intent intent = new Intent(Event.this, CreateTeam.class);
 								Bundle bundle=new Bundle();
 								bundle.putSerializable("Event",key);
 								intent.putExtras(bundle);
-								startActivityForResult(intent, REGISTER);*/
+								startActivityForResult(intent, REGISTER);
 							}
 						}
 					}
@@ -281,51 +297,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		key = (EventKey) getIntent().getExtras().getSerializable("Event");
 		model = Database.getInstance().getEventsDB().getEvent(key);
 
-		swipe=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
-		swipe.setDistanceToTriggerSync(20);
-		swipe.setSize(SwipeRefreshLayout.DEFAULT);
-		swipe.setColorSchemeColors(ContextCompat.getColor(this,R.color.RingColor));
-		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-		{
-			@Override
-			public void onRefresh()
-			{
-				swipe.setRefreshing(true);
-				swipe.postDelayed(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						FetchData.getInstance().getEvent(getApplicationContext(), model.getEventID(), new iResponseCallback()
-						{
-							@Override
-							public void onResponse(ResponseStatus status)
-							{
-							}
-
-							@Override
-							public void onResponse(ResponseStatus status, Object object)
-							{
-								if (status == ResponseStatus.SUCCESS)
-								{
-									model = (EventModel) object;
-									Database.getInstance().getEventsDB().addOrUpdateEvent(model);
-									LoadEvent();
-								}
-								else
-								{
-									Toast.makeText(Event.this,"Live Status Unavailable\nPull down to Refresh",Toast.LENGTH_SHORT).show();
-									TextView Status=(TextView) findViewById(R.id.Event_Status);
-									Status.setText("Go Online");
-								}
-								swipe.setRefreshing(false);
-							}
-						});
-					}
-				},1500);
-			}
-		});
-
 		setupViewPager(viewPager, model);
 		tabLayout.setupWithViewPager(viewPager);
 		LoadEvent();
@@ -354,7 +325,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				}
 				else
 				{
-					Toast.makeText(Event.this,"Live Status Unavailable\nPull down to Refresh",Toast.LENGTH_SHORT).show();
+					Toast.makeText(Event.this,"Live Status Unavailable",Toast.LENGTH_SHORT).show();
 					TextView Status=(TextView) findViewById(R.id.Event_Status);
 					Status.setText("Go Online");
 				}
