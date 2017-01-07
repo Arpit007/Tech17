@@ -34,6 +34,7 @@
     <color name="event_round_primary_color">#CE3331</color>
     <color name="neon_green">#54F8C6</color>
     <color name="Transparent">#00ffffff</color>
+    <color name="RingColor">#FF303F9F</color>
 
     <color name="None">#03A9F4</color>
     <color name="Started">#8BC34A</color>

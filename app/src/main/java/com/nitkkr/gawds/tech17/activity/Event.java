@@ -4,10 +4,12 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -46,7 +48,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	private ActionBarBack actionBar;
 	private AlertDialog alertDialog;
 	private ProgressDialog progressDialog = null;
-
+	private SwipeRefreshLayout swipe;
 	private void setCallbacks()
 	{
 		Button Register = (Button) findViewById(R.id.Event_Register);
@@ -279,6 +281,51 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		key = (EventKey) getIntent().getExtras().getSerializable("Event");
 		model = Database.getInstance().getEventsDB().getEvent(key);
 
+		swipe=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
+		swipe.setDistanceToTriggerSync(20);
+		swipe.setSize(SwipeRefreshLayout.DEFAULT);
+		swipe.setColorSchemeColors(ContextCompat.getColor(this,R.color.RingColor));
+		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+		{
+			@Override
+			public void onRefresh()
+			{
+				swipe.setRefreshing(true);
+				swipe.postDelayed(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						FetchData.getInstance().getEvent(getApplicationContext(), model.getEventID(), new iResponseCallback()
+						{
+							@Override
+							public void onResponse(ResponseStatus status)
+							{
+							}
+
+							@Override
+							public void onResponse(ResponseStatus status, Object object)
+							{
+								if (status == ResponseStatus.SUCCESS)
+								{
+									model = (EventModel) object;
+									Database.getInstance().getEventsDB().addOrUpdateEvent(model);
+									LoadEvent();
+								}
+								else
+								{
+									Toast.makeText(Event.this,"Live Status Unavailable\nPull down to Refresh",Toast.LENGTH_SHORT).show();
+									TextView Status=(TextView) findViewById(R.id.Event_Status);
+									Status.setText("Go Online");
+								}
+								swipe.setRefreshing(false);
+							}
+						});
+					}
+				},1500);
+			}
+		});
+
 		setupViewPager(viewPager, model);
 		tabLayout.setupWithViewPager(viewPager);
 		LoadEvent();
@@ -304,6 +351,12 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 					model = (EventModel) object;
 					Database.getInstance().getEventsDB().addOrUpdateEvent(model);
 					LoadEvent();
+				}
+				else
+				{
+					Toast.makeText(Event.this,"Live Status Unavailable\nPull down to Refresh",Toast.LENGTH_SHORT).show();
+					TextView Status=(TextView) findViewById(R.id.Event_Status);
+					Status.setText("Go Online");
 				}
 			}
 		});
@@ -391,7 +444,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		{
 			Round.setText("0");
 			Round.setBackgroundResource(R.drawable.none);
-			Status.setText("Round");
+			Status.setText("Updating");
 			Status.setTextColor(ContextCompat.getColor(Event.this,R.color.None));
 		}
 		else

@@ -25,6 +25,9 @@
         android:layout_alignParentEnd="true"/>
 
     <TextView
+        android:maxLines="1"
+        android:maxEms="9"
+        android:ellipsize="end"
         android:text="Ihitashri Shandilya"
         android:textSize="30sp"
         android:textColor="@color/text_color_primary"
@@ -48,7 +51,7 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="190dp"
+        android:layout_height="170dp"
         android:scaleType="centerCrop"
         android:layout_marginTop="10dp"
         app:srcCompat="@drawable/user_bk"

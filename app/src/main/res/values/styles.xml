@@ -28,4 +28,12 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="CloseDialogTheme">
+        <item name="android:windowEnterAnimation">@anim/anim_right_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_right_out</item>
+    </style>
+    <style name="SuccessCloseDialogTheme">
+        <item name="android:windowEnterAnimation">@anim/anim_left_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_left_out</item>
+    </style>
 </resources>

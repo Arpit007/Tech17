@@ -1,7 +1,6 @@
 package com.nitkkr.gawds.tech17.activity.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,13 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.nitkkr.gawds.tech17.R;
-import com.nitkkr.gawds.tech17.activity.CreateTeam;
+import com.nitkkr.gawds.tech17.activity.Dialog.TeamDialog;
 import com.nitkkr.gawds.tech17.adapter.TeamListAdapter;
-import com.nitkkr.gawds.tech17.model.TeamKey;
+import com.nitkkr.gawds.tech17.database.Database;
+import com.nitkkr.gawds.tech17.model.TeamModel;
 
 import java.util.ArrayList;
-
-import static android.app.Activity.RESULT_OK;
 
 public class MyTeams extends Fragment
 {
@@ -47,7 +45,7 @@ public class MyTeams extends Fragment
 		final View view= inflater.inflate(R.layout.fragment_my_teams, container, false);
 
 		listView=(ListView)view.findViewById(R.id.MyTeam_List);
-		adapter = new TeamListAdapter(context,new ArrayList<TeamKey>());
+		adapter = new TeamListAdapter(context, Database.getInstance().getTeamDB().getAllMyTeams());
 		listView.setAdapter(adapter);
 
 		adapter.registerDataSetObserver(new DataSetObserver()
@@ -67,16 +65,8 @@ public class MyTeams extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				//No info provided from backend
-			}
-		});
-
-		view.findViewById(R.id.Add_Team).setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				startActivityForResult(new Intent(context, CreateTeam.class),TEAM);
+				TeamDialog dialog=new TeamDialog(context,adapter.getModels().get(i),false);
+				dialog.show();
 			}
 		});
 
@@ -85,25 +75,5 @@ public class MyTeams extends Fragment
 		return view;
 	}
 
-	public void setModels(ArrayList<TeamKey> keys)
-	{
-		ArrayList<TeamKey> models=new ArrayList<>();
-		for(TeamKey key: keys)
-		{
-			if(key.getControl()== TeamKey.TeamControl.Participant || key.getControl()== TeamKey.TeamControl.Leader)
-				models.add(key);
-		}
-		adapter.setModels(models);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		if(requestCode==TEAM && resultCode==RESULT_OK && data!=null)
-		{
-			adapter.getModels().add(0,(TeamKey)data.getExtras().getSerializable("TeamKey"));
-			adapter.notifyDataSetChanged();
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+	public TeamListAdapter getAdapter() {return adapter;}
 }

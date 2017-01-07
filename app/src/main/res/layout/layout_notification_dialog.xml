@@ -3,11 +3,11 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_margin="5dp"
-              android:background="@color/app_background"
+              android:background="@drawable/border_button"
               android:layout_height="wrap_content">
 
     <ScrollView
-        android:layout_margin="5dp"
+        android:padding="10dp"
         android:layout_width="match_parent" android:layout_height="wrap_content">
 
         <TextView

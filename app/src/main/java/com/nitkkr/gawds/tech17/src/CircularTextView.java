@@ -75,4 +75,5 @@ public class CircularTextView extends TextView
 		fillColor = color;
 
 	}
+	public int getBorderColor(){return borderColor;}
 }

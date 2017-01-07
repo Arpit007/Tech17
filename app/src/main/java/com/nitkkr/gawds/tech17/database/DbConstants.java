@@ -17,6 +17,8 @@ public class DbConstants
 	private String INTEREST_TABLE_NAME;
 	private String COORDINATOR_TABLE_NAME;
 	private String SOCIETY_TABLE_NAME;
+	private String MYTEAM_TABLE_NAME;
+	private String TEAM_INVITE_TABLE_NAME;
 	private int DATABASE_VERSION = 1;
 
 	public String getDatabaseName()
@@ -53,6 +55,10 @@ public class DbConstants
 	{
 		return SOCIETY_TABLE_NAME;
 	}
+
+	public String getMyTeamTableName(){return MYTEAM_TABLE_NAME;}
+
+	public String getTeamInviteTableName(){return TEAM_INVITE_TABLE_NAME;}
 
 	public int getDatabaseVersion()
 	{
@@ -101,6 +107,18 @@ public class DbConstants
 		saveCache(context);
 	}
 
+	public void setMyTeamTableName(String myTeamTableName, Context context)
+	{
+		MYTEAM_TABLE_NAME = myTeamTableName;
+		saveCache(context);
+	}
+
+	public void setTeamInviteTableName(String teamInviteTableName, Context context)
+	{
+		TEAM_INVITE_TABLE_NAME = teamInviteTableName;
+		saveCache(context);
+	}
+
 	public void setDatabaseVersion(int databaseVersion, Context context)
 	{
 		DATABASE_VERSION = databaseVersion;
@@ -119,6 +137,8 @@ public class DbConstants
 		INTEREST_TABLE_NAME = "Interest";
 		COORDINATOR_TABLE_NAME = "Coordinator";
 		SOCIETY_TABLE_NAME = "Society";
+		MYTEAM_TABLE_NAME = "MyTeamList";
+		TEAM_INVITE_TABLE_NAME = "TeamInviteList";
 	}
 
 	public DbConstants(Context context)
@@ -138,6 +158,8 @@ public class DbConstants
 		INTEREST_TABLE_NAME = preferences.getString("InterestTableName", "Interest");
 		COORDINATOR_TABLE_NAME = preferences.getString("CoordinatorTableName", "Coordinator");
 		SOCIETY_TABLE_NAME = preferences.getString("SocietyTableName", "Society");
+		MYTEAM_TABLE_NAME = preferences.getString("MyTeamTableName","MyTeamList");
+		TEAM_INVITE_TABLE_NAME = preferences.getString("TeamInviteTableName","TeamInviteList");
 	}
 
 	public void saveCache(Context context)
@@ -152,6 +174,8 @@ public class DbConstants
 		editor.putString("InterestTableName", INTEREST_TABLE_NAME);
 		editor.putString("CoordinatorTableName", COORDINATOR_TABLE_NAME);
 		editor.putString("SocietyTableName", SOCIETY_TABLE_NAME);
+		editor.putString("MyTeamTableName",MYTEAM_TABLE_NAME);
+		editor.putString("TeamInviteTableName",TEAM_INVITE_TABLE_NAME);
 
 		editor.apply();
 	}
@@ -264,6 +288,32 @@ public class DbConstants
 		private String Name;
 
 		EventNames(String value)
+		{
+			Name = value;
+		}
+
+		public String Name()
+		{
+			return Name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return Name;
+		}
+	}
+
+	public enum TeamNames
+	{
+		TeamID("TEAM_ID"),
+		EventID("EVENT_ID"),
+		TeamName("TEAM_NAME"),
+		Participants("PARTICIPANTS");
+
+		private String Name;
+
+		TeamNames(String value)
 		{
 			Name = value;
 		}

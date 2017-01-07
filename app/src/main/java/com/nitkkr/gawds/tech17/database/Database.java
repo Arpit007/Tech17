@@ -21,6 +21,7 @@ public class Database implements iDbRequest
 	private InterestDB interestDB;
 	private SocietyDB societyDB;
 	private EventsDB eventsDB;
+	private TeamDB teamDB;
 
 	private static Database database = null;
 
@@ -43,6 +44,7 @@ public class Database implements iDbRequest
 		exhibitionDB = new ExhibitionDB(context, Database.this);
 		notificationDB = new NotificationDB(context, Database.this);
 		coordinatorDB = new CoordinatorDB(context, Database.this);
+		teamDB = new TeamDB(context, Database.this);
 	}
 
 	public static Database getInstance()
@@ -134,6 +136,11 @@ public class Database implements iDbRequest
 		return eventsDB;
 	}
 
+	public TeamDB getTeamDB()
+	{
+		return teamDB;
+	}
+
 	public void ResetTables()
 	{
 		exhibitionDB.resetTable();
@@ -142,5 +149,6 @@ public class Database implements iDbRequest
 		societyDB.resetTable();
 		interestDB.resetTable();
 		eventsDB.resetTable();
+		teamDB.resetTable();
 	}
 }

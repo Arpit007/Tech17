@@ -6,9 +6,8 @@ import java.io.Serializable;
  * Created by Home Laptop on 07-Nov-16.
  */
 
-public class UserModel implements iUserModel, Serializable
+public class UserModel extends UserKey implements Serializable
 {
-	private String Name = "";
 	private String Email = "";
 	private String Roll = "";
 	private String College = "";
@@ -24,11 +23,6 @@ public class UserModel implements iUserModel, Serializable
 	public String getToken()
 	{
 		return token;
-	}
-
-	public String getName()
-	{
-		return Name;
 	}
 
 	public String getEmail()
@@ -79,11 +73,6 @@ public class UserModel implements iUserModel, Serializable
 	public boolean isUseGoogleImage()
 	{
 		return useGoogleImage;
-	}
-
-	public void setName(String name)
-	{
-		Name = name;
 	}
 
 	public void setEmail(String email)

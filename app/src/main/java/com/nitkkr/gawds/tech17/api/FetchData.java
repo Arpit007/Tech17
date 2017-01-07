@@ -26,7 +26,7 @@ import com.nitkkr.gawds.tech17.model.ExhibitionModel;
 import com.nitkkr.gawds.tech17.model.InterestModel;
 import com.nitkkr.gawds.tech17.model.NotificationModel;
 import com.nitkkr.gawds.tech17.model.SocietyModel;
-import com.nitkkr.gawds.tech17.model.TeamKey;
+import com.nitkkr.gawds.tech17.model.TeamModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1475,7 +1475,7 @@ public class FetchData
 
 										finalExhibition.add(model);
 									}
-									else if (Category.equals("workshop"))
+									else if (Category.equals("workshops"))
 									{
 										ExhibitionModel model = new ExhibitionModel();
 										JSONObject object = data.getJSONObject(i);
@@ -1760,7 +1760,8 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void deleteTeam(final Context context, final String teamId, final int status, final iResponseCallback callback)
+
+	/*public void deleteTeam(final Context context, final String teamId, final int status, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+teamId,
@@ -1837,7 +1838,7 @@ public class FetchData
 
 		RequestQueue requestQueue = Volley.newRequestQueue(context);
 		requestQueue.add(stringRequest);
-	}
+	}*/
 
 	public void getMyTeams(final Context context, final iResponseCallback callback)
 	{
@@ -1859,7 +1860,7 @@ public class FetchData
 
 							if (code == 200)
 							{
-								ArrayList<TeamKey> teams=new ArrayList<>();
+								ArrayList<TeamModel> teams=new ArrayList<>();
 
 								if (data != null)
 								{
@@ -1870,28 +1871,28 @@ public class FetchData
 
 									for (int i = 0; i < participantIn.length(); i++)
 									{
-										TeamKey key=new TeamKey();
+										TeamModel key=new TeamModel();
 										key.setEventID(participantIn.getJSONObject(i).getInt("EventId"));
 										key.setTeamName(participantIn.getJSONObject(i).getString("Name"));
-										key.setControl(TeamKey.TeamControl.Participant);
+										key.setControl(TeamModel.TeamControl.Participant);
 										teams.add(key);
 									}
 
 									for (int i = 0; i < teamLeaderOf.length(); i++)
 									{
-										TeamKey key=new TeamKey();
+										TeamModel key=new TeamModel();
 										key.setEventID(teamLeaderOf.getJSONObject(i).getInt("EventId"));
 										key.setTeamName(teamLeaderOf.getJSONObject(i).getString("Name"));
-										key.setControl(TeamKey.TeamControl.Leader);
+										key.setControl(TeamModel.TeamControl.Leader);
 										teams.add(key);
 									}
 
 									for (int i = 0; i < pendingInvitations.length(); i++)
 									{
-										TeamKey key=new TeamKey();
+										TeamModel key=new TeamModel();
 										key.setEventID(pendingInvitations.getJSONObject(i).getInt("EventId"));
 										key.setTeamName(pendingInvitations.getJSONObject(i).getString("Name"));
-										key.setControl(TeamKey.TeamControl.Pending);
+										key.setControl(TeamModel.TeamControl.Pending);
 										teams.add(key);
 									}
 								}
@@ -2081,9 +2082,9 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void acceptTeamInvite(final Context context, final int teamId, final int status, final iResponseCallback callback)
+	public void acceptTeamInvite(final Context context, final int teamId, final iResponseCallback callback)
 	{
-		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
 				new Response.Listener<String>()
 				{
@@ -2158,9 +2159,9 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void declineTeamInvite(final Context context, final int teamId, final int status, final iResponseCallback callback)
+	public void declineTeamInvite(final Context context, final int teamId, final iResponseCallback callback)
 	{
-		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
 				new Response.Listener<String>()
 				{
@@ -2178,7 +2179,6 @@ public class FetchData
 							{
 								if (callback != null)
 								{
-									//TODO: get team id here
 									callback.onResponse(ResponseStatus.SUCCESS);
 								}
 							}

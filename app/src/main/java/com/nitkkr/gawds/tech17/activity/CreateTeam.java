@@ -17,7 +17,6 @@ import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.model.EventKey;
 import com.nitkkr.gawds.tech17.model.EventModel;
-import com.nitkkr.gawds.tech17.model.TeamModel;
 import com.nitkkr.gawds.tech17.model.UserModel;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ public class CreateTeam extends AppCompatActivity
 {
 	private RegisterTeamAdapter adapter;
 	private EventModel eventModel;
-	TeamModel model;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -49,7 +47,8 @@ public class CreateTeam extends AppCompatActivity
 		userModels.add(AppUserModel.MAIN_USER);
 		model.setMembers(userModels);
 
-		adapter = new RegisterTeamAdapter(CreateTeam.this, model, eventModel.getMinUsers(), eventModel.getMaxUsers(), true);
+		adapter = new RegisterTeamAdapter(CreateTeam.this, model, eventModel.getMinUsers(),
+		eventModel.getMaxUsers(), true);
 
 		ListView listView = (ListView) findViewById(R.id.team_register_list);
 		listView.setAdapter(adapter);

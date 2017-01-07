@@ -32,7 +32,7 @@ public class EventModel extends BaseEventModel implements Serializable
 	private boolean Registered = false;
 	private EventStatus status = EventStatus.None;
 	private ArrayList<RoundResultModel> Result;
-	private ArrayList<iUserModel> Participants;
+	private ArrayList<UserKey> Participants;
 	private EventStatusListener listener;
 
 
@@ -76,7 +76,7 @@ public class EventModel extends BaseEventModel implements Serializable
 		return Result;
 	}
 
-	public ArrayList<iUserModel> getParticipants()
+	public ArrayList<UserKey> getParticipants()
 	{
 		return Participants;
 	}
@@ -151,7 +151,7 @@ public class EventModel extends BaseEventModel implements Serializable
 		Result = result;
 	}
 
-	public void setParticipants(ArrayList<iUserModel> participants)
+	public void setParticipants(ArrayList<UserKey> participants)
 	{
 		Participants = participants;
 	}

@@ -9,14 +9,14 @@ import java.util.ArrayList;
 
 public class ResultPositionModel implements Serializable
 {
-	private ArrayList<iUserModel> Winners;
+	private ArrayList<UserKey> Winners;
 
-	public ArrayList<iUserModel> getWinners()
+	public ArrayList<UserKey> getWinners()
 	{
 		return Winners;
 	}
 
-	public void setWinners(ArrayList<iUserModel> winners)
+	public void setWinners(ArrayList<UserKey> winners)
 	{
 		Winners = winners;
 	}

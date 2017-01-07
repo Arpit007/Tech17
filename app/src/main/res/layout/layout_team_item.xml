@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:padding="10dp"
+              android:paddingStart="10dp"
+              android:paddingEnd="10dp"
+              android:paddingTop="5dp"
+              android:paddingBottom="5dp"
               android:background="@color/app_background"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
-<TextView
+    <TextView
     android:id="@+id/team_name"
     android:textSize="19sp"
     android:layout_centerVertical="true"
@@ -13,15 +16,28 @@
     android:ellipsize="end"
     android:text="Sample Team" android:textColor="@color/neon_green"
     android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/team_control"
-        android:textSize="14sp"
-        android:layout_centerVertical="true"
+    <LinearLayout
+        android:orientation="horizontal"
         android:paddingStart="20dp"
         android:paddingTop="5dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:text="Sample Team" android:textColor="@color/neon_green"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        android:weightSum="10"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/Event_Name"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_weight="5"
+            android:text="Sample Team" android:textColor="@color/neon_green"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/team_control"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_weight="5"
+            android:text="Sample Team" android:textColor="@color/neon_green"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </LinearLayout>

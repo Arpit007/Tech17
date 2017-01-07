@@ -184,9 +184,13 @@ public class Exhibition extends AppCompatActivity
 	private void LoadExhibition()
 	{
 		( (TextView) findViewById(R.id.exhibition_Title) ).setText(model.getEventName());
-		( (TextView) findViewById(R.id.exhibition_Author) ).setText(model.getAuthor());
+		if (!model.getAuthor().equals(""))
+			( (TextView) findViewById(R.id.exhibition_Author) ).setText(model.getAuthor());
+		else findViewById(R.id.exhibition_Author).setVisibility(View.GONE);
 
-		Glide.with(Exhibition.this).load(model.getImage_URL()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into((ImageView) findViewById(R.id.exhibition_Image));
+		if(!model.getImage_URL().equals("") && !model.getImage_URL().equals("null"))
+			Glide.with(Exhibition.this).load(model.getImage_URL()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into((ImageView) findViewById(R.id.exhibition_Image));
+		else ((ImageView)findViewById(R.id.exhibition_Image)).setImageResource(R.drawable.user_bk);
 
 		String date = new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(model.getDateObject()).replace("AM", "Am").replace("PM", "Pm");
 		( (TextView) findViewById(R.id.exhibition_Date) ).setText(date);

@@ -83,6 +83,26 @@
         );
     </string>
 
+    <string name="Query_Create_MyTeamTable">
+        CREATE TABLE IF NOT EXISTS MyTeamList
+        (
+            TEAM_ID INT PRIMARY KEY NOT NULL,
+            EVENT_ID INT,
+            TEAM_NAME VARCHAR(127) NOT NULL,
+            PARTICIPANTS VARCHAR(4096)
+        );
+    </string>
+
+    <string name="Query_Create_TeamInviteTable">
+        CREATE TABLE IF NOT EXISTS TeamInviteList
+        (
+            TEAM_ID INT PRIMARY KEY NOT NULL,
+            EVENT_ID INT,
+            TEAM_NAME VARCHAR(127) NOT NULL,
+            PARTICIPANTS VARCHAR(4096)
+        );
+    </string>
+
     <!--<string name="Query_Update_NotificationList">
         DROP TABLE IF EXISTS TempNL;
 

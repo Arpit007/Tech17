@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech17.R;
-import com.nitkkr.gawds.tech17.model.TeamKey;
+import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.model.TeamModel;
 
 import java.util.ArrayList;
@@ -19,10 +19,10 @@ import java.util.ArrayList;
 
 public class TeamListAdapter extends BaseAdapter
 {
-	private ArrayList<TeamKey> models;
+	private ArrayList<TeamModel> models;
 	private Context context;
 
-	public TeamListAdapter(Context context, ArrayList<TeamKey> models)
+	public TeamListAdapter(Context context, ArrayList<TeamModel> models)
 	{
 		this.context=context;
 		this.models=models;
@@ -54,24 +54,26 @@ public class TeamListAdapter extends BaseAdapter
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.layout_team_item, null);
 		}
-		(( TextView)view.findViewById(R.id.team_name)).setText("Team: " + models.get(i).getTeamName());
+		(( TextView)view.findViewById(R.id.team_name)).setText("Team " + models.get(i).getTeamName());
 
-		if(models.get(i).getControl()== TeamKey.TeamControl.Participant)
+		(( TextView)view.findViewById(R.id.Event_Name)).setText("Event: " + Database.getInstance().getEventsDB().getEventKey(models.get(i).getEventID()).getEventName());
+
+		if(models.get(i).getControl() != TeamModel.TeamControl.Leader)
 			view.findViewById(R.id.team_control).setVisibility(View.GONE);
 		else
 		{
 			view.findViewById(R.id.team_control).setVisibility(View.VISIBLE);
-			((TextView) view.findViewById(R.id.team_control)).setText(models.get(i).getControl().getValue());
+			((TextView) view.findViewById(R.id.team_control)).setText(TeamModel.TeamControl.Leader.getValue());
 		}
 		return view;
 	}
 
-	public void setModels(ArrayList<TeamKey> models)
+	public void setModels(ArrayList<TeamModel> models)
 	{
 		this.models=models;
 		this.notifyDataSetChanged();
 	}
 
-	public ArrayList<TeamKey> getModels(){return models;}
+	public ArrayList<TeamModel> getModels(){return models;}
 
 }
