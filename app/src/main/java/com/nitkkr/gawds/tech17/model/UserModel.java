@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class UserModel extends UserKey implements Serializable
 {
 	private String Email = "";
-	private String Roll = "";
 	private String College = "";
 	private String Mobile = "";
 	private String Branch = "";
@@ -28,11 +27,6 @@ public class UserModel extends UserKey implements Serializable
 	public String getEmail()
 	{
 		return Email;
-	}
-
-	public String getRoll()
-	{
-		return Roll;
 	}
 
 	public String getCollege()
@@ -78,11 +72,6 @@ public class UserModel extends UserKey implements Serializable
 	public void setEmail(String email)
 	{
 		Email = email;
-	}
-
-	public void setRoll(String roll)
-	{
-		Roll = roll;
 	}
 
 	public void setCollege(String college)

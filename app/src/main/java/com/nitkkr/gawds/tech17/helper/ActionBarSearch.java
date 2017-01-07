@@ -16,6 +16,7 @@ public class ActionBarSearch
 
 	private iActionBar callback;
 	private AppCompatActivity activity;
+	private boolean resetOnBack=true;
 
 	public ActionBarSearch(final AppCompatActivity activity, iActionBar callback)
 	{
@@ -81,7 +82,8 @@ public class ActionBarSearch
 		{
 			activity.findViewById(R.id.main_bar).setVisibility(View.VISIBLE);
 			searchView.setVisibility(View.GONE);
-			searchView.setQuery("", false);
+			if(resetOnBack)
+				searchView.setQuery("", false);
 			return false;
 		}
 		else
@@ -89,6 +91,8 @@ public class ActionBarSearch
 			return true;
 		}
 	}
+
+	public void setResetOnBack(boolean resetOnBack){this.resetOnBack=resetOnBack;}
 
 	public void setSearchButtonVisibility(int visibility)
 	{

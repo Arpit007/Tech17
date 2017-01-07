@@ -11,6 +11,7 @@ public class UserKey implements Serializable
 	private TeamModel.TeamControl teamControl;
 	private String Name = "";
 	private String UserID = "";
+	private String Roll = "";
 
 	public TeamModel.TeamControl getTeamControl(){return teamControl;}
 	public String getName()
@@ -18,6 +19,10 @@ public class UserKey implements Serializable
 		return Name;
 	}
 	public String getUserID(){return UserID;}
+	public String getRoll()
+	{
+		return Roll;
+	}
 
 	public void setTeamControl(TeamModel.TeamControl teamControl){this.teamControl=teamControl;}
 	public void setName(String name)
@@ -25,4 +30,8 @@ public class UserKey implements Serializable
 		Name = name;
 	}
 	public void setUserID(String userID){UserID = userID;}
+	public void setRoll(String roll)
+	{
+		Roll = roll;
+	}
 }

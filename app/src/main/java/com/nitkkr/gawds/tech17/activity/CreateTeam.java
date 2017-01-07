@@ -1,11 +1,15 @@
 package com.nitkkr.gawds.tech17.activity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +36,7 @@ public class CreateTeam extends AppCompatActivity
 	private TeamModel teamModel;
 	private final int GET_USER=101;
 	private UserListAdapter adapter;
+	private Dialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -69,6 +74,41 @@ public class CreateTeam extends AppCompatActivity
 		});
 		listView.setAdapter(adapter);
 
+		dialog = new Dialog(this);
+		dialog.setCancelable(false);
+		dialog.setContentView(R.layout.layout_dialog_team_name);
+		dialog.findViewById(R.id.CheckAvailability).setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				String Name=(( EditText)dialog.findViewById(R.id.Team_Name)).getText().toString();
+				if(Name.equals(""))
+				{
+					dialog.dismiss();
+					((TextView)findViewById(R.id.Team_Name)).setText("Team Name");
+				}
+				else
+				{
+					dialog.dismiss();
+					//TODO:Implement
+				}
+			}
+		});
+
+		findViewById(R.id.Edit_Team_Name).setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				if(dialog!=null)
+				{
+					dialog.show();
+					dialog.findViewById(R.id.Team_Name).requestFocus();
+					((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(dialog.findViewById(R.id.Team_Name), InputMethodManager.SHOW_IMPLICIT);
+				}
+			}
+		});
 
 		findViewById(R.id.Add_Member).setOnClickListener(new View.OnClickListener()
 		{
@@ -84,7 +124,17 @@ public class CreateTeam extends AppCompatActivity
 			@Override
 			public void onClick(View view)
 			{
-
+				if(((TextView)findViewById(R.id.Team_Name)).getText().toString().toLowerCase().equals("team name"))
+				{
+					Toast.makeText(CreateTeam.this,"Set Team Name",Toast.LENGTH_SHORT).show();
+					return;
+				}
+				if(adapter.getUsers().size()<eventModel.getMinUsers())
+				{
+					Toast.makeText(CreateTeam.this,"Set Minimum Users",Toast.LENGTH_SHORT).show();
+					return;
+				}
+				//TODO:Implement
 			}
 		});
 	}

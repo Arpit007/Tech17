@@ -63,11 +63,19 @@ public class UserListAdapter extends BaseAdapter
 	{
 		if (view == null)
 		{
-			LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = infalInflater.inflate(ResourceID, null);
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(ResourceID, null);
 		}
 
-		(( TextView)view.findViewById(R.id.user_name)).setText(users.get(i).getName());
+		String[] strArray = users.get(i).getName().split(" ");
+		StringBuilder builder = new StringBuilder();
+		for (String s : strArray)
+		{
+			String cap = s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+			builder.append(cap + " ");
+		}
+
+		(( TextView)view.findViewById(R.id.user_name)).setText(builder.toString());
 		setImage(view,users.get(i));
 
 		if(!cross || i==0)

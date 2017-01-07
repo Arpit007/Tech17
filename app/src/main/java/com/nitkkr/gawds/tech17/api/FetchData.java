@@ -27,6 +27,7 @@ import com.nitkkr.gawds.tech17.model.InterestModel;
 import com.nitkkr.gawds.tech17.model.NotificationModel;
 import com.nitkkr.gawds.tech17.model.SocietyModel;
 import com.nitkkr.gawds.tech17.model.TeamModel;
+import com.nitkkr.gawds.tech17.model.UserKey;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1954,7 +1955,8 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void searchUsers(final Context context,  final String query,final iResponseCallback callback){
+	public void searchUsers(final Context context,  final String query, final iResponseCallback callback)
+	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)
 				+ "/api/user/search?token="+AppUserModel.MAIN_USER.getToken()+"&query="+query,
 				new Response.Listener<String>()
@@ -1972,22 +1974,33 @@ public class FetchData
 							data = response.getJSONArray("data");
 							if (code == 200)
 							{
-								String userId,RollNo,Name;
-								for(int i=0;i<data.length();i++){
-									userId=data.getJSONObject(i).getString("Id");
-									RollNo=data.getJSONObject(i).getString("RollNo");
-									Name=data.getJSONObject(i).getString("Name");
+								ArrayList<UserKey> keys=new ArrayList<>();
+								for(int i=0;i<data.length();i++)
+								{
+									UserKey key = new UserKey();
+									JSONObject object=data.getJSONObject(i);
+									key.setName(object.getString("Name"));
+									key.setUserID(object.getString("Id"));
+									//TODO:Fix
+									/*key.setRoll(object.getString("RollNo"));
+									if(key.getRoll().equals(AppUserModel.MAIN_USER.getRoll()))
+										continue;*/
+									keys.add(key);
 								}
+								if (callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS, keys);
 							}
 							else
 							{
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if (callback!=null)
+									callback.onResponse(ResponseStatus.FAILED, null);
 							}
 						}
 						catch (JSONException e)
 						{
 							e.printStackTrace();
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+							if (callback!=null)
+								callback.onResponse(ResponseStatus.FAILED, null);
 						}
 					}
 				},
@@ -1997,7 +2010,17 @@ public class FetchData
 					public void onErrorResponse(VolleyError error)
 					{
 						error.printStackTrace();
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE, null);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED, null);
+							}
+						}
 					}
 				});
 

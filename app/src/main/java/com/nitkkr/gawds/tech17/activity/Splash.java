@@ -128,12 +128,9 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 			Fabric.with(this, new Crashlytics());
 		}
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-
-			ActivityHelper.setStatusBarColor(this);
-		}
 		setContentView(R.layout.activity_splash);
+
+		ActivityHelper.setStatusBarColor(this);
 
 		ts_logo = (ImageView) findViewById(R.id.ts_logo);
 		upper = findViewById(R.id.upper_splash);

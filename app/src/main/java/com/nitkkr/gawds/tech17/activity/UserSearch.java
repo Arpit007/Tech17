@@ -1,17 +1,24 @@
 package com.nitkkr.gawds.tech17.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
+import com.nitkkr.gawds.tech17.api.FetchData;
+import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.helper.ActionBarSearch;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
+import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.helper.iActionBar;
 import com.nitkkr.gawds.tech17.model.UserKey;
 
@@ -47,6 +54,8 @@ public class UserSearch extends AppCompatActivity
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
+				((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
+
 				UserKey key=adapter.getUsers().get(i);
 				Intent result=new Intent();
 				Bundle bundle = new Bundle();
@@ -82,16 +91,52 @@ public class UserSearch extends AppCompatActivity
 			}
 
 			@Override
-			public void SearchQuery(String Query)
+			public void SearchQuery(final String Query)
 			{
 				UserSearch.this.Query = Query;
 				findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-				//adapter.getFilter().filter(Query);
-				findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+				adapter.setUsers(new ArrayList<UserKey>());
+				findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				if(Query.equals(""))
+				{
+					return;
+				}
+
+				FetchData.getInstance().searchUsers(UserSearch.this, Query, new iResponseCallback()
+				{
+					@Override
+					public void onResponse(ResponseStatus status)
+					{
+						this.onResponse(status,null);
+					}
+
+					@Override
+					public void onResponse(ResponseStatus status, Object object)
+					{
+						if(Query != UserSearch.this.Query)
+							return;
+
+						if(status==ResponseStatus.SUCCESS && object!=null)
+						{
+							adapter.setUsers((ArrayList<UserKey>)object);
+						}
+						else if(status == ResponseStatus.FAILED)
+						{
+							Toast.makeText(UserSearch.this,"Search Failed",Toast.LENGTH_SHORT).show();
+						}
+						else if(status == ResponseStatus.NONE)
+						{
+							Toast.makeText(UserSearch.this,"No Network Connection",Toast.LENGTH_SHORT).show();
+						}
+
+						findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+					}
+				});
 			}
 		});
+		actionBarSearch.setResetOnBack(false);
 		actionBarSearch.setLabel("User Search");
-		actionBarSearch.setSearchHint("Name/Roll/Email");
+		actionBarSearch.setSearchHint("Name/Roll Number/Email");
 
 		findViewById(R.id.actionbar_search).performClick();
 	}

@@ -452,8 +452,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			{
 				if (data.getBooleanExtra("Register", false))
 				{
-					Toast.makeText(Event.this, "Registered Successfully", Toast.LENGTH_LONG).show();
-					EventStatusChanged(EventStatus.None);
 					LoadEvent();
 				}
 			}
