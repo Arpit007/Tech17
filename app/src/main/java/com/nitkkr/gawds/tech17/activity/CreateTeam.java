@@ -90,42 +90,13 @@ public class CreateTeam extends AppCompatActivity
 				final String Name=(( EditText)dialog.findViewById(R.id.Team_Name)).getText().toString();
 				if(Name.equals(""))
 				{
-					dialog.dismiss();
 					((TextView)findViewById(R.id.Team_Name)).setText("Team Name");
 				}
 				else
 				{
-					final ProgressDialog progressDialog = new ProgressDialog(CreateTeam.this);
-					progressDialog.setMessage("Checking Availability");
-					progressDialog.setIndeterminate(true);
-					progressDialog.setCancelable(false);
-					progressDialog.show();
-
-					FetchData.getInstance().checkTeamName(getApplicationContext(), Name, eventModel.getEventID(), new iResponseCallback()
-					{
-						@Override
-						public void onResponse(ResponseStatus status)
-						{
-							progressDialog.dismiss();
-							if(status==ResponseStatus.SUCCESS)
-							{
-								((TextView)findViewById(R.id.Team_Name)).setText(Name);
-								dialog.dismiss();
-							}
-							else if(status == ResponseStatus.OTHER)
-								Toast.makeText(CreateTeam.this, "Choose Different Team Name", Toast.LENGTH_SHORT).show();
-							else if(status ==ResponseStatus.FAILED)
-								Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
-							else Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
-						}
-
-						@Override
-						public void onResponse(ResponseStatus status, Object object)
-						{
-							this.onResponse(status);
-						}
-					});
+					((TextView)findViewById(R.id.Team_Name)).setText(Name);
 				}
+				dialog.dismiss();
 			}
 		});
 
@@ -170,6 +141,13 @@ public class CreateTeam extends AppCompatActivity
 					return;
 				}
 				final String Name=((TextView)findViewById(R.id.Team_Name)).getText().toString();
+
+				final ProgressDialog progressDialog=new ProgressDialog(CreateTeam.this);
+				progressDialog.setIndeterminate(true);
+				progressDialog.setCancelable(false);
+				progressDialog.setMessage("Registering, Please Wait");
+				progressDialog.show();
+
 				FetchData.getInstance().createTeam(getApplicationContext(), Name, eventModel.getEventID(), new iResponseCallback()
 				{
 					@Override
@@ -183,6 +161,7 @@ public class CreateTeam extends AppCompatActivity
 					{
 						if(status ==ResponseStatus.SUCCESS && ((int)object)!=0)
 						{
+							progressDialog.dismiss();
 							final TeamModel model=new TeamModel();
 							model.setTeamID((int)object);
 							model.setTeamName(Name);
@@ -242,8 +221,26 @@ public class CreateTeam extends AppCompatActivity
 		{
 			if (resultCode == RESULT_OK)
 			{
-				adapter.getUsers().add(( UserKey)data.getExtras().getSerializable("User"));
-				adapter.notifyDataSetChanged();
+				boolean found=false;
+				UserKey newUser=( UserKey)data.getExtras().getSerializable("User");
+
+				if(newUser==null)
+					newUser = new UserKey();
+
+				for(UserKey key: adapter.getUsers())
+				{
+					if(key.getUserID().equals(newUser.getUserID()))
+					{
+						found = true;
+						break;
+					}
+				}
+				if(!found)
+				{
+					adapter.getUsers().add((UserKey) data.getExtras().getSerializable("User"));
+					adapter.notifyDataSetChanged();
+				}
+				else Toast.makeText(CreateTeam.this,"User Already Added",Toast.LENGTH_SHORT).show();
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);

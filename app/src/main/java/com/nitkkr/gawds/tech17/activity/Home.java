@@ -20,6 +20,7 @@ import com.nitkkr.gawds.tech17.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.helper.iActionBar;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
+import com.nitkkr.gawds.tech17.src.Feedback;
 import com.nitkkr.gawds.tech17.src.RateApp;
 import com.nitkkr.gawds.tech17.src.UpdateCheck;
 
@@ -81,6 +82,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		else if (RateApp.getInstance().isReadyForRating(Home.this))
 		{
 			RateApp.getInstance().displayRating(Home.this);
+		}
+		else
+		{
+			Feedback feedback = new Feedback();
+			feedback.showFeedback(Home.this, true);
 		}
 	}
 

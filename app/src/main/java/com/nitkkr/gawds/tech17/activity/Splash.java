@@ -207,6 +207,7 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 						alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(Splash.this, R.color.button_color));
 					}
 				});
+		alertDialog.getWindow().getAttributes().windowAnimations = R.style.CloseDialogTheme;
 		alertDialog.show();
 	}
 

@@ -53,5 +53,6 @@
     <string name="createTeam">/api/teams</string>
     <string name="deleteTeam">/api/team/</string>
     <string name="sendInvite">/invite</string>
+    <string name="Invite_Message">Hi!\nCheck out the new Techspardha \'17 App\n\nhttp://play.google.com/store/apps/details?id=</string>
 
 </resources>

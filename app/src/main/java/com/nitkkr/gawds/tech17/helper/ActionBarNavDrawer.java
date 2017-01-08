@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -131,12 +133,13 @@ public class ActionBarNavDrawer
 		}
 		else if(id== R.id.nav_invite)
 		{
-			try {
+			try
+			{
 
 				Intent waIntent = new Intent(Intent.ACTION_SEND);
 				waIntent.setType("text/plain");
-				String text = "Hi!\nCheck out the new Techspardha '17 App\n\n" + "http://play.google.com/store/apps/details?id=" + activity.getPackageName();
-				waIntent.setPackage("com.whatsapp");
+				String text = activity.getString(R.string.Invite_Message) + activity.getPackageName();
+				//waIntent.setPackage("com.whatsapp");
 
 				waIntent.putExtra(Intent.EXTRA_TEXT, text);
 				activity.startActivity(Intent.createChooser(waIntent, "Share with"));
@@ -164,6 +167,9 @@ public class ActionBarNavDrawer
 		}
 		else if(id==R.id.nav_Feedback)
 		{
+			if(!ActivityHelper.isDebugMode(activity))
+				Answers.getInstance().logCustom(new CustomEvent("Feedback"));
+
 			String url = "http://techspardha.org/feedback";
 			Intent i = new Intent(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(url));
@@ -500,17 +506,5 @@ public class ActionBarNavDrawer
 			navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
 			navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
 		}
-
-		/*PackageManager pm=activity.getPackageManager();
-		try
-		{
-			pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
-			navigationView.getMenu().findItem(R.id.nav_invite).setVisible(true);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			navigationView.getMenu().findItem(R.id.nav_invite).setVisible(false);
-		}*/
 	}
 }

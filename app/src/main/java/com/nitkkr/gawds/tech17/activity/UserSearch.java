@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech17.R;
@@ -67,18 +68,45 @@ public class UserSearch extends AppCompatActivity
 			}
 		});
 
+		findViewById(R.id.None1).setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				Intent waIntent = new Intent(Intent.ACTION_SEND);
+				waIntent.setType("text/plain");
+				String text = getString(R.string.Invite_Message) + UserSearch.this.getPackageName();
+				//waIntent.setPackage("com.whatsapp");
+
+				waIntent.putExtra(Intent.EXTRA_TEXT, text);
+				UserSearch.this.startActivity(Intent.createChooser(waIntent, "Share with"));
+			}
+		});
+
 		adapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
 			public void onChanged()
 			{
-				if (adapter.getCount() == 0 && !Query.isEmpty())
+				if (adapter.getCount() == 0)
 				{
-					findViewById(R.id.None).setVisibility(View.VISIBLE);
+					if (!Query.isEmpty())
+					{
+						( (TextView) findViewById(R.id.None) ).setText("User not Found");
+						findViewById(R.id.None).setVisibility(View.VISIBLE);
+						findViewById(R.id.None1).setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						( (TextView) findViewById(R.id.None) ).setText("Search Users using their\nName/ Roll Number/ Email");
+						findViewById(R.id.None).setVisibility(View.VISIBLE);
+						findViewById(R.id.None1).setVisibility(View.INVISIBLE);
+					}
 				}
 				else
 				{
 					findViewById(R.id.None).setVisibility(View.INVISIBLE);
+					findViewById(R.id.None1).setVisibility(View.INVISIBLE);
 				}
 			}
 		});
@@ -97,8 +125,11 @@ public class UserSearch extends AppCompatActivity
 				findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 				adapter.setUsers(new ArrayList<UserKey>());
 				findViewById(R.id.None).setVisibility(View.INVISIBLE);
+				findViewById(R.id.None1).setVisibility(View.INVISIBLE);
 				if(Query.equals(""))
 				{
+					findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+					adapter.notifyDataSetChanged();
 					return;
 				}
 
@@ -136,7 +167,7 @@ public class UserSearch extends AppCompatActivity
 		});
 		actionBarSearch.setResetOnBack(false);
 		actionBarSearch.setLabel("User Search");
-		actionBarSearch.setSearchHint("Name/Roll Number/Email");
+		actionBarSearch.setSearchHint("Name/ Roll Number/ Email");
 
 		findViewById(R.id.actionbar_search).performClick();
 	}

@@ -134,6 +134,7 @@ public class RateApp
 						alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.button_color));
 					}
 				});
+		alertDialog.getWindow().getAttributes().windowAnimations = R.style.CloseDialogTheme;
 		alertDialog.show();
 	}
 

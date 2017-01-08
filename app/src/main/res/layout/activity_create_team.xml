@@ -21,6 +21,10 @@
         android:layout_below="@id/temp_bar" android:id="@+id/temp_Layout"
         android:layout_width="match_parent" android:layout_height="wrap_content">
     <TextView
+        android:layout_marginEnd="20dp"
+        android:ellipsize="end"
+        android:maxEms="5"
+        android:maxLines="1"
         android:text="Team Name"
         android:layout_weight="7"
         android:layout_width="match_parent"
