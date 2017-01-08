@@ -3,6 +3,7 @@ package com.nitkkr.gawds.tech17.activity.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
@@ -48,6 +50,7 @@ public class Result_frag extends Fragment
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
 		MyView = inflater.inflate(R.layout.fragment_about, container, false);
+		//setUpContent(model,MyView);
 		fetchResult();
 		return MyView;
 	}
@@ -91,5 +94,37 @@ public class Result_frag extends Fragment
 				}
 			});
 		}
+	}
+
+	public void setUpContent(EventModel model, View view)
+	{
+		//TODO:Fix
+		//Text no results yet
+		this.model=model;
+		if(view==null)
+			view=MyView;
+		WebView webView = (WebView) view.findViewById(R.id.Event_Content);
+		String text = "";
+
+		if (model != null && model.getResult() != null)
+		{
+			if(!model.getResult().contains("<br/>"))
+			{
+				text = "<html><head>"
+						+ "<style type=\"text/css\">body{color: #fff; }"
+						+ "</style></head>"
+						+ "<body>"
+						+ model.getResult().replaceAll("\n","<br/>")
+						+ "</body></html>";
+			}
+			else text = "<html><head>"
+					+ "<style type=\"text/css\">body{color: #fff; }"
+					+ "</style></head>"
+					+ "<body>"
+					+ model.getResult()
+					+ "</body></html>";
+		}
+		webView.loadDataWithBaseURL(null, text, "text/html", "utf-8", null);
+		webView.setBackgroundColor(Color.TRANSPARENT);
 	}
 }

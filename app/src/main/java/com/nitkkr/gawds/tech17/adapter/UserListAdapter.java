@@ -80,31 +80,36 @@ public class UserListAdapter extends BaseAdapter
 		(( TextView)view.findViewById(R.id.user_name)).setText(builder.toString());
 		setImage(view,users.get(i));
 
-		if(!cross || i==0)
-			view.findViewById(R.id.Cross).setVisibility(View.INVISIBLE);
-		else
+		if(ResourceID==R.layout.layout_create_user_item)
 		{
-			view.findViewById(R.id.Cross).setVisibility(View.VISIBLE);
-			view.findViewById(R.id.Cross).setOnClickListener(new View.OnClickListener()
+			if (!cross || i == 0)
+				view.findViewById(R.id.Cross).setVisibility(View.INVISIBLE);
+			else
 			{
-				@Override
-				public void onClick(View view)
+				view.findViewById(R.id.Cross).setVisibility(View.VISIBLE);
+				view.findViewById(R.id.Cross).setOnClickListener(new View.OnClickListener()
 				{
-					users.remove(i);
-					notifyDataSetChanged();
-				}
-			});
-		}
+					@Override
+					public void onClick(View view)
+					{
+						users.remove(i);
+						notifyDataSetChanged();
+					}
+				});
+			}
 
-		UserKey key = users.get(i);
-		if(!showStatus || key.getTeamControl()== TeamModel.TeamControl.Participant || key.getTeamControl()== TeamModel.TeamControl.None)
-			view.findViewById(R.id.InviteStatus).setVisibility(View.INVISIBLE);
-		else
-		{
-			if(key.getTeamControl()== TeamModel.TeamControl.Leader)
-				((TextView)view.findViewById(R.id.InviteStatus)).setText(key.getTeamControl().getValue());
-			else ((TextView)view.findViewById(R.id.InviteStatus)).setText("Invite " + key.getTeamControl().getValue());
+			UserKey key = users.get(i);
+			if (!showStatus || key.getTeamControl() == TeamModel.TeamControl.Participant || key.getTeamControl() == TeamModel.TeamControl.None)
+				view.findViewById(R.id.InviteStatus).setVisibility(View.INVISIBLE);
+			else
+			{
+				if (key.getTeamControl() == TeamModel.TeamControl.Leader)
+					( (TextView) view.findViewById(R.id.InviteStatus) ).setText(key.getTeamControl().getValue());
+				else
+					( (TextView) view.findViewById(R.id.InviteStatus) ).setText("Invite " + key.getTeamControl().getValue());
+			}
 		}
+		else view.findViewById(R.id.Cross).setVisibility(View.INVISIBLE);
 
 		return view;
 	}

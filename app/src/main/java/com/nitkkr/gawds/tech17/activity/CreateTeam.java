@@ -1,6 +1,7 @@
 package com.nitkkr.gawds.tech17.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.adapter.RegisterTeamAdapter;
 import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
+import com.nitkkr.gawds.tech17.api.FetchData;
+import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActionBarBack;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
@@ -54,6 +57,7 @@ public class CreateTeam extends AppCompatActivity
 
 		teamModel=new TeamModel();
 		teamModel.getMembers().add(AppUserModel.MAIN_USER);
+		teamModel.getMembers().get(0).setTeamControl(TeamModel.TeamControl.Leader);
 
 		(( TextView)findViewById(R.id.Event_Name)).setText(eventModel.getEventName());
 		((TextView)findViewById(R.id.Team_Members_Count)).setText("Team ("+eventModel.getMinUsers()+"-"+eventModel.getMaxUsers()+") Members");
@@ -83,7 +87,7 @@ public class CreateTeam extends AppCompatActivity
 			@Override
 			public void onClick(View view)
 			{
-				String Name=(( EditText)dialog.findViewById(R.id.Team_Name)).getText().toString();
+				final String Name=(( EditText)dialog.findViewById(R.id.Team_Name)).getText().toString();
 				if(Name.equals(""))
 				{
 					dialog.dismiss();
@@ -91,8 +95,36 @@ public class CreateTeam extends AppCompatActivity
 				}
 				else
 				{
-					dialog.dismiss();
-					//TODO:Implement
+					final ProgressDialog progressDialog = new ProgressDialog(CreateTeam.this);
+					progressDialog.setMessage("Checking Availability");
+					progressDialog.setIndeterminate(true);
+					progressDialog.setCancelable(false);
+					progressDialog.show();
+
+					FetchData.getInstance().checkTeamName(getApplicationContext(), Name, eventModel.getEventID(), new iResponseCallback()
+					{
+						@Override
+						public void onResponse(ResponseStatus status)
+						{
+							progressDialog.dismiss();
+							if(status==ResponseStatus.SUCCESS)
+							{
+								((TextView)findViewById(R.id.Team_Name)).setText(Name);
+								dialog.dismiss();
+							}
+							else if(status == ResponseStatus.OTHER)
+								Toast.makeText(CreateTeam.this, "Choose Different Team Name", Toast.LENGTH_SHORT).show();
+							else if(status ==ResponseStatus.FAILED)
+								Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
+							else Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+						}
+
+						@Override
+						public void onResponse(ResponseStatus status, Object object)
+						{
+							this.onResponse(status);
+						}
+					});
 				}
 			}
 		});
@@ -137,7 +169,68 @@ public class CreateTeam extends AppCompatActivity
 					Toast.makeText(CreateTeam.this,"Set Minimum Users",Toast.LENGTH_SHORT).show();
 					return;
 				}
-				//TODO:Implement
+				final String Name=((TextView)findViewById(R.id.Team_Name)).getText().toString();
+				FetchData.getInstance().createTeam(getApplicationContext(), Name, eventModel.getEventID(), new iResponseCallback()
+				{
+					@Override
+					public void onResponse(ResponseStatus status)
+					{
+						this.onResponse(status,0);
+					}
+
+					@Override
+					public void onResponse(ResponseStatus status, Object object)
+					{
+						if(status ==ResponseStatus.SUCCESS && ((int)object)!=0)
+						{
+							final TeamModel model=new TeamModel();
+							model.setTeamID((int)object);
+							model.setTeamName(Name);
+							model.setEventID(eventModel.getEventID());
+							model.setControl(TeamModel.TeamControl.Leader);
+
+							FetchData.getInstance().sendInvite(getApplicationContext(), model.getTeamID(), model.getInviteString(), new iResponseCallback()
+							{
+								@Override
+								public void onResponse(ResponseStatus status)
+								{
+									if(status==ResponseStatus.SUCCESS)
+									{
+										model.setMembers(adapter.getUsers());
+										Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
+
+										Intent intent = new Intent();
+										intent.putExtra("Register", true);
+										setResult(RESULT_OK, intent);
+
+										eventModel.setNotify(true);
+										eventModel.setRegistered(true);
+										Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
+										eventModel.callStatusListener();
+
+										finish();
+										ActivityHelper.setExitAnimation(CreateTeam.this);
+									}
+									else if(status == ResponseStatus.FAILED)
+										Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
+									else Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+								}
+
+								@Override
+								public void onResponse(ResponseStatus status, Object object)
+								{
+									this.onResponse(status);
+								}
+							});
+
+						}
+						else if(status == ResponseStatus.OTHER)
+							Toast.makeText(CreateTeam.this, "Choose Different Team Name", Toast.LENGTH_SHORT).show();
+						else if(status ==ResponseStatus.FAILED)
+							Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
+						else Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+					}
+				});
 			}
 		});
 	}
@@ -154,39 +247,6 @@ public class CreateTeam extends AppCompatActivity
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	public void Register(View view)
-	{/*
-		if (!ActivityHelper.isInternetConnected())
-		{
-			Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
-			return;
-		}
-		ResponseStatus status = ResponseStatus.NONE;
-		//TODO:--Register Team----------
-		switch (status)
-		{
-			case FAILED:
-				Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_LONG).show();
-				break;
-			case SUCCESS:
-				Toast.makeText(CreateTeam.this, "Registered Successfully", Toast.LENGTH_LONG).show();
-				Intent intent = new Intent();
-				intent.putExtra("Register", true);
-				setResult(RESULT_OK, intent);
-
-				eventModel.setNotify(true);
-				eventModel.setRegistered(true);
-				Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
-				eventModel.callStatusListener();
-				finish();
-				ActivityHelper.setExitAnimation(this);
-				break;
-			default:
-				Toast.makeText(CreateTeam.this, "----------------------Message--------------------", Toast.LENGTH_LONG).show();
-				break;
-		}*/
 	}
 
 	@Override

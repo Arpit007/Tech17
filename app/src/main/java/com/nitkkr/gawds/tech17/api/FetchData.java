@@ -528,6 +528,7 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
+	//Unused
 	public void searchFor(final Context context, String search_this, final ArrayList<EventModel> result)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
@@ -1719,27 +1720,23 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	//TEAM API
-	public void createTeam(final Context context, final String teamName, final int EventId, final int status, final iResponseCallback callback)
+	public void checkTeamName(final Context context, final String teamName, final int EventId, final iResponseCallback callback)
 	{
-		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.createTeam),
+		//TODO:Implement
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, "Some Url",
 				new Response.Listener<String>()
 				{
 					@Override
 					public void onResponse(String res)
 					{
-						JSONObject response,data;
-						int code,teamId;
+						JSONObject response;
+						int code;
 						try
 						{
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
-							data=response.getJSONObject("data");
-							//Status 0 for read and 1 for unread
 							if (code == 200)
 							{
-								teamId=data.getInt("Id");
 								if (callback != null)
 								{
 									callback.onResponse(ResponseStatus.SUCCESS);
@@ -1749,7 +1746,7 @@ public class FetchData
 							{
 								if (callback != null)
 								{
-									callback.onResponse(ResponseStatus.FAILED);
+									callback.onResponse(ResponseStatus.OTHER);
 								}
 							}
 
@@ -1779,6 +1776,85 @@ public class FetchData
 							else
 							{
 								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
+				params.put("teamName", teamName);
+				params.put("eventId",String.valueOf(EventId));
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
+	public void createTeam(final Context context, final String teamName, final int EventId, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.createTeam),
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response,data;
+						int code,teamId;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+							data=response.getJSONObject("data");
+
+							if (code == 200)
+							{
+								teamId=data.getInt("Id");
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.SUCCESS, teamId);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.OTHER, 0);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED, 0);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE, 0);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED, 0);
 							}
 						}
 					}
@@ -2021,6 +2097,7 @@ public class FetchData
 									JSONObject object=data.getJSONObject(i);
 									key.setName(object.getString("Name"));
 									key.setUserID(object.getString("Id"));
+									key.setTeamControl(TeamModel.TeamControl.Pending);
 									//TODO:Fix
 									/*key.setRoll(object.getString("RollNo"));
 									if(key.getRoll().equals(AppUserModel.MAIN_USER.getRoll()))
@@ -2069,7 +2146,7 @@ public class FetchData
 
 	}
 
-	public void sendInvite(final Context context, final int teamId, final int status, final String invites,final iResponseCallback callback)
+	public void sendInvite(final Context context, final int teamId, final String invites, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+teamId+context.getResources().getString(R.string.sendInvite),
@@ -2345,6 +2422,7 @@ public class FetchData
 									{
 										key.setTeamControl(TeamModel.TeamControl.Leader);
 										users.add(0,key);
+										model.setControl(TeamModel.TeamControl.Leader);
 									}
 									else
 									{

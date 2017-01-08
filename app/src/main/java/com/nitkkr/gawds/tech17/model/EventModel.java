@@ -31,7 +31,7 @@ public class EventModel extends BaseEventModel implements Serializable
 	private boolean Informal = false;
 	private boolean Registered = false;
 	private EventStatus status = EventStatus.None;
-	private ArrayList<RoundResultModel> Result;
+	private String Result;
 	private ArrayList<UserKey> Participants;
 	private EventStatusListener listener;
 
@@ -71,7 +71,7 @@ public class EventModel extends BaseEventModel implements Serializable
 		return status;
 	}
 
-	public ArrayList<RoundResultModel> getResult()
+	public String getResult()
 	{
 		return Result;
 	}
@@ -146,7 +146,7 @@ public class EventModel extends BaseEventModel implements Serializable
 		this.status = status;
 	}
 
-	public void setResult(ArrayList<RoundResultModel> result)
+	public void setResult(String result)
 	{
 		Result = result;
 	}

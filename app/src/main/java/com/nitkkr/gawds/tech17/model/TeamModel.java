@@ -27,6 +27,29 @@ public class TeamModel implements Serializable
 	public void setTeamName(String eventName){TeamName = eventName;}
 	public void setControl(TeamControl control){this.control = control;}
 
+	public String getInviteString()
+	{
+
+		StringBuilder stringBuilder = new StringBuilder("[");
+
+		String ID;
+
+		for(int x=1;x<Members.size();x++)
+		{
+			ID = Members.get(x).getUserID();
+
+			if (ID.equals(""))
+				continue;
+
+			stringBuilder.append(",").append(ID);
+		}
+
+		stringBuilder.append("]");
+		stringBuilder.deleteCharAt(1);
+
+		return stringBuilder.toString();
+	}
+
 	public enum TeamControl implements Serializable
 	{
 		None("None"),

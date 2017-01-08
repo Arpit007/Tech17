@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech17.R;
+import com.nitkkr.gawds.tech17.activity.Dialog.TeamDialog;
+import com.nitkkr.gawds.tech17.activity.Dialog.TeamListDialog;
 import com.nitkkr.gawds.tech17.activity.fragment.AboutEvent;
 import com.nitkkr.gawds.tech17.activity.fragment.ContactEvent;
 import com.nitkkr.gawds.tech17.activity.fragment.Result_frag;
@@ -26,6 +28,7 @@ import com.nitkkr.gawds.tech17.adapter.ViewPagerAdapter;
 import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.database.Database;
+import com.nitkkr.gawds.tech17.database.DbConstants;
 import com.nitkkr.gawds.tech17.helper.ActionBarBack;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.helper.ResponseStatus;
@@ -33,11 +36,13 @@ import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.model.EventKey;
 import com.nitkkr.gawds.tech17.model.EventModel;
 import com.nitkkr.gawds.tech17.model.EventStatus;
+import com.nitkkr.gawds.tech17.model.TeamModel;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CustomTabLayout;
 import com.nitkkr.gawds.tech17.src.PdfDownloader;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Event extends AppCompatActivity implements EventModel.EventStatusListener
@@ -52,36 +57,46 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	private void setCallbacks()
 	{
 		final Button Register = (Button) findViewById(R.id.Event_Register);
+
 		if (model.isRegistered())
 		{
-			Register.setText("Registered");
-			Register.setEnabled(false);
-
-			//========TODO:Remove on Update=====================
-			/*
-			if (model.isSingleEvent())
+			if(model.isSingleEvent())
 			{
 				Register.setText("Registered");
 				Register.setEnabled(false);
 			}
-			if (model.isGroupEvent())
+			else
 			{
-				Register.setText("View Team");
-
-
-				Register.setOnClickListener(new View.OnClickListener()
+				final ArrayList<TeamModel> teamModels=Database.getInstance().getTeamDB().getMyTeams(DbConstants.TeamNames.EventID.Name() + " = " + model.getEventID());
+				if(teamModels.size()==1)
 				{
-					@Override
-					public void onClick(View view)
+					Register.setText("View Team");
+					Register.setEnabled(true);
+					Register.setOnClickListener(new View.OnClickListener()
 					{
-						Intent intent=new Intent(Event.this,ViewTeam.class);
-						Bundle bundle=new Bundle();
-						bundle.putSerializable("Event",key);
-						intent.putExtras(bundle);
-						startActivity(intent);
-					}
-				});
-			}*/
+						@Override
+						public void onClick(View view)
+						{
+							TeamDialog dialog = new TeamDialog(Event.this,teamModels.get(0),false);
+							dialog.show();
+						}
+					});
+				}
+				else
+				{
+					Register.setText("View Teams");
+					Register.setEnabled(true);
+					Register.setOnClickListener(new View.OnClickListener()
+					{
+						@Override
+						public void onClick(View view)
+						{
+							TeamListDialog dialog = new TeamListDialog(Event.this,model,teamModels);
+							dialog.show();
+						}
+					});
+				}
+			}
 		}
 		else
 		{
@@ -293,7 +308,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		( (NotificationManager) getSystemService(NOTIFICATION_SERVICE) ).cancel(getIntent().getExtras().getInt("NotificationID"));
 
 		CustomTabLayout tabLayout = (CustomTabLayout) findViewById(R.id.event_tab_layout);
-		ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+		final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
 		key = (EventKey) getIntent().getExtras().getSerializable("Event");
 		model = Database.getInstance().getEventsDB().getEvent(key);
@@ -322,6 +337,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				{
 					model = (EventModel) object;
 					Database.getInstance().getEventsDB().addOrUpdateEvent(model);
+					ViewPagerAdapter adapter=(ViewPagerAdapter)viewPager.getAdapter();
+					//TODO:fix
+					//((Result_frag)adapter.getItem(3)).setUpContent(model,null);
 					LoadEvent();
 				}
 				else

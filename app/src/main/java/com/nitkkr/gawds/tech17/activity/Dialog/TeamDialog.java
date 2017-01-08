@@ -39,10 +39,10 @@ public class TeamDialog
 		}
 		else
 		{
-			((TextView)dialog.findViewById(R.id.Team_Accept)).setText("OK");
-			dialog.findViewById(R.id.Team_Accept).setVisibility(View.VISIBLE);
+			((TextView)dialog.findViewById(R.id.Team_Later)).setText("OK");
+			dialog.findViewById(R.id.Team_Accept).setVisibility(View.GONE);
 			dialog.findViewById(R.id.Team_Decline).setVisibility(View.GONE);
-			dialog.findViewById(R.id.Team_Later).setVisibility(View.GONE);
+			dialog.findViewById(R.id.Team_Later).setVisibility(View.VISIBLE);
 		}
 
 		(( TextView)dialog.findViewById(R.id.Team_Name)).setText("Team " + model.getTeamName());

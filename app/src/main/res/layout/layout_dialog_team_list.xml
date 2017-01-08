@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:background="@drawable/border_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <TextView
+        android:text="Event Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="19dp"
+        android:textSize="30sp"
+        android:textColor="@color/text_color_primary"
+        android:id="@+id/Event_Name"
+        android:textStyle="normal|bold"
+        android:textAlignment="textStart"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:text="Interest Name"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxEms="8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color_primary"
+        android:textSize="15sp"
+        android:id="@+id/Interest_Name"
+        android:layout_below="@id/Event_Name"
+        android:layout_alignStart="@id/Event_Name"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp" android:id="@+id/temp_Layout1"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_below="@id/Interest_Name"
+        android:layout_alignStart="@id/Event_Name">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/team2"
+            android:id="@+id/imageView3"/>
+        <TextView
+            android:layout_marginStart="10dp"
+            android:text="4 Teams" android:layout_gravity="center_vertical"
+            android:textColor="@color/text_color_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Team_Count"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/Temp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@color/tab_layout_bk_event"
+        android:layout_below="@id/temp_Layout1"
+        android:layout_width="match_parent" android:layout_height="250dp">
+
+        <ListView
+            android:id="@+id/Team_List" android:layout_margin="5dp"
+            android:divider="@color/neon_green"
+            android:dividerHeight="0.5dp"
+            android:footerDividersEnabled="true"
+            android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+    <Button
+            android:textAllCaps="false" android:layout_below="@id/Temp"
+            android:text="OK" android:id="@+id/OK"
+            android:background="@drawable/border_button"
+            android:textColor="@color/text_color_primary"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            />
+
+</RelativeLayout>

@@ -21,6 +21,7 @@ public class TeamListAdapter extends BaseAdapter
 {
 	private ArrayList<TeamModel> models;
 	private Context context;
+	private int ResourceID = R.layout.layout_team_item;
 
 	public TeamListAdapter(Context context, ArrayList<TeamModel> models)
 	{
@@ -52,18 +53,21 @@ public class TeamListAdapter extends BaseAdapter
 		if (view == null)
 		{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.layout_team_item, null);
+			view = inflater.inflate(ResourceID, null);
 		}
 		(( TextView)view.findViewById(R.id.team_name)).setText("Team " + models.get(i).getTeamName());
 
-		(( TextView)view.findViewById(R.id.Event_Name)).setText("Event: " + Database.getInstance().getEventsDB().getEventKey(models.get(i).getEventID()).getEventName());
-
-		if(models.get(i).getControl() != TeamModel.TeamControl.Leader)
-			view.findViewById(R.id.team_control).setVisibility(View.GONE);
-		else
+		if(ResourceID==R.layout.layout_team_item)
 		{
-			view.findViewById(R.id.team_control).setVisibility(View.VISIBLE);
-			((TextView) view.findViewById(R.id.team_control)).setText(TeamModel.TeamControl.Leader.getValue());
+			( (TextView) view.findViewById(R.id.Event_Name) ).setText("Event: " + Database.getInstance().getEventsDB().getEventKey(models.get(i).getEventID()).getEventName());
+
+			if (models.get(i).getControl() != TeamModel.TeamControl.Leader)
+				view.findViewById(R.id.team_control).setVisibility(View.GONE);
+			else
+			{
+				view.findViewById(R.id.team_control).setVisibility(View.VISIBLE);
+				( (TextView) view.findViewById(R.id.team_control) ).setText(TeamModel.TeamControl.Leader.getValue());
+			}
 		}
 		return view;
 	}
@@ -76,4 +80,5 @@ public class TeamListAdapter extends BaseAdapter
 
 	public ArrayList<TeamModel> getModels(){return models;}
 
+	public void setResourceID(int resourceID) {ResourceID = resourceID;}
 }
