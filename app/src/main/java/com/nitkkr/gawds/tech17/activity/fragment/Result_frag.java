@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.nitkkr.gawds.tech17.R;
+import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.model.EventModel;
 import com.nitkkr.gawds.tech17.src.UpdateCheck;
 
@@ -67,7 +68,8 @@ public class Result_frag extends Fragment
 				@Override
 				public void onClick(View view)
 				{
-					Answers.getInstance().logCustom(new CustomEvent("Updated App"));
+					if(!ActivityHelper.isDebugMode(getContext()))
+						Answers.getInstance().logCustom(new CustomEvent("Updated App"));
 					SharedPreferences preferences = getContext().getSharedPreferences(getContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
 					SharedPreferences.Editor editor = getContext().getSharedPreferences(getContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
 
@@ -83,6 +85,7 @@ public class Result_frag extends Fragment
 					editor.apply();
 
 					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 					intent.setData(Uri.parse("market://details?id=" + getContext().getPackageName()));
 					getContext().startActivity(intent);
 				}

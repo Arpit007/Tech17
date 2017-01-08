@@ -79,7 +79,10 @@ public class UpdateCheck
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i)
 				{
-					Answers.getInstance().logCustom(new CustomEvent("Updated App"));
+					if(!ActivityHelper.isDebugMode(context))
+					{
+						Answers.getInstance().logCustom(new CustomEvent("Updated App"));
+					}
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					calendar.add(Calendar.HOUR, context.getResources().getInteger(R.integer.AfterUpdateHours));
@@ -90,11 +93,13 @@ public class UpdateCheck
 					editor.putLong("Update_Date", calendar.getTime().getTime());
 					editor.apply();
 
+					dialogInterface.dismiss();
+
 					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 					intent.setData(Uri.parse("market://details?id=" + context.getPackageName()));
 					context.startActivity(intent);
 
-					dialogInterface.dismiss();
 				}
 			});
 			builder.setNegativeButton("Later", new DialogInterface.OnClickListener()

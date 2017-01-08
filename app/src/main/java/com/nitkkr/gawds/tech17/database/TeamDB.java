@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
+import com.nitkkr.gawds.tech17.model.EventModel;
 import com.nitkkr.gawds.tech17.model.TeamModel;
 import com.nitkkr.gawds.tech17.model.UserKey;
 
@@ -359,6 +360,116 @@ public class TeamDB extends SQLiteOpenHelper
 			}
 		}
 		return keys;
+	}
+
+	public TeamModel getMyTeam(int ID)
+	{
+		String Query = "SELECT * FROM " + DbConstants.Constants.getMyTeamTableName() + " WHERE " + DbConstants.TeamNames.TeamID.Name() + " = " + ID + ";";
+		Log.d("Query:\t", Query);
+
+		TeamModel model = new TeamModel();
+
+		Cursor cursor = null;
+		try
+		{
+			cursor = dbRequest.getDatabase().rawQuery(Query, null);
+
+			List<String> Columns = Arrays.asList(cursor.getColumnNames());
+			int[] ColumnIndex =
+					{
+							Columns.indexOf(DbConstants.TeamNames.TeamID.Name()),
+							Columns.indexOf(DbConstants.TeamNames.TeamName.Name()),
+							Columns.indexOf(DbConstants.TeamNames.EventID.Name()),
+							Columns.indexOf(DbConstants.TeamNames.Participants.Name())
+					};
+
+			if (cursor.getCount() > 0)
+			{
+				cursor.moveToFirst();
+
+				model.setTeamID(cursor.getInt(ColumnIndex[0]));
+				model.setTeamName(cursor.getString(ColumnIndex[1]));
+				model.setEventID(cursor.getInt(ColumnIndex[2]));
+
+				try
+				{
+					ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(cursor.getBlob(ColumnIndex[3]));
+					ObjectInput objectInput=new ObjectInputStream(byteArrayInputStream);
+					model.setMembers((ArrayList<UserKey>)objectInput.readObject());
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (cursor != null)
+			{
+				cursor.close();
+			}
+		}
+		return model;
+	}
+
+	public TeamModel getInviteTeam(int ID)
+	{
+		String Query = "SELECT * FROM " + DbConstants.Constants.getTeamInviteTableName() + " WHERE " + DbConstants.TeamNames.TeamID.Name() + " = " + ID + ";";
+		Log.d("Query:\t", Query);
+
+		TeamModel model = new TeamModel();
+
+		Cursor cursor = null;
+		try
+		{
+			cursor = dbRequest.getDatabase().rawQuery(Query, null);
+
+			List<String> Columns = Arrays.asList(cursor.getColumnNames());
+			int[] ColumnIndex =
+					{
+							Columns.indexOf(DbConstants.TeamNames.TeamID.Name()),
+							Columns.indexOf(DbConstants.TeamNames.TeamName.Name()),
+							Columns.indexOf(DbConstants.TeamNames.EventID.Name()),
+							Columns.indexOf(DbConstants.TeamNames.Participants.Name())
+					};
+
+			if (cursor.getCount() > 0)
+			{
+				cursor.moveToFirst();
+
+				model.setTeamID(cursor.getInt(ColumnIndex[0]));
+				model.setTeamName(cursor.getString(ColumnIndex[1]));
+				model.setEventID(cursor.getInt(ColumnIndex[2]));
+
+				try
+				{
+					ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(cursor.getBlob(ColumnIndex[3]));
+					ObjectInput objectInput=new ObjectInputStream(byteArrayInputStream);
+					model.setMembers((ArrayList<UserKey>)objectInput.readObject());
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (cursor != null)
+			{
+				cursor.close();
+			}
+		}
+		return model;
 	}
 
 	public void deleteInvite(int ID)

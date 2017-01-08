@@ -11,7 +11,9 @@
         <item android:id="@+id/nav_teams" android:icon="@drawable/team2" android:title="Teams"/>
         <item android:id="@+id/nav_logout" android:icon="@drawable/sign_out" android:title="Logout"/>
         <item android:id="@+id/nav_login" android:icon="@drawable/login" android:title="Login" android:visible="false"/>
+        <item android:id="@+id/nav_invite" android:icon="@drawable/ic_person_add_black_24dp" android:title="Invite"/>
         <item android:id="@+id/nav_About" android:icon="@drawable/about_icon" android:title="About"/>
+        <item android:id="@+id/nav_Feedback" android:icon="@drawable/ic_language_black_24dp" android:title="Feedback"/>
         <item android:id="@+id/link" android:title="Visit Techspardha.org"/>
     </group>
 </menu>

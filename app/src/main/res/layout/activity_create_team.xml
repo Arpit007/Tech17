@@ -83,14 +83,14 @@
         android:background="@color/tab_layout_bk_event"
         android:layout_width="match_parent" android:layout_height="match_parent">
 
-        <com.nitkkr.gawds.tech17.src.CompatCircleImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/Add_Member"
             app:srcCompat="@drawable/ic_person_add_black_24dp"
             android:tint="@color/neon_green"
             android:padding="5dp"
             android:layout_marginEnd="20dp" android:layout_marginTop="10dp"
             android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
-            android:layout_width="30dp" android:layout_height="30dp"/>
+            android:layout_width="35dp" android:layout_height="35dp"/>
 
         <ListView
             android:layout_below="@id/Add_Member"

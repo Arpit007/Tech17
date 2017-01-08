@@ -50,6 +50,7 @@ public class NotificationPage extends AppCompatActivity
 				else NotificationPage.this.findViewById(R.id.None).setVisibility(View.INVISIBLE);
 			}
 		});
+		adapter.notifyDataSetChanged();
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{

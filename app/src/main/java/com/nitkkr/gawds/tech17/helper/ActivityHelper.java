@@ -25,6 +25,7 @@ import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.activity.Home;
 import com.nitkkr.gawds.tech17.activity.ListPage;
 import com.nitkkr.gawds.tech17.api.Query;
+import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.src.UpdateCheck;
 
 import java.util.Calendar;
@@ -135,7 +136,9 @@ public class ActivityHelper
 						@Override
 						public void onClick(View view)
 						{
-							Answers.getInstance().logCustom(new CustomEvent("Updated App"));
+							if(!isDebugMode(context))
+								Answers.getInstance().logCustom(new CustomEvent("Updated App"));
+
 							SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
 							SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
 
@@ -151,6 +154,7 @@ public class ActivityHelper
 							editor.apply();
 
 							Intent intent = new Intent(Intent.ACTION_VIEW);
+							intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 							intent.setData(Uri.parse("market://details?id=" + context.getPackageName()));
 							context.startActivity(intent);
 						}

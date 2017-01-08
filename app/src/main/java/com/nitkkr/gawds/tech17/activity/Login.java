@@ -357,6 +357,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 				FetchData.getInstance().fetchUserWishlist(getApplicationContext());
 				FetchData.getInstance().fetchUserInterests(getApplicationContext());
 				FetchData.getInstance().getNotifications(getApplicationContext());
+				FetchData.getInstance().getMyTeams(getApplicationContext());
 
 				if (!ActivityHelper.isDebugMode(getApplicationContext()))
 				{
@@ -422,9 +423,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 	{
 		if (mProgressDialog == null)
 		{
-			mProgressDialog = new ProgressDialog(this,R.style.StyledDialog);
+			mProgressDialog = new ProgressDialog(this);
 		}
-		mProgressDialog = new ProgressDialog(this,R.style.StyledDialog);
 		mProgressDialog.setMessage(msg);
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setCancelable(false);

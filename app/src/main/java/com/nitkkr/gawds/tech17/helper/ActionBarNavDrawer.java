@@ -1,11 +1,14 @@
 package com.nitkkr.gawds.tech17.helper;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +28,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.activity.About;
+import com.nitkkr.gawds.tech17.activity.Event;
 import com.nitkkr.gawds.tech17.activity.EventListPage;
 import com.nitkkr.gawds.tech17.activity.Home;
 import com.nitkkr.gawds.tech17.activity.Login;
@@ -34,12 +38,14 @@ import com.nitkkr.gawds.tech17.activity.ViewUser;
 import com.nitkkr.gawds.tech17.api.EventTargetType;
 import com.nitkkr.gawds.tech17.api.Query;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
+import com.nitkkr.gawds.tech17.model.UserModel;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.nitkkr.gawds.tech17.activity.Login.mGoogleApiClient;
+import static com.nitkkr.gawds.tech17.helper.ActivityHelper.getApplicationContext;
 import static com.nitkkr.gawds.tech17.helper.ActivityHelper.startListActivity;
 
 /**
@@ -106,13 +112,40 @@ public class ActionBarNavDrawer
 		}
 		else if (id==R.id.nav_teams)
 		{
-			intent = new Intent(activity, TeamPage.class);
-			activity.startActivity(intent);
+			if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
+			{
+				intent = new Intent(activity, TeamPage.class);
+				activity.startActivity(intent);
+			}
+			else Snackbar.make(activity.findViewById(android.R.id.content), "Login Required", Snackbar.LENGTH_SHORT)
+					.setAction("Login", new View.OnClickListener()
+					{
+						@Override
+						public void onClick(View view)
+						{
+							AppUserModel.MAIN_USER.LoginUserNoHome(activity, false);
+						}
+					})
+					.setActionTextColor(ContextCompat.getColor(activity, R.color.neon_green))
+					.show();
 		}
-		else if (id == R.id.nav_workshops)
+		else if(id== R.id.nav_invite)
 		{
-			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Workshop);
-			startListActivity(activity, activity.getString(R.string.Workshop), query);
+			try {
+
+				Intent waIntent = new Intent(Intent.ACTION_SEND);
+				waIntent.setType("text/plain");
+				String text = "Hi!\nCheck out the new Techspardha '17 App\n\n" + "http://play.google.com/store/apps/details?id=" + activity.getPackageName();
+				waIntent.setPackage("com.whatsapp");
+
+				waIntent.putExtra(Intent.EXTRA_TEXT, text);
+				activity.startActivity(Intent.createChooser(waIntent, "Share with"));
+
+			}
+			catch (Exception e)
+			{
+				Toast.makeText(activity, "WhatsApp not Installed", Toast.LENGTH_SHORT).show();
+			}
 		}
 		else if (id == R.id.nav_About)
 		{
@@ -122,7 +155,6 @@ public class ActionBarNavDrawer
 		else if (id == R.id.nav_logout)
 		{
 			logout();
-
 		}
 		else if (id == R.id.nav_login)
 		{
@@ -130,13 +162,19 @@ public class ActionBarNavDrawer
 			intent.putExtra("Start_Home", false);
 			activity.startActivity(intent);
 		}
+		else if(id==R.id.nav_Feedback)
+		{
+			String url = "http://techspardha.org/feedback";
+			Intent i = new Intent(Intent.ACTION_VIEW);
+			i.setData(Uri.parse(url));
+			activity.startActivity(i);
+		}
 		else if (id == R.id.link)
 		{
 			String url = "http://techspardha.org/";
 			Intent i = new Intent(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(url));
 			activity.startActivity(i);
-
 		}
 	}
 
@@ -462,5 +500,17 @@ public class ActionBarNavDrawer
 			navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
 			navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
 		}
+
+		/*PackageManager pm=activity.getPackageManager();
+		try
+		{
+			pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
+			navigationView.getMenu().findItem(R.id.nav_invite).setVisible(true);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			navigationView.getMenu().findItem(R.id.nav_invite).setVisible(false);
+		}*/
 	}
 }

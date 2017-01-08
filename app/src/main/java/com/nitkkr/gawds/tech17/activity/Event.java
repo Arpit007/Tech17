@@ -48,6 +48,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	private ActionBarBack actionBar;
 	private AlertDialog alertDialog;
 	private ProgressDialog progressDialog = null;
+
 	private void setCallbacks()
 	{
 		final Button Register = (Button) findViewById(R.id.Event_Register);
@@ -134,7 +135,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 									public void onClick(DialogInterface dialogInterface, int i)
 									{
 										dialogInterface.dismiss();
-										progressDialog = new ProgressDialog(Event.this,R.style.StyledDialog);
+										progressDialog = new ProgressDialog(Event.this);
 										progressDialog.setMessage("Registering, Please Wait");
 										progressDialog.setIndeterminate(true);
 										progressDialog.setCancelable(false);

@@ -250,6 +250,7 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 			FetchData.getInstance().fetchUserInterests(getBaseContext());
 			FetchData.getInstance().fetchUserWishlist(getBaseContext());
 			FetchData.getInstance().getNotifications(getApplicationContext());
+			FetchData.getInstance().getMyTeams(getApplicationContext());
 		}
 
 		if (AppUserModel.MAIN_USER.isUserLoggedIn(this))

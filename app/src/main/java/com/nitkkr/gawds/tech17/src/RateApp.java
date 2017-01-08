@@ -80,15 +80,26 @@ public class RateApp
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i)
 			{
-				Answers.getInstance().logCustom(new CustomEvent("Rated App"));
+				if(!ActivityHelper.isDebugMode(context))
+				{
+					Answers.getInstance().logCustom(new CustomEvent("Rated App"));
+				}
 				editor.putLong("MaxCount", -1);
 				editor.apply();
 
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse("market://details?id=" + context.getPackageName()));
-				context.startActivity(intent);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
 				dialogInterface.dismiss();
+				try
+				{
+					context.startActivity(intent);
+				}
+				catch (Exception e)
+				{
+					context.startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://play.google.com/store/apps/details?id=" + context.getPackageName())));
+				}
 			}
 		});
 

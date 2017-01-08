@@ -1799,8 +1799,8 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-
-	/*public void deleteTeam(final Context context, final String teamId, final int status, final iResponseCallback callback)
+	//Unused
+	public void deleteTeam(final Context context, final String teamId, final int status, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+teamId,
@@ -1877,10 +1877,12 @@ public class FetchData
 
 		RequestQueue requestQueue = Volley.newRequestQueue(context);
 		requestQueue.add(stringRequest);
-	}*/
+	}
 
-	public void getMyTeams(final Context context, final iResponseCallback callback)
+	public void getMyTeams(final Context context)
 	{
+		FetchResponseHelper.getInstance().incrementRequestCount();
+
 		StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.createTeam),
 				new Response.Listener<String>()
@@ -1899,7 +1901,9 @@ public class FetchData
 
 							if (code == 200)
 							{
+								ArrayList<TeamModel> myTeams=new ArrayList<>();
 								ArrayList<TeamModel> teams=new ArrayList<>();
+								ArrayList<TeamModel> invites=new ArrayList<>();
 
 								if (data != null)
 								{
@@ -1923,7 +1927,7 @@ public class FetchData
 										key.setEventID(teamLeaderOf.getJSONObject(i).getInt("EventId"));
 										key.setTeamName(teamLeaderOf.getJSONObject(i).getString("Name"));
 										key.setControl(TeamModel.TeamControl.Leader);
-										teams.add(key);
+										myTeams.add(key);
 									}
 
 									for (int i = 0; i < pendingInvitations.length(); i++)
@@ -1932,31 +1936,39 @@ public class FetchData
 										key.setEventID(pendingInvitations.getJSONObject(i).getInt("EventId"));
 										key.setTeamName(pendingInvitations.getJSONObject(i).getString("Name"));
 										key.setControl(TeamModel.TeamControl.Pending);
-										teams.add(key);
+										invites.add(key);
 									}
+									Database.getInstance().getTeamDB().resetTable();
+									Database.getInstance().getTeamDB().addOrUpdateTeamInvite(invites);
+									Database.getInstance().getTeamDB().addOrUpdateMyTeam(teams);
+									Database.getInstance().getTeamDB().addOrUpdateMyTeam(myTeams);
+
+
+									RequestQueue teamDetailQueue = Volley.newRequestQueue(context);
+
+									for(TeamModel model : invites)
+										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),true,false,null));
+
+									for(TeamModel model : teams)
+										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),false,false,null));
+
+									for(TeamModel model : myTeams)
+										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),false,true,null));
 								}
 
-								if (callback != null)
-								{
-									callback.onResponse(ResponseStatus.SUCCESS, teams);
-								}
+								FetchResponseHelper.getInstance().incrementResponseCount(null);
 							}
 							else
 							{
-								if (callback != null)
-								{
-									callback.onResponse(ResponseStatus.FAILED, null);
-								}
+								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
 							}
 
 						}
 						catch (JSONException e)
 						{
 							e.printStackTrace();
-							if (callback != null)
-							{
-								callback.onResponse(ResponseStatus.FAILED, null);
-							}
+
+							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
 						}
 					}
 				},
@@ -1966,17 +1978,7 @@ public class FetchData
 					public void onErrorResponse(VolleyError error)
 					{
 						error.printStackTrace();
-						if (callback != null)
-						{
-							if (error instanceof TimeoutError || error instanceof NetworkError)
-							{
-								callback.onResponse(ResponseStatus.NONE, null);
-							}
-							else
-							{
-								callback.onResponse(ResponseStatus.FAILED, null);
-							}
-						}
+						FetchResponseHelper.getInstance().incrementResponseCount(error);
 					}
 				})
 		{
@@ -2300,8 +2302,7 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	//team Detail
-	public void getTeamDetail(final Context context, final int teamId, final iResponseCallback callback)
+	public StringRequest getTeamDetail(final Context context, final int teamId, final boolean isInvite, final boolean isLeader, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+teamId,
@@ -2312,22 +2313,52 @@ public class FetchData
 					{
 						JSONObject response;
 						JSONArray data;
-						int code,Id,TeamId,StudentId;
-						String Status,TeamName,StudentName;
+						int code;
+
 						try
 						{
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
+
 							if (code == 200)
 							{
-								data=response.getJSONArray("data");
-								for(int i=0;i<data.length();i++){
-									Id=data.getJSONObject(i).getInt("Id");
-									Status=data.getJSONObject(i).getString("Status");
-									StudentId=data.getJSONObject(i).getInt("StudentId");
-									StudentName=data.getJSONObject(i).getJSONObject("Student").getString("Name");
+								TeamModel model;
 
+								if(isInvite)
+									model = Database.getInstance().getTeamDB().getInviteTeam(teamId);
+								else model = Database.getInstance().getTeamDB().getMyTeam(teamId);
+
+								ArrayList<UserKey> users=new ArrayList<>();
+
+								data=response.getJSONArray("data");
+
+								for(int i=0;i<data.length();i++)
+								{
+									UserKey key = new UserKey();
+									JSONObject object=data.getJSONObject(i);
+
+									//key.setUserID(String.valueOf(object.getInt("Id")));
+									key.setUserID(String.valueOf(object.getInt("StudentId")));
+									key.setName(object.getJSONObject("Student").getString("Name"));
+
+									if(isLeader && key.getName().equals(AppUserModel.MAIN_USER.getName()))
+									{
+										key.setTeamControl(TeamModel.TeamControl.Leader);
+										users.add(0,key);
+									}
+									else
+									{
+										key.setTeamControl(TeamModel.TeamControl.Parse(object.getString("Status")));
+										users.add(key);
+									}
 								}
+
+								model.setMembers(users);
+
+								if(isInvite)
+									Database.getInstance().getTeamDB().addOrUpdateTeamInvite(model);
+								else Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
+
 								Log.v("DEBUG",res.toString());
 								if (callback != null)
 								{
@@ -2382,8 +2413,7 @@ public class FetchData
 			}
 		};
 
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
 }

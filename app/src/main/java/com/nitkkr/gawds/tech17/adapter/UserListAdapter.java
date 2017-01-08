@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
+import com.nitkkr.gawds.tech17.model.TeamModel;
 import com.nitkkr.gawds.tech17.model.UserKey;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
@@ -29,6 +30,7 @@ public class UserListAdapter extends BaseAdapter
 	private Context context;
 	private boolean cross;
 	private int ResourceID;
+	private boolean showStatus=false;
 
 	public UserListAdapter(ArrayList<UserKey> users, Context context, boolean showCross, int resourceID)
 	{
@@ -92,6 +94,16 @@ public class UserListAdapter extends BaseAdapter
 					notifyDataSetChanged();
 				}
 			});
+		}
+
+		UserKey key = users.get(i);
+		if(!showStatus || key.getTeamControl()== TeamModel.TeamControl.Participant || key.getTeamControl()== TeamModel.TeamControl.None)
+			view.findViewById(R.id.InviteStatus).setVisibility(View.INVISIBLE);
+		else
+		{
+			if(key.getTeamControl()== TeamModel.TeamControl.Leader)
+				((TextView)view.findViewById(R.id.InviteStatus)).setText(key.getTeamControl().getValue());
+			else ((TextView)view.findViewById(R.id.InviteStatus)).setText("Invite " + key.getTeamControl().getValue());
 		}
 
 		return view;
@@ -167,5 +179,10 @@ public class UserListAdapter extends BaseAdapter
 			view1.findViewById(R.id.User_Image).setVisibility(View.GONE);
 			view1.findViewById(R.id.temp_user_Image_Letter).setVisibility(View.INVISIBLE);
 		}
+	}
+
+	public void setShowStatus(boolean showStatus)
+	{
+		this.showStatus=showStatus;
 	}
 }

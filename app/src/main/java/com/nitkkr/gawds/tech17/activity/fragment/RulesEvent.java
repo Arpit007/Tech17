@@ -41,12 +41,24 @@ public class RulesEvent extends Fragment
 		if (model != null)
 		{
 			WebView webView = (WebView) view.findViewById(R.id.Event_Content);
-			String text = "<html><head>"
+			String text;
+
+			if(!model.getRules().contains("<br/>"))
+			{
+				text = "<html><head>"
+						+ "<style type=\"text/css\">body{color: #fff; }"
+						+ "</style></head>"
+						+ "<body>"
+						+ model.getRules().replaceAll("\n","<br/>")
+						+ "</body></html>";
+			}
+			else text = "<html><head>"
 					+ "<style type=\"text/css\">body{color: #fff; }"
 					+ "</style></head>"
 					+ "<body>"
 					+ model.getRules()
 					+ "</body></html>";
+
 			webView.loadDataWithBaseURL(null, text, "text/html", "utf-8", null);
 			webView.setBackgroundColor(Color.TRANSPARENT);
 		}

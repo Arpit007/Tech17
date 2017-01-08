@@ -36,6 +36,18 @@ public class TeamModel implements Serializable
 		Declined("Declined");
 
 		private String value;
+		public static TeamControl Parse(String value)
+		{
+			if(value.equals("Accepted"))
+				return Participant;
+			if(value.equals("Declined"))
+				return Declined;
+			if(value.equals("Pending"))
+				return Pending;
+			if(value.equals("Team Leader"))
+				return Leader;
+			return None;
+		}
 		TeamControl(String value)
 		{
 			this.value=value;

@@ -6,7 +6,7 @@
     <integer name="WarningDuration">4000</integer>
     <integer name="AfterUpdateHours">2</integer>
     <integer name="LaterUpdateHours">2</integer>
-    <integer name="AppStartCount">10</integer>
+    <integer name="AppStartCount">6</integer>
 
 
     <string name="Misc_Prefs">Misc_Prefs</string>

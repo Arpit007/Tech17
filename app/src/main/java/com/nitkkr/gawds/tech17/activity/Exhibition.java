@@ -103,7 +103,7 @@ public class Exhibition extends AppCompatActivity
 					return;
 				}
 
-				progressDialog = new ProgressDialog(Exhibition.this,R.style.StyledDialog);
+				progressDialog = new ProgressDialog(Exhibition.this);
 				progressDialog.setMessage("Updating Changes");
 				progressDialog.setIndeterminate(true);
 				progressDialog.show();
@@ -186,7 +186,11 @@ public class Exhibition extends AppCompatActivity
 		( (TextView) findViewById(R.id.exhibition_Title) ).setText(model.getEventName());
 		if (!model.getAuthor().equals(""))
 			( (TextView) findViewById(R.id.exhibition_Author) ).setText(model.getAuthor());
-		else findViewById(R.id.exhibition_Author).setVisibility(View.GONE);
+		else
+		{
+			findViewById(R.id.exhibition_Author).setVisibility(View.GONE);
+			findViewById(R.id.exhibition_Title).setVisibility(View.GONE);
+		}
 
 		if(!model.getImage_URL().equals("") && !model.getImage_URL().equals("null"))
 			Glide.with(Exhibition.this).load(model.getImage_URL()).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(0.5f).centerCrop().into((ImageView) findViewById(R.id.exhibition_Image));

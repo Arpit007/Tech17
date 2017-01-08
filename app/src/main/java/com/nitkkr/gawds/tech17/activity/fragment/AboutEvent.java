@@ -36,12 +36,28 @@ public class AboutEvent extends Fragment
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_about, container, false);
+		setUpContent(model, view);
+		return view;
+	}
 
+	public void setUpContent(EventModel model, View view)
+	{
+		this.model=model;
 		WebView webView = (WebView) view.findViewById(R.id.Event_Content);
 		String text = "";
+
 		if (model != null && model.getDescription() != null)
 		{
-			text = "<html><head>"
+			if(!model.getDescription().contains("<br/>"))
+			{
+				text = "<html><head>"
+						+ "<style type=\"text/css\">body{color: #fff; }"
+						+ "</style></head>"
+						+ "<body>"
+						+ model.getDescription().replaceAll("\n","<br/>")
+						+ "</body></html>";
+			}
+			else text = "<html><head>"
 					+ "<style type=\"text/css\">body{color: #fff; }"
 					+ "</style></head>"
 					+ "<body>"
@@ -50,6 +66,6 @@ public class AboutEvent extends Fragment
 		}
 		webView.loadDataWithBaseURL(null, text, "text/html", "utf-8", null);
 		webView.setBackgroundColor(Color.TRANSPARENT);
-		return view;
 	}
+
 }
