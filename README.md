@@ -9,7 +9,7 @@ enable git hub in android studio in VCS > Enable Version Control Integration... 
 sync gradle if needed, and you are good to go!
 
 Official App of Techo-Managerial Fest, Techspardha '17
-
+Grab your copy from: https://play.google.com/store/apps/details?id=com.nitkkr.gawds.tech17
 
 ![Splash](https://lh3.googleusercontent.com/Eo6t49zzIYmNeT4A3klogv37bYl-BXsZSMx6kHarYMhIn-xobBCOguGS0M3T_xNpVw=h900-rw "Splash Screen")
 ![Login](https://lh3.googleusercontent.com/bcxiaVmA5TUKzdhJcInD9yQ6I9sm4y5tDR9WMeBlCMheYZyaloJpBovKhsZJgCPCHOQ=h900-rw "Login")
