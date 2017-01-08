@@ -1019,48 +1019,84 @@ public class FetchData
 		FetchResponseHelper.getInstance().incrementRequestCount();
 
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken(),
+				//TODO:add time stamp
+
+				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken()+"&timeStamp=",
 				new Response.Listener<String>()
 				{
 					@Override
 					public void onResponse(String res)
 					{
 						JSONObject response;
-						JSONArray data;
+						JSONArray data,privateobjarr,globalobjarr;
 						int code;
 						try
 						{
+							Log.v("DEBUG",res.toString());
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
 							data = response.getJSONArray("data");
 							if (code == 200)
 							{
 								ArrayList<NotificationModel> models = Database.getInstance().getNotificationDB().getAllNotifications();
-								for (int i = 0; i < data.length(); i++)
-								{
-									JSONObject object = data.getJSONObject(i);
-									int ID=object.getInt("Id"), index = -1;
 
-									NotificationModel model=new NotificationModel();
+									JSONObject object = data.getJSONObject(0);
+								JSONObject object2 = data.getJSONObject(1);
 
-									for(int x=0;x<models.size();x++)
-									{
-										if(models.get(x).getNotificationID()==ID)
+								privateobjarr=object.getJSONArray("private");
+									globalobjarr=object2.getJSONArray("global");
+
+
+									//private notification
+									for(int j=0;j<privateobjarr.length();j++){
+										int ID=object.getInt("Id"), index = -1;
+
+										NotificationModel model=new NotificationModel();
+
+										for(int x=0;x<models.size();x++)
 										{
-											model=models.get(x);
-											index=x;
+											if(models.get(x).getNotificationID()==ID)
+											{
+												model=models.get(x);
+												index=x;
+											}
 										}
+										JSONObject NotificationObject = object.getJSONObject("Notification");
+
+										model.setNotificationID(object.getInt("Id"));
+										model.setEventID(NotificationObject.getInt("EventId"));
+										model.setMessage(NotificationObject.getString("Message"));
+										model.setSeen(object.getInt("status")==0);
+
+										if(index==-1)
+											models.add(model);
 									}
-									JSONObject NotificationObject = object.getJSONObject("Notification");
 
-									model.setNotificationID(object.getInt("Id"));
-									model.setEventID(NotificationObject.getInt("EventId"));
-									model.setMessage(NotificationObject.getString("Message"));
-									model.setSeen(object.getInt("status")==0);
+									//global notification
+									for(int j=0;j<globalobjarr.length();j++){
+										int ID=object2.getInt("Id"), index = -1;
 
-									if(index==-1)
-										models.add(model);
-								}
+										NotificationModel model=new NotificationModel();
+
+										for(int x=0;x<models.size();x++)
+										{
+											if(models.get(x).getNotificationID()==ID)
+											{
+												model=models.get(x);
+												index=x;
+											}
+										}
+										JSONObject NotificationObject = object2.getJSONObject("Notification");
+
+										model.setNotificationID(object2.getInt("Id"));
+										model.setEventID(NotificationObject.getInt("EventId"));
+										model.setMessage(NotificationObject.getString("Message"));
+										model.setSeen(object2.getInt("status")==0);
+
+										if(index==-1)
+											models.add(model);
+									}
+
 								Database.getInstance().getNotificationDB().addOrUpdateNotification(models);
 								FetchResponseHelper.getInstance().incrementResponseCount(null);
 							}
@@ -1475,6 +1511,7 @@ public class FetchData
 										model.setGTalk(0);
 
 										finalExhibition.add(model);
+
 									}
 									else if (Category.equals("workshops"))
 									{
@@ -1692,18 +1729,19 @@ public class FetchData
 					@Override
 					public void onResponse(String res)
 					{
-						JSONObject response;
-						int code;
+						JSONObject response,data;
+						int code,teamId;
 						try
 						{
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
+							data=response.getJSONObject("data");
 							//Status 0 for read and 1 for unread
 							if (code == 200)
 							{
+								teamId=data.getInt("Id");
 								if (callback != null)
 								{
-									//TODO: get team id here
 									callback.onResponse(ResponseStatus.SUCCESS);
 								}
 							}
@@ -2032,7 +2070,7 @@ public class FetchData
 	public void sendInvite(final Context context, final int teamId, final int status, final String invites,final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
+				context.getResources().getString(R.string.deleteTeam)+teamId+context.getResources().getString(R.string.sendInvite),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -2096,6 +2134,7 @@ public class FetchData
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
 				params.put("inviteTypes","new");
+				//TODO:invites here is an array of user ids ex: [1,2,3]
 				params.put("invites",invites);
 				return params;
 			}
@@ -2108,7 +2147,7 @@ public class FetchData
 	public void acceptTeamInvite(final Context context, final int teamId, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
+				context.getResources().getString(R.string.deleteTeam)+teamId+context.getResources().getString(R.string.sendInvite),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -2119,6 +2158,7 @@ public class FetchData
 
 						try
 						{
+							Log.v("DEBUG",res.toString());
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
 
@@ -2185,7 +2225,7 @@ public class FetchData
 	public void declineTeamInvite(final Context context, final int teamId, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.deleteTeam)+"/"+teamId+context.getResources().getString(R.string.sendInvite),
+				context.getResources().getString(R.string.deleteTeam)+teamId+context.getResources().getString(R.string.sendInvite),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -2200,6 +2240,8 @@ public class FetchData
 
 							if (code == 200)
 							{
+
+								Log.v("DEBUG",res.toString());
 								if (callback != null)
 								{
 									callback.onResponse(ResponseStatus.SUCCESS);
@@ -2250,6 +2292,92 @@ public class FetchData
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
 				params.put("inviteTypes", "decline");
+				return params;
+			}
+		};
+
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(stringRequest);
+	}
+
+	//team Detail
+	public void getTeamDetail(final Context context, final int teamId, final iResponseCallback callback)
+	{
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.deleteTeam)+teamId,
+				new Response.Listener<String>()
+				{
+					@Override
+					public void onResponse(String res)
+					{
+						JSONObject response;
+						JSONArray data;
+						int code,Id,TeamId,StudentId;
+						String Status,TeamName,StudentName;
+						try
+						{
+							response = new JSONObject(res);
+							code = response.getJSONObject("status").getInt("code");
+							if (code == 200)
+							{
+								data=response.getJSONArray("data");
+								for(int i=0;i<data.length();i++){
+									Id=data.getJSONObject(i).getInt("Id");
+									Status=data.getJSONObject(i).getString("Status");
+									StudentId=data.getJSONObject(i).getInt("StudentId");
+									StudentName=data.getJSONObject(i).getJSONObject("Student").getString("Name");
+
+								}
+								Log.v("DEBUG",res.toString());
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.SUCCESS);
+								}
+							}
+							else
+							{
+								if (callback != null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+								}
+							}
+
+						}
+						catch (JSONException e)
+						{
+							e.printStackTrace();
+							if (callback != null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
+					}
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
 				return params;
 			}
 		};

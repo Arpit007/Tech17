@@ -202,7 +202,7 @@ public class Interests extends AppCompatActivity
 	{
 		if (mProgressDialog == null)
 		{
-			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog = new ProgressDialog(this,R.style.StyledDialog);
 			mProgressDialog.setMessage(msg);
 			mProgressDialog.setIndeterminate(true);
 			mProgressDialog.setCancelable(false);

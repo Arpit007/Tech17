@@ -9,6 +9,7 @@ import com.nitkkr.gawds.tech17.activity.Login;
 import com.nitkkr.gawds.tech17.database.Database;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Home Laptop on 07-Nov-16.
@@ -18,7 +19,7 @@ public class AppUserModel extends UserModel implements Cloneable
 {
 
 	ArrayList<InterestModel> Interests;
-
+	private static Date d;
 	public static final int LOGIN_REQUEST_CODE = 99;
 	private boolean loggedIn, signedup;
 

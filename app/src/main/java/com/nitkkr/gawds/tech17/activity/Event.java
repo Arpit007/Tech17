@@ -134,7 +134,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 									public void onClick(DialogInterface dialogInterface, int i)
 									{
 										dialogInterface.dismiss();
-										progressDialog = new ProgressDialog(Event.this);
+										progressDialog = new ProgressDialog(Event.this,R.style.StyledDialog);
 										progressDialog.setMessage("Registering, Please Wait");
 										progressDialog.setIndeterminate(true);
 										progressDialog.setCancelable(false);
