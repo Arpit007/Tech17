@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
 import com.nitkkr.gawds.tech17.api.FetchData;
@@ -73,10 +75,12 @@ public class UserSearch extends AppCompatActivity
 			@Override
 			public void onClick(View view)
 			{
+				if(!ActivityHelper.isDebugMode(UserSearch.this))
+					Answers.getInstance().logCustom(new CustomEvent("Invite"));
+
 				Intent waIntent = new Intent(Intent.ACTION_SEND);
 				waIntent.setType("text/plain");
 				String text = getString(R.string.Invite_Message) + UserSearch.this.getPackageName();
-				//waIntent.setPackage("com.whatsapp");
 
 				waIntent.putExtra(Intent.EXTRA_TEXT, text);
 				UserSearch.this.startActivity(Intent.createChooser(waIntent, "Share with"));

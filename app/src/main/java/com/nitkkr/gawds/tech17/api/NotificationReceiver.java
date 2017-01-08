@@ -11,8 +11,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     // Triggered by the Alarm periodically (starts the service to run task)
     public static final int REQUEST_CODE = 12345;
+
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent)
+    {
         Intent i = new Intent(context, NotificationService.class);
         context.startService(i);
     }

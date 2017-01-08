@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
-import android.provider.CalendarContract;
 import android.support.v7.app.AlertDialog;
 
 import com.crashlytics.android.answers.Answers;
@@ -27,9 +26,10 @@ public class Feedback
 	private boolean isFeedbackTime(Context context)
 	{
 		Calendar calendar = Calendar.getInstance();
+		//22-Jan-2017
 		calendar.set(Calendar.DATE,22);
 		calendar.set(Calendar.MONTH,1);
-		calendar.set(Calendar.YEAR,2016);
+		calendar.set(Calendar.YEAR,2017);
 		calendar.set(Calendar.HOUR, 0);
 		calendar.set(Calendar.MINUTE,0);
 		calendar.setTimeZone(TimeZone.getDefault());

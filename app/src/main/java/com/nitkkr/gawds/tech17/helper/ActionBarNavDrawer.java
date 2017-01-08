@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech17.helper;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -48,6 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.nitkkr.gawds.tech17.activity.Login.mGoogleApiClient;
 import static com.nitkkr.gawds.tech17.helper.ActivityHelper.getApplicationContext;
+import static com.nitkkr.gawds.tech17.helper.ActivityHelper.isDebugMode;
 import static com.nitkkr.gawds.tech17.helper.ActivityHelper.startListActivity;
 
 /**
@@ -135,11 +138,11 @@ public class ActionBarNavDrawer
 		{
 			try
 			{
-
+				if(!ActivityHelper.isDebugMode(activity))
+					Answers.getInstance().logCustom(new CustomEvent("Invite"));
 				Intent waIntent = new Intent(Intent.ACTION_SEND);
 				waIntent.setType("text/plain");
 				String text = activity.getString(R.string.Invite_Message) + activity.getPackageName();
-				//waIntent.setPackage("com.whatsapp");
 
 				waIntent.putExtra(Intent.EXTRA_TEXT, text);
 				activity.startActivity(Intent.createChooser(waIntent, "Share with"));
@@ -149,6 +152,27 @@ public class ActionBarNavDrawer
 			{
 				Toast.makeText(activity, "WhatsApp not Installed", Toast.LENGTH_SHORT).show();
 			}
+		}
+		else if(id == R.id.nav_Dev)
+		{
+			if(!isDebugMode(activity))
+				Answers.getInstance().logCustom(new CustomEvent("Developers"));
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+			builder.setTitle("Developers");
+			builder.setCancelable(true);
+			builder.setMessage("App developed by:\nArpit Bhatnagar\nAbhik Setia\n\nCooked With Love by Gawds,\nTeam Techspardha\nNIT Kurukshetra");
+			builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i)
+				{
+					dialogInterface.dismiss();
+				}
+			});
+			AlertDialog alertDialog = builder.create();
+			alertDialog.getWindow().getAttributes().windowAnimations = R.style.CloseDialogTheme;
+			alertDialog.show();
 		}
 		else if (id == R.id.nav_About)
 		{
