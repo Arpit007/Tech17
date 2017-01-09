@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.api.FetchData;
+import com.nitkkr.gawds.tech17.api.NotificationService;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.helper.ResponseStatus;
@@ -157,7 +158,15 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 			Log.v("DEBUG",acct.getIdToken()+"");
 			if (acct != null)
 			{
-				userModel.setName(acct.getDisplayName());
+				String[] strArray = acct.getDisplayName().split(" ");
+				StringBuilder builder = new StringBuilder();
+				for (String s : strArray)
+				{
+					String cap = s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+					builder.append(cap + " ");
+				}
+
+				userModel.setName(builder.toString());
 				try
 				{
 					userModel.setImageResource(acct.getPhotoUrl().toString());
@@ -354,10 +363,14 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 				getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit().putBoolean("Skip", false).commit();
 
-				FetchData.getInstance().fetchUserWishlist(getApplicationContext());
-				FetchData.getInstance().fetchUserInterests(getApplicationContext());
-				FetchData.getInstance().getNotifications(getApplicationContext());
-				FetchData.getInstance().getMyTeams(getApplicationContext());
+				Intent intent1=new Intent(Login.this, NotificationService.class);
+				intent1.putExtra("Forced",true);
+				startService(intent1);
+
+
+				RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+				requestQueue.add(FetchData.fetchUserInterests(getApplicationContext(),Database.getInstance(),null));
+				requestQueue.add(FetchData.getMyTeams(getApplicationContext(),Database.getInstance(),null));
 
 				if (!ActivityHelper.isDebugMode(getApplicationContext()))
 				{
@@ -444,12 +457,12 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 	{
 		if (!ActivityHelper.isInternetConnected())
 		{
-			Snackbar.make(this.findViewById(android.R.id.content), "No Network Connection", Snackbar.LENGTH_LONG).show();
-			return;
+			Toast.makeText(Login.this, "No Network Connection", Toast.LENGTH_SHORT).show();
 		}
-		Intent intent = new Intent(Login.this, SignUp.class);
-		intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
-		startActivity(intent);
+		else
+		{
+			googleLogin();
+		}
 	}
 
 	public void Skip(View view)

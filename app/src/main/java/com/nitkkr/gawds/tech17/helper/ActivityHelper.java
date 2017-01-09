@@ -111,7 +111,12 @@ public class ActivityHelper
 
 	public static boolean isInternetConnected()
 	{
-		ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		return isInternetConnected(getApplicationContext());
+	}
+
+	public static boolean isInternetConnected(Context context)
+	{
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 		return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 	}

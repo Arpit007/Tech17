@@ -177,7 +177,7 @@ public class UpdateCheck
 				}
 				finally
 				{
-					SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
+					SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
 					editor.putBoolean("Update", UpdateAvailable);
 					editor.apply();
 				}
@@ -188,7 +188,7 @@ public class UpdateCheck
 			public void onErrorResponse(VolleyError error)
 			{
 				UpdateAvailable = false;
-				SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
+				SharedPreferences.Editor editor = context.getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
 				editor.putBoolean("Update", UpdateAvailable);
 				editor.apply();
 			}

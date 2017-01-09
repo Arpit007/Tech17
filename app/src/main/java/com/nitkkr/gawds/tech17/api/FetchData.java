@@ -54,10 +54,8 @@ public class FetchData
 		return f;
 	}
 
-	public void fetchUserInterests(final Context context)
+	public static StringRequest fetchUserInterests(final Context context, final Database database, final iResponseCallback callback)
 	{
-		FetchResponseHelper.getInstance().incrementRequestCount();
-
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.get_interests_list) + "?token=" + AppUserModel.MAIN_USER.getToken(),
 				new Response.Listener<String>()
@@ -77,34 +75,37 @@ public class FetchData
 
 							if (code == 200)
 							{
-								Database.getInstance().getInterestDB().resetTable();
+								database.getInterestDB().resetTable();
 
 								ArrayList<InterestModel> list = new ArrayList<>();
 								for (int i = 0; i < data.length(); i++)
 								{
 									InterestModel interestModel = new InterestModel();
 									interestModel.setID(data.getInt(i));
-									interestModel.setInterest(Database.getInstance().getInterestDB().getInterest(interestModel));
+									interestModel.setInterest(database.getInterestDB().getInterest(interestModel));
 									interestModel.setSelected(true);
 									list.add(interestModel);
 								}
 
-								Database.getInstance().getInterestDB().addOrUpdateInterest(list);
+								database.getInterestDB().addOrUpdateInterest(list);
 
-								FetchResponseHelper.getInstance().incrementResponseCount(null);
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS);
 
 								Log.v("DEBUG", data.toString());
 							}
 							else
 							{
 								Log.d("Fetch:\t", "Failed Fetching User Interests");
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.FAILED);
 							}
 						}
 						catch (JSONException e)
 						{
 							e.printStackTrace();
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+							if(callback!=null)
+								callback.onResponse(ResponseStatus.FAILED);
 						}
 					}
 				},
@@ -113,16 +114,25 @@ public class FetchData
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
 						error.printStackTrace();
+						if(callback!=null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				});
 
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
-	public void getUserDetails(final Context context)
+	public static StringRequest getUserDetails(final Context context, Database database, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.get_user_details_url) + "?token=" + AppUserModel.MAIN_USER.getToken(),
@@ -132,7 +142,7 @@ public class FetchData
 					public void onResponse(String res)
 					{
 
-						JSONObject response, profile, data;
+						JSONObject response, data;
 
 						int code;
 						try
@@ -154,18 +164,21 @@ public class FetchData
 								appUserModel.saveAppUser(context);
 								AppUserModel.MAIN_USER = appUserModel;
 
-								FetchResponseHelper.getInstance().incrementResponseCount(null);
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS);
 								Log.v("DEBUG", data.toString());
 							}
 							else
 							{
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.FAILED);
 							}
 						}
 						catch (JSONException e)
 						{
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
 							e.printStackTrace();
+							if(callback!=null)
+								callback.onResponse(ResponseStatus.FAILED);
 						}
 					}
 				},
@@ -174,13 +187,22 @@ public class FetchData
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
 						error.printStackTrace();
+						if(callback!=null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				});
 
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
 	public void updateUserDetails(final Context context, final AppUserModel main_user, final iResponseCallback callback)
@@ -756,10 +778,8 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void fetchUserWishlist(final Context context)
+	public static StringRequest fetchUserWishlist(final Context context, final Database database, final iResponseCallback callback)
 	{
-		FetchResponseHelper.getInstance().incrementRequestCount();
-
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.userWishlist)
 				+ "?token=" + AppUserModel.MAIN_USER.getToken(),
 				new Response.Listener<String>()
@@ -776,25 +796,28 @@ public class FetchData
 							code = response.getJSONObject("status").getInt("code");
 							if (code == 200)
 							{
-								Database.getInstance().getExhibitionDB().resetTable();
+								database.getExhibitionDB().resetTable();
 								data = response.getJSONArray("data");
 								for (int i = 0; i < data.length(); i++)
 								{
-									ExhibitionModel key = Database.getInstance().getExhibitionDB().getExhibition(data.getInt(i));
+									ExhibitionModel key = database.getExhibitionDB().getExhibition(data.getInt(i));
 									key.setNotify(true);
-									Database.getInstance().getExhibitionDB().addOrUpdateExhibition(key);
+									database.getExhibitionDB().addOrUpdateExhibition(key);
 								}
-								FetchResponseHelper.getInstance().incrementResponseCount(null);
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS);
 							}
 							else
 							{
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.FAILED);
 							}
 						}
 						catch (JSONException e)
 						{
 							e.printStackTrace();
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+							if(callback!=null)
+								callback.onResponse(ResponseStatus.FAILED);
 						}
 					}
 				},
@@ -804,12 +827,20 @@ public class FetchData
 					public void onErrorResponse(VolleyError error)
 					{
 						error.printStackTrace();
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
+						if(callback!=null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				});
-
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
 	public void addToWishlist(final Context context, final EventKey key, final iResponseCallback callback)
@@ -952,10 +983,8 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void getSocieties(final Context context)
+	public static StringRequest getSocieties(final Context context, final Database database, final iResponseCallback callback)
 	{
-		FetchResponseHelper.getInstance().incrementRequestCount();
-
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.getSocieties),
 				new Response.Listener<String>()
 				{
@@ -982,18 +1011,21 @@ public class FetchData
 									model.setDescription(object.getString("Description"));
 									models.add(model);
 								}
-								Database.getInstance().getSocietyDB().addOrUpdateSocities(models);
-								FetchResponseHelper.getInstance().incrementResponseCount(null);
+								database.getSocietyDB().addOrUpdateSocities(models);
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS);
 							}
 							else
 							{
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.FAILED);
 							}
 						}
 						catch (JSONException e)
 						{
 							e.printStackTrace();
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+							if(callback!=null)
+								callback.onResponse(ResponseStatus.FAILED);
 						}
 					}
 				},
@@ -1003,18 +1035,25 @@ public class FetchData
 					public void onErrorResponse(VolleyError error)
 					{
 						error.printStackTrace();
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				});
 
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
-	public void getNotifications(final Context context)
+	public static StringRequest getNotifications(final Context context, final Database database, final iResponseCallback callback)
 	{
-		FetchResponseHelper.getInstance().incrementRequestCount();
-
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				//TODO:add time stamp
 
@@ -1035,7 +1074,7 @@ public class FetchData
 							data = response.getJSONArray("data");
 							if (code == 200)
 							{
-								ArrayList<NotificationModel> models = Database.getInstance().getNotificationDB().getAllNotifications();
+								ArrayList<NotificationModel> models = database.getNotificationDB().getAllNotifications();
 
 									JSONObject object = data.getJSONObject(0);
 								JSONObject object2 = data.getJSONObject(1);
@@ -1094,18 +1133,20 @@ public class FetchData
 											models.add(model);
 									}
 
-								Database.getInstance().getNotificationDB().addOrUpdateNotification(models);
-								FetchResponseHelper.getInstance().incrementResponseCount(null);
+								database.getNotificationDB().addOrUpdateNotification(models);
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS);
 							}
 							else
 							{
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.FAILED);
 							}
 						}
 						catch (JSONException e)
 						{
-							e.printStackTrace();
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+							if(callback!=null)
+								callback.onResponse(ResponseStatus.FAILED);
 						}
 					}
 				},
@@ -1115,12 +1156,20 @@ public class FetchData
 					public void onErrorResponse(VolleyError error)
 					{
 						error.printStackTrace();
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				});
-
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
 	public void changeNotificationStatus(final Context context, final int NotificationId, final int status, final iResponseCallback callback)
@@ -1377,10 +1426,8 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void fetchAll(final Context context)
+	public static StringRequest fetchInterests(final Context context, final Database database, final iResponseCallback callback)
 	{
-		FetchResponseHelper.getInstance().incrementRequestCount();
-
 		String Url = context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.getCategories);
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>()
 		{
@@ -1395,34 +1442,37 @@ public class FetchData
 					response = new JSONObject(res);
 					data = response.getJSONArray("data");
 					code = response.getJSONObject("status").getInt("code");
-					ArrayList<InterestModel> list = Database.getInstance().getInterestDB().getAllInterests();
+					ArrayList<InterestModel> list = database.getInterestDB().getAllInterests();
 					if (code == 200)
 					{
 						for (int i = 0; i < data.length(); i++)
 						{
 							JSONObject object = data.getJSONObject(i);
-							InterestModel interestModel = Database.getInstance().getInterestDB().getInterestModel(object.getInt("Id"));
+							InterestModel interestModel = database.getInterestDB().getInterestModel(object.getInt("Id"));
 							interestModel.setID(object.getInt("Id"));
 							interestModel.setInterest(object.getString("Name"));
 							list.add(interestModel);
 						}
-						Database.getInstance().getInterestDB().deleteTable();
-						Database.getInstance().getInterestDB().onCreate(Database.getInstance().getDatabase());
-						Database.getInstance().getInterestDB().addOrUpdateInterest(list);
+						database.getInterestDB().deleteTable();
+						database.getInterestDB().onCreate(Database.getInstance().getDatabase());
+						database.getInterestDB().addOrUpdateInterest(list);
 						Log.v("DEBUG", data.toString());
-						FetchData.getInstance().fetchData(context);
+						if(callback!=null)
+							callback.onResponse(ResponseStatus.SUCCESS);
 					}
 					else
 					{
 						Log.d("Fetch:\t", "Failed fetching All Interests");
-						FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+						if(callback!=null)
+							callback.onResponse(ResponseStatus.FAILED);
 					}
 				}
 				catch (JSONException e)
 				{
 					Log.d("Fetch:\t", "Failed Fetching Interests");
-					FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
 					e.printStackTrace();
+					if(callback!=null)
+						callback.onResponse(ResponseStatus.FAILED);
 				}
 			}
 		},
@@ -1431,16 +1481,25 @@ public class FetchData
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
 						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				});
 
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
-	private void fetchData(final Context context)
+	public static StringRequest fetchData(final Context context, final Database database, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.get_events_list),
@@ -1464,10 +1523,10 @@ public class FetchData
 
 							if (code == 200)
 							{
-								ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getEvents("");
+								ArrayList<EventModel> eventModels = database.getEventsDB().getEvents("");
 								ArrayList<EventModel> finalEvents = new ArrayList<>();
 
-								ArrayList<ExhibitionModel> exhibitionModels = Database.getInstance().getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " != 1");
+								ArrayList<ExhibitionModel> exhibitionModels = database.getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " != 1");
 								ArrayList<ExhibitionModel> finalExhibition = new ArrayList<>();
 
 								ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
@@ -1479,9 +1538,9 @@ public class FetchData
 								for (int i = 0; i < data.length(); i++)
 								{
 									JSONObject jEvent = data.getJSONObject(i);
-									String Category = Database.getInstance().getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
+									String Category = database.getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
 
-									if (Category.equals("exhibition"))
+									if (Category.equals("exhibitions"))
 									{
 										ExhibitionModel model = new ExhibitionModel();
 										JSONObject object = data.getJSONObject(i);
@@ -1506,6 +1565,7 @@ public class FetchData
 										model.setAuthor("");
 										model.setVenue(object.getString("Venue"));
 										model.setGTalk(0);
+										model.setSociety(-1);
 
 										finalExhibition.add(model);
 
@@ -1540,8 +1600,8 @@ public class FetchData
 									}
 									else
 									{
-										Category = Database.getInstance().getSocietyDB().getSocietyName(jEvent.getInt("SocietyId")).toLowerCase();
-										String Temp1 = Database.getInstance().getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
+										Category = database.getSocietyDB().getSocietyName(jEvent.getInt("SocietyId")).toLowerCase();
+										String Temp1 = database.getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
 										isInformal = ( Category.equals("informals") || Category.equals("informalz") || Temp1.equals("informals") || Temp1.equals("informalz") );
 
 										ID = jEvent.getInt("Id");
@@ -1597,25 +1657,35 @@ public class FetchData
 									}
 								}
 
-								fetchAllGTalks(context, exhibitionModels, finalExhibition);
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS);
+								fetchAllGTalks(context, exhibitionModels, finalExhibition,database,callback);
 
-								Database.getInstance().getEventsDB().deleteTable();
-								Database.getInstance().getEventsDB().onCreate(Database.getInstance().getDatabase());
-								Database.getInstance().getEventsDB().addOrUpdateEvent(finalEvents);
+								database.getEventsDB().deleteTable();
+								database.getEventsDB().onCreate(Database.getInstance().getDatabase());
+								database.getEventsDB().addOrUpdateEvent(finalEvents);
 
-								Database.getInstance().getCoordinatorDB().deleteTable();
-								Database.getInstance().getCoordinatorDB().onCreate(Database.getInstance().getDatabase());
-								Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
+								database.getCoordinatorDB().deleteTable();
+								database.getCoordinatorDB().onCreate(database.getDatabase());
+								database.getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
 							}
 							else
 							{
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if(callback!=null)
+								{
+									callback.onResponse(ResponseStatus.FAILED);
+									callback.onResponse(ResponseStatus.FAILED);
+								}
 							}
 						}
 						catch (JSONException e)
 						{
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
 							e.printStackTrace();
+							if(callback!=null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+								callback.onResponse(ResponseStatus.FAILED);
+							}
 						}
 
 					}
@@ -1625,16 +1695,27 @@ public class FetchData
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
 						error.printStackTrace();
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				});
 
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
-	private void fetchAllGTalks(final Context context, final ArrayList<ExhibitionModel> initialList, final ArrayList<ExhibitionModel> finalList)
+	private static void fetchAllGTalks(final Context context, final ArrayList<ExhibitionModel> initialList, final ArrayList<ExhibitionModel> finalList, final Database database, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.guestLectures),
 				new Response.Listener<String>()
@@ -1652,8 +1733,7 @@ public class FetchData
 							data = response.getJSONArray("data");
 							if (code == 200)
 							{
-								ArrayList<ExhibitionModel> models = initialList;
-								int Size = models.size();
+								int Size = initialList.size();
 								for (int i = 0; i < data.length(); i++)
 								{
 									ExhibitionModel model = new ExhibitionModel();
@@ -1663,9 +1743,9 @@ public class FetchData
 
 									for (int x = 0; x < Size; x++)
 									{
-										if (models.get(x).getEventID() == ID)
+										if (initialList.get(x).getEventID() == ID)
 										{
-											model = models.get(x);
+											model = initialList.get(x);
 											break;
 										}
 									}
@@ -1684,21 +1764,25 @@ public class FetchData
 								}
 								Log.v("DEBUG", "GUSTO TALK" + data.toString());
 
-								Database.getInstance().getExhibitionDB().deleteTable();
-								Database.getInstance().getExhibitionDB().onCreate(Database.getInstance().getDatabase());
-								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(finalList);
-								FetchResponseHelper.getInstance().incrementResponseCount(null);
+								database.getExhibitionDB().deleteTable();
+								database.getExhibitionDB().onCreate(database.getDatabase());
+								database.getExhibitionDB().addOrUpdateExhibition(finalList);
+
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS);
 
 							}
 							else
 							{
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if(callback!=null)
+									callback.onResponse(ResponseStatus.FAILED);
 							}
 						}
 						catch (JSONException e)
 						{
 							e.printStackTrace();
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+							if(callback!=null)
+								callback.onResponse(ResponseStatus.FAILED);
 						}
 					}
 				},
@@ -1708,7 +1792,17 @@ public class FetchData
 					public void onErrorResponse(VolleyError error)
 					{
 						error.printStackTrace();
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				});
 
@@ -1875,10 +1969,8 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public void getMyTeams(final Context context)
+	public static StringRequest getMyTeams(final Context context, final Database database, final iResponseCallback callback)
 	{
-		FetchResponseHelper.getInstance().incrementRequestCount();
-
 		StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.createTeam),
 				new Response.Listener<String>()
@@ -1934,37 +2026,51 @@ public class FetchData
 										key.setControl(TeamModel.TeamControl.Pending);
 										invites.add(key);
 									}
-									Database.getInstance().getTeamDB().resetTable();
-									Database.getInstance().getTeamDB().addOrUpdateTeamInvite(invites);
-									Database.getInstance().getTeamDB().addOrUpdateMyTeam(teams);
-									Database.getInstance().getTeamDB().addOrUpdateMyTeam(myTeams);
+									database.getTeamDB().resetTable();
+									database.getTeamDB().addOrUpdateTeamInvite(invites);
+									database.getTeamDB().addOrUpdateMyTeam(teams);
+									database.getTeamDB().addOrUpdateMyTeam(myTeams);
 
 
 									RequestQueue teamDetailQueue = Volley.newRequestQueue(context);
+									teamDetailQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>()
+									{
+										@Override
+										public void onRequestFinished(Request<Object> request)
+										{
+											if(callback!=null)
+												callback.onResponse(ResponseStatus.SUCCESS);
+										}
+									});
 
 									for(TeamModel model : invites)
-										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),true,false,null));
+										teamDetailQueue.add(getTeamDetail(context, database, model.getTeamID(),true,false,null));
 
 									for(TeamModel model : teams)
-										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),false,false,null));
+										teamDetailQueue.add(getTeamDetail(context, database, model.getTeamID(),false,false,null));
 
 									for(TeamModel model : myTeams)
-										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),false,true,null));
+										teamDetailQueue.add(getTeamDetail(context, database, model.getTeamID(),false,true,null));
 								}
 
-								FetchResponseHelper.getInstance().incrementResponseCount(null);
+								if (callback!=null)
+									callback.onResponse(ResponseStatus.SUCCESS);
 							}
 							else
 							{
-								FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+								if (callback!=null)
+									callback.onResponse(ResponseStatus.FAILED);
 							}
 
 						}
 						catch (JSONException e)
 						{
 							e.printStackTrace();
-
-							FetchResponseHelper.getInstance().incrementResponseCount(new VolleyError());
+							if (callback!=null)
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+								callback.onResponse(ResponseStatus.FAILED);
+							}
 						}
 					}
 				},
@@ -1974,7 +2080,19 @@ public class FetchData
 					public void onErrorResponse(VolleyError error)
 					{
 						error.printStackTrace();
-						FetchResponseHelper.getInstance().incrementResponseCount(error);
+						if (callback != null)
+						{
+							if (error instanceof TimeoutError || error instanceof NetworkError)
+							{
+								callback.onResponse(ResponseStatus.NONE);
+								callback.onResponse(ResponseStatus.NONE);
+							}
+							else
+							{
+								callback.onResponse(ResponseStatus.FAILED);
+								callback.onResponse(ResponseStatus.FAILED);
+							}
+						}
 					}
 				})
 		{
@@ -1987,8 +2105,7 @@ public class FetchData
 			}
 		};
 
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+		return stringRequest;
 	}
 
 	public void searchUsers(final Context context,  final String query, final iResponseCallback callback)
@@ -2299,7 +2416,7 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public StringRequest getTeamDetail(final Context context, final int teamId, final boolean isInvite, final boolean isLeader, final iResponseCallback callback)
+	public static StringRequest getTeamDetail(final Context context, final Database database, final int teamId, final boolean isInvite, final boolean isLeader, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+teamId,
@@ -2322,8 +2439,8 @@ public class FetchData
 								TeamModel model;
 
 								if(isInvite)
-									model = Database.getInstance().getTeamDB().getInviteTeam(teamId);
-								else model = Database.getInstance().getTeamDB().getMyTeam(teamId);
+									model = database.getTeamDB().getInviteTeam(teamId);
+								else model = database.getTeamDB().getMyTeam(teamId);
 
 								ArrayList<UserKey> users=new ArrayList<>();
 
@@ -2354,8 +2471,8 @@ public class FetchData
 								model.setMembers(users);
 
 								if(isInvite)
-									Database.getInstance().getTeamDB().addOrUpdateTeamInvite(model);
-								else Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
+									database.getTeamDB().addOrUpdateTeamInvite(model);
+								else database.getTeamDB().addOrUpdateMyTeam(model);
 
 								Log.v("DEBUG",res.toString());
 								if (callback != null)

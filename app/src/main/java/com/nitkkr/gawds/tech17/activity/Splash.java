@@ -32,6 +32,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.api.FetchData;
+import com.nitkkr.gawds.tech17.api.FetchService;
 import com.nitkkr.gawds.tech17.api.NotificationReceiver;
 import com.nitkkr.gawds.tech17.api.NotificationService;
 import com.nitkkr.gawds.tech17.database.Database;
@@ -121,7 +122,6 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		startNotify();
 
 		ActivityHelper.setUpHelper(getApplicationContext());
 
@@ -133,6 +133,8 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 		}
 
 		setContentView(R.layout.activity_splash);
+
+		startNotify();
 
 		ActivityHelper.setStatusBarColor(this);
 
@@ -152,6 +154,29 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 		runAnimationDown.start();
 		runAnimationUp.start();
 		splashTypewriter.animateText("      Techspardha '17");
+
+		if (!ActivityHelper.isInternetConnected() && Database.getInstance().getEventsDB().getRowCount() == 0)
+		{
+			Toast.makeText(getApplicationContext(), "First Run Requires Network Connection\nExiting...", Toast.LENGTH_LONG).show();
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					System.exit(-1);
+				}
+			}, 5000);
+			return;
+		}
+		else if(Database.getInstance().getEventsDB().getRowCount()==0)
+		{
+			Intent intent=new Intent(Splash.this,FetchService.class);
+			intent.putExtra("Forced", true);
+			startService(intent);
+			intent=new Intent(Splash.this,NotificationService.class);
+			intent.putExtra("Forced", true);
+			startService(intent);
+		}
 
 		Thread thread = new Thread()
 		{
@@ -246,19 +271,6 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		RateApp.getInstance().incrementAppStartCount(getApplicationContext());
 
-
-		FetchData.getInstance().fetchAll(getApplicationContext());
-		FetchData.getInstance().getSocieties(getApplicationContext());
-
-		if (AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
-		{
-			FetchData.getInstance().getUserDetails(getBaseContext());
-			FetchData.getInstance().fetchUserInterests(getBaseContext());
-			FetchData.getInstance().fetchUserWishlist(getBaseContext());
-			FetchData.getInstance().getNotifications(getApplicationContext());
-			FetchData.getInstance().getMyTeams(getApplicationContext());
-		}
-
 		if (AppUserModel.MAIN_USER.isUserLoggedIn(this))
 		{
 			try
@@ -350,6 +362,6 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 				intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		AlarmManager alarm1 = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-		alarm1.setInexactRepeating(AlarmManager.RTC_WAKEUP, 10,NotificationService.intervalMillis, pIntent1);
+		alarm1.setInexactRepeating(AlarmManager.RTC_WAKEUP, 10, FetchService.intervalMillis, pIntent1);
 	}
 }

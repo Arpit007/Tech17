@@ -73,6 +73,10 @@ public class ActionBarNavDrawer
 
 		if (id == R.id.nav_home)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			if (activity instanceof Home)
 			{
 				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
@@ -84,6 +88,10 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.nav_events)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			if (activity instanceof EventListPage)
 			{
 				DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
@@ -97,26 +105,46 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.nav_gusto_talks)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.GuestTalk);
 			startListActivity(activity, activity.getString(R.string.Guest_Talks), query);
 		}
 		else if (id==R.id.nav_workshops)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Workshop);
 			startListActivity(activity, activity.getString(R.string.Workshop), query);
 		}
 		else if (id == R.id.nav_informals)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Informals);
 			startListActivity(activity, activity.getString(R.string.Informals), query);
 		}
 		else if (id == R.id.nav_exhibitions)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			Query query = new Query(null, Query.QueryType.SQl, EventTargetType.Exhibition);
 			startListActivity(activity, activity.getString(R.string.Exhibition), query);
 		}
 		else if (id==R.id.nav_teams)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			if(AppUserModel.MAIN_USER.isUserLoggedIn(activity))
 			{
 				intent = new Intent(activity, TeamPage.class);
@@ -136,6 +164,10 @@ public class ActionBarNavDrawer
 		}
 		else if(id== R.id.nav_invite)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			try
 			{
 				if(!ActivityHelper.isDebugMode(activity))
@@ -155,6 +187,10 @@ public class ActionBarNavDrawer
 		}
 		else if(id == R.id.nav_Dev)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			if(!isDebugMode(activity))
 				Answers.getInstance().logCustom(new CustomEvent("Developers"));
 
@@ -176,21 +212,37 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.nav_About)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			intent = new Intent(activity, About.class);
 			activity.startActivity(intent);
 		}
 		else if (id == R.id.nav_logout)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			logout();
 		}
 		else if (id == R.id.nav_login)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			intent = new Intent(activity, Login.class);
 			intent.putExtra("Start_Home", false);
 			activity.startActivity(intent);
 		}
 		else if(id==R.id.nav_Feedback)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			if(!ActivityHelper.isDebugMode(activity))
 				Answers.getInstance().logCustom(new CustomEvent("Feedback"));
 
@@ -201,6 +253,10 @@ public class ActionBarNavDrawer
 		}
 		else if (id == R.id.link)
 		{
+			if(activity instanceof Home)
+				navigationView.getMenu().getItem(0).setChecked(true);
+			else navigationView.getMenu().getItem(1).setChecked(true);
+
 			String url = "http://techspardha.org/";
 			Intent i = new Intent(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(url));

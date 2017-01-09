@@ -138,6 +138,15 @@ public class AllEventList extends Fragment
 		HashData = new HashMap<>();
 		ArrayList<SocietyModel> societies = Database.getInstance().getSocietyDB().getAllSocieties();
 
+		for(SocietyModel model: societies)
+		{
+			if(model.getName().toLowerCase().equals("workshops"))
+			{
+				societies.remove(model);
+				break;
+			}
+		}
+
 		for (SocietyModel society : societies)
 		{
 			HashData.put(society.getName(), Database.getInstance().getEventsDB().getEventKeys(DbConstants.EventNames.Society.Name() + " = " + society.getID()));

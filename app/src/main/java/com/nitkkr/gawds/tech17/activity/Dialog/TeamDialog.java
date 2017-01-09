@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
+import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.model.TeamModel;
 
@@ -30,21 +31,25 @@ public class TeamDialog
 		dialog.setCancelable(true);
 		dialog.setContentView(R.layout.layout_dialog_team);
 
-		if(isInvite)
+		if (isInvite)
 		{
-			((TextView)dialog.findViewById(R.id.Team_Accept)).setText("Accept");
+			( (TextView) dialog.findViewById(R.id.Team_Accept) ).setText("Accept");
 			dialog.findViewById(R.id.Team_Accept).setVisibility(View.VISIBLE);
 			dialog.findViewById(R.id.Team_Decline).setVisibility(View.VISIBLE);
 			dialog.findViewById(R.id.Team_Later).setVisibility(View.VISIBLE);
 		}
 		else
 		{
-			((TextView)dialog.findViewById(R.id.Team_Later)).setText("OK");
+			( (TextView) dialog.findViewById(R.id.Team_Later) ).setText("OK");
 			dialog.findViewById(R.id.Team_Accept).setVisibility(View.GONE);
 			dialog.findViewById(R.id.Team_Decline).setVisibility(View.GONE);
 			dialog.findViewById(R.id.Team_Later).setVisibility(View.VISIBLE);
 		}
+		setUpContent(context);
+	}
 
+	private void setUpContent(Context context)
+	{
 		(( TextView)dialog.findViewById(R.id.Team_Name)).setText("Team " + model.getTeamName());
 		(( TextView)dialog.findViewById(R.id.Event_Name)).setText(Database.getInstance().getEventsDB().getEventKey(model.getEventID()).getEventName());
 		(( TextView)dialog.findViewById(R.id.Team_Members_Count)).setText(model.getMembers().size() + " Members");
