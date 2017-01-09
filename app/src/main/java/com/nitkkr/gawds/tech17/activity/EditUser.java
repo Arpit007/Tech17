@@ -437,7 +437,7 @@ public class EditUser extends AppCompatActivity
 					ActivityHelper.revertToHome(EditUser.this);
 					ActivityHelper.setExitAnimation(EditUser.this);
 				}
-			}, 1000);
+			}, 200);
 		}
 	}
 }

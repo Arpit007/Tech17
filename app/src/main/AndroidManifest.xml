@@ -121,7 +121,6 @@
             android:name="io.fabric.ApiKey"
             android:value="fdeefa2727df0c4191430c1ec466304d71e88d96"/>
 
-
         <receiver
             android:name=".api.NotificationReceiver"
             android:process=":remote"/>
@@ -129,7 +128,10 @@
         <service
             android:name=".api.NotificationService"
             android:exported="false"/>
-
+        <service
+            android:name=".api.FetchService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

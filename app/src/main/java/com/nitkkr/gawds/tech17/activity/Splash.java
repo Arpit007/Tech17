@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -34,6 +33,7 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.api.NotificationReceiver;
+import com.nitkkr.gawds.tech17.api.NotificationService;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
@@ -252,6 +252,7 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		if (AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
+			FetchData.getInstance().getUserDetails(getBaseContext());
 			FetchData.getInstance().fetchUserInterests(getBaseContext());
 			FetchData.getInstance().fetchUserWishlist(getBaseContext());
 			FetchData.getInstance().getNotifications(getApplicationContext());
@@ -334,19 +335,21 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 
 	public void startNotify()
 	{
-		// Construct an intent that will execute the AlarmReceiver
 		Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
-		// Create a PendingIntent to be triggered when the alarm goes off
-		final PendingIntent pIntent = PendingIntent.getBroadcast(this, NotificationReceiver.REQUEST_CODE,
+		intent.putExtra("NotificationService",true);
+		final PendingIntent pIntent = PendingIntent.getBroadcast(this, NotificationReceiver.NotificationServiceCode,
 				intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		// Setup periodic alarm every 5 seconds
-		long firstMillis = System.currentTimeMillis(); // alarm is set right away
-
 		AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-		// First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
-		// Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
-		alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, 4000,1000, pIntent);
+		alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, 10, NotificationService.intervalMillis, pIntent);
 
+
+		Intent intent1 = new Intent(getApplicationContext(), NotificationReceiver.class);
+		intent1.putExtra("NotificationService",false);
+		final PendingIntent pIntent1 = PendingIntent.getBroadcast(this, NotificationReceiver.FetchServiceCode,
+				intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		AlarmManager alarm1 = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+		alarm1.setInexactRepeating(AlarmManager.RTC_WAKEUP, 10,NotificationService.intervalMillis, pIntent1);
 	}
 }

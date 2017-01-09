@@ -30,10 +30,12 @@ import java.util.List;
 public class TeamDB extends SQLiteOpenHelper
 {
 	private iDbRequest dbRequest;
+	private Context context;
 
 	public TeamDB(Context context, iDbRequest dbRequest)
 	{
 		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
+		this.context = context;
 		this.dbRequest = dbRequest;
 
 		if (DbConstants.Constants == null)
@@ -47,8 +49,8 @@ public class TeamDB extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_MyTeamTable));
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_TeamInviteTable));
+		sqLiteDatabase.execSQL(context.getString(R.string.Query_Create_MyTeamTable));
+		sqLiteDatabase.execSQL(context.getString(R.string.Query_Create_TeamInviteTable));
 	}
 
 	@Override

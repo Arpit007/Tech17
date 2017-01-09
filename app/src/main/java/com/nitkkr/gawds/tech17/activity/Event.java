@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -308,7 +309,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		( (NotificationManager) getSystemService(NOTIFICATION_SERVICE) ).cancel(getIntent().getExtras().getInt("NotificationID"));
 
-		CustomTabLayout tabLayout = (CustomTabLayout) findViewById(R.id.event_tab_layout);
+		TabLayout tabLayout = (TabLayout) findViewById(R.id.event_tab_layout);
 		final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
 		key = (EventKey) getIntent().getExtras().getSerializable("Event");

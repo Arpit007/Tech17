@@ -126,17 +126,19 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/button_Wrap">
 
-        <com.nitkkr.gawds.tech17.src.CustomTabLayout
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:layout_width="match_parent"
-            android:layout_marginTop="1dp"
-            android:layout_height="40dp"
-            app:tabIndicatorColor="@color/neon_green"
-            android:id="@+id/event_tab_layout"
-            app:tabTextColor="@color/text_color_primary"
-            app:tabSelectedTextColor="@color/text_color_primary"
-            android:layout_alignParentStart="true"/>
+        <android.support.design.widget.TabLayout
+             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+             android:theme="@style/AppTheme.AppBarOverlay"
+             android:layout_width="match_parent"
+             android:layout_marginTop="1dp"
+             android:layout_height="40dp"
+             app:tabIndicatorColor="@color/neon_green"
+             android:id="@+id/event_tab_layout"
+             app:tabTextColor="@color/light_grey"
+             android:background="@color/tab_layout_bk_event"
+             android:minHeight="?attr/actionBarSize"
+             app:tabSelectedTextColor="@color/text_color_primary"
+             android:layout_alignParentStart="true"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"

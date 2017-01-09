@@ -23,6 +23,8 @@ import java.util.List;
 
 public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 {
+	private Context context;
+
 	@Override
 	public void deleteTable()
 	{
@@ -44,6 +46,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
 		this.dbRequest = dbRequest;
+		this.context = context;
 
 		if (DbConstants.Constants == null)
 		{
@@ -56,7 +59,7 @@ public class ExhibitionDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_ExhibitionTable));
+		sqLiteDatabase.execSQL(context.getString(R.string.Query_Create_ExhibitionTable));
 	}
 
 	@Override

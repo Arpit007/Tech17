@@ -36,7 +36,7 @@ public class Database implements iDbRequest
 
 		DbConstants.Constants = new DbConstants(context);
 
-		startDatabase(false);
+		startDatabase(context,false);
 
 		eventsDB = new EventsDB(context, Database.this);
 		interestDB = new InterestDB(context, Database.this);
@@ -45,6 +45,11 @@ public class Database implements iDbRequest
 		notificationDB = new NotificationDB(context, Database.this);
 		coordinatorDB = new CoordinatorDB(context, Database.this);
 		teamDB = new TeamDB(context, Database.this);
+	}
+
+	public static Database getServiceInstance()
+	{
+		return database;
 	}
 
 	public static Database getInstance()
@@ -59,10 +64,10 @@ public class Database implements iDbRequest
 	@Override
 	public SQLiteDatabase getDatabase()
 	{
-		if (sqLiteDatabase == null || !sqLiteDatabase.isOpen())
+		/*if (sqLiteDatabase == null || !sqLiteDatabase.isOpen())
 		{
 			startDatabase(false);
-		}
+		}*/
 
 		return sqLiteDatabase;
 	}
@@ -80,10 +85,11 @@ public class Database implements iDbRequest
 		if (sqLiteDatabase != null && sqLiteDatabase.isOpen())
 		{
 			sqLiteDatabase.close();
+			database=null;
 		}
 	}
 
-	public void startDatabase(boolean Restart)
+	public void startDatabase(Context context, boolean Restart)
 	{
 		if (sqLiteDatabase != null && ( sqLiteDatabase.isOpen() || Restart ))
 		{
@@ -93,11 +99,11 @@ public class Database implements iDbRequest
 		if (sqLiteDatabase == null)
 		{
 			Log.d("Database:\t", "Opening");
-			sqLiteDatabase = ActivityHelper.getApplicationContext().openOrCreateDatabase(DbConstants.Constants.getDatabaseName(), android.content.Context.MODE_PRIVATE, null);
+			sqLiteDatabase = context.openOrCreateDatabase(DbConstants.Constants.getDatabaseName(), android.content.Context.MODE_PRIVATE, null);
 		}
 		else if (!sqLiteDatabase.isOpen() || Restart)
 		{
-			sqLiteDatabase = ActivityHelper.getApplicationContext().openOrCreateDatabase(DbConstants.Constants.getDatabaseName(), android.content.Context.MODE_PRIVATE, null);
+			sqLiteDatabase = context.openOrCreateDatabase(DbConstants.Constants.getDatabaseName(), android.content.Context.MODE_PRIVATE, null);
 		}
 	}
 

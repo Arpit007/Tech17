@@ -151,10 +151,6 @@ public class FetchData
 								appUserModel.setCollege(data.getString("College"));
 								appUserModel.setGender(data.getString("Gender"));
 
-								profile = data.getJSONObject("Profile");
-								appUserModel.setName(profile.getString("Name"));
-								appUserModel.setEmail(profile.getString("Email"));
-
 								appUserModel.saveAppUser(context);
 								AppUserModel.MAIN_USER = appUserModel;
 

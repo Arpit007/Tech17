@@ -38,10 +38,12 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 	}
 
 	private iDbRequest dbRequest;
+	private Context context;
 
 	public InterestDB(Context context, iDbRequest dbRequest)
 	{
 		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
+		this.context = context;
 		this.dbRequest = dbRequest;
 
 		onCreate(dbRequest.getDatabase());
@@ -50,7 +52,7 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_InterestsTable));
+		sqLiteDatabase.execSQL(context.getString(R.string.Query_Create_InterestsTable));
 	}
 
 	@Override

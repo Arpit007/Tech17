@@ -41,10 +41,12 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 
 	private iDbRequest dbRequest;
 	private int CodeVersion;
+	private Context context;
 
 	public NotificationDB(Context context, iDbRequest dbRequest)
 	{
 		super(context, DbConstants.Constants.getDatabaseName(), null, DbConstants.Constants.getDatabaseVersion());
+		this.context = context;
 		this.dbRequest = dbRequest;
 
 		if (DbConstants.Constants == null)
@@ -64,7 +66,7 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL(ActivityHelper.getApplicationContext().getString(R.string.Query_Create_NotificationTable));
+		sqLiteDatabase.execSQL(context.getString(R.string.Query_Create_NotificationTable));
 	}
 
 	@Override
