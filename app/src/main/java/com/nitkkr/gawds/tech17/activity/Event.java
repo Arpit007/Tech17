@@ -496,6 +496,9 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			{
 				if (data.getBooleanExtra("Register", false))
 				{
+					EventModel model1=Database.getInstance().getEventsDB().getEvent(model);
+					model1.setStatus(model.getEventStatus());
+					model = model1;
 					LoadEvent();
 				}
 			}

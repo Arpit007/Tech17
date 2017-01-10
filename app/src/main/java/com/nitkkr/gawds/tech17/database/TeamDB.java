@@ -95,6 +95,7 @@ public class TeamDB extends SQLiteOpenHelper
 		values.put(DbConstants.TeamNames.TeamID.Name(), team.getTeamID());
 		values.put(DbConstants.TeamNames.TeamName.Name(), team.getTeamName());
 		values.put(DbConstants.TeamNames.EventID.Name(), team.getEventID());
+		values.put(DbConstants.TeamNames.Control.Name(), team.getControl().getValue());
 
 		try
 		{
@@ -153,6 +154,7 @@ public class TeamDB extends SQLiteOpenHelper
 		String Event_ID = DbConstants.TeamNames.EventID.Name();
 		String Team_Name = DbConstants.TeamNames.TeamName.Name();
 		String Participants = DbConstants.TeamNames.Participants.Name();
+		String Control = DbConstants.TeamNames.Control.Name();
 
 		for (TeamModel team : teams)
 		{
@@ -161,6 +163,7 @@ public class TeamDB extends SQLiteOpenHelper
 			values.put(Team_ID, team.getTeamID());
 			values.put(Event_ID,team.getEventID());
 			values.put(Team_Name,team.getTeamName());
+			values.put(Control, team.getControl().getValue());
 
 			try
 			{
@@ -255,7 +258,8 @@ public class TeamDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.TeamNames.TeamID.Name()),
 							Columns.indexOf(DbConstants.TeamNames.TeamName.Name()),
 							Columns.indexOf(DbConstants.TeamNames.EventID.Name()),
-							Columns.indexOf(DbConstants.TeamNames.Participants.Name())
+							Columns.indexOf(DbConstants.TeamNames.Participants.Name()),
+							Columns.indexOf(DbConstants.TeamNames.Control.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -268,6 +272,7 @@ public class TeamDB extends SQLiteOpenHelper
 					model.setTeamID(cursor.getInt(ColumnIndex[0]));
 					model.setTeamName(cursor.getString(ColumnIndex[1]));
 					model.setEventID(cursor.getInt(ColumnIndex[2]));
+					model.setControl(TeamModel.TeamControl.Parse(cursor.getString(ColumnIndex[3])));
 
 					try
 					{
@@ -386,7 +391,8 @@ public class TeamDB extends SQLiteOpenHelper
 							Columns.indexOf(DbConstants.TeamNames.TeamID.Name()),
 							Columns.indexOf(DbConstants.TeamNames.TeamName.Name()),
 							Columns.indexOf(DbConstants.TeamNames.EventID.Name()),
-							Columns.indexOf(DbConstants.TeamNames.Participants.Name())
+							Columns.indexOf(DbConstants.TeamNames.Participants.Name()),
+							Columns.indexOf(DbConstants.TeamNames.Control.Name())
 					};
 
 			if (cursor.getCount() > 0)
@@ -396,6 +402,7 @@ public class TeamDB extends SQLiteOpenHelper
 				model.setTeamID(cursor.getInt(ColumnIndex[0]));
 				model.setTeamName(cursor.getString(ColumnIndex[1]));
 				model.setEventID(cursor.getInt(ColumnIndex[2]));
+				model.setControl(TeamModel.TeamControl.Parse(cursor.getString(ColumnIndex[3])));
 
 				try
 				{

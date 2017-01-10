@@ -13,10 +13,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.nitkkr.gawds.tech17.R;
+import com.nitkkr.gawds.tech17.api.FetchData;
+import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
+import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.helper.iActionBar;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.src.Feedback;
@@ -63,6 +68,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		}, R.id.nav_home);
 		barNavDrawer.setLabel(getString(R.string.FestName));
 		barNavDrawer.setOpenNewSearchPage(true);
+
+
+		/*
+		RequestQueue teamDetailQueue = Volley.newRequestQueue(this);
+		teamDetailQueue.add(FetchData.getMyTeams(this, Database.getInstance(), null));*/
 
 		TextView tx = (TextView)findViewById(R.id.gawdsFont);
 
@@ -180,5 +190,15 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 			ActivityHelper.setExitAnimation(this);
 		}
 
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		long Count=Database.getInstance().getNotificationDB().getUnreadNotificationCount();
+		if(Count==0)
+			((TextView)findViewById(R.id.Notification)).setText("NOTIFICATIONS");
+		else ((TextView)findViewById(R.id.Notification)).setText("NOTIFICATIONS\n(" + Count + ")");
 	}
 }

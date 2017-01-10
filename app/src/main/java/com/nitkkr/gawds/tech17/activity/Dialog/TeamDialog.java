@@ -50,7 +50,7 @@ public class TeamDialog
 
 	private void setUpContent(Context context)
 	{
-		(( TextView)dialog.findViewById(R.id.Team_Name)).setText("Team " + model.getTeamName());
+		(( TextView)dialog.findViewById(R.id.Team_Name)).setText(model.getTeamName());
 		(( TextView)dialog.findViewById(R.id.Event_Name)).setText(Database.getInstance().getEventsDB().getEventKey(model.getEventID()).getEventName());
 		(( TextView)dialog.findViewById(R.id.Team_Members_Count)).setText(model.getMembers().size() + " Members");
 

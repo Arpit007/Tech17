@@ -394,7 +394,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 							.putSuccess(true));
 				}
 
-                if (getIntent().getBooleanExtra("Start_Home", true))
+                if (getIntent().getBooleanExtra("Start_Home", true) || isTaskRoot())
                 {
                     startActivity(new Intent(Login.this, Home.class));
                 }

@@ -499,6 +499,15 @@ public class FetchData
 								{
 									eventModel.setCurrentRound(0);
 								}
+								try
+								{
+									eventModel.setResult(data.getString("Result"));
+								}
+								catch (Exception e)
+								{
+									e.printStackTrace();
+									eventModel.setResult("");
+								}
 								eventModel.setMaxUsers(data.getInt("MaxContestants"));
 								eventModel.setStatus(EventStatus.Parse(data.getString("Status").toLowerCase()));
 								eventModel.setPdfLink(data.getString("Pdf"));
@@ -1054,6 +1063,13 @@ public class FetchData
 
 	public static StringRequest getNotifications(final Context context, final Database database, final iResponseCallback callback)
 	{
+		NotificationModel model = new NotificationModel();
+		model.setNotificationID(6);
+		model.setEventID(0);
+		model.setMessage("Hello World");
+		model.setSeen(false);
+		Database.getInstance().getNotificationDB().addOrUpdateNotification(model);
+
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				//TODO:add time stamp
 
@@ -1076,7 +1092,7 @@ public class FetchData
 							{
 								ArrayList<NotificationModel> models = database.getNotificationDB().getAllNotifications();
 
-									JSONObject object = data.getJSONObject(0);
+								JSONObject object = data.getJSONObject(0);
 								JSONObject object2 = data.getJSONObject(1);
 
 								privateobjarr=object.getJSONArray("private");
@@ -1971,8 +1987,8 @@ public class FetchData
 
 	public static StringRequest getMyTeams(final Context context, final Database database, final iResponseCallback callback)
 	{
-		StringRequest stringRequest = new StringRequest(Request.Method.DELETE, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.createTeam),
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.createTeam)+"?token="+AppUserModel.MAIN_USER.getToken(),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -2003,33 +2019,87 @@ public class FetchData
 									for (int i = 0; i < participantIn.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										key.setEventID(participantIn.getJSONObject(i).getInt("EventId"));
-										key.setTeamName(participantIn.getJSONObject(i).getString("Name"));
+										try
+										{
+											key.setEventID(participantIn.getJSONObject(i).getInt("EventId"));
+										}
+										catch (Exception e)
+										{
+											e.printStackTrace();
+											key.setEventID(0);
+										}
+										try
+										{
+											key.setTeamName(participantIn.getJSONObject(i).getString("Name"));
+										}
+										catch (Exception e)
+										{
+											e.printStackTrace();
+											key.setEventID(0);
+										}
 										key.setControl(TeamModel.TeamControl.Participant);
+										if(key.getEventID()==0)
+											continue;
 										teams.add(key);
 									}
 
 									for (int i = 0; i < teamLeaderOf.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										key.setEventID(teamLeaderOf.getJSONObject(i).getInt("EventId"));
-										key.setTeamName(teamLeaderOf.getJSONObject(i).getString("Name"));
+										try
+										{
+											key.setEventID(teamLeaderOf.getJSONObject(i).getInt("EventId"));
+										}
+										catch (Exception e)
+										{
+											e.printStackTrace();
+											key.setEventID(0);
+										}
+										try
+										{
+											key.setTeamName(teamLeaderOf.getJSONObject(i).getString("Name"));
+										}
+										catch (Exception e)
+										{
+											e.printStackTrace();
+											key.setEventID(0);
+										}
 										key.setControl(TeamModel.TeamControl.Leader);
+										if(key.getEventID()==0)
+											continue;
 										myTeams.add(key);
 									}
 
 									for (int i = 0; i < pendingInvitations.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										key.setEventID(pendingInvitations.getJSONObject(i).getInt("EventId"));
-										key.setTeamName(pendingInvitations.getJSONObject(i).getString("Name"));
+										try
+										{
+											key.setEventID(pendingInvitations.getJSONObject(i).getInt("EventId"));
+										}
+										catch (Exception e)
+										{
+											e.printStackTrace();
+											key.setEventID(0);
+										}
+										try
+										{
+											key.setTeamName(pendingInvitations.getJSONObject(i).getString("Name"));
+										}
+										catch (Exception e)
+										{
+											e.printStackTrace();
+											key.setEventID(0);
+										}
 										key.setControl(TeamModel.TeamControl.Pending);
+										if(key.getEventID()==0)
+											continue;
 										invites.add(key);
 									}
-									database.getTeamDB().resetTable();
+									/*database.getTeamDB().resetTable();
 									database.getTeamDB().addOrUpdateTeamInvite(invites);
 									database.getTeamDB().addOrUpdateMyTeam(teams);
-									database.getTeamDB().addOrUpdateMyTeam(myTeams);
+									database.getTeamDB().addOrUpdateMyTeam(myTeams);*/
 
 
 									RequestQueue teamDetailQueue = Volley.newRequestQueue(context);
@@ -2094,16 +2164,7 @@ public class FetchData
 							}
 						}
 					}
-				})
-		{
-			@Override
-			protected Map<String, String> getParams() throws AuthFailureError
-			{
-				Map<String, String> params = new HashMap<>();
-				params.put("token", AppUserModel.MAIN_USER.getToken());
-				return params;
-			}
-		};
+				});
 
 		return stringRequest;
 	}
@@ -2135,8 +2196,15 @@ public class FetchData
 									key.setName(object.getString("Name"));
 									key.setUserID(object.getString("Id"));
 									key.setTeamControl(TeamModel.TeamControl.Pending);
-									//TODO:Fix
-									/*key.setRoll(object.getString("RollNo"));*/
+									try
+									{
+										key.setRoll(object.getString("RollNo"));
+									}
+									catch (Exception e)
+									{
+										e.printStackTrace();
+										key.setRoll("");
+									}
 									if(key.getRoll().equals(AppUserModel.MAIN_USER.getRoll()))
 										continue;
 									keys.add(key);
@@ -2249,8 +2317,7 @@ public class FetchData
 			{
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
-				params.put("inviteTypes","new");
-				//TODO:invites here is an array of user ids ex: [1,2,3]
+				params.put("inviteType","new");
 				params.put("invites",invites);
 				return params;
 			}
@@ -2418,7 +2485,7 @@ public class FetchData
 
 	public static StringRequest getTeamDetail(final Context context, final Database database, final int teamId, final boolean isInvite, final boolean isLeader, final iResponseCallback callback)
 	{
-		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+teamId,
 				new Response.Listener<String>()
 				{
@@ -2517,16 +2584,7 @@ public class FetchData
 							}
 						}
 					}
-				})
-		{
-			@Override
-			protected Map<String, String> getParams() throws AuthFailureError
-			{
-				Map<String, String> params = new HashMap<>();
-				params.put("token", AppUserModel.MAIN_USER.getToken());
-				return params;
-			}
-		};
+				});
 
 		return stringRequest;
 	}

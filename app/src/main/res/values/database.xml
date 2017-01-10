@@ -89,7 +89,8 @@
             TEAM_ID INT PRIMARY KEY NOT NULL,
             EVENT_ID INT,
             TEAM_NAME VARCHAR(127) NOT NULL,
-            PARTICIPANTS VARCHAR(4096)
+            PARTICIPANTS VARCHAR(4096),
+            CONTROL VARCHAR(50)
         );
     </string>
 

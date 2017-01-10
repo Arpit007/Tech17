@@ -74,18 +74,28 @@ public class NotificationAdapter extends BaseAdapter
 		{
 			EventKey key= Database.getInstance().getEventsDB().getEventKey(model.getEventID());
 			if(key.getEventID()==model.getEventID())
-				Title.setText(key.getEventName());
+				model.setTitle(key.getEventName());
 			else
 			{
 				key=Database.getInstance().getExhibitionDB().getExhibitionKey(model.getEventID());
-				Title.setText(key.getEventName());
+				model.setTitle(key.getEventName());
 			}
-			model.setTitle(key.getEventName());
+			if(model.getTitle().equals(""))
+				model.setTitle("Notification");
+			Title.setText(model.getTitle());
 		}
 
+
 		if(model.isSeen())
-			Title.setTypeface(null, Typeface.BOLD_ITALIC);
-		else Title.setTypeface(null,Typeface.NORMAL);
+		{
+			Title.setTypeface(null, Typeface.NORMAL);
+			view.findViewById(R.id.unread).setVisibility(View.INVISIBLE);
+		}
+		else
+		{
+			Title.setTypeface(null,Typeface.BOLD_ITALIC);
+			view.findViewById(R.id.unread).setVisibility(View.VISIBLE);
+		}
 
 		(( TextView)view.findViewById(R.id.notification_message)).setText(model.getMessage());
 

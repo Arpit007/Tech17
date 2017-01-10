@@ -114,7 +114,7 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 					notification.setNotificationID(cursor.getInt(ColumnIndex[0]));
 					notification.setEventID(cursor.getInt(ColumnIndex[1]));
 					notification.setMessage(cursor.getString(ColumnIndex[2]));
-					notification.setSeen(cursor.getInt(ColumnIndex[3]) == 0);
+					notification.setSeen(cursor.getInt(ColumnIndex[3]) != 0);
 					notification.setTitle(cursor.getString(ColumnIndex[4]));
 					notification.setUpdated(cursor.getInt(ColumnIndex[5])!=0);
 					keys.add(notification);
@@ -186,7 +186,7 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 	{
 		SQLiteDatabase database = dbRequest.getDatabase();
 
-		String TABLENAME = DbConstants.Constants.getInterestTableName();
+		String TABLENAME = DbConstants.Constants.getNotificationTableName();
 		String Notification_ID = DbConstants.NotificationNames.NotificationID.Name();
 		String Event_ID = DbConstants.NotificationNames.EventID.Name();
 		String Message = DbConstants.NotificationNames.Message.Name();
@@ -218,7 +218,7 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 
 	public long getUnreadNotificationCount()
 	{
-		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(),DbConstants.Constants.getNotificationTableName(),DbConstants.NotificationNames.Seen.Name() + " != 0");
+		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(),DbConstants.Constants.getNotificationTableName(),DbConstants.NotificationNames.Seen.Name() + " == 0");
 	}
 
 }

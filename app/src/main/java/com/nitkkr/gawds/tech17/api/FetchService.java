@@ -21,7 +21,7 @@ import java.util.Date;
 public class FetchService extends IntentService
 {
 	//1 hour
-	public static int intervalMillis = 60 * 60 * 1000;
+	public static int intervalMillis = 3 * 60 * 60 * 1000;
 	private static int refreshMin = 40;
 	private boolean isNewDb = false;
 

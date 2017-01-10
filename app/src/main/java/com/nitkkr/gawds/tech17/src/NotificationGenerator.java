@@ -133,11 +133,14 @@ public class NotificationGenerator
 		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_people_black_24dp, "Team Invite");
 
 		builder = builder.setContentTitle("Team Invite")
-				.setContentText("You have " + Count + " new Team Invites")
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 				.setWhen(new Date().getTime())
 				.setAutoCancel(true)
 				.setPriority(Notification.PRIORITY_MAX);
+		if (Count==1)
+			builder=builder.setContentText("You have " + Count + " new Team Invite");
+		else
+			builder=builder.setContentText("You have " + Count + " new Team Invites");
 
 		Intent intent=new Intent(context, TeamPage.class);
 		intent.putExtra("PageID",1);
@@ -161,11 +164,14 @@ public class NotificationGenerator
 		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_notifications_black_24dp, "Techspardha '17");
 
 		builder = builder.setContentTitle("Techspardha '17")
-				.setContentText("You have " + Count + " new Notifications")
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 				.setWhen(new Date().getTime())
 				.setAutoCancel(true)
 				.setPriority(Notification.PRIORITY_MAX);
+		if(Count==1)
+			builder=builder.setContentText("You have " + Count + " new Notification");
+		else
+			builder=builder.setContentText("You have " + Count + " new Notifications");
 
 		Intent intent=new Intent(context, NotificationPage.class);
 		intent.putExtra("PageID",1);

@@ -9,14 +9,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech17.R;
-import com.nitkkr.gawds.tech17.adapter.RegisterTeamAdapter;
 import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
 import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.api.iResponseCallback;
@@ -29,9 +27,6 @@ import com.nitkkr.gawds.tech17.model.EventKey;
 import com.nitkkr.gawds.tech17.model.EventModel;
 import com.nitkkr.gawds.tech17.model.TeamModel;
 import com.nitkkr.gawds.tech17.model.UserKey;
-import com.nitkkr.gawds.tech17.model.UserModel;
-
-import java.util.ArrayList;
 
 public class CreateTeam extends AppCompatActivity
 {
@@ -161,21 +156,21 @@ public class CreateTeam extends AppCompatActivity
 					{
 						if(status ==ResponseStatus.SUCCESS && ((int)object)!=0)
 						{
-							progressDialog.dismiss();
 							final TeamModel model=new TeamModel();
 							model.setTeamID((int)object);
 							model.setTeamName(Name);
 							model.setEventID(eventModel.getEventID());
 							model.setControl(TeamModel.TeamControl.Leader);
+							model.setMembers(adapter.getUsers());
 
 							FetchData.getInstance().sendInvite(getApplicationContext(), model.getTeamID(), model.getInviteString(), new iResponseCallback()
 							{
 								@Override
 								public void onResponse(ResponseStatus status)
 								{
+									progressDialog.dismiss();
 									if(status==ResponseStatus.SUCCESS)
 									{
-										model.setMembers(adapter.getUsers());
 										Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
 
 										Intent intent = new Intent();
@@ -186,6 +181,8 @@ public class CreateTeam extends AppCompatActivity
 										eventModel.setRegistered(true);
 										Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
 										eventModel.callStatusListener();
+
+										Toast.makeText(CreateTeam.this,"Registered Successfully",Toast.LENGTH_LONG).show();
 
 										finish();
 										ActivityHelper.setExitAnimation(CreateTeam.this);
@@ -203,11 +200,22 @@ public class CreateTeam extends AppCompatActivity
 							});
 
 						}
-						else if(status == ResponseStatus.OTHER)
-							Toast.makeText(CreateTeam.this, "Choose Different Team Name", Toast.LENGTH_SHORT).show();
-						else if(status ==ResponseStatus.FAILED)
-							Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
-						else Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+						else
+						{
+							progressDialog.dismiss();
+							if (status == ResponseStatus.OTHER)
+							{
+								Toast.makeText(CreateTeam.this, "Choose Different Team Name", Toast.LENGTH_SHORT).show();
+							}
+							else if (status == ResponseStatus.FAILED)
+							{
+								Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
+							}
+							else
+							{
+								Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+							}
+						}
 					}
 				});
 			}

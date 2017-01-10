@@ -310,7 +310,8 @@ public class DbConstants
 		TeamID("TEAM_ID"),
 		EventID("EVENT_ID"),
 		TeamName("TEAM_NAME"),
-		Participants("PARTICIPANTS");
+		Participants("PARTICIPANTS"),
+		Control("CONTROL");
 
 		private String Name;
 

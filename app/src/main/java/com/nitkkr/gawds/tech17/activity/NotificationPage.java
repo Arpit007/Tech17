@@ -103,6 +103,7 @@ public class NotificationPage extends AppCompatActivity
 				dialog.setCancelable(true);
 
 				(( TextView)dialog.findViewById(R.id.notification_message)).setText(model.getMessage());
+				(( TextView)dialog.findViewById(R.id.Event_Name)).setText(model.getTitle());
 
 				if(model.getEventID()<=0)
 					dialog.findViewById(R.id.notification_View).setVisibility(View.GONE);
@@ -145,6 +146,7 @@ public class NotificationPage extends AppCompatActivity
 						dialog.dismiss();
 					}
 				});
+				dialog.getWindow().getAttributes().windowAnimations = R.style.CloseDialogTheme;
 				dialog.show();
 			}
 		});
