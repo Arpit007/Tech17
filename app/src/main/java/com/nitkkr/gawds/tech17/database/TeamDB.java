@@ -66,6 +66,9 @@ public class TeamDB extends SQLiteOpenHelper
 		String Query = "DELETE FROM " + DbConstants.Constants.getTeamInviteTableName() + ";";
 		Log.d("Query: ", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
+		Query = "DELETE FROM " + DbConstants.Constants.getMyTeamTableName() + ";";
+		Log.d("Query: ", Query);
+		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
 	public void deleteTable()

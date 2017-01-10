@@ -48,6 +48,8 @@ public class NotificationPage extends AppCompatActivity
 		adapter=new NotificationAdapter(this, Database.getInstance().getNotificationDB().getAllNotifications());
 		listView.setAdapter(adapter);
 
+		((TextView)NotificationPage.this.findViewById(R.id.None)).setText("No Notifications");
+
 		adapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
