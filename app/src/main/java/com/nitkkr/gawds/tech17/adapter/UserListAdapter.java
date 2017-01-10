@@ -99,8 +99,11 @@ public class UserListAdapter extends BaseAdapter
 			}
 
 			UserKey key = users.get(i);
+
+			((TextView)view.findViewById(R.id.Roll)).setText("Roll No: " + key.getRoll());
+
 			if (!showStatus || key.getTeamControl() == TeamModel.TeamControl.Participant || key.getTeamControl() == TeamModel.TeamControl.None)
-				view.findViewById(R.id.InviteStatus).setVisibility(View.INVISIBLE);
+				view.findViewById(R.id.InviteStatus).setVisibility(View.GONE);
 			else
 			{
 				if (key.getTeamControl() == TeamModel.TeamControl.Leader)

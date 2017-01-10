@@ -1,6 +1,5 @@
 package com.nitkkr.gawds.tech17.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -34,6 +33,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
 
 		if (getIntent().getBooleanExtra("AnimStart", true))
 		{

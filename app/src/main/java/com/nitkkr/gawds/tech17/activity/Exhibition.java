@@ -116,7 +116,7 @@ public class Exhibition extends AppCompatActivity
 						{
 							if (status == ResponseStatus.SUCCESS)
 							{
-								Toast.makeText(getApplicationContext(), "Removed Wishlist Successfully", Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), "Removed From Wishlist Successfully", Toast.LENGTH_LONG).show();
 								fab.setText("Add to Wishlist");
 								model.setNotify(false);
 								Database.getInstance().getExhibitionDB().addOrUpdateExhibition(model);

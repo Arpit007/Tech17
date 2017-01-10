@@ -3,6 +3,7 @@ package com.nitkkr.gawds.tech17.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -479,5 +480,10 @@ public class TeamDB extends SQLiteOpenHelper
 		String Query = "DELETE FROM " + DbConstants.Constants.getTeamInviteTableName() + " WHERE " + DbConstants.TeamNames.TeamID.Name() + " = " + ID + ";";
 		Log.d("Query:\t", Query);
 		dbRequest.getDatabase().rawQuery(Query, null);
+	}
+
+	public long getInviteCount()
+	{
+		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(), DbConstants.Constants.getTeamInviteTableName());
 	}
 }

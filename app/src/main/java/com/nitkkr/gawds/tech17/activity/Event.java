@@ -309,14 +309,43 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 
 		( (NotificationManager) getSystemService(NOTIFICATION_SERVICE) ).cancel(getIntent().getExtras().getInt("NotificationID"));
 
-		TabLayout tabLayout = (TabLayout) findViewById(R.id.event_tab_layout);
+		final TabLayout tabLayout = (TabLayout) findViewById(R.id.event_tab_layout);
 		final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
 		key = (EventKey) getIntent().getExtras().getSerializable("Event");
 		model = Database.getInstance().getEventsDB().getEvent(key);
 
 		setupViewPager(viewPager, model);
-		tabLayout.setupWithViewPager(viewPager);
+		//tabLayout.setupWithViewPager(viewPager);
+
+		tabLayout.addTab(tabLayout.newTab().setText("About"));
+		tabLayout.addTab(tabLayout.newTab().setText("Rules"));
+		tabLayout.addTab(tabLayout.newTab().setText("Contact"));
+		tabLayout.addTab(tabLayout.newTab().setText("Result"));
+
+		viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+		tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
+		{
+			@Override
+			public void onTabSelected(TabLayout.Tab tab)
+			{
+				viewPager.setCurrentItem(tab.getPosition());
+			}
+
+			@Override
+			public void onTabUnselected(TabLayout.Tab tab)
+			{
+
+			}
+
+			@Override
+			public void onTabReselected(TabLayout.Tab tab)
+			{
+
+			}
+		});
+
 		LoadEvent();
 
 		int PageID = getIntent().getExtras().getInt("PageID", 0);

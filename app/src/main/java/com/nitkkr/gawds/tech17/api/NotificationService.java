@@ -16,6 +16,7 @@ import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
+import com.nitkkr.gawds.tech17.src.NotificationGenerator;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -28,8 +29,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class NotificationService extends IntentService
 {
     //5 Minutes
-    public static int intervalMillis = 5*60*1000;
-    private static int refreshMin = 2;
+    public static int intervalMillis = 10*60*1000;
+    private static int refreshMin = 3;
     private boolean isNewDb = false;
 
     private final int maxFetchCount=4;
@@ -65,6 +66,9 @@ public class NotificationService extends IntentService
 
         if(isRunTime() || Forced)
         {
+            if(Forced)
+                Log.i("Notification Service", "===================Forced Task Started========================");
+
             Log.i("Notification Service", "===================Task Started========================");
 
             if(!ActivityHelper.isInternetConnected(getApplicationContext()))
@@ -128,6 +132,9 @@ public class NotificationService extends IntentService
         if (!(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())))
             return;
 
+        final long oldInviteCount=database.getTeamDB().getInviteCount();
+        final long oldNotificationCount=database.getNotificationDB().getUnreadNotificationCount();
+
         iResponseCallback callback=new iResponseCallback()
         {
             @Override
@@ -140,9 +147,24 @@ public class NotificationService extends IntentService
 
                     if(status==ResponseStatus.FAILED || status== ResponseStatus.NONE)
                         Failed=true;
+                    else Failed=false;
 
 
                     saveRunTime(!Failed);
+
+                    long newInviteCount=database.getTeamDB().getInviteCount();
+                    long newNotificationCount=database.getNotificationDB().getUnreadNotificationCount();
+
+                    if(newInviteCount>oldInviteCount)
+                    {
+                        NotificationGenerator generator = new NotificationGenerator(getApplicationContext());
+                        generator.inviteNotification(newInviteCount-oldInviteCount);
+                    }
+                    if(newNotificationCount>oldNotificationCount)
+                    {
+                        NotificationGenerator generator = new NotificationGenerator(getApplicationContext());
+                        generator.messageNotification(newNotificationCount-oldNotificationCount);
+                    }
 
                     if(isNewDb && database != null)
                         database.closeDatabase();

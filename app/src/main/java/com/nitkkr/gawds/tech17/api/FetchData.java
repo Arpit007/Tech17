@@ -2136,9 +2136,9 @@ public class FetchData
 									key.setUserID(object.getString("Id"));
 									key.setTeamControl(TeamModel.TeamControl.Pending);
 									//TODO:Fix
-									/*key.setRoll(object.getString("RollNo"));
+									/*key.setRoll(object.getString("RollNo"));*/
 									if(key.getRoll().equals(AppUserModel.MAIN_USER.getRoll()))
-										continue;*/
+										continue;
 									keys.add(key);
 								}
 								if (callback!=null)

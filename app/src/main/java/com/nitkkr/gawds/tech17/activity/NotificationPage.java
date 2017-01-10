@@ -16,6 +16,7 @@ import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActionBarBack;
+import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.model.EventKey;
 import com.nitkkr.gawds.tech17.model.NotificationModel;
@@ -30,9 +31,17 @@ public class NotificationPage extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_page);
+		ActivityHelper.setCreateAnimation(this);
+		ActivityHelper.setStatusBarColor(this);
 
 		ActionBarBack barBack=new ActionBarBack(NotificationPage.this);
 		barBack.setLabel("Notifications");
+
+		if(getIntent().getBooleanExtra("IsNotification",false) && isTaskRoot())
+		{
+			new Database(getApplicationContext());
+			ActivityHelper.setUpHelper(getApplicationContext());
+		}
 
 		listView=(ListView)findViewById(R.id.notification_list);
 
@@ -138,5 +147,16 @@ public class NotificationPage extends AppCompatActivity
 			}
 		});
 
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if(getIntent().getBooleanExtra("IsNotification",false) && isTaskRoot())
+		{
+			startActivity(new Intent(this,Splash.class));
+		}
+		else if(!ActivityHelper.revertToHomeIfLast(this))
+			super.onBackPressed();
 	}
 }

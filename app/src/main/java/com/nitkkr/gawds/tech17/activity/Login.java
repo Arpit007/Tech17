@@ -69,6 +69,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 		}
 	};
 
+	private final int RESULT=678;
 	boolean exit = false;
 	private static final int RC_SIGN_IN = 678;
 	static public GoogleApiClient mGoogleApiClient;
@@ -146,6 +147,18 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 			googleSigningTask=false;
 			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 			handleSignInResult(result);
+		}
+
+		if(requestCode==RESULT && resultCode==RESULT_OK)
+		{
+			if(data.getBooleanExtra("Logged_In",true))
+			{
+				Intent intent = new Intent();
+				intent.putExtra("Logged_In", true);
+				setResult(RESULT_OK, intent);
+				finish();
+				ActivityHelper.setExitAnimation(this);
+			}
 		}
 	}
 
@@ -407,7 +420,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 				Intent intent = new Intent(Login.this, SignUp.class);
 				intent.putExtra("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
-				startActivity(intent);
+				startActivityForResult(intent, RESULT);
 				break;
 
 			default:

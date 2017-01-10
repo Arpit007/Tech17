@@ -33,6 +33,7 @@ public class Interests extends AppCompatActivity
 	private ProgressDialog mProgressDialog;
 	String token;
 	boolean exit = false;
+	boolean startHome=true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -41,6 +42,8 @@ public class Interests extends AppCompatActivity
 		setContentView(R.layout.activity_interests);
 		ActivityHelper.setCreateAnimation(this);
 		ActivityHelper.setStatusBarColor(this);
+
+		startHome=getIntent().getBooleanExtra("Start_Home",true);
 
 		ListView listView = (ListView) findViewById(R.id.interest_list);
 
@@ -175,7 +178,7 @@ public class Interests extends AppCompatActivity
 					Crashlytics.setUserName(AppUserModel.MAIN_USER.getName());
 					Crashlytics.setUserEmail(AppUserModel.MAIN_USER.getEmail());
 				}
-				if (getIntent().getExtras().getBoolean("Start_Home", true))
+				if (startHome)
 				{
 					startActivity(new Intent(Interests.this, Home.class));
 					finish();

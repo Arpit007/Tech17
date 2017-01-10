@@ -15,6 +15,8 @@ import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.activity.Event;
 import com.nitkkr.gawds.tech17.activity.Exhibition;
 import com.nitkkr.gawds.tech17.activity.Home;
+import com.nitkkr.gawds.tech17.activity.NotificationPage;
+import com.nitkkr.gawds.tech17.activity.TeamPage;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.model.EventKey;
 
@@ -40,7 +42,7 @@ public class NotificationGenerator
 		LastId = preferences.getInt("LastId", 1000);
 	}
 
-	private NotificationCompat.Builder basicBuild(int IconID, String Label, String Ticker, String Message)
+	private NotificationCompat.Builder basicBuild(int IconID, String Ticker)
 	{
 		return new NotificationCompat.Builder(context)
 				.setSmallIcon(IconID)
@@ -51,7 +53,7 @@ public class NotificationGenerator
 
 	private void complexBuild(int IconID, String Label, String Ticker, String Message, RemoteViews view, Intent intent)
 	{
-		NotificationCompat.Builder builder = basicBuild(IconID, Label, Ticker, Message);
+		NotificationCompat.Builder builder = basicBuild(IconID, Ticker);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 		{
@@ -124,18 +126,60 @@ public class NotificationGenerator
 		complexBuild(IconID, Label, Ticker, Message, view, intent);
 	}
 
-	public void inviteNotification(String Label, String Ticker, String Message)
+	public void inviteNotification(long Count)
 	{
-		int IconID = 0;
+		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_people_black_24dp, "Team Invite");
 
-		RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.layout_notification_event);
+		builder = builder.setContentTitle("Team Invite")
+				.setContentText("You have " + Count + " new Team Invites")
+				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+				.setWhen(new Date().getTime())
+				.setAutoCancel(true)
+				.setPriority(Notification.PRIORITY_MAX);
 
-		Bundle bundle = new Bundle();
-		Intent intent = new Intent(context, Event.class);
+		Intent intent=new Intent(context, TeamPage.class);
+		intent.putExtra("PageID",1);
+		intent.putExtra("IsNotification",true);
 
-		intent.putExtras(bundle);
+			PendingIntent pIntent = PendingIntent.getActivity(context, 998, intent,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			builder = builder.setContentIntent(pIntent);
 
-		complexBuild(IconID, Label, Ticker, Message, view, intent);
+		Notification notification = builder.build();
+
+			notification.defaults |= Notification.DEFAULT_LIGHTS;
+			notification.defaults |= Notification.DEFAULT_SOUND;
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+
+		( (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE) ).notify(998, notification);
+	}
+
+	public void messageNotification(long Count)
+	{
+		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_notifications_black_24dp, "Techspardha '17");
+
+		builder = builder.setContentTitle("Techspardha '17")
+				.setContentText("You have " + Count + " unread Notifications")
+				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+				.setWhen(new Date().getTime())
+				.setAutoCancel(true)
+				.setPriority(Notification.PRIORITY_MAX);
+
+		Intent intent=new Intent(context, NotificationPage.class);
+		intent.putExtra("PageID",1);
+		intent.putExtra("IsNotification",true);
+
+		PendingIntent pIntent = PendingIntent.getActivity(context, 996, intent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		builder = builder.setContentIntent(pIntent);
+
+		Notification notification = builder.build();
+
+		notification.defaults |= Notification.DEFAULT_LIGHTS;
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		notification.defaults |= Notification.DEFAULT_VIBRATE;
+
+		( (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE) ).notify(996, notification);
 	}
 
 	public void simpleNotification(String Label, String Ticker, String Message)
@@ -159,7 +203,7 @@ public class NotificationGenerator
 
 	public void pdfNotification(int ID, String Label, String Ticker, String Message, Intent intent, boolean cancelOnClick)
 	{
-		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_cloud_download, Label, Ticker, Message);
+		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_cloud_download, Ticker);
 
 		builder = builder.setContentTitle(Label)
 				.setContentText(Message)

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitkkr.gawds.tech17.R;
@@ -162,12 +163,12 @@ public class DashboardPage extends AppCompatActivity
 				loadLiveEvents();
 				break;
 			case Interest:
-				barBack.setLabel("Interested Events");
+				barBack.setLabel("Suggested Events");
 				loadInterestedEvents();
 				break;
 			case Wishlist:
 				loadWishListEvents();
-				barBack.setLabel("Wishlist Events");
+				barBack.setLabel("Wish List");
 				break;
 		}
 	}
@@ -221,7 +222,7 @@ public class DashboardPage extends AppCompatActivity
 	{
 		final ProgressDialog dialog = new ProgressDialog(DashboardPage.this);
 		dialog.setIndeterminate(true);
-		dialog.setMessage("Fetching Data");
+		dialog.setMessage("Fetching Events");
 		dialog.show();
 
 		FetchData.getInstance().fetchInterestedEvents(getBaseContext(), new iResponseCallback()
@@ -258,6 +259,7 @@ public class DashboardPage extends AppCompatActivity
 
 	private void loadWishListEvents()
 	{
+		(( TextView)findViewById(R.id.None)).setText("None Found\nRegister for Exhibition/ Guest Talk/ Workshop");
 		eventAdapter.setEvents(Database.getInstance().getExhibitionDB().getRegisteredExhibitionKeys());
 		eventAdapter.notifyDataSetChanged();
 	}
@@ -279,7 +281,18 @@ public class DashboardPage extends AppCompatActivity
 
 		if (eventAdapter != null && eventAdapter.EventID != -1)
 		{
-			eventAdapter.notifyDataSetChanged();
+			switch (page)
+			{
+				case Live:
+					loadLiveEvents();
+					break;
+				case Interest:
+					loadInterestedEvents();
+					break;
+				case Wishlist:
+					loadWishListEvents();
+					break;
+			}
 		}
 	}
 }

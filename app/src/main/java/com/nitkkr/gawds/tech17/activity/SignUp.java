@@ -85,6 +85,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 	private boolean exit;
 	private final int AVATAR = 234;
+	private final int RESULT = 654;
 	private String TAG = "DEBUG";
 	private static final int RC_SIGN_IN = 678;
 	private GoogleApiClient mGoogleApiClient;
@@ -264,6 +265,18 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
+
+		if(requestCode==RESULT && resultCode==RESULT_OK)
+		{
+			if(data.getBooleanExtra("Logged_In",true))
+			{
+				Intent intent = new Intent();
+				intent.putExtra("Logged_In", true);
+				setResult(RESULT_OK, intent);
+				finish();
+				ActivityHelper.setExitAnimation(this);
+			}
+		}
 
 		if (requestCode == RC_SIGN_IN)
 		{
@@ -648,10 +661,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit().putBoolean("Skip", false).commit();
 
 				Intent intent = new Intent(SignUp.this, Interests.class);
-				Bundle bundle = new Bundle();
-				bundle.putBoolean("Start_Home", getIntent().getBooleanExtra("Start_Home", true));
-				intent.putExtras(bundle);
-				startActivity(intent);
+				intent.putExtra("Start_Home",getIntent().getBooleanExtra("Start_Home", true));
+				startActivityForResult(intent,RESULT);
 				break;
 			default:
 				Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
@@ -687,20 +698,20 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 			return;
 		}
 
-		if (AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this))
+		if (AppUserModel.MAIN_USER.isUserLoggedIn(this) && !AppUserModel.MAIN_USER.isUserSignedUp(this) && Login.mGoogleApiClient!=null)
 		{
 			try
 			{
-				mGoogleApiClient.connect();
-				mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks()
+				Login.mGoogleApiClient.connect();
+				Login.mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks()
 				{
 					@Override
 					public void onConnected(Bundle bundle)
 					{
 
-						if (mGoogleApiClient.isConnected())
+						if (Login.mGoogleApiClient.isConnected())
 						{
-							Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
+							Auth.GoogleSignInApi.signOut(Login.mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
 							{
 								@Override
 								public void onResult(@NonNull Status status)

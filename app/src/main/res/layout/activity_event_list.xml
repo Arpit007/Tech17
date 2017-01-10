@@ -17,7 +17,7 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:background="@color/app_background"
-        app:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         android:layout_gravity="start"
         app:itemTextColor="@color/text_color_primary"
         app:itemIconTint="@color/neon_green"

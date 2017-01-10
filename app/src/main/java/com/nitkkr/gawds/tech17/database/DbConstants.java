@@ -143,7 +143,8 @@ public class DbConstants
 
 	public DbConstants(Context context)
 	{
-		loadCache(context);
+		this();
+		//loadCache(context);
 	}
 
 	public void loadCache(Context context)
