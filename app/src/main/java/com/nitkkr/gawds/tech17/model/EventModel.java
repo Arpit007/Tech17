@@ -31,7 +31,7 @@ public class EventModel extends BaseEventModel implements Serializable
 	private boolean Informal = false;
 	private boolean Registered = false;
 	private EventStatus status = EventStatus.None;
-	private String Result;
+	private String Result ="";
 	private ArrayList<UserKey> Participants;
 	private EventStatusListener listener;
 

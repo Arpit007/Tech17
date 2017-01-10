@@ -316,12 +316,8 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		model = Database.getInstance().getEventsDB().getEvent(key);
 
 		setupViewPager(viewPager, model);
-		//tabLayout.setupWithViewPager(viewPager);
-
-		tabLayout.addTab(tabLayout.newTab().setText("About"));
-		tabLayout.addTab(tabLayout.newTab().setText("Rules"));
-		tabLayout.addTab(tabLayout.newTab().setText("Contact"));
-		tabLayout.addTab(tabLayout.newTab().setText("Result"));
+		tabLayout.setupWithViewPager(viewPager);
+		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 		viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -330,6 +326,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 			@Override
 			public void onTabSelected(TabLayout.Tab tab)
 			{
+				tabLayout.setScrollPosition(tab.getPosition(),0f,true);
 				viewPager.setCurrentItem(tab.getPosition());
 			}
 
@@ -368,9 +365,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 				{
 					model = (EventModel) object;
 					Database.getInstance().getEventsDB().addOrUpdateEvent(model);
-					ViewPagerAdapter adapter=(ViewPagerAdapter)viewPager.getAdapter();
-					//TODO:fix
-					//((Result_frag)adapter.getItem(3)).setUpContent(model,null);
 					LoadEvent();
 				}
 				else
@@ -390,7 +384,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		adapter.addFragment(AboutEvent.getNewFragment(model), "About");
 		adapter.addFragment(RulesEvent.getNewFragment(model), "Rules");
 		adapter.addFragment(ContactEvent.getNewFragment(model), "Contact");
-		adapter.addFragment(Result_frag.getNewFragment(model), "Result");
+		adapter.addFragment(Result_frag.getNewFragment(this), "Result");
 		viewPager.setAdapter(adapter);
 	}
 
@@ -526,4 +520,6 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 	{
 		LoadEvent();
 	}
+
+	public EventModel getModel(){return model;}
 }

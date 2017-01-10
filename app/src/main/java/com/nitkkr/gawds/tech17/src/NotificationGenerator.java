@@ -161,7 +161,7 @@ public class NotificationGenerator
 		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_notifications_black_24dp, "Techspardha '17");
 
 		builder = builder.setContentTitle("Techspardha '17")
-				.setContentText("You have " + Count + " unread Notifications")
+				.setContentText("You have " + Count + " new Notifications")
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 				.setWhen(new Date().getTime())
 				.setAutoCancel(true)
