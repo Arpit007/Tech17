@@ -47,6 +47,7 @@ public class NotificationGenerator
 	{
 		return new NotificationCompat.Builder(context)
 				.setSmallIcon(IconID)
+				.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), IconID))
 				.setPriority(NotificationCompat.PRIORITY_MAX)
 				.setTicker(Ticker)
 				.setAutoCancel(true);
@@ -137,6 +138,7 @@ public class NotificationGenerator
 				.setWhen(new Date().getTime())
 				.setAutoCancel(true)
 				.setPriority(Notification.PRIORITY_MAX);
+
 		if (Count==1)
 			builder=builder.setContentText("You have " + Count + " new Team Invite");
 		else

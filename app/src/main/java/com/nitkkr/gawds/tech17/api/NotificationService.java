@@ -64,42 +64,46 @@ public class NotificationService extends IntentService
     {
         Forced = intent.getBooleanExtra("Forced",false);
 
-        if(isRunTime() || Forced)
+        synchronized (this)
         {
-            if(Forced)
-                Log.i("Notification Service", "===================Forced Task Started========================");
-
-            Log.i("Notification Service", "===================Task Started========================");
-
-            if(!ActivityHelper.isInternetConnected(getApplicationContext()))
+            if (isRunTime() || Forced)
             {
-                if(Forced)
-                    Toast.makeText(getApplicationContext(),"No Network Connection",Toast.LENGTH_SHORT).show();
-                saveRunTime(false);
-                return;
-            }
+                if (Forced)
+                    Log.i("Notification Service", "===================Forced Task Started========================");
 
-            isNewDb=false;
-            Database database = Database.getServiceInstance();
+                Log.i("Notification Service", "===================Task Started========================");
 
-            if(database==null)
-            {
-                isNewDb=true;
-                database=new Database(getApplicationContext());
-            }
-            synchronized (database)
-            {
-                try
+                if (!ActivityHelper.isInternetConnected(getApplicationContext()))
                 {
-                    RunTask(database);
+                    if (Forced)
+                        Toast.makeText(getApplicationContext(), "No Network Connection", Toast.LENGTH_SHORT).show();
+                    saveRunTime(false);
+                    return;
                 }
-                catch (Exception e)
+
+                isNewDb = false;
+                Database database = Database.getServiceInstance();
+
+                if (database == null)
                 {
-                    e.printStackTrace();
+                    isNewDb = true;
+                    database = new Database(getApplicationContext());
+                }
+                synchronized (database)
+                {
+                    try
+                    {
+                        RunTask(database);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
+            else
+                Log.i("Notification Service", "===================Service Called Early========================");
         }
-        else Log.i("Notification Service", "===================Service Called Early========================");
     }
 
     private boolean isRunTime()

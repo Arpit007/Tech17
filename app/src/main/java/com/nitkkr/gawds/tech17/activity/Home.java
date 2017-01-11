@@ -39,7 +39,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-
 		if (getIntent().getBooleanExtra("AnimStart", true))
 		{
 			ActivityHelper.setCreateAnimation(this);
@@ -69,10 +68,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		barNavDrawer.setLabel(getString(R.string.FestName));
 		barNavDrawer.setOpenNewSearchPage(true);
 
-
-		/*
-		RequestQueue teamDetailQueue = Volley.newRequestQueue(this);
-		teamDetailQueue.add(FetchData.getMyTeams(this, Database.getInstance(), null));*/
 
 		TextView tx = (TextView)findViewById(R.id.gawdsFont);
 

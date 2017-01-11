@@ -56,51 +56,55 @@ public class FetchService extends IntentService
 	{
 		Forced = intent.getBooleanExtra("Forced",false);
 
-		SharedPreferences preferences = getApplicationContext().getSharedPreferences("Fetch_Service", Context.MODE_PRIVATE);
-
-		boolean LastRunStatus = preferences.getBoolean("Status",false);
-
-		long LastRun=preferences.getLong("LastRun",(new Date()).getTime());
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date(LastRun));
-		calendar.add(Calendar.MINUTE,5);
-
-		if(LastRunStatus && LastRun>new Date().getTime())
-			Forced=false;
-
-		if(isRunTime() || Forced)
+		synchronized (this)
 		{
-			Log.i("Fetch Service", "===================Task Started========================");
+			SharedPreferences preferences = getApplicationContext().getSharedPreferences("Fetch_Service", Context.MODE_PRIVATE);
 
-			if(!ActivityHelper.isInternetConnected(getApplicationContext()))
-			{
-				if(Forced)
-					Toast.makeText(getApplicationContext(),"No Network Connection",Toast.LENGTH_SHORT).show();
-				saveRunTime(false);
-				return;
-			}
+			boolean LastRunStatus = preferences.getBoolean("Status", false);
 
-			isNewDb=false;
-			Database database = Database.getServiceInstance();
+			long LastRun = preferences.getLong("LastRun", ( new Date() ).getTime());
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date(LastRun));
+			calendar.add(Calendar.MINUTE, 5);
 
-			if(database==null)
+			if (LastRunStatus && LastRun > new Date().getTime())
+				Forced = false;
+
+			if (isRunTime() || Forced)
 			{
-				isNewDb=true;
-				database=new Database(getApplicationContext());
-			}
-			synchronized (database)
-			{
-				try
+				Log.i("Fetch Service", "===================Task Started========================");
+
+				if (!ActivityHelper.isInternetConnected(getApplicationContext()))
 				{
-					RunTask(database);
+					if (Forced)
+						Toast.makeText(getApplicationContext(), "No Network Connection", Toast.LENGTH_SHORT).show();
+					saveRunTime(false);
+					return;
 				}
-				catch (Exception e)
+
+				isNewDb = false;
+				Database database = Database.getServiceInstance();
+
+				if (database == null)
 				{
-					e.printStackTrace();
+					isNewDb = true;
+					database = new Database(getApplicationContext());
+				}
+				synchronized (database)
+				{
+					try
+					{
+						RunTask(database);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
 				}
 			}
+			else
+				Log.i("Fetch Service", "===================Service Called Early========================");
 		}
-		else Log.i("Fetch Service", "===================Service Called Early========================");
 	}
 
 	private boolean isRunTime()

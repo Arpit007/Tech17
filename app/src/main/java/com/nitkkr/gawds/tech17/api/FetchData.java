@@ -1063,13 +1063,6 @@ public class FetchData
 
 	public static StringRequest getNotifications(final Context context, final Database database, final iResponseCallback callback)
 	{
-		NotificationModel model = new NotificationModel();
-		model.setNotificationID(6);
-		model.setEventID(0);
-		model.setMessage("Hello World");
-		model.setSeen(false);
-		Database.getInstance().getNotificationDB().addOrUpdateNotification(model);
-
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				//TODO:add time stamp
 
@@ -1080,7 +1073,7 @@ public class FetchData
 					public void onResponse(String res)
 					{
 						JSONObject response;
-						JSONArray data,privateobjarr,globalobjarr;
+						JSONArray data,privateArr,globalArr;
 						int code;
 						try
 						{
@@ -1095,74 +1088,56 @@ public class FetchData
 								JSONObject object = data.getJSONObject(0);
 								JSONObject object2 = data.getJSONObject(1);
 
-								privateobjarr=object.getJSONArray("private");
-									globalobjarr=object2.getJSONArray("global");
+								privateArr = object.getJSONArray("private");
+								globalArr = object2.getJSONArray("global");
 
 
-									//private notification
-									for(int j=0;j<privateobjarr.length();j++){
-										int ID=object.getInt("Id"), index = -1;
+								//private notification
+								for (int j = 0; j < privateArr.length(); j++)
+								{
+									NotificationModel model = new NotificationModel();
+									JSONObject NotificationObject = object.getJSONObject("Notification");
 
-										NotificationModel model=new NotificationModel();
+									model.setNotificationID(object.getInt("Id"));
+									model.setEventID(NotificationObject.getInt("EventId"));
+									model.setMessage(NotificationObject.getString("Message"));
+									model.setSeen(object.getInt("status") == 0);
+									models.add(model);
+								}
 
-										for(int x=0;x<models.size();x++)
-										{
-											if(models.get(x).getNotificationID()==ID)
-											{
-												model=models.get(x);
-												index=x;
-											}
-										}
-										JSONObject NotificationObject = object.getJSONObject("Notification");
+								//global notification
+								for (int j = 0; j < globalArr.length(); j++)
+								{
+									NotificationModel model = new NotificationModel();
+									JSONObject NotificationObject = object2.getJSONObject("Notification");
 
-										model.setNotificationID(object.getInt("Id"));
-										model.setEventID(NotificationObject.getInt("EventId"));
-										model.setMessage(NotificationObject.getString("Message"));
-										model.setSeen(object.getInt("status")==0);
-
-										if(index==-1)
-											models.add(model);
-									}
-
-									//global notification
-									for(int j=0;j<globalobjarr.length();j++){
-										int ID=object2.getInt("Id"), index = -1;
-
-										NotificationModel model=new NotificationModel();
-
-										for(int x=0;x<models.size();x++)
-										{
-											if(models.get(x).getNotificationID()==ID)
-											{
-												model=models.get(x);
-												index=x;
-											}
-										}
-										JSONObject NotificationObject = object2.getJSONObject("Notification");
-
-										model.setNotificationID(object2.getInt("Id"));
-										model.setEventID(NotificationObject.getInt("EventId"));
-										model.setMessage(NotificationObject.getString("Message"));
-										model.setSeen(object2.getInt("status")==0);
-
-										if(index==-1)
-											models.add(model);
-									}
+									model.setNotificationID(object2.getInt("Id"));
+									model.setEventID(NotificationObject.getInt("EventId"));
+									model.setMessage(NotificationObject.getString("Message"));
+									model.setSeen(object2.getInt("status") == 0);
+									models.add(model);
+								}
 
 								database.getNotificationDB().addOrUpdateNotification(models);
-								if(callback!=null)
+								if (callback != null)
+								{
 									callback.onResponse(ResponseStatus.SUCCESS);
+								}
 							}
 							else
 							{
-								if(callback!=null)
+								if (callback != null)
+								{
 									callback.onResponse(ResponseStatus.FAILED);
+								}
 							}
 						}
 						catch (JSONException e)
 						{
-							if(callback!=null)
+							if (callback != null)
+							{
 								callback.onResponse(ResponseStatus.FAILED);
+							}
 						}
 					}
 				},
