@@ -272,7 +272,7 @@ public class TeamDB extends SQLiteOpenHelper
 					model.setTeamID(cursor.getInt(ColumnIndex[0]));
 					model.setTeamName(cursor.getString(ColumnIndex[1]));
 					model.setEventID(cursor.getInt(ColumnIndex[2]));
-					model.setControl(TeamModel.TeamControl.Parse(cursor.getString(ColumnIndex[3])));
+					model.setControl(TeamModel.TeamControl.Parse(cursor.getString(ColumnIndex[4])));
 
 					try
 					{
@@ -402,7 +402,7 @@ public class TeamDB extends SQLiteOpenHelper
 				model.setTeamID(cursor.getInt(ColumnIndex[0]));
 				model.setTeamName(cursor.getString(ColumnIndex[1]));
 				model.setEventID(cursor.getInt(ColumnIndex[2]));
-				model.setControl(TeamModel.TeamControl.Parse(cursor.getString(ColumnIndex[3])));
+				model.setControl(TeamModel.TeamControl.Parse(cursor.getString(ColumnIndex[4])));
 
 				try
 				{

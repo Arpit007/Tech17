@@ -102,7 +102,7 @@ public class UserSearch extends AppCompatActivity
 					}
 					else
 					{
-						( (TextView) findViewById(R.id.None) ).setText("Search Users using their\nName/ Roll Number/ Email");
+						( (TextView) findViewById(R.id.None) ).setText("Search Users using their\nName/ Roll Number/ Email/\nPhone Number");
 						findViewById(R.id.None).setVisibility(View.VISIBLE);
 						findViewById(R.id.None1).setVisibility(View.INVISIBLE);
 					}
@@ -171,7 +171,7 @@ public class UserSearch extends AppCompatActivity
 		});
 		actionBarSearch.setResetOnBack(false);
 		actionBarSearch.setLabel("User Search");
-		actionBarSearch.setSearchHint("Name/ Roll Number/ Email");
+		actionBarSearch.setSearchHint("Name/ Roll/ Email/ Phone");
 
 		findViewById(R.id.actionbar_search).performClick();
 	}

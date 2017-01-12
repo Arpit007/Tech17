@@ -248,7 +248,7 @@ public class CreateTeam extends AppCompatActivity
 					adapter.getUsers().add((UserKey) data.getExtras().getSerializable("User"));
 					adapter.notifyDataSetChanged();
 				}
-				else Toast.makeText(CreateTeam.this,"User Already Added",Toast.LENGTH_SHORT).show();
+				else Toast.makeText(CreateTeam.this,"User Already Added",Toast.LENGTH_LONG).show();
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);

@@ -58,7 +58,7 @@ public class ActionBarSearch
 			@Override
 			public boolean onQueryTextChange(String newText)
 			{
-				ActionBarSearch.this.callback.SearchQuery(newText);
+				ActionBarSearch.this.callback.SearchQuery(newText.trim());
 				return true;
 			}
 		});

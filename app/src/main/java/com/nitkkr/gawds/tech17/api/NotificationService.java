@@ -120,7 +120,8 @@ public class NotificationService extends IntentService
         LastRun=calendar.getTimeInMillis();
         long CurrentRun = new Date().getTime();
 
-        return (CurrentRun > LastRun || !LastRunStatus);
+        //return (CurrentRun > LastRun || !LastRunStatus);
+        return true;
     }
 
     private void saveRunTime(boolean Status)

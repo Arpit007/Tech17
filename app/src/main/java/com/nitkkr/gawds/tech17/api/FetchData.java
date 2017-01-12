@@ -1066,7 +1066,7 @@ public class FetchData
 
 	public static StringRequest getNotifications(final Context context, Date date, final Database database, final iResponseCallback callback)
 	{
-		String TimeStamp = new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(date);
+		String TimeStamp = new SimpleDateFormat("yyyy-MM-dd%20hh:mm:ss", Locale.getDefault()).format(date);
 
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken()+"&timeStamp="+TimeStamp,
@@ -1116,10 +1116,11 @@ public class FetchData
 									NotificationModel model = new NotificationModel();
 									JSONObject glblObject=globalArr.getJSONObject(j);
 
-									model.setNotificationID(-10);//glblObject.getInt("Id"));
+									model.setNotificationID(glblObject.getInt("Id"));
 									model.setEventID(glblObject.getInt("EventId"));
 									model.setMessage(glblObject.getString("Message"));
 									model.setSeen(false);
+
 									models.add(model);
 								}
 
@@ -1974,15 +1975,16 @@ public class FetchData
 					@Override
 					public void onResponse(String res)
 					{
-						JSONObject response;
-						JSONArray data,participantIn,teamLeaderOf,pendingInvitations;
+						JSONObject response, data;
+						JSONArray participantIn,teamLeaderOf,pendingInvitations;
+
 						int code;
 						try
 						{
 							Log.v("DEBUG",res.toString());
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
-							data=response.getJSONArray("data");
+							data=response.getJSONObject("data");
 
 							if (code == 200)
 							{
@@ -1992,95 +1994,41 @@ public class FetchData
 
 								if (data != null)
 								{
-									participantIn = data.getJSONObject(0).getJSONArray("participantIn");
-									teamLeaderOf = data.getJSONObject(1).getJSONArray("teamLeaderOf");
-									pendingInvitations = data.getJSONObject(2).getJSONArray("pendingInvitations");
+									participantIn = data.getJSONArray("participantIn");
+									teamLeaderOf = data.getJSONArray("teamLeaderOf");
+									pendingInvitations = data.getJSONArray("pendingInvitations");
 
 
 									for (int i = 0; i < participantIn.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										try
-										{
-											key.setEventID(participantIn.getJSONObject(i).getInt("EventId"));
-										}
-										catch (Exception e)
-										{
-											e.printStackTrace();
-											key.setEventID(0);
-										}
-										try
-										{
-											key.setTeamName(participantIn.getJSONObject(i).getString("Name"));
-										}
-										catch (Exception e)
-										{
-											e.printStackTrace();
-											key.setEventID(0);
-										}
+										key.setEventID(participantIn.getJSONObject(i).getInt("EventId"));
+										key.setTeamName(participantIn.getJSONObject(i).getString("Name"));
 										key.setControl(TeamModel.TeamControl.Participant);
-										if(key.getEventID()==0)
-											continue;
 										teams.add(key);
 									}
 
 									for (int i = 0; i < teamLeaderOf.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										try
-										{
-											key.setEventID(teamLeaderOf.getJSONObject(i).getInt("EventId"));
-										}
-										catch (Exception e)
-										{
-											e.printStackTrace();
-											key.setEventID(0);
-										}
-										try
-										{
-											key.setTeamName(teamLeaderOf.getJSONObject(i).getString("Name"));
-										}
-										catch (Exception e)
-										{
-											e.printStackTrace();
-											key.setEventID(0);
-										}
+										key.setEventID(teamLeaderOf.getJSONObject(i).getInt("EventId"));
+										key.setTeamName(teamLeaderOf.getJSONObject(i).getString("Name"));
 										key.setControl(TeamModel.TeamControl.Leader);
-										if(key.getEventID()==0)
-											continue;
 										myTeams.add(key);
 									}
 
 									for (int i = 0; i < pendingInvitations.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										try
-										{
-											key.setEventID(pendingInvitations.getJSONObject(i).getInt("EventId"));
-										}
-										catch (Exception e)
-										{
-											e.printStackTrace();
-											key.setEventID(0);
-										}
-										try
-										{
-											key.setTeamName(pendingInvitations.getJSONObject(i).getString("Name"));
-										}
-										catch (Exception e)
-										{
-											e.printStackTrace();
-											key.setEventID(0);
-										}
+										key.setEventID(pendingInvitations.getJSONObject(i).getInt("EventId"));
+										key.setTeamName(pendingInvitations.getJSONObject(i).getString("Name"));
 										key.setControl(TeamModel.TeamControl.Pending);
-										if(key.getEventID()==0)
-											continue;
 										invites.add(key);
 									}
-									/*database.getTeamDB().resetTable();
+									database.getTeamDB().resetTable();
 									database.getTeamDB().addOrUpdateTeamInvite(invites);
 									database.getTeamDB().addOrUpdateMyTeam(teams);
-									database.getTeamDB().addOrUpdateMyTeam(myTeams);*/
+									database.getTeamDB().addOrUpdateMyTeam(myTeams);
 
 
 									RequestQueue teamDetailQueue = Volley.newRequestQueue(context);
@@ -2102,6 +2050,11 @@ public class FetchData
 
 									for(TeamModel model : myTeams)
 										teamDetailQueue.add(getTeamDetail(context, database, model.getTeamID(),false,true,null));
+
+									if(invites.size() == 0 && teams.size() == 0 && myTeams.size() == 0)
+										if(callback!=null)
+											callback.onResponse(ResponseStatus.SUCCESS);
+
 								}
 
 								if (callback!=null)
@@ -2153,7 +2106,7 @@ public class FetchData
 	public void searchUsers(final Context context,  final String query, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url)
-				+ "/api/user/search?token="+AppUserModel.MAIN_USER.getToken()+"&query="+query,
+				+ "/api/user/search?token="+AppUserModel.MAIN_USER.getToken()+"&query="+query.replaceAll(" ","%20"),
 				new Response.Listener<String>()
 				{
 					@Override

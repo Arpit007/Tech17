@@ -408,7 +408,7 @@ public class ActionBarNavDrawer
 			@Override
 			public boolean onQueryTextChange(String newText)
 			{
-				barNavDrawer.SearchQuery(newText);
+				barNavDrawer.SearchQuery(newText.trim());
 				return true;
 			}
 		});
