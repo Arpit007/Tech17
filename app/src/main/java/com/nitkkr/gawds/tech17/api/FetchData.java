@@ -33,8 +33,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -1061,12 +1064,12 @@ public class FetchData
 		return stringRequest;
 	}
 
-	public static StringRequest getNotifications(final Context context, final Database database, final iResponseCallback callback)
+	public static StringRequest getNotifications(final Context context, Date date, final Database database, final iResponseCallback callback)
 	{
-		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-				//TODO:add time stamp
+		String TimeStamp = new SimpleDateFormat("h:mm a, d MMM", Locale.getDefault()).format(date);
 
-				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken()+"&timeStamp=",
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
+				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken()+"&timeStamp="+TimeStamp,
 				new Response.Listener<String>()
 				{
 					@Override
@@ -1096,25 +1099,27 @@ public class FetchData
 								for (int j = 0; j < privateArr.length(); j++)
 								{
 									NotificationModel model = new NotificationModel();
-									JSONObject NotificationObject = object.getJSONObject("Notification");
+									JSONObject pvtObject=privateArr.getJSONObject(j);
+									JSONObject NotificationObject = pvtObject.getJSONObject("Notification");
 
-									model.setNotificationID(object.getInt("Id"));
+									model.setNotificationID(pvtObject.getInt("Id"));
 									model.setEventID(NotificationObject.getInt("EventId"));
 									model.setMessage(NotificationObject.getString("Message"));
-									model.setSeen(object.getInt("status") == 0);
+									model.setSeen(pvtObject.getInt("status") == 0);
 									models.add(model);
 								}
 
+								//TODO:FIX
 								//global notification
 								for (int j = 0; j < globalArr.length(); j++)
 								{
 									NotificationModel model = new NotificationModel();
-									JSONObject NotificationObject = object2.getJSONObject("Notification");
+									JSONObject glblObject=globalArr.getJSONObject(j);
 
-									model.setNotificationID(object2.getInt("Id"));
-									model.setEventID(NotificationObject.getInt("EventId"));
-									model.setMessage(NotificationObject.getString("Message"));
-									model.setSeen(object2.getInt("status") == 0);
+									model.setNotificationID(-10);//glblObject.getInt("Id"));
+									model.setEventID(glblObject.getInt("EventId"));
+									model.setMessage(glblObject.getString("Message"));
+									model.setSeen(false);
 									models.add(model);
 								}
 
@@ -1974,6 +1979,7 @@ public class FetchData
 						int code;
 						try
 						{
+							Log.v("DEBUG",res.toString());
 							response = new JSONObject(res);
 							code = response.getJSONObject("status").getInt("code");
 							data=response.getJSONArray("data");
@@ -2171,15 +2177,7 @@ public class FetchData
 									key.setName(object.getString("Name"));
 									key.setUserID(object.getString("Id"));
 									key.setTeamControl(TeamModel.TeamControl.Pending);
-									try
-									{
-										key.setRoll(object.getString("RollNo"));
-									}
-									catch (Exception e)
-									{
-										e.printStackTrace();
-										key.setRoll("");
-									}
+									key.setRoll(object.getString("RollNo"));
 									if(key.getRoll().equals(AppUserModel.MAIN_USER.getRoll()))
 										continue;
 									keys.add(key);

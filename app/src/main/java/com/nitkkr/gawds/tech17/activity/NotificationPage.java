@@ -3,8 +3,8 @@ package com.nitkkr.gawds.tech17.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.DataSetObserver;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -75,25 +75,34 @@ public class NotificationPage extends AppCompatActivity
 					model.setUpdated(false);
 					Database.getInstance().getNotificationDB().addOrUpdateNotification(model);
 
-					adapter.notifyDataSetChanged();
-					FetchData.getInstance().changeNotificationStatus(getApplicationContext(), model.getNotificationID(), 0, new iResponseCallback()
+					if (model.getNotificationID() < 0)
 					{
-						@Override
-						public void onResponse(ResponseStatus status)
+						model.setUpdated(true);
+						Database.getInstance().getNotificationDB().addOrUpdateNotification(model);
+					}
+					else
+					{
+						FetchData.getInstance().changeNotificationStatus(getApplicationContext(), model.getNotificationID(), 0, new iResponseCallback()
 						{
-							if(status == ResponseStatus.SUCCESS)
+							@Override
+							public void onResponse(ResponseStatus status)
 							{
-								model.setUpdated(true);
-								Database.getInstance().getNotificationDB().addOrUpdateNotification(model);
+								if (status == ResponseStatus.SUCCESS)
+								{
+									model.setUpdated(true);
+									Database.getInstance().getNotificationDB().addOrUpdateNotification(model);
+								}
 							}
-						}
 
-						@Override
-						public void onResponse(ResponseStatus status, Object object)
-						{
-							this.onResponse(status);
-						}
-					});
+							@Override
+							public void onResponse(ResponseStatus status, Object object)
+							{
+								this.onResponse(status);
+							}
+						});
+					}
+
+					adapter.notifyDataSetChanged();
 				}
 
 				final Dialog dialog=new Dialog(NotificationPage.this);

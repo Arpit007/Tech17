@@ -128,6 +128,10 @@ public class NotificationService extends IntentService
         SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("Notification_Service", Context.MODE_PRIVATE).edit();
         editor.putLong("LastRun",new Date().getTime());
         editor.putBoolean("Status",Status);
+
+        if(Status)
+            editor.putLong("SuccessTime",new Date().getTime());
+
         editor.commit();
     }
 
@@ -190,9 +194,19 @@ public class NotificationService extends IntentService
             }
         };
 
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Notification_Service", Context.MODE_PRIVATE);
+
+        Date date=new Date(preferences.getLong("SuccessTime",0));
+        if(date.getTime()==0)
+        {
+            Calendar calendar=Calendar.getInstance();
+            calendar.set(Calendar.YEAR,2016);
+            date.setTime(calendar.getTimeInMillis());
+        }
+
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(FetchData.fetchUserWishlist(getApplicationContext(),database,callback));
-        requestQueue.add(FetchData.getNotifications(getApplicationContext(),database,callback));
+        requestQueue.add(FetchData.getNotifications(getApplicationContext(),date,database,callback));
         requestQueue.add(FetchData.getMyTeams(getApplicationContext(), database, callback));
     }
 }

@@ -218,7 +218,7 @@ public class NotificationDB extends SQLiteOpenHelper implements iBaseDB
 
 	public long getUnreadNotificationCount()
 	{
-		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(),DbConstants.Constants.getNotificationTableName(),DbConstants.NotificationNames.Seen.Name() + " == 0");
+		return DatabaseUtils.queryNumEntries(dbRequest.getDatabase(),DbConstants.Constants.getNotificationTableName(),DbConstants.NotificationNames.Seen.Name() + " = 0");
 	}
 
 }

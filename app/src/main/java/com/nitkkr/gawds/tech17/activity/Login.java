@@ -69,12 +69,12 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 		}
 	};
 
-	private final int RESULT=678;
+	private final int RESULT=680;
 	boolean exit = false;
 	private static final int RC_SIGN_IN = 678;
 	static public GoogleApiClient mGoogleApiClient;
 	static public GoogleSignInOptions gso;
-	private ProgressDialog mProgressDialog;
+	private static ProgressDialog mProgressDialog;
 	public static final String client_server_id = "726783559264-o574f9bvum7qdnlusrdmh0rnshqfnr8h.apps.googleusercontent.com";
 	private boolean googleSigningTask=false;
 
@@ -87,6 +87,12 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 		setContentView(R.layout.activity_login);
 
 		ActivityHelper.setCreateAnimation(this);
+
+
+		mProgressDialog = new ProgressDialog(Login.this);
+		mProgressDialog.setMessage("Logging In");
+		mProgressDialog.setIndeterminate(true);
+		mProgressDialog.setCancelable(false);
 
 		Database.getInstance().ResetTables();
 
@@ -209,7 +215,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 	public void sendToken()
 	{
-		showProgressDialog("Verifying");
+		mProgressDialog.show();
 		Log.v("login", "Sending Token");
 
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.server_url) +
@@ -292,7 +298,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 	public void fetchUserDetails()
 	{
-		showProgressDialog("Fetching User Details...");
+		mProgressDialog.setMessage("Fetching Details");
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.server_url) +
 				getResources().getString(R.string.get_user_details_url) + "?token=" + userModel.getToken(),
 				new Response.Listener<String>()
@@ -348,8 +354,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 	public void LogInResult(ResponseStatus status)
 	{
-		hideProgressDialog();
-
+		mProgressDialog.dismiss();
 		switch (status)
 		{
 			case FAILED:
@@ -447,22 +452,25 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 	private void showProgressDialog(String msg)
 	{
-		if (mProgressDialog == null)
-		{
-			mProgressDialog = new ProgressDialog(this);
-		}
+		mProgressDialog = new ProgressDialog(Login.this);
 		mProgressDialog.setMessage(msg);
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setCancelable(false);
-
 		mProgressDialog.show();
 	}
 
 	private void hideProgressDialog()
 	{
-		if (mProgressDialog != null)
+		try
 		{
-			mProgressDialog.dismiss();
+			if (mProgressDialog != null && mProgressDialog.isShowing())
+			{
+				mProgressDialog.dismiss();
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 

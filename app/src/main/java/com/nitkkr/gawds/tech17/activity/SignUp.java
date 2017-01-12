@@ -654,9 +654,10 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 				AppUserModel.MAIN_USER.setLoggedIn(true, getBaseContext());
 				AppUserModel.MAIN_USER.saveAppUser(this);
 
-				Answers.getInstance().logSignUp(new SignUpEvent()
-						.putMethod("Google: " + AppUserModel.MAIN_USER.getName())
-						.putSuccess(true));
+				if(!ActivityHelper.isDebugMode(this))
+					Answers.getInstance().logSignUp(new SignUpEvent()
+							.putMethod("Google: " + AppUserModel.MAIN_USER.getName())
+							.putSuccess(true));
 
 				getSharedPreferences(getString(R.string.App_Preference), Context.MODE_PRIVATE).edit().putBoolean("Skip", false).commit();
 
@@ -772,7 +773,7 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
 	private void hideProgressDialog()
 	{
-		if (mProgressDialog != null)
+		if (mProgressDialog != null && mProgressDialog.isShowing())
 		{
 			mProgressDialog.dismiss();
 		}

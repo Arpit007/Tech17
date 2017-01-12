@@ -28,6 +28,8 @@ import com.nitkkr.gawds.tech17.src.Feedback;
 import com.nitkkr.gawds.tech17.src.RateApp;
 import com.nitkkr.gawds.tech17.src.UpdateCheck;
 
+import java.util.Date;
+
 public class Home extends AppCompatActivity implements View.OnClickListener
 {
 	private ActionBarNavDrawer barNavDrawer;
@@ -38,6 +40,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+
+		//TODO:Remove
+		RequestQueue requestQueue = Volley.newRequestQueue(this);
+		//requestQueue.add(FetchData.getNotifications(this,new Date(10000),Database.getInstance(),null ));
+		requestQueue.add(FetchData.getMyTeams(getApplicationContext(),Database.getInstance(),null));
 
 		if (getIntent().getBooleanExtra("AnimStart", true))
 		{

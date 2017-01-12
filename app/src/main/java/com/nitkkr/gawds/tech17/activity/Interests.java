@@ -180,7 +180,7 @@ public class Interests extends AppCompatActivity
 				}
 				if (startHome)
 				{
-					startActivity(new Intent(Interests.this, Home.class));
+					ActivityHelper.revertToHome(Interests.this);
 					finish();
 				}
 				else
@@ -189,8 +189,8 @@ public class Interests extends AppCompatActivity
 					intent.putExtra("Logged_In", true);
 					setResult(RESULT_OK, intent);
 					finish();
-					ActivityHelper.setExitAnimation(this);
 				}
+				ActivityHelper.setExitAnimation(this);
 				break;
 			case FAILED:
 				Toast.makeText(Interests.this, "Failed, Please Try Again", Toast.LENGTH_LONG).show();
