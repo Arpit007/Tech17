@@ -5,7 +5,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -16,8 +15,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
@@ -25,7 +22,6 @@ import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.activity.Home;
 import com.nitkkr.gawds.tech17.activity.ListPage;
 import com.nitkkr.gawds.tech17.api.Query;
-import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.src.UpdateCheck;
 
 import java.util.Calendar;

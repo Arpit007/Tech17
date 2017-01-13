@@ -2,8 +2,6 @@ package com.nitkkr.gawds.tech17.activity.Dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,9 +9,7 @@ import android.widget.TextView;
 
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.adapter.TeamListAdapter;
-import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
 import com.nitkkr.gawds.tech17.database.Database;
-import com.nitkkr.gawds.tech17.database.DbConstants;
 import com.nitkkr.gawds.tech17.model.EventModel;
 import com.nitkkr.gawds.tech17.model.TeamModel;
 

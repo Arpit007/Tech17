@@ -13,11 +13,6 @@ import com.nitkkr.gawds.tech17.adapter.ViewPagerAdapter;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActionBarBack;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
-import com.nitkkr.gawds.tech17.model.AppUserModel;
-import com.nitkkr.gawds.tech17.model.TeamModel;
-import com.nitkkr.gawds.tech17.model.UserKey;
-
-import java.util.ArrayList;
 
 public class TeamPage extends AppCompatActivity
 {

@@ -31,7 +31,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.nitkkr.gawds.tech17.R;
-import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.api.FetchService;
 import com.nitkkr.gawds.tech17.api.NotificationReceiver;
 import com.nitkkr.gawds.tech17.api.NotificationService;

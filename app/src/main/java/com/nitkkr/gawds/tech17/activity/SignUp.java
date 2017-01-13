@@ -62,8 +62,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
 {
 	Thread runAnimationUp = new Thread()

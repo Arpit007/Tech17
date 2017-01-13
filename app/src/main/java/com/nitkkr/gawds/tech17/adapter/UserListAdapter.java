@@ -17,7 +17,6 @@ import com.nitkkr.gawds.tech17.model.TeamModel;
 import com.nitkkr.gawds.tech17.model.UserKey;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
-import com.nitkkr.gawds.tech17.src.MessageEvent;
 
 import java.util.ArrayList;
 

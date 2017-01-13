@@ -4,9 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.nitkkr.gawds.tech17.api.FetchService;
-import com.nitkkr.gawds.tech17.api.NotificationService;
-
 public class ConnectivityReceiver extends BroadcastReceiver
 {
 	public ConnectivityReceiver()

@@ -1,7 +1,5 @@
 package com.nitkkr.gawds.tech17.model;
 
-import java.util.Date;
-
 /**
  * Created by Home Laptop on 18-Dec-16.
  */

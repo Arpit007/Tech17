@@ -39,8 +39,6 @@ import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class EditUser extends AppCompatActivity
 {
 	private int ResponseCount = 0;

@@ -18,8 +18,6 @@ import com.nitkkr.gawds.tech17.model.UserModel;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class ViewUser extends AppCompatActivity
 {
 	private final int EDIT = 10;

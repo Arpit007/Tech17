@@ -1,9 +1,6 @@
 package com.nitkkr.gawds.tech17.activity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -17,7 +14,6 @@ import android.widget.Toast;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.adapter.EventListAdapter;
 import com.nitkkr.gawds.tech17.api.FetchData;
-import com.nitkkr.gawds.tech17.api.NotificationReceiver;
 import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActionBarSearch;

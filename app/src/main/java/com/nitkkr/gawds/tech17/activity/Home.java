@@ -13,22 +13,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.nitkkr.gawds.tech17.R;
-import com.nitkkr.gawds.tech17.api.FetchData;
-import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
-import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 import com.nitkkr.gawds.tech17.helper.iActionBar;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.src.Feedback;
 import com.nitkkr.gawds.tech17.src.RateApp;
 import com.nitkkr.gawds.tech17.src.UpdateCheck;
-
-import java.util.Date;
 
 public class Home extends AppCompatActivity implements View.OnClickListener
 {

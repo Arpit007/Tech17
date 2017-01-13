@@ -2046,6 +2046,22 @@ public class FetchData
 										}
 									});
 
+									for(TeamModel model: teams)
+									{
+										EventModel eventModel=Database.getInstance().getEventsDB().getEvent(model.getEventID());
+										eventModel.setRegistered(true);
+										eventModel.setNotify(true);
+										Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
+									}
+
+									for(TeamModel model: myTeams)
+									{
+										EventModel eventModel=Database.getInstance().getEventsDB().getEvent(model.getEventID());
+										eventModel.setRegistered(true);
+										eventModel.setNotify(true);
+										Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
+									}
+
 									for(TeamModel model : invites)
 										teamDetailQueue.add(getTeamDetail(context, database, model.getTeamID(),true,false,null));
 

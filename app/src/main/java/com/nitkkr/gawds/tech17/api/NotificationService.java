@@ -1,17 +1,14 @@
 package com.nitkkr.gawds.tech17.api;
 
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.Preference;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.helper.ResponseStatus;
@@ -20,8 +17,6 @@ import com.nitkkr.gawds.tech17.src.NotificationGenerator;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Dell on 29-Dec-16.

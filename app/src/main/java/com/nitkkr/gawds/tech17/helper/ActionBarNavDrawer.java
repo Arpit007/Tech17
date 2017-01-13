@@ -2,8 +2,6 @@ package com.nitkkr.gawds.tech17.helper;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,7 +30,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.activity.About;
-import com.nitkkr.gawds.tech17.activity.Event;
 import com.nitkkr.gawds.tech17.activity.EventListPage;
 import com.nitkkr.gawds.tech17.activity.Home;
 import com.nitkkr.gawds.tech17.activity.Login;
@@ -42,14 +39,10 @@ import com.nitkkr.gawds.tech17.activity.ViewUser;
 import com.nitkkr.gawds.tech17.api.EventTargetType;
 import com.nitkkr.gawds.tech17.api.Query;
 import com.nitkkr.gawds.tech17.model.AppUserModel;
-import com.nitkkr.gawds.tech17.model.UserModel;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import static com.nitkkr.gawds.tech17.activity.Login.mGoogleApiClient;
-import static com.nitkkr.gawds.tech17.helper.ActivityHelper.getApplicationContext;
 import static com.nitkkr.gawds.tech17.helper.ActivityHelper.isDebugMode;
 import static com.nitkkr.gawds.tech17.helper.ActivityHelper.startListActivity;
 

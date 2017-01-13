@@ -1,7 +1,6 @@
 package com.nitkkr.gawds.tech17.activity.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,9 +14,6 @@ import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.activity.Dialog.TeamDialog;
 import com.nitkkr.gawds.tech17.adapter.TeamListAdapter;
 import com.nitkkr.gawds.tech17.database.Database;
-import com.nitkkr.gawds.tech17.model.TeamModel;
-
-import java.util.ArrayList;
 
 public class MyTeams extends Fragment
 {

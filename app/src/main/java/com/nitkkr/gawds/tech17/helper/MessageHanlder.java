@@ -6,8 +6,6 @@ import com.nitkkr.gawds.tech17.model.MessageModel;
 import com.nitkkr.gawds.tech17.model.MessageType;
 import com.nitkkr.gawds.tech17.src.MessageEvent;
 import com.nitkkr.gawds.tech17.src.MessageInvite;
-import com.nitkkr.gawds.tech17.src.MessageResult;
-import com.nitkkr.gawds.tech17.src.MessageSimple;
 
 /**
  * Created by Home Laptop on 18-Nov-16.

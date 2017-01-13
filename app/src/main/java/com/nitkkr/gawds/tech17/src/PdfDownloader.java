@@ -21,8 +21,6 @@ import com.nitkkr.gawds.tech17.helper.ResponseStatus;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 
 import static com.nitkkr.gawds.tech17.helper.ActivityHelper.getApplicationContext;

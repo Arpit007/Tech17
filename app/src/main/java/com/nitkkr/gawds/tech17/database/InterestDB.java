@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.nitkkr.gawds.tech17.R;
-import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.model.InterestModel;
 
 import java.util.ArrayList;

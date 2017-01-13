@@ -12,8 +12,6 @@ import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * Created by Home Laptop on 16-Dec-16.
  */

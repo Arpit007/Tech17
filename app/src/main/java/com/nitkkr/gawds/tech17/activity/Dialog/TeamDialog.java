@@ -6,16 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.activity.Event;
-import com.nitkkr.gawds.tech17.activity.NotificationPage;
 import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
-import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.model.TeamModel;
 

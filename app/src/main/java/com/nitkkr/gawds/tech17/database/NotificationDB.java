@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.nitkkr.gawds.tech17.BuildConfig;
 import com.nitkkr.gawds.tech17.R;
-import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.model.NotificationModel;
 
 import java.util.ArrayList;
