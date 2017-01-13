@@ -1066,7 +1066,7 @@ public class FetchData
 
 	public static StringRequest getNotifications(final Context context, Date date, final Database database, final iResponseCallback callback)
 	{
-		String TimeStamp = new SimpleDateFormat("yyyy-MM-dd%20hh:mm:ss", Locale.getDefault()).format(date);
+		String TimeStamp = new SimpleDateFormat("yyyy-MM-dd+hh:mm:ss", Locale.getDefault()).format(date);
 
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken()+"&timeStamp="+TimeStamp,
