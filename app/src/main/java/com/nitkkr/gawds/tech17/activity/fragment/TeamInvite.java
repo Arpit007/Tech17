@@ -144,12 +144,6 @@ public class TeamInvite extends Fragment
 									TeamModel myTeam=adapter.getModels().get(i);
 
 									Database.getInstance().getTeamDB().addOrUpdateMyTeam(myTeam);
-
-									//ArrayList<TeamModel> models=adapter.getModels();
-									//models.remove(myTeam);
-
-									//Database.getInstance().getTeamDB().resetInvite();
-									//Database.getInstance().getTeamDB().addOrUpdateTeamInvite(models);
 									Database.getInstance().getTeamDB().deleteInvite(myTeam.getTeamID());
 
 									EventModel eventModel = Database.getInstance().getEventsDB().getEvent(myTeam.getEventID());

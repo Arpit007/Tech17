@@ -69,6 +69,7 @@ public class TeamDialog
 					}
 				});
 			}
+			else dialog.findViewById(R.id.Team_Decline).setVisibility(View.GONE);
 
 			dialog.findViewById(R.id.Team_Later).setVisibility(View.VISIBLE);
 		}
@@ -93,8 +94,7 @@ public class TeamDialog
 		userList=(ListView)dialog.findViewById(R.id.User_List);
 
 		adapter = new UserListAdapter(model.getMembers(),context,false,R.layout.layout_view_user_item);
-		if(model.getControl()== TeamModel.TeamControl.Leader)
-			adapter.setShowStatus(true);
+		adapter.setShowStatus(true);
 
 		userList.setAdapter(adapter);
 

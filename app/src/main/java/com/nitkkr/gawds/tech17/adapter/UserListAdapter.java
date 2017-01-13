@@ -17,6 +17,7 @@ import com.nitkkr.gawds.tech17.model.TeamModel;
 import com.nitkkr.gawds.tech17.model.UserKey;
 import com.nitkkr.gawds.tech17.src.CircularTextView;
 import com.nitkkr.gawds.tech17.src.CompatCircleImageView;
+import com.nitkkr.gawds.tech17.src.MessageEvent;
 
 import java.util.ArrayList;
 
@@ -77,8 +78,11 @@ public class UserListAdapter extends BaseAdapter
 			builder.append(cap + " ");
 		}
 
+		UserKey key = users.get(i);
+
 		(( TextView)view.findViewById(R.id.user_name)).setText(builder.toString());
-		setImage(view,users.get(i));
+		setImage(view,key);
+
 
 		if(ResourceID==R.layout.layout_create_user_item)
 		{
@@ -98,7 +102,6 @@ public class UserListAdapter extends BaseAdapter
 				});
 			}
 
-			UserKey key = users.get(i);
 
 			if(!key.getRoll().equals(""))
 				((TextView)view.findViewById(R.id.Roll)).setText("Roll No: " + key.getRoll());
@@ -106,14 +109,23 @@ public class UserListAdapter extends BaseAdapter
 
 			if (showStatus || key.getTeamControl() == TeamModel.TeamControl.Leader)
 			{
-				if (key.getTeamControl() == TeamModel.TeamControl.Leader)
+				if (key.getTeamControl() == TeamModel.TeamControl.Leader || key.getTeamControl()== TeamModel.TeamControl.Participant)
 					( (TextView) view.findViewById(R.id.InviteStatus) ).setText(key.getTeamControl().getValue());
 				else
 					( (TextView) view.findViewById(R.id.InviteStatus) ).setText("Invite " + key.getTeamControl().getValue());
 			}
 			else view.findViewById(R.id.InviteStatus).setVisibility(View.GONE);
 		}
-		else view.findViewById(R.id.Cross).setVisibility(View.INVISIBLE);
+		else
+		{
+			view.findViewById(R.id.Cross).setVisibility(View.GONE);
+			view.findViewById(R.id.InviteStatus).setVisibility(View.VISIBLE);
+			if (key.getTeamControl() == TeamModel.TeamControl.Leader || key.getTeamControl()== TeamModel.TeamControl.Participant)
+				( (TextView) view.findViewById(R.id.InviteStatus) ).setText(key.getTeamControl().getValue());
+			else
+				( (TextView) view.findViewById(R.id.InviteStatus) ).setText("Invite " + key.getTeamControl().getValue());
+
+		}
 
 		return view;
 	}

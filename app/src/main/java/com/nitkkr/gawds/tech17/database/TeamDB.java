@@ -490,9 +490,7 @@ public class TeamDB extends SQLiteOpenHelper
 
 	public void deleteInvite(int ID)
 	{
-		String Query = "DELETE FROM " + DbConstants.Constants.getTeamInviteTableName() + " WHERE " + DbConstants.TeamNames.TeamID.Name() + " = " + ID + ";";
-		Log.d("Query:\t", Query);
-		dbRequest.getDatabase().rawQuery(Query, null);
+		dbRequest.getDatabase().delete(DbConstants.Constants.getTeamInviteTableName(), DbConstants.TeamNames.TeamID.Name() + " = " + ID,null);
 	}
 
 	public long getInviteCount()

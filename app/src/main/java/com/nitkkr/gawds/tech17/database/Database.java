@@ -157,4 +157,16 @@ public class Database implements iDbRequest
 		eventsDB.resetTable();
 		teamDB.resetTable();
 	}
+
+	public static void deleteDatabase(Context context)
+	{
+		try
+		{
+			context.deleteDatabase("Tech17.db");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 }

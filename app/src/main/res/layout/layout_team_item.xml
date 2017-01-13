@@ -23,7 +23,7 @@
         android:weightSum="10"
         android:layout_width="match_parent" android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/team_control"
+            android:id="@+id/Event_Name"
             android:textSize="14sp"
             android:maxLines="1"
             android:ellipsize="end"
@@ -31,7 +31,7 @@
             android:text="Sample Team" android:textColor="@color/neon_green"
             android:layout_width="match_parent" android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/Event_Name"
+            android:id="@+id/team_control"
             android:textSize="14sp"
             android:maxLines="1"
             android:ellipsize="end"

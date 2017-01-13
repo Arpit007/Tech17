@@ -31,17 +31,27 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_toStartOf="@+id/Cross" android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/temp_Layout" android:layout_marginStart="20dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
     <TextView
         android:maxEms="9"
-        android:id="@+id/user_name" android:layout_toLeftOf="@+id/Cross"
+        android:id="@+id/user_name"
         android:textSize="17sp" android:text="My Name" android:textColor="@color/neon_green"
-        android:layout_toEndOf="@id/temp_Layout" android:layout_marginStart="20dp"
-        android:ellipsize="end" android:maxLines="1" android:layout_centerVertical="true"
+        android:ellipsize="end" android:maxLines="1"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView
+            android:maxEms="9" android:layout_marginStart="30dp" android:visibility="invisible"
+            android:textSize="13sp" android:text="Status" android:textColor="@color/neon_green"
+            android:ellipsize="end" android:maxLines="1" android:id="@+id/InviteStatus"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/Cross" android:layout_margin="5dp" android:padding="10dp"
-        android:layout_centerVertical="true" android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" android:layout_alignParentEnd="true"
         app:srcCompat="@drawable/ic_close_black_24dp"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 

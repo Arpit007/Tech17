@@ -125,6 +125,8 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 
 		ActivityHelper.setUpHelper(getApplicationContext());
 
+		Database.deleteDatabase(getApplicationContext());
+
 		ActivityHelper.setCreateAnimation(this);
 
 		if (!ActivityHelper.isDebugMode(getApplicationContext()))
@@ -290,7 +292,14 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 					if (result.isSuccess())
 					{
 						GoogleSignInAccount acct = result.getSignInAccount();
-						AppUserModel.MAIN_USER.setImageResource(acct.getPhotoUrl().toString());
+						try
+						{
+							AppUserModel.MAIN_USER.setImageResource(acct.getPhotoUrl().toString());
+						}
+						catch (Exception e)
+						{
+							e.printStackTrace();
+						}
 					}
 				}
 			}
