@@ -129,7 +129,7 @@ public class DbConstants
 
 	private DbConstants()
 	{
-		DATABASE_NAME = "Tech17.db";
+		DATABASE_NAME = "Tech17_1.db";
 		DATABASE_VERSION = 1;
 		EVENTS_TABLE_NAME = "EventList";
 		EXHIBITION_TABLE_NAME = "Exhibition";
@@ -151,7 +151,7 @@ public class DbConstants
 	{
 		SharedPreferences preferences = context.getSharedPreferences("DbConstants", Context.MODE_PRIVATE);
 
-		DATABASE_NAME = preferences.getString("DbName", "Tech17.db");
+		DATABASE_NAME = preferences.getString("DbName", "Tech17_1.db");
 		DATABASE_VERSION = preferences.getInt("DbVersion", 1);
 		EVENTS_TABLE_NAME = preferences.getString("EventTableName", "EventList");
 		EXHIBITION_TABLE_NAME = preferences.getString("ExhibitionTableName", "Exhibition");

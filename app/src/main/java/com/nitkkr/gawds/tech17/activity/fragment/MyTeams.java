@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech17.activity.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -21,14 +22,14 @@ import java.util.ArrayList;
 public class MyTeams extends Fragment
 {
 	private final int TEAM=600;
-	private Context context;
+	private Activity activity;
 	private ListView listView;
 	private TeamListAdapter adapter;
 
-	public static MyTeams getFragment(Context context)
+	public static MyTeams getFragment(Activity activity)
 	{
 		MyTeams myTeams=new MyTeams();
-		myTeams.context=context;
+		myTeams.activity=activity;
 		return myTeams;
 	}
 
@@ -45,7 +46,7 @@ public class MyTeams extends Fragment
 		final View view= inflater.inflate(R.layout.fragment_my_teams, container, false);
 
 		listView=(ListView)view.findViewById(R.id.MyTeam_List);
-		adapter = new TeamListAdapter(context, Database.getInstance().getTeamDB().getAllMyTeams());
+		adapter = new TeamListAdapter(activity, Database.getInstance().getTeamDB().getAllMyTeams());
 		listView.setAdapter(adapter);
 
 		adapter.registerDataSetObserver(new DataSetObserver()
@@ -65,7 +66,7 @@ public class MyTeams extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				TeamDialog dialog=new TeamDialog(context,adapter.getModels().get(i),false);
+				TeamDialog dialog=new TeamDialog(activity,adapter.getModels().get(i),false);
 				dialog.show();
 			}
 		});

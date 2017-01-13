@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
 import com.nitkkr.gawds.tech17.api.FetchData;
@@ -183,6 +185,9 @@ public class CreateTeam extends AppCompatActivity
 										eventModel.callStatusListener();
 
 										Toast.makeText(CreateTeam.this,"Registered Successfully",Toast.LENGTH_LONG).show();
+
+										if(!ActivityHelper.isDebugMode(CreateTeam.this))
+											Answers.getInstance().logCustom(new CustomEvent("Team Register"));
 
 										finish();
 										ActivityHelper.setExitAnimation(CreateTeam.this);

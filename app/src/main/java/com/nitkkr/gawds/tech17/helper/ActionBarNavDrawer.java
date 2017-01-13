@@ -197,7 +197,7 @@ public class ActionBarNavDrawer
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 			builder.setTitle("Developers");
 			builder.setCancelable(true);
-			builder.setMessage("App developed by:\nArpit Bhatnagar\nAbhik Setia\n\nCooked With Love by Gawds,\nTeam Techspardha\nNIT Kurukshetra");
+			builder.setMessage("App developed by:\nArpit Bhatnagar\nAbhik Setia\nRishabh Kumar\n\nCooked by Gawds,\nTeam Techspardha\nNIT Kurukshetra");
 			builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
 			{
 				@Override

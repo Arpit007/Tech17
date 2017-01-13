@@ -1,13 +1,19 @@
 package com.nitkkr.gawds.tech17.activity.Dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nitkkr.gawds.tech17.R;
+import com.nitkkr.gawds.tech17.activity.Event;
+import com.nitkkr.gawds.tech17.activity.NotificationPage;
 import com.nitkkr.gawds.tech17.adapter.UserListAdapter;
 import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.database.Database;
@@ -23,11 +29,13 @@ public class TeamDialog
 	private TeamModel model;
 	private ListView userList;
 	private UserListAdapter adapter;
+	private Activity activity;
 
-	public TeamDialog(Context context, TeamModel model, boolean isInvite)
+	public TeamDialog(final Activity activity, final TeamModel model, boolean isInvite)
 	{
+		this.activity=activity;
 		this.model = model;
-		dialog = new Dialog(context);
+		dialog = new Dialog(activity);
 		dialog.setCancelable(true);
 		dialog.setContentView(R.layout.layout_dialog_team);
 
@@ -42,10 +50,29 @@ public class TeamDialog
 		{
 			( (TextView) dialog.findViewById(R.id.Team_Later) ).setText("OK");
 			dialog.findViewById(R.id.Team_Accept).setVisibility(View.GONE);
-			dialog.findViewById(R.id.Team_Decline).setVisibility(View.GONE);
+
+			if(!(activity instanceof Event))
+			{
+				dialog.findViewById(R.id.Team_Decline).setVisibility(View.VISIBLE);
+				( (TextView) dialog.findViewById(R.id.Team_Decline) ).setText("View Event");
+				dialog.findViewById(R.id.Team_Decline).setOnClickListener(new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View view)
+					{
+						Bundle bundle = new Bundle();
+						bundle.putSerializable("Event", Database.getInstance().getEventsDB().getEventKey(model.getEventID()));
+						Intent intent = new Intent(activity, Event.class);
+						intent.putExtras(bundle);
+						dialog.dismiss();
+						view.getContext().startActivity(intent);
+					}
+				});
+			}
+
 			dialog.findViewById(R.id.Team_Later).setVisibility(View.VISIBLE);
 		}
-		setUpContent(context);
+		setUpContent(activity);
 	}
 
 	private void setUpContent(Context context)

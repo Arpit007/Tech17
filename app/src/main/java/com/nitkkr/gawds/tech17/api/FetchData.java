@@ -1109,8 +1109,6 @@ public class FetchData
 									models.add(model);
 								}
 
-								//TODO:FIX
-								//global notification
 								for (int j = 0; j < globalArr.length(); j++)
 								{
 									NotificationModel model = new NotificationModel();
@@ -2002,8 +2000,10 @@ public class FetchData
 									for (int i = 0; i < participantIn.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										key.setEventID(participantIn.getJSONObject(i).getInt("EventId"));
-										key.setTeamName(participantIn.getJSONObject(i).getString("Name"));
+										JSONObject object=participantIn.getJSONObject(i);
+										key.setTeamID(object.getInt("Id"));
+										key.setEventID(object.getInt("EventId"));
+										key.setTeamName(object.getString("Name"));
 										key.setControl(TeamModel.TeamControl.Participant);
 										teams.add(key);
 									}
@@ -2011,8 +2011,10 @@ public class FetchData
 									for (int i = 0; i < teamLeaderOf.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										key.setEventID(teamLeaderOf.getJSONObject(i).getInt("EventId"));
-										key.setTeamName(teamLeaderOf.getJSONObject(i).getString("Name"));
+										JSONObject object=teamLeaderOf.getJSONObject(i);
+										key.setTeamID(object.getInt("Id"));
+										key.setEventID(object.getInt("EventId"));
+										key.setTeamName(object.getString("Name"));
 										key.setControl(TeamModel.TeamControl.Leader);
 										myTeams.add(key);
 									}
@@ -2020,8 +2022,10 @@ public class FetchData
 									for (int i = 0; i < pendingInvitations.length(); i++)
 									{
 										TeamModel key=new TeamModel();
-										key.setEventID(pendingInvitations.getJSONObject(i).getInt("EventId"));
-										key.setTeamName(pendingInvitations.getJSONObject(i).getString("Name"));
+										JSONObject object=pendingInvitations.getJSONObject(i);
+										key.setTeamID(object.getInt("Id"));
+										key.setEventID(object.getInt("EventId"));
+										key.setTeamName(object.getString("Name"));
 										key.setControl(TeamModel.TeamControl.Pending);
 										invites.add(key);
 									}
@@ -2322,7 +2326,7 @@ public class FetchData
 			{
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
-				params.put("inviteTypes", "accept");
+				params.put("inviteType", "accept");
 				return params;
 			}
 		};
@@ -2400,7 +2404,7 @@ public class FetchData
 			{
 				Map<String, String> params = new HashMap<>();
 				params.put("token", AppUserModel.MAIN_USER.getToken());
-				params.put("inviteTypes", "decline");
+				params.put("inviteType", "decline");
 				return params;
 			}
 		};
@@ -2411,7 +2415,7 @@ public class FetchData
 
 	public static StringRequest getTeamDetail(final Context context, final Database database, final int teamId, final boolean isInvite, final boolean isLeader, final iResponseCallback callback)
 	{
-		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+teamId,
 				new Response.Listener<String>()
 				{
@@ -2419,7 +2423,7 @@ public class FetchData
 					public void onResponse(String res)
 					{
 						JSONObject response;
-						JSONArray data;
+						JSONObject data;
 						int code;
 
 						try
@@ -2437,29 +2441,33 @@ public class FetchData
 
 								ArrayList<UserKey> users=new ArrayList<>();
 
-								data=response.getJSONArray("data");
+								data=response.getJSONObject("data");
+								model.setTeamName(data.getString("Name"));
+								model.setEventID(data.getInt("EventId"));
+								model.setTeamID(teamId);
 
-								for(int i=0;i<data.length();i++)
+								JSONArray members=data.getJSONArray("TeamInvites");
+
+								for(int i=0;i<members.length();i++)
 								{
+									JSONObject object=members.getJSONObject(i);
 									UserKey key = new UserKey();
-									JSONObject object=data.getJSONObject(i);
-
-									//key.setUserID(String.valueOf(object.getInt("Id")));
-									key.setUserID(String.valueOf(object.getInt("StudentId")));
+									key.setUserID(String.valueOf(object.getJSONObject("Student").getInt("Id")));
 									key.setName(object.getJSONObject("Student").getString("Name"));
-
-									if(isLeader && key.getName().equals(AppUserModel.MAIN_USER.getName()))
-									{
-										key.setTeamControl(TeamModel.TeamControl.Leader);
-										users.add(0,key);
-										model.setControl(TeamModel.TeamControl.Leader);
-									}
-									else
-									{
-										key.setTeamControl(TeamModel.TeamControl.Parse(object.getString("Status")));
-										users.add(key);
-									}
+									key.setTeamControl(TeamModel.TeamControl.Parse(object.getString("Status")));
+									users.add(key);
 								}
+
+								JSONObject Leader=data.getJSONObject("TeamLeader");
+								UserKey leader=new UserKey();
+								leader.setName(Leader.getString("Name"));
+								leader.setTeamControl(TeamModel.TeamControl.Leader);
+								users.add(0,leader);
+
+								if(isLeader)
+									model.setControl(TeamModel.TeamControl.Leader);
+
+
 
 								model.setMembers(users);
 
@@ -2510,7 +2518,16 @@ public class FetchData
 							}
 						}
 					}
-				});
+				})
+		{
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError
+			{
+				Map<String, String> params = new HashMap<>();
+				params.put("token", AppUserModel.MAIN_USER.getToken());
+				return params;
+			}
+		};
 
 		return stringRequest;
 	}

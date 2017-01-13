@@ -102,6 +102,8 @@ public class TeamInvite extends Fragment
 									adapter.setModels(Database.getInstance().getTeamDB().getAllTeamInvite());
 									dialog.getDialog().getWindow().getAttributes().windowAnimations = R.style.SuccessCloseDialogTheme;
 									dialog.dismiss();
+									Toast.makeText(teamPage,"Invite Declined Successfully",Toast.LENGTH_LONG).show();
+									adapter.setModels(Database.getInstance().getTeamDB().getAllTeamInvite());
 								}
 								else if(status ==ResponseStatus.FAILED)
 								{
@@ -139,10 +141,18 @@ public class TeamInvite extends Fragment
 							{
 								if(status == ResponseStatus.SUCCESS)
 								{
-									Database.getInstance().getTeamDB().addOrUpdateMyTeam(adapter.getModels().get(i));
-									Database.getInstance().getTeamDB().deleteInvite(adapter.getModels().get(i).getTeamID());
+									TeamModel myTeam=adapter.getModels().get(i);
 
-									EventModel eventModel = Database.getInstance().getEventsDB().getEvent(adapter.getModels().get(i).getEventID());
+									Database.getInstance().getTeamDB().addOrUpdateMyTeam(myTeam);
+
+									//ArrayList<TeamModel> models=adapter.getModels();
+									//models.remove(myTeam);
+
+									//Database.getInstance().getTeamDB().resetInvite();
+									//Database.getInstance().getTeamDB().addOrUpdateTeamInvite(models);
+									Database.getInstance().getTeamDB().deleteInvite(myTeam.getTeamID());
+
+									EventModel eventModel = Database.getInstance().getEventsDB().getEvent(myTeam.getEventID());
 									eventModel.setRegistered(true);
 									Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
 
@@ -150,6 +160,7 @@ public class TeamInvite extends Fragment
 									((MyTeams)teamPage.getAdapter().getItem(0)).getAdapter().setModels(Database.getInstance().getTeamDB().getAllMyTeams());
 									dialog.getDialog().getWindow().getAttributes().windowAnimations = R.style.SuccessCloseDialogTheme;
 									dialog.dismiss();
+									Toast.makeText(teamPage,"Invite Accepted Successfully",Toast.LENGTH_LONG).show();
 								}
 								else if(status ==ResponseStatus.FAILED)
 								{

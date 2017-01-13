@@ -1,5 +1,6 @@
 package com.nitkkr.gawds.tech17.activity.Dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -28,9 +29,9 @@ public class TeamListDialog
 	private ListView teamList;
 	private TeamListAdapter adapter;
 
-	public TeamListDialog(final Context context, EventModel model, ArrayList<TeamModel> teamModels)
+	public TeamListDialog(final Activity activity, EventModel model, ArrayList<TeamModel> teamModels)
 	{
-		dialog = new Dialog(context);
+		dialog = new Dialog(activity);
 		dialog.setCancelable(true);
 		dialog.setContentView(R.layout.layout_dialog_team_list);
 
@@ -39,7 +40,7 @@ public class TeamListDialog
 
 		teamList=(ListView)dialog.findViewById(R.id.Team_List);
 
-		adapter = new TeamListAdapter(context,teamModels);
+		adapter = new TeamListAdapter(activity,teamModels);
 
 		adapter.setResourceID(R.layout.layout_view_team_item);
 
@@ -63,7 +64,7 @@ public class TeamListDialog
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
-				TeamDialog teamDialog=new TeamDialog(context,adapter.getModels().get(i),false);
+				TeamDialog teamDialog=new TeamDialog(activity,adapter.getModels().get(i),false);
 				teamDialog.show();
 			}
 		});
