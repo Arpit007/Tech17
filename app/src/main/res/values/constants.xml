@@ -40,9 +40,12 @@
         <item>2nd Year</item>
         <item>3rd Year</item>
         <item>4th Year</item>
-        <item>MBA</item>
-        <item>MCA</item>
-        <item>M.Tech</item>
+        <item>MCA 1st Year</item>
+        <item>MCA 2nd Year</item>
+        <item>MBA 1st Year</item>
+        <item>MBA 2nd Year</item>
+        <item>M.Tech 1st Year</item>
+        <item>M.Tech 2nd Year</item>
     </string-array>
 
     <dimen name="User_Image_Border_Width">1.5dp</dimen>
