@@ -20,8 +20,10 @@ import com.nitkkr.gawds.tech17.api.iResponseCallback;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 import com.nitkkr.gawds.tech17.helper.ResponseStatus;
+import com.nitkkr.gawds.tech17.model.AppUserModel;
 import com.nitkkr.gawds.tech17.model.EventModel;
 import com.nitkkr.gawds.tech17.model.TeamModel;
+import com.nitkkr.gawds.tech17.model.UserKey;
 
 public class TeamInvite extends Fragment
 {
@@ -139,6 +141,17 @@ public class TeamInvite extends Fragment
 								if(status == ResponseStatus.SUCCESS)
 								{
 									TeamModel myTeam=adapter.getModels().get(i);
+
+									for(UserKey userKey :myTeam.getMembers())
+									{
+										if(userKey.getRoll().equals(AppUserModel.MAIN_USER.getRoll()))
+										{
+											userKey.setTeamControl(TeamModel.TeamControl.Participant);
+											break;
+										}
+									}
+
+
 
 									Database.getInstance().getTeamDB().addOrUpdateMyTeam(myTeam);
 									Database.getInstance().getTeamDB().deleteInvite(myTeam.getTeamID());
