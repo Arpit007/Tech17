@@ -164,46 +164,45 @@ public class CreateTeam extends AppCompatActivity
 							model.setEventID(eventModel.getEventID());
 							model.setControl(TeamModel.TeamControl.Leader);
 							model.setMembers(adapter.getUsers());
-
-							FetchData.getInstance().sendInvite(getApplicationContext(), model.getTeamID(), model.getInviteString(), new iResponseCallback()
-							{
-								@Override
-								public void onResponse(ResponseStatus status)
+							if(model.getMembers().size()>1)
+								FetchData.getInstance().sendInvite(getApplicationContext(), model.getTeamID(), model.getInviteString(), new iResponseCallback()
 								{
-									progressDialog.dismiss();
-									if(status==ResponseStatus.SUCCESS)
+									@Override
+									public void onResponse(ResponseStatus status)
 									{
-										Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
+										progressDialog.dismiss();
+										if(status==ResponseStatus.SUCCESS)
+										{
+											Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
 
-										Intent intent = new Intent();
-										intent.putExtra("Register", true);
-										setResult(RESULT_OK, intent);
+											Intent intent = new Intent();
+											intent.putExtra("Register", true);
+											setResult(RESULT_OK, intent);
 
-										eventModel.setNotify(true);
-										eventModel.setRegistered(true);
-										Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
-										eventModel.callStatusListener();
+											eventModel.setNotify(true);
+											eventModel.setRegistered(true);
+											Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
+											eventModel.callStatusListener();
 
-										Toast.makeText(CreateTeam.this,"Registered Successfully",Toast.LENGTH_LONG).show();
+											Toast.makeText(CreateTeam.this,"Registered Successfully",Toast.LENGTH_LONG).show();
 
-										if(!ActivityHelper.isDebugMode(CreateTeam.this))
-											Answers.getInstance().logCustom(new CustomEvent("Team Register"));
+											if(!ActivityHelper.isDebugMode(CreateTeam.this))
+												Answers.getInstance().logCustom(new CustomEvent("Team Register"));
 
-										finish();
-										ActivityHelper.setExitAnimation(CreateTeam.this);
+											finish();
+											ActivityHelper.setExitAnimation(CreateTeam.this);
+										}
+										else if(status == ResponseStatus.FAILED)
+											Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
+										else Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
 									}
-									else if(status == ResponseStatus.FAILED)
-										Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
-									else Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
-								}
 
-								@Override
-								public void onResponse(ResponseStatus status, Object object)
-								{
-									this.onResponse(status);
-								}
-							});
-
+									@Override
+									public void onResponse(ResponseStatus status, Object object)
+									{
+										this.onResponse(status);
+									}
+								});
 						}
 						else
 						{
