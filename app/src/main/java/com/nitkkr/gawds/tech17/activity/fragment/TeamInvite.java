@@ -102,7 +102,6 @@ public class TeamInvite extends Fragment
 									dialog.getDialog().getWindow().getAttributes().windowAnimations = R.style.SuccessCloseDialogTheme;
 									dialog.dismiss();
 									Toast.makeText(teamPage,"Invite Declined Successfully",Toast.LENGTH_LONG).show();
-									adapter.setModels(Database.getInstance().getTeamDB().getAllTeamInvite());
 								}
 								else if(status ==ResponseStatus.FAILED)
 								{
@@ -142,16 +141,16 @@ public class TeamInvite extends Fragment
 								{
 									TeamModel myTeam=adapter.getModels().get(i);
 
+									String MyName=AppUserModel.MAIN_USER.getName().trim().toLowerCase();
 									for(UserKey userKey :myTeam.getMembers())
 									{
-										if(userKey.getRoll().equals(AppUserModel.MAIN_USER.getRoll()))
+										String UserName=userKey.getName().trim().toLowerCase();
+										if(MyName.contentEquals(UserName))
 										{
 											userKey.setTeamControl(TeamModel.TeamControl.Participant);
 											break;
 										}
 									}
-
-
 
 									Database.getInstance().getTeamDB().addOrUpdateMyTeam(myTeam);
 									Database.getInstance().getTeamDB().deleteInvite(myTeam.getTeamID());

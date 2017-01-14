@@ -119,7 +119,10 @@ public class UserListAdapter extends BaseAdapter
 		{
 			view.findViewById(R.id.Cross).setVisibility(View.GONE);
 			view.findViewById(R.id.InviteStatus).setVisibility(View.VISIBLE);
-			if (key.getTeamControl() == TeamModel.TeamControl.Leader || key.getTeamControl()== TeamModel.TeamControl.Participant)
+			if(key.getTeamControl()== TeamModel.TeamControl.Participant)
+				view.findViewById(R.id.InviteStatus).setVisibility(View.INVISIBLE);
+			else
+			if (key.getTeamControl() == TeamModel.TeamControl.Leader)
 				( (TextView) view.findViewById(R.id.InviteStatus) ).setText(key.getTeamControl().getValue());
 			else
 				( (TextView) view.findViewById(R.id.InviteStatus) ).setText("Invite " + key.getTeamControl().getValue());

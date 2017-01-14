@@ -13,7 +13,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.nitkkr.gawds.tech17.R;
+import com.nitkkr.gawds.tech17.api.FetchData;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.helper.ActionBarNavDrawer;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
@@ -33,6 +36,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+		RequestQueue queue= Volley.newRequestQueue(this);
+		queue.add(FetchData.getMyTeams(this,Database.getInstance(),null));
 
 		if (getIntent().getBooleanExtra("AnimStart", true))
 		{
