@@ -37,9 +37,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		RequestQueue queue= Volley.newRequestQueue(this);
-		queue.add(FetchData.getMyTeams(this,Database.getInstance(),null));
-
 		if (getIntent().getBooleanExtra("AnimStart", true))
 		{
 			ActivityHelper.setCreateAnimation(this);
