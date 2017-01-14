@@ -165,13 +165,14 @@ public class CreateTeam extends AppCompatActivity
 							model.setControl(TeamModel.TeamControl.Leader);
 							model.setMembers(adapter.getUsers());
 							if(model.getMembers().size()>1)
+							{
 								FetchData.getInstance().sendInvite(getApplicationContext(), model.getTeamID(), model.getInviteString(), new iResponseCallback()
 								{
 									@Override
 									public void onResponse(ResponseStatus status)
 									{
 										progressDialog.dismiss();
-										if(status==ResponseStatus.SUCCESS)
+										if (status == ResponseStatus.SUCCESS)
 										{
 											Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
 
@@ -184,17 +185,18 @@ public class CreateTeam extends AppCompatActivity
 											Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
 											eventModel.callStatusListener();
 
-											Toast.makeText(CreateTeam.this,"Registered Successfully",Toast.LENGTH_LONG).show();
+											Toast.makeText(CreateTeam.this, "Registered Successfully", Toast.LENGTH_LONG).show();
 
-											if(!ActivityHelper.isDebugMode(CreateTeam.this))
+											if (!ActivityHelper.isDebugMode(CreateTeam.this))
 												Answers.getInstance().logCustom(new CustomEvent("Team Register"));
 
 											finish();
 											ActivityHelper.setExitAnimation(CreateTeam.this);
 										}
-										else if(status == ResponseStatus.FAILED)
+										else if (status == ResponseStatus.FAILED)
 											Toast.makeText(CreateTeam.this, "Failed, Please Try Again", Toast.LENGTH_SHORT).show();
-										else Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+										else
+											Toast.makeText(CreateTeam.this, "No Network Connection", Toast.LENGTH_SHORT).show();
 									}
 
 									@Override
@@ -203,6 +205,29 @@ public class CreateTeam extends AppCompatActivity
 										this.onResponse(status);
 									}
 								});
+							}
+							else
+							{
+								progressDialog.dismiss();
+									Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
+
+									Intent intent = new Intent();
+									intent.putExtra("Register", true);
+									setResult(RESULT_OK, intent);
+
+									eventModel.setNotify(true);
+									eventModel.setRegistered(true);
+									Database.getInstance().getEventsDB().addOrUpdateEvent(eventModel);
+									eventModel.callStatusListener();
+
+									Toast.makeText(CreateTeam.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+
+									if (!ActivityHelper.isDebugMode(CreateTeam.this))
+										Answers.getInstance().logCustom(new CustomEvent("Team Register"));
+
+									finish();
+									ActivityHelper.setExitAnimation(CreateTeam.this);
+							}
 						}
 						else
 						{
