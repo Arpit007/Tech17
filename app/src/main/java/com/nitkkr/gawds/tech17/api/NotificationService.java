@@ -78,11 +78,21 @@ public class NotificationService extends IntentService
 
                 isNewDb = false;
                 Database database = Database.getServiceInstance();
-
-                if (database == null)
+                try
                 {
-                    isNewDb = true;
-                    database = new Database(getApplicationContext());
+                    if (database==null )
+                    {
+                        database=new Database(getApplicationContext());
+                    }
+                    if (!database.getDatabase().isOpen())
+                    {
+                        database.startDatabase(getApplicationContext(),true);
+                    }
+                    isNewDb=true;
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
                 synchronized (database)
                 {

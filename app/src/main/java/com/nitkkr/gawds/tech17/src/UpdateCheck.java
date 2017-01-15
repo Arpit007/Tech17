@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.nitkkr.gawds.tech17.helper.ActivityHelper.getApplicationContext;
+import static com.nitkkr.gawds.tech17.helper.ActivityHelper.isInternetConnected;
 
 /**
  * Created by Home Laptop on 18-Nov-16.
@@ -59,8 +60,8 @@ public class UpdateCheck
 			return false;
 		}
 
-		final SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE);
-		final SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
+		final SharedPreferences preferences = context.getSharedPreferences("Misc_Prefs", Context.MODE_PRIVATE);
+		final SharedPreferences.Editor editor = context.getSharedPreferences("Misc_Prefs", Context.MODE_PRIVATE).edit();
 
 
 		if (isUpdateAvailable())
@@ -142,6 +143,9 @@ public class UpdateCheck
 
 	public void checkForUpdate(final Context context)
 	{
+		if(!isInternetConnected())
+			return;
+		
 		String url = "http://carreto.pt/tools/android-store-version/?package=";
 		try
 		{
@@ -177,7 +181,7 @@ public class UpdateCheck
 				}
 				finally
 				{
-					SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
+					SharedPreferences.Editor editor = context.getSharedPreferences("Misc_Prefs", Context.MODE_PRIVATE).edit();
 					editor.putBoolean("Update", UpdateAvailable);
 					editor.apply();
 				}
@@ -187,10 +191,17 @@ public class UpdateCheck
 			@Override
 			public void onErrorResponse(VolleyError error)
 			{
-				UpdateAvailable = false;
-				SharedPreferences.Editor editor = context.getSharedPreferences(getApplicationContext().getString(R.string.Misc_Prefs), Context.MODE_PRIVATE).edit();
-				editor.putBoolean("Update", UpdateAvailable);
-				editor.apply();
+				try
+				{
+					UpdateAvailable = false;
+					SharedPreferences.Editor editor = context.getSharedPreferences("Misc_Prefs", Context.MODE_PRIVATE).edit();
+					editor.putBoolean("Update", UpdateAvailable);
+					editor.apply();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		});
 		RequestQueue requestQueue = Volley.newRequestQueue(context);

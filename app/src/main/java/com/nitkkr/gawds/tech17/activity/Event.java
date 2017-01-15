@@ -313,7 +313,7 @@ public class Event extends AppCompatActivity implements EventModel.EventStatusLi
 		model = Database.getInstance().getEventsDB().getEvent(key);
 
 		setupViewPager(viewPager, model);
-		tabLayout.setupWithViewPager(viewPager);
+		tabLayout.setupWithViewPager(viewPager,true);
 		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 		viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

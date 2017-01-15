@@ -28,6 +28,12 @@ public class InterestDB extends SQLiteOpenHelper implements iBaseDB
 		dbRequest.getDatabase().rawQuery(Query, null);
 	}
 
+	public void deleteTable(Database database)
+	{
+		String Query = "DROP TABLE IF EXISTS " + DbConstants.Constants.getInterestTableName() + ";";
+		database.getDatabase().rawQuery(Query, null);
+	}
+
 	@Override
 	public void resetTable()
 	{

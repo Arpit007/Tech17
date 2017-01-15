@@ -1448,7 +1448,7 @@ public class FetchData
 							interestModel.setInterest(object.getString("Name"));
 							list.add(interestModel);
 						}
-						database.getInterestDB().deleteTable();
+						database.getInterestDB().deleteTable(database);
 						database.getInterestDB().onCreate(Database.getInstance().getDatabase());
 						database.getInterestDB().addOrUpdateInterest(list);
 						Log.v("DEBUG", data.toString());
