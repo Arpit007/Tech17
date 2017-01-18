@@ -207,4 +207,66 @@ public class UpdateCheck
 		RequestQueue requestQueue = Volley.newRequestQueue(context);
 		requestQueue.add(request);
 	}
+
+	public final JsonObjectRequest checkForUpdateRequest(final Context context)
+	{
+		String url = "http://carreto.pt/tools/android-store-version/?package=";
+		try
+		{
+			url += context.getPackageManager().getPackageInfo(context.getPackageName(), 0).packageName;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			url += "null";
+		}
+
+		return new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>()
+		{
+			@Override
+			public void onResponse(JSONObject response)
+			{
+				try
+				{
+					if (response != null && response.has("status") && response.getBoolean("status") && response.has("version"))
+					{
+						String version = response.getString("version");
+						UpdateAvailable = ( context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName.compareTo(version) < 0 );
+					}
+					else
+					{
+						UpdateAvailable = false;
+					}
+				}
+				catch (Exception e)
+				{
+					UpdateAvailable = false;
+					e.printStackTrace();
+				}
+				finally
+				{
+					SharedPreferences.Editor editor = context.getSharedPreferences("Misc_Prefs", Context.MODE_PRIVATE).edit();
+					editor.putBoolean("Update", UpdateAvailable);
+					editor.commit();
+				}
+			}
+		}, new Response.ErrorListener()
+		{
+			@Override
+			public void onErrorResponse(VolleyError error)
+			{
+				try
+				{
+					UpdateAvailable = false;
+					SharedPreferences.Editor editor = context.getSharedPreferences("Misc_Prefs", Context.MODE_PRIVATE).edit();
+					editor.putBoolean("Update", UpdateAvailable);
+					editor.commit();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 }

@@ -293,7 +293,9 @@ public class Splash extends AppCompatActivity implements GoogleApiClient.OnConne
 						GoogleSignInAccount acct = result.getSignInAccount();
 						try
 						{
-							AppUserModel.MAIN_USER.setImageResource(acct.getPhotoUrl().toString());
+							String URl=acct.getPhotoUrl().toString();
+							if(URl!=null)
+								AppUserModel.MAIN_USER.setImageResource(URl);
 						}
 						catch (Exception e)
 						{

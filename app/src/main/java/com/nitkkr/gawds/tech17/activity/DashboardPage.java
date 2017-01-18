@@ -187,6 +187,8 @@ public class DashboardPage extends AppCompatActivity
 			@Override
 			public void onResponse(ResponseStatus status, Object object)
 			{
+				if(dialog.isShowing())
+					dialog.dismiss();
 				if (status == ResponseStatus.SUCCESS && object != null)
 				{
 					ArrayList<EventModel> models = (ArrayList<EventModel>) object;
@@ -207,7 +209,6 @@ public class DashboardPage extends AppCompatActivity
 					Toast.makeText(getBaseContext(), "Failed to Fetch Live Events", Toast.LENGTH_LONG).show();
 				}
 				eventAdapter.notifyDataSetChanged();
-				dialog.dismiss();
 			}
 		});
 

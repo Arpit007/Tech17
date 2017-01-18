@@ -12,7 +12,7 @@ public class UserModel extends UserKey implements Serializable
 	private String College = "";
 	private String Mobile = "";
 	private String Branch = "";
-	private String imageResourceURL = null;
+	private String imageResourceURL = "";
 	private String token = "";
 	private String Gender = "";
 	private String year = "";

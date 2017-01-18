@@ -131,7 +131,7 @@ public class NotificationGenerator
 
 	public void inviteNotification(long Count)
 	{
-		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_people_black_24dp, "Team Invite");
+		NotificationCompat.Builder builder = basicBuild(R.drawable.people_icon, "Team Invite");
 
 		builder = builder.setContentTitle("Team Invite")
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -163,7 +163,7 @@ public class NotificationGenerator
 
 	public void messageNotification(long Count)
 	{
-		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_notifications_black_24dp, "Techspardha '17");
+		NotificationCompat.Builder builder = basicBuild(R.drawable.notification_icon, "Techspardha '17");
 
 		builder = builder.setContentTitle("Techspardha '17")
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -213,7 +213,7 @@ public class NotificationGenerator
 
 	public void pdfNotification(int ID, String Label, String Ticker, String Message, Intent intent, boolean cancelOnClick)
 	{
-		NotificationCompat.Builder builder = basicBuild(R.drawable.ic_cloud_download, Ticker);
+		NotificationCompat.Builder builder = basicBuild(R.drawable.download_icon, Ticker);
 
 		builder = builder.setContentTitle(Label)
 				.setContentText(Message)

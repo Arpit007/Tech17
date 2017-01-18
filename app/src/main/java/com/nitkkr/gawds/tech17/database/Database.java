@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.nitkkr.gawds.tech17.Main;
 import com.nitkkr.gawds.tech17.helper.ActivityHelper;
 
 /**
@@ -47,27 +48,26 @@ public class Database implements iDbRequest
 		teamDB = new TeamDB(context, Database.this);
 	}
 
-	public static Database getServiceInstance()
+	public static synchronized Database getInstance()
 	{
-		return database;
-	}
-
-	public static Database getInstance()
-	{
-		if (database == null)
+		if (database == null || database.sqLiteDatabase==null)
 		{
-			database = new Database(ActivityHelper.getApplicationContext());
+			database = new Database(Main.getContext());
 		}
+
+		if(!database.sqLiteDatabase.isOpen())
+			database.startDatabase(Main.getContext(),true);
+
 		return database;
 	}
 
 	@Override
 	public SQLiteDatabase getDatabase()
 	{
-		/*if (sqLiteDatabase == null || !sqLiteDatabase.isOpen())
+		if (sqLiteDatabase == null || !sqLiteDatabase.isOpen())
 		{
-			startDatabase(false);
-		}*/
+			startDatabase(Main.getContext(),false);
+		}
 
 		return sqLiteDatabase;
 	}
@@ -91,7 +91,7 @@ public class Database implements iDbRequest
 
 	public void startDatabase(Context context, boolean Restart)
 	{
-		if (sqLiteDatabase != null && ( sqLiteDatabase.isOpen() || Restart ))
+		if (sqLiteDatabase != null && ( sqLiteDatabase.isOpen() && Restart ))
 		{
 			sqLiteDatabase.close();
 		}

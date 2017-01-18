@@ -12,12 +12,15 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.Toast;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
+import com.nitkkr.gawds.tech17.Main;
 import com.nitkkr.gawds.tech17.R;
 import com.nitkkr.gawds.tech17.activity.Home;
 import com.nitkkr.gawds.tech17.activity.ListPage;
@@ -61,13 +64,32 @@ public class ActivityHelper
 
 	public static Context getApplicationContext()
 	{
+		Context context1= Main.getContext();
+		if(context1!=null)
+			return context1;
 		return context;
 	}
 
 	public static void setUpHelper(Context context)
 	{
 		ActivityHelper.context = context;
-		bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ts_logo2);
+		try
+		{
+			bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ts_logo2);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			Toast.makeText(context,"Low on Memory, Exiting",Toast.LENGTH_LONG).show();
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					System.exit(-1);
+				}
+			}, 2000);
+		}
 	}
 
 	public static boolean revertToHomeIfLast(Activity activity)

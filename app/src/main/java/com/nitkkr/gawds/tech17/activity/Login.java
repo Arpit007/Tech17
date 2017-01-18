@@ -386,8 +386,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 
 				RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-				requestQueue.add(FetchData.fetchUserInterests(getApplicationContext(),Database.getInstance(),null));
-				requestQueue.add(FetchData.getMyTeams(getApplicationContext(),Database.getInstance(),null));
+				requestQueue.add(FetchData.fetchUserInterests(getApplicationContext(),null));
+				requestQueue.add(FetchData.getMyTeams(getApplicationContext(),null));
 
 				if (!ActivityHelper.isDebugMode(getApplicationContext()))
 				{

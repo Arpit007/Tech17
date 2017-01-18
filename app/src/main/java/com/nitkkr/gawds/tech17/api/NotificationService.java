@@ -26,7 +26,6 @@ public class NotificationService extends IntentService
     //5 Minutes
     public static int intervalMillis = 10*60*1000;
     private static int refreshMin = 3;
-    private boolean isNewDb = false;
 
     private final int maxFetchCount=4;
     private int fetchCount=0;
@@ -76,29 +75,11 @@ public class NotificationService extends IntentService
                     return;
                 }
 
-                isNewDb = false;
-                Database database = Database.getServiceInstance();
-                try
-                {
-                    if (database==null )
-                    {
-                        database=new Database(getApplicationContext());
-                    }
-                    if (!database.getDatabase().isOpen())
-                    {
-                        database.startDatabase(getApplicationContext(),true);
-                    }
-                    isNewDb=true;
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                synchronized (database)
+                synchronized (Database.getInstance())
                 {
                     try
                     {
-                        RunTask(database);
+                        RunTask();
                     }
                     catch (Exception e)
                     {
@@ -141,13 +122,13 @@ public class NotificationService extends IntentService
         editor.commit();
     }
 
-    private void RunTask(final Database database)
+    private void RunTask()
     {
         if (!(AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext())))
             return;
 
-        final long oldInviteCount=database.getTeamDB().getInviteCount();
-        final long oldNotificationCount=database.getNotificationDB().getUnreadNotificationCount();
+        final long oldInviteCount=Database.getInstance().getTeamDB().getInviteCount();
+        final long oldNotificationCount=Database.getInstance().getNotificationDB().getUnreadNotificationCount();
 
         iResponseCallback callback=new iResponseCallback()
         {
@@ -166,8 +147,8 @@ public class NotificationService extends IntentService
 
                     saveRunTime(!Failed);
 
-                    long newInviteCount=database.getTeamDB().getInviteCount();
-                    long newNotificationCount=database.getNotificationDB().getUnreadNotificationCount();
+                    long newInviteCount=Database.getInstance().getTeamDB().getInviteCount();
+                    long newNotificationCount=Database.getInstance().getNotificationDB().getUnreadNotificationCount();
 
                     if(newInviteCount>oldInviteCount)
                     {
@@ -179,9 +160,6 @@ public class NotificationService extends IntentService
                         NotificationGenerator generator = new NotificationGenerator(getApplicationContext());
                         generator.messageNotification(newNotificationCount-oldNotificationCount);
                     }
-
-                    if(isNewDb && database != null)
-                        database.closeDatabase();
 
                     if(Forced && Failed)
                     {
@@ -211,8 +189,8 @@ public class NotificationService extends IntentService
         }
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(FetchData.fetchUserWishlist(getApplicationContext(),database,callback));
-        requestQueue.add(FetchData.getNotifications(getApplicationContext(),date,database,callback));
-        requestQueue.add(FetchData.getMyTeams(getApplicationContext(), database, callback));
+        requestQueue.add(FetchData.fetchUserWishlist(getApplicationContext(),callback));
+        requestQueue.add(FetchData.getNotifications(getApplicationContext(),date,callback));
+        requestQueue.add(FetchData.getMyTeams(getApplicationContext(), callback));
     }
 }

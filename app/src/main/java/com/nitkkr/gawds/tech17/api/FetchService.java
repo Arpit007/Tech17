@@ -23,7 +23,6 @@ public class FetchService extends IntentService
 	//1 hour
 	public static int intervalMillis = 3 * 60 * 60 * 1000;
 	private static int refreshMin = 40;
-	private boolean isNewDb = false;
 
 	private int maxFetchCount=6;
 	private int fetchCount=0;
@@ -82,29 +81,12 @@ public class FetchService extends IntentService
 					return;
 				}
 
-				isNewDb = false;
-				Database database = Database.getServiceInstance();
-				try
-				{
-					if (database==null )
-					{
-						database=new Database(getApplicationContext());
-					}
-					if (!database.getDatabase().isOpen())
-					{
-						database.startDatabase(getApplicationContext(),true);
-					}
-					isNewDb=true;
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
+				Database database = Database.getInstance();
 				synchronized (database)
 				{
 					try
 					{
-						RunTask(database);
+						RunTask();
 					}
 					catch (Exception e)
 					{
@@ -142,7 +124,7 @@ public class FetchService extends IntentService
 		editor.commit();
 	}
 
-	private void RunTask(final Database database)
+	private void RunTask()
 	{
 		if ( AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 			maxFetchCount=6;
@@ -164,9 +146,6 @@ public class FetchService extends IntentService
 
 					saveRunTime(!Failed);
 
-					if(isNewDb && database != null)
-						database.closeDatabase();
-
 					if(Forced && Failed)
 					{
 						Toast.makeText(getApplicationContext(),"Failed Fetching Data",Toast.LENGTH_SHORT).show();
@@ -184,16 +163,16 @@ public class FetchService extends IntentService
 			}
 		};
 
-		UpdateCheck.getInstance().checkForUpdate(getApplicationContext());
 		RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-		requestQueue.add(FetchData.fetchInterests(getApplicationContext(),database,callback));
-		requestQueue.add(FetchData.fetchData(getApplicationContext(),database,callback));
-		requestQueue.add(FetchData.getSocieties(getApplicationContext(),database,callback));
+		requestQueue.add(UpdateCheck.getInstance().checkForUpdateRequest(getApplicationContext()));
+		requestQueue.add(FetchData.fetchInterests(getApplicationContext(),callback));
+		requestQueue.add(FetchData.fetchData(getApplicationContext(),callback));
+		requestQueue.add(FetchData.getSocieties(getApplicationContext(),callback));
 
 		if ( AppUserModel.MAIN_USER.isUserLoggedIn(getBaseContext()) && AppUserModel.MAIN_USER.isUserSignedUp(getBaseContext()))
 		{
-			requestQueue.add(FetchData.fetchUserInterests(getApplicationContext(), database, callback));
-			requestQueue.add(FetchData.getUserDetails(getApplicationContext(), database, callback));
+			requestQueue.add(FetchData.fetchUserInterests(getApplicationContext(), callback));
+			requestQueue.add(FetchData.getUserDetails(getApplicationContext(), callback));
 		}
 	}
 }

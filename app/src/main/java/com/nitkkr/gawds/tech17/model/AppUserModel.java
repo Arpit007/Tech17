@@ -19,7 +19,6 @@ public class AppUserModel extends UserModel implements Cloneable
 {
 
 	ArrayList<InterestModel> Interests;
-	private static Date d;
 	public static final int LOGIN_REQUEST_CODE = 99;
 	private boolean loggedIn, signedup;
 
@@ -164,7 +163,7 @@ public class AppUserModel extends UserModel implements Cloneable
 		setCollege(preferences.getString("College", ""));
 		setMobile(preferences.getString("Mobile", ""));
 		setBranch(preferences.getString("Branch", ""));
-		setImageResource(preferences.getString("ImageId", null));
+		setImageResource(preferences.getString("ImageId", ""));
 		setToken(preferences.getString("Token", ""));
 		setGender(preferences.getString("Gender", ""));
 		setUseGoogleImage(preferences.getBoolean("GoogleImage", true));

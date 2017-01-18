@@ -359,6 +359,8 @@ public class EditUser extends AppCompatActivity
 
 		model.setBranch(( (Spinner) findViewById(R.id.user_Branch) ).getSelectedItem().toString());
 		model.setYear(( (Spinner) findViewById(R.id.user_Year) ).getSelectedItem().toString());
+		model.setImageId(AppUserModel.MAIN_USER.getImageId());
+		model.setImageResource(AppUserModel.MAIN_USER.getImageResource());
 
 		return true;
 	}

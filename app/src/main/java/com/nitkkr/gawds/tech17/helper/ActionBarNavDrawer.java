@@ -417,7 +417,7 @@ public class ActionBarNavDrawer
 
 		setImage();
 
-		navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setOnClickListener(new View.OnClickListener()
+		View.OnClickListener listener=new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
@@ -437,7 +437,11 @@ public class ActionBarNavDrawer
 					AppUserModel.MAIN_USER.LoginUserNoHome(activity, false);
 				}
 			}
-		});
+		};
+
+		navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image).setOnClickListener(listener);
+		navigationView.getHeaderView(0).findViewById(R.id.nav_User_Image_Letter).setOnClickListener(listener);
+
 	}
 
 	public boolean onBackPressed()

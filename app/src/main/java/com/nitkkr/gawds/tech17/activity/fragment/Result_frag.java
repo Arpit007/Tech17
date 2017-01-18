@@ -58,7 +58,7 @@ public class Result_frag extends Fragment
 		WebView webView = (WebView) view.findViewById(R.id.Event_Content);
 		TextView textView = (TextView) MyView.findViewById(R.id.NotAvail);
 
-		if (!event.getModel().getResult().equals(""))
+		if (event!=null && !event.getModel().getResult().equals(""))
 		{
 			String text;
 

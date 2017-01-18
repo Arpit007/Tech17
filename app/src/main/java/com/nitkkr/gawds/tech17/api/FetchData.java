@@ -13,7 +13,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.nitkkr.gawds.tech17.R;
+import com.nitkkr.gawds.tech17.activity.fragment.MyTeams;
 import com.nitkkr.gawds.tech17.database.Database;
 import com.nitkkr.gawds.tech17.database.DbConstants;
 import com.nitkkr.gawds.tech17.helper.ResponseStatus;
@@ -57,10 +59,10 @@ public class FetchData
 		return f;
 	}
 
-	public static StringRequest fetchUserInterests(final Context context, final Database database, final iResponseCallback callback)
+	public static StringRequest fetchUserInterests(final Context context, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.get_interests_list) + "?token=" + AppUserModel.MAIN_USER.getToken(),
+				context.getResources().getString(R.string.get_interests_list) + "?token=" + context.getSharedPreferences("User_Data", Context.MODE_PRIVATE).getString("Token",""),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -78,19 +80,19 @@ public class FetchData
 
 							if (code == 200)
 							{
-								database.getInterestDB().resetTable();
+								Database.getInstance().getInterestDB().resetTable();
 
 								ArrayList<InterestModel> list = new ArrayList<>();
 								for (int i = 0; i < data.length(); i++)
 								{
 									InterestModel interestModel = new InterestModel();
 									interestModel.setID(data.getInt(i));
-									interestModel.setInterest(database.getInterestDB().getInterest(interestModel));
+									interestModel.setInterest(Database.getInstance().getInterestDB().getInterest(interestModel));
 									interestModel.setSelected(true);
 									list.add(interestModel);
 								}
 
-								database.getInterestDB().addOrUpdateInterest(list);
+								Database.getInstance().getInterestDB().addOrUpdateInterest(list);
 
 								if(callback!=null)
 									callback.onResponse(ResponseStatus.SUCCESS);
@@ -135,10 +137,10 @@ public class FetchData
 		return stringRequest;
 	}
 
-	public static StringRequest getUserDetails(final Context context, Database database, final iResponseCallback callback)
+	public static StringRequest getUserDetails(final Context context, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.get_user_details_url) + "?token=" + AppUserModel.MAIN_USER.getToken(),
+				context.getResources().getString(R.string.get_user_details_url) + "?token=" + context.getSharedPreferences("User_Data", Context.MODE_PRIVATE).getString("Token",""),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -790,10 +792,10 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public static StringRequest fetchUserWishlist(final Context context, final Database database, final iResponseCallback callback)
+	public static StringRequest fetchUserWishlist(final Context context, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.userWishlist)
-				+ "?token=" + AppUserModel.MAIN_USER.getToken(),
+				+ "?token=" + context.getSharedPreferences("User_Data", Context.MODE_PRIVATE).getString("Token",""),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -808,13 +810,13 @@ public class FetchData
 							code = response.getJSONObject("status").getInt("code");
 							if (code == 200)
 							{
-								database.getExhibitionDB().resetTable();
+								Database.getInstance().getExhibitionDB().resetTable();
 								data = response.getJSONArray("data");
 								for (int i = 0; i < data.length(); i++)
 								{
-									ExhibitionModel key = database.getExhibitionDB().getExhibition(data.getInt(i));
+									ExhibitionModel key = Database.getInstance().getExhibitionDB().getExhibition(data.getInt(i));
 									key.setNotify(true);
-									database.getExhibitionDB().addOrUpdateExhibition(key);
+									Database.getInstance().getExhibitionDB().addOrUpdateExhibition(key);
 								}
 								if(callback!=null)
 									callback.onResponse(ResponseStatus.SUCCESS);
@@ -995,7 +997,7 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public static StringRequest getSocieties(final Context context, final Database database, final iResponseCallback callback)
+	public static StringRequest getSocieties(final Context context, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.getSocieties),
 				new Response.Listener<String>()
@@ -1023,7 +1025,7 @@ public class FetchData
 									model.setDescription(object.getString("Description"));
 									models.add(model);
 								}
-								database.getSocietyDB().addOrUpdateSocities(models);
+								Database.getInstance().getSocietyDB().addOrUpdateSocities(models);
 								if(callback!=null)
 									callback.onResponse(ResponseStatus.SUCCESS);
 							}
@@ -1064,12 +1066,12 @@ public class FetchData
 		return stringRequest;
 	}
 
-	public static StringRequest getNotifications(final Context context, Date date, final Database database, final iResponseCallback callback)
+	public static StringRequest getNotifications(final Context context, Date date, final iResponseCallback callback)
 	{
 		String TimeStamp = new SimpleDateFormat("yyyy-MM-dd+hh:mm:ss", Locale.getDefault()).format(date);
 
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.GetNotification) + "?token=" + AppUserModel.MAIN_USER.getToken()+"&timeStamp="+TimeStamp,
+				context.getResources().getString(R.string.GetNotification) + "?token=" + context.getSharedPreferences("User_Data", Context.MODE_PRIVATE).getString("Token","")+"&timeStamp="+TimeStamp,
 				new Response.Listener<String>()
 				{
 					@Override
@@ -1086,7 +1088,7 @@ public class FetchData
 							data = response.getJSONArray("data");
 							if (code == 200)
 							{
-								ArrayList<NotificationModel> models = database.getNotificationDB().getAllNotifications();
+								ArrayList<NotificationModel> models = Database.getInstance().getNotificationDB().getAllNotifications();
 
 								JSONObject object = data.getJSONObject(0);
 								JSONObject object2 = data.getJSONObject(1);
@@ -1122,7 +1124,7 @@ public class FetchData
 									models.add(model);
 								}
 
-								database.getNotificationDB().addOrUpdateNotification(models);
+								Database.getInstance().getNotificationDB().addOrUpdateNotification(models);
 								if (callback != null)
 								{
 									callback.onResponse(ResponseStatus.SUCCESS);
@@ -1421,7 +1423,7 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public static StringRequest fetchInterests(final Context context, final Database database, final iResponseCallback callback)
+	public static StringRequest fetchInterests(final Context context, final iResponseCallback callback)
 	{
 		String Url = context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.getCategories);
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>()
@@ -1437,20 +1439,20 @@ public class FetchData
 					response = new JSONObject(res);
 					data = response.getJSONArray("data");
 					code = response.getJSONObject("status").getInt("code");
-					ArrayList<InterestModel> list = database.getInterestDB().getAllInterests();
+					ArrayList<InterestModel> list = Database.getInstance().getInterestDB().getAllInterests();
 					if (code == 200)
 					{
 						for (int i = 0; i < data.length(); i++)
 						{
 							JSONObject object = data.getJSONObject(i);
-							InterestModel interestModel = database.getInterestDB().getInterestModel(object.getInt("Id"));
+							InterestModel interestModel = Database.getInstance().getInterestDB().getInterestModel(object.getInt("Id"));
 							interestModel.setID(object.getInt("Id"));
 							interestModel.setInterest(object.getString("Name"));
 							list.add(interestModel);
 						}
-						database.getInterestDB().deleteTable(database);
-						database.getInterestDB().onCreate(Database.getInstance().getDatabase());
-						database.getInterestDB().addOrUpdateInterest(list);
+						Database.getInstance().getInterestDB().deleteTable();
+						Database.getInstance().getInterestDB().onCreate(Database.getInstance().getDatabase());
+						Database.getInstance().getInterestDB().addOrUpdateInterest(list);
 						Log.v("DEBUG", data.toString());
 						if(callback!=null)
 							callback.onResponse(ResponseStatus.SUCCESS);
@@ -1494,7 +1496,7 @@ public class FetchData
 		return stringRequest;
 	}
 
-	public static StringRequest fetchData(final Context context, final Database database, final iResponseCallback callback)
+	public static StringRequest fetchData(final Context context, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.get_events_list),
@@ -1518,10 +1520,10 @@ public class FetchData
 
 							if (code == 200)
 							{
-								ArrayList<EventModel> eventModels = database.getEventsDB().getEvents("");
+								ArrayList<EventModel> eventModels = Database.getInstance().getEventsDB().getEvents("");
 								ArrayList<EventModel> finalEvents = new ArrayList<>();
 
-								ArrayList<ExhibitionModel> exhibitionModels = database.getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " != 1");
+								ArrayList<ExhibitionModel> exhibitionModels = Database.getInstance().getExhibitionDB().getExhibitions(DbConstants.ExhibitionNames.GTalk.Name() + " != 1");
 								ArrayList<ExhibitionModel> finalExhibition = new ArrayList<>();
 
 								ArrayList<CoordinatorModel> coordinatorModels = new ArrayList<>();
@@ -1533,7 +1535,7 @@ public class FetchData
 								for (int i = 0; i < data.length(); i++)
 								{
 									JSONObject jEvent = data.getJSONObject(i);
-									String Category = database.getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
+									String Category = Database.getInstance().getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
 
 									if (Category.equals("exhibitions"))
 									{
@@ -1595,8 +1597,8 @@ public class FetchData
 									}
 									else
 									{
-										Category = database.getSocietyDB().getSocietyName(jEvent.getInt("SocietyId")).toLowerCase();
-										String Temp1 = database.getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
+										Category = Database.getInstance().getSocietyDB().getSocietyName(jEvent.getInt("SocietyId")).toLowerCase();
+										String Temp1 = Database.getInstance().getInterestDB().getInterest(jEvent.getInt("CategoryId")).toLowerCase();
 										isInformal = ( Category.equals("informals") || Category.equals("informalz") || Temp1.equals("informals") || Temp1.equals("informalz") );
 
 										ID = jEvent.getInt("Id");
@@ -1654,15 +1656,15 @@ public class FetchData
 
 								if(callback!=null)
 									callback.onResponse(ResponseStatus.SUCCESS);
-								fetchAllGTalks(context, exhibitionModels, finalExhibition,database,callback);
+								fetchAllGTalks(context, exhibitionModels, finalExhibition,Database.getInstance(),callback);
 
-								database.getEventsDB().deleteTable();
-								database.getEventsDB().onCreate(Database.getInstance().getDatabase());
-								database.getEventsDB().addOrUpdateEvent(finalEvents);
+								Database.getInstance().getEventsDB().deleteTable();
+								Database.getInstance().getEventsDB().onCreate(Database.getInstance().getDatabase());
+								Database.getInstance().getEventsDB().addOrUpdateEvent(finalEvents);
 
-								database.getCoordinatorDB().deleteTable();
-								database.getCoordinatorDB().onCreate(database.getDatabase());
-								database.getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
+								Database.getInstance().getCoordinatorDB().deleteTable();
+								Database.getInstance().getCoordinatorDB().onCreate(Database.getInstance().getDatabase());
+								Database.getInstance().getCoordinatorDB().addOrUpdateCoordinator(coordinatorModels);
 							}
 							else
 							{
@@ -1964,10 +1966,10 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public static StringRequest getMyTeams(final Context context, final Database database, final iResponseCallback callback)
+	public static StringRequest getMyTeams(final Context context, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getResources().getString(R.string.server_url) +
-				context.getResources().getString(R.string.createTeam)+"?token="+AppUserModel.MAIN_USER.getToken(),
+				context.getResources().getString(R.string.createTeam)+"?token="+context.getSharedPreferences("User_Data", Context.MODE_PRIVATE).getString("Token",""),
 				new Response.Listener<String>()
 				{
 					@Override
@@ -2029,10 +2031,10 @@ public class FetchData
 										key.setControl(TeamModel.TeamControl.Pending);
 										invites.add(key);
 									}
-									database.getTeamDB().resetTable();
-									database.getTeamDB().addOrUpdateTeamInvite(invites);
-									database.getTeamDB().addOrUpdateMyTeam(teams);
-									database.getTeamDB().addOrUpdateMyTeam(myTeams);
+									Database.getInstance().getTeamDB().resetTable();
+									Database.getInstance().getTeamDB().addOrUpdateTeamInvite(invites);
+									Database.getInstance().getTeamDB().addOrUpdateMyTeam(teams);
+									Database.getInstance().getTeamDB().addOrUpdateMyTeam(myTeams);
 
 
 									RequestQueue teamDetailQueue = Volley.newRequestQueue(context);
@@ -2063,13 +2065,13 @@ public class FetchData
 									}
 
 									for(TeamModel model : invites)
-										teamDetailQueue.add(getTeamDetail(context, database, model.getTeamID(),true,false,null));
+										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),true,false,null));
 
 									for(TeamModel model : teams)
-										teamDetailQueue.add(getTeamDetail(context, database, model.getTeamID(),false,false,null));
+										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),false,false,null));
 
 									for(TeamModel model : myTeams)
-										teamDetailQueue.add(getTeamDetail(context, database, model.getTeamID(),false,true,null));
+										teamDetailQueue.add(getTeamDetail(context, model.getTeamID(),false,true,null));
 
 									if(invites.size() == 0 && teams.size() == 0 && myTeams.size() == 0)
 										if(callback!=null)
@@ -2429,7 +2431,7 @@ public class FetchData
 		requestQueue.add(stringRequest);
 	}
 
-	public static StringRequest getTeamDetail(final Context context, final Database database, final int teamId, final boolean isInvite, final boolean isLeader, final iResponseCallback callback)
+	public static StringRequest getTeamDetail(final Context context, final int teamId, final boolean isInvite, final boolean isLeader, final iResponseCallback callback)
 	{
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.server_url) +
 				context.getResources().getString(R.string.deleteTeam)+teamId,
@@ -2452,8 +2454,8 @@ public class FetchData
 								TeamModel model;
 
 								if(isInvite)
-									model = database.getTeamDB().getInviteTeam(teamId);
-								else model = database.getTeamDB().getMyTeam(teamId);
+									model = Database.getInstance().getTeamDB().getInviteTeam(teamId);
+								else model = Database.getInstance().getTeamDB().getMyTeam(teamId);
 
 								ArrayList<UserKey> users=new ArrayList<>();
 
@@ -2488,8 +2490,8 @@ public class FetchData
 								model.setMembers(users);
 
 								if(isInvite)
-									database.getTeamDB().addOrUpdateTeamInvite(model);
-								else database.getTeamDB().addOrUpdateMyTeam(model);
+									Database.getInstance().getTeamDB().addOrUpdateTeamInvite(model);
+								else Database.getInstance().getTeamDB().addOrUpdateMyTeam(model);
 
 								Log.v("DEBUG",res.toString());
 								if (callback != null)
